@@ -25,7 +25,7 @@ Open de terminal in visual studio code en zet je terminal op gitBash.
 
 Voer de code: 
 
-git remote add origin <Url repository>;
+git remote add origin &lt;Url repository&gt;
   
 git push -u origin main;
   
