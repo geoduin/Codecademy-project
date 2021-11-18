@@ -1,4 +1,4 @@
-# program2-rel.DB2-Opdracht
+# Codeacademie-project voor het vak Programmeren 2 en Relationele databases 2
 Repository van de groepsopdracht van vakken programmeren 2 en relationele databases. Samen met Jascha, Jef, Mohammed en Xin, werken we als groep aan deze opdracht.
 Hoe haal je deze repository op?
 
