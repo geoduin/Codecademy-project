@@ -1,5 +1,6 @@
-# Codecademy-project voor het vak Programmeren 2 en Relationele databases 2
-Repository van de groepsopdracht van vakken programmeren 2 en relationele databases. Samen met Jascha, Jef, Mohammed en Xin, werken we als groep aan deze opdracht.
+# Codecademy-project
+Repository van de groepsopdracht van vakken programmeren en relationele databases 2. Jascha, Jef, Mohammed en Xin, werken we als groep aan deze opdracht.
+
 Hoe haal je deze repository op?
 
 <---------------Manier A---------------------> 
@@ -32,3 +33,4 @@ git push -u origin main;
 <---------------Log---------------------->
   
 15 november 2021 16:37 --- Xin was hier.
+18 november 2021 11:45 -- Jef was hier.
