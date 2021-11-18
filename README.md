@@ -10,7 +10,7 @@ Download het zip-bestand.
 
 Stap 1 Klik op code(De groene knop).
 
-Stap 2 kopieer de URL.(https://github.com/geoduin/program2-rel.DB2-Opdracht.git)
+Stap 2 kopieer de URL.(https://github.com/geoduin/Codeacademie-project.git)
 
 Stap 3 Open visual studio code en druk op source control.
 
