@@ -1,4 +1,4 @@
-# Codeacademie-project voor het vak Programmeren 2 en Relationele databases 2
+# Codeacademy-project voor het vak Programmeren 2 en Relationele databases 2
 Repository van de groepsopdracht van vakken programmeren 2 en relationele databases. Samen met Jascha, Jef, Mohammed en Xin, werken we als groep aan deze opdracht.
 Hoe haal je deze repository op?
 
@@ -10,7 +10,7 @@ Download het zip-bestand.
 
 Stap 1 Klik op code(De groene knop).
 
-Stap 2 kopieer de URL.(https://github.com/geoduin/Codeacademie-project.git)
+Stap 2 kopieer de URL.(https://github.com/geoduin/Codeacademy-project.git)
 
 Stap 3 Open visual studio code en druk op source control.
 
