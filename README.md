@@ -1,5 +1,5 @@
 # Codecademy-project
-De repository voor het project Codecademie.
+De repository voor het project Codecademy.
 
 Leden zijn Xin, Jef, Jascha en Mohammed
 
