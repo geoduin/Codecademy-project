@@ -1,5 +1,5 @@
 # Codecademy-project
-Repository van de groepsopdracht van vakken programmeren en relationele databases 2. Jascha, Jef, Mohammed en Xin, werken als groep aan deze opdracht.
+Test test test
 
 Hoe haal je deze repository op?
 
