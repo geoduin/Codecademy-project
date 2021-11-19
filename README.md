@@ -1,5 +1,7 @@
 # Codecademy-project
-Test test test
+De repository voor het project Codecademie.
+
+Leden zijn Xin, Jef, Jascha en Mohammed
 
 Hoe haal je deze repository op?
 
