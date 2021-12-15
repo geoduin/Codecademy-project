@@ -9,7 +9,7 @@ public class Course {
     private String topic;
     private String discription;
     private Difficulty difficulty;
-    private List<Modules> courseModules;
+    private List<Module> courseModules;
     private List<Course> aanbevolenCourses;
 
     public Course(String name, String topic, String discription, Difficulty difficulty) {
