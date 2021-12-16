@@ -14,13 +14,21 @@ public class ManageView extends View {
 
     @Override
     public void createView() {
-        // Initial layout setup
+        GridPane view = new GridPane();
+        view.setAlignment(Pos.CENTER);
 
         // Buttons
+        Button courseManageBtn = new Button("Course");
+        Button moduleManageBtn = new Button("Module");
 
+        moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
         // Futher layout setup
-        activate(view);
+        view.add(courseManageBtn, 0, 0);
+        view.add(moduleManageBtn, 1, 0);
+        view.setPadding(new Insets(40, 0, 0, 0));
+        view.setHgap(40);
 
+        activate(view);
     }
 
 }
