@@ -15,6 +15,7 @@
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "Launcher",
+            //temporary to be able to test
             "vmArgs": "--module-path C:/Users/jefko/AppData/Local/Programs/MicrosoftVSCode/fx/lib --add-modules javafx.controls",
             "projectName": "Codecademy-project_f330d753"
         },

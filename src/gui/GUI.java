@@ -26,6 +26,7 @@ public class GUI extends Application {
 
         // menu
         Button homeBtn = new Button("Home");
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this).createView());
         HBox menu = new HBox();
         menu.getChildren().add(homeBtn);
 
@@ -33,6 +34,7 @@ public class GUI extends Application {
         this.layout.setTop(menu);
         new HomeView(this).createView();
         Scene scene = new Scene(this.layout);
+        scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 
