@@ -1,9 +1,7 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -17,10 +15,40 @@ public class ModuleManagementView extends View {
 
     @Override
     public void createView() {
+        // Initial layout setup
+        GridPane view = new GridPane();
+        view.setAlignment(Pos.CENTER);
+        view.setHgap(40);
+        view.setVgap(10);
+
+        // UI components
+        // Component to go the create module view
+        Label createLabel = new Label("Create a module");
+        Button createBtn = new Button("+");
+        createBtn.setOnMouseClicked(clicked -> createModuleView());
+        // components to select modules and edit or delete them
+        Label selectLabel = new Label("Select an existing module");
+        ComboBox allModulesDropdown = new ComboBox<>();
+        Button editBtn = new Button("Edit");
+        Button deleteBtn = new Button("Delete");
+
+        // futher layout setup
+        view.add(createLabel, 1, 0);
+        view.add(createBtn, 1, 1);
+        view.add(selectLabel, 0, 0);
+        view.add(allModulesDropdown, 0, 1);
+        view.add(editBtn, 0, 2);
+        view.add(deleteBtn, 0, 3);
+        activate(view, "Module management");
+
+    }
+
+    public void createModuleView() {
         // This is a module form
         // Initial layout setup
 
         VBox view = new VBox();
+        view.setAlignment(Pos.CENTER);
 
         // text fields
         Label nameModule = new Label("Titel:");
@@ -50,8 +78,7 @@ public class ModuleManagementView extends View {
                 description,
                 descriptionField,
                 contact, contactField, contactEmail, contactEmField, create);
-        activate(view);
-
+        activate(view, "Create module");
     }
 
 }

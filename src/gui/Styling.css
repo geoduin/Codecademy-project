@@ -1,5 +1,4 @@
 .root{
-    -fx-background-color: linear-gradient(#383838, #838383);
-    -fx-font-size: 20pt;
-    -fx-font-weight: BOLD;
+    -fx-background-color: linear-gradient(#ffffff, #c2c2c2);
+    -fx-font-size: 12pt;
 }

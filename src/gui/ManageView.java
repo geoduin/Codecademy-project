@@ -1,8 +1,5 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -28,7 +25,7 @@ public class ManageView extends View {
         view.setPadding(new Insets(40, 0, 0, 0));
         view.setHgap(40);
 
-        activate(view);
+        activate(view, "Manage");
     }
 
 }

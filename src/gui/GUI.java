@@ -1,13 +1,11 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 /**
@@ -17,28 +15,29 @@ import javafx.scene.layout.HBox;
  */
 public class GUI extends Application {
     private BorderPane layout;
-
-    public static void main(String[] args) {
-        launch(GUI.class);
-    }
+    private Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
+
         // layout starting setup
         this.layout = new BorderPane();
-        this.layout.setPrefSize(500, 250);
 
         // menu
         Button homeBtn = new Button("Home");
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this).createView());
         HBox menu = new HBox();
+        menu.setPadding(new Insets(0, 0, 150, 0));
+        menu.setAlignment(Pos.CENTER);
         menu.getChildren().add(homeBtn);
 
         // setup the stage
-        this.layout.setTop(menu);
+        this.layout.setBottom(menu);
         new HomeView(this).createView();
         Scene scene = new Scene(this.layout);
         scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
+        stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
 
@@ -48,7 +47,8 @@ public class GUI extends Application {
      * Can receive any pane to act as a new view on screen. Center is only set to
      * the view, so that the menu remains
      */
-    public void goToNext(Parent view) {
+    public void goToNext(Parent view, String windowTitle) {
         this.layout.setCenter(view);
+        this.stage.setTitle(windowTitle);
     }
 }

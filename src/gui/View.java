@@ -18,8 +18,8 @@ public abstract class View {
     public abstract void createView();
 
     // setting the created view in the base layout center
-    public void activate(Parent view) {
-        this.gui.goToNext(view);
+    public void activate(Parent view, String windowTitle) {
+        this.gui.goToNext(view, windowTitle);
     }
 
 }
