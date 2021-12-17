@@ -1,3 +1,5 @@
+package domain;
+
 public class Module extends ContentItem {
     private String title;
     private int version;

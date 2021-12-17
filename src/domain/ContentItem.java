@@ -1,3 +1,5 @@
+package domain;
+
 public abstract class ContentItem {
     private String publicationDate;
     private Status status;

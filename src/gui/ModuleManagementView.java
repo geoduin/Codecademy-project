@@ -1,3 +1,6 @@
+package gui;
+
+import java.util.List;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -6,11 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import logic.ControlLogic;
+import domain.Module;
 
 public class ModuleManagementView extends View {
+    private ControlLogic logic;
 
     public ModuleManagementView(GUI baseUI) {
         super(baseUI);
+        this.logic = new ControlLogic();
     }
 
     @Override
@@ -28,15 +35,19 @@ public class ModuleManagementView extends View {
         createBtn.setOnMouseClicked(clicked -> createModuleView());
         // components to select modules and edit or delete them
         Label selectLabel = new Label("Select an existing module");
-        ComboBox allModulesDropdown = new ComboBox<>();
         Button editBtn = new Button("Edit");
         Button deleteBtn = new Button("Delete");
+
+        ComboBox<String> dropdown = new ComboBox<>();
+        for (Module module : this.logic.getModules()) {
+            dropdown.getItems().add(module.getTitle() + " (Version " + module.getVersion() + ")");
+        }
 
         // futher layout setup
         view.add(createLabel, 1, 0);
         view.add(createBtn, 1, 1);
         view.add(selectLabel, 0, 0);
-        view.add(allModulesDropdown, 0, 1);
+        view.add(dropdown, 0, 1);
         view.add(editBtn, 0, 2);
         view.add(deleteBtn, 0, 3);
         activate(view, "Module management");

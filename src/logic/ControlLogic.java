@@ -1,15 +1,18 @@
+package logic;
+
 import java.util.ArrayList;
 import java.util.List;
 import domain.Module;
 import domain.Course;
+import domain.*;
 
 public class ControlLogic {
     private List<Course> courses;
     private List<Module> modules;
-    private CourseRepository courseRepo;
-    private ModuleRepository moduleRepo;
+    // private CourseRepository courseRepo;
+    // private ModuleRepository moduleRepo;
 
-    public logic() {
+    public ControlLogic() {
         this.courses = new ArrayList<>();
         this.modules = new ArrayList<>();
     }
@@ -22,28 +25,27 @@ public class ControlLogic {
         // TODO document why this method is empty
     }
 
-    public List<Course> getcourseList() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public List<Module> getModuleList() {
+    public List<Module> getModules() {
         return modules;
     }
 
-    public void newModule(String name, String version, int trackingNumber, String description, String contactName,
-            String email, int id, int publicDate, Status status) {
-        // TODO document why this method is empty
-        Module module = new Module(name, version, trackingNumber, description, contactName, contactName, email, id,
-                publicDate, status);
-        // Query commando om module zonder coursenaam in de database te stoppen
-        // INSERT INTO -- Module
-        // Query commando om contentItem toe te voegen met id, publicDate en Status
+    public void newModule(String publicationDate, Status status, String title, int version, String trackingNumber,
+            String description, String contactName, String emailAddress) {
+
+        this.modules.add(new Module(publicationDate, status, title, version, trackingNumber, description, contactName,
+                emailAddress));
+
     }
 
-    public void newCourse(String name, String subject, Difficulty difficulty, String description) {
-        // TODO document why this method is empty
-        Course courses = new Course(name, subject, difficulty, description);
-    }
+    // public void newCourse(String name, String subject, Difficulty difficulty,
+    // String description) {
+    // // TODO document why this method is empty
+    // Course courses = new Course(name, subject, difficulty, description);
+    // }
 
     public Course pickCourse(String courseName) {
         Course pickedCourse = null;
@@ -56,9 +58,9 @@ public class ControlLogic {
         return pickedCourse;
     }
 
-    public Module pickModule() {
+    // public Module pickModule() {
 
-    }
+    // }
 
     public void deleteCourse(Course course) {
         // TODO document why this method is empty
@@ -83,8 +85,8 @@ public class ControlLogic {
         String nameModule = module.getTitle();
         // Alterable information
         String alterDescription = module.getDescription();
-        int alterVersion = module.getVersion();
-        int trackNumber = module.getTrackNumber();
+        // int alterVersion = module.getVersion();
+        // int trackNumber = module.getTrackNumber();
         String alterContactName = module.getContactName();
         String alterEmail = module.getEmailAddress();
 
@@ -94,13 +96,13 @@ public class ControlLogic {
 
     public void alterCourse(Course courses) {
         // TODO document why this method is empty
-        String courseName = courses.getName();
-        String alterTopic = courses.getTopic();
-        String alterDescription = courses.getDiscription();
-        String alterDificulty = courses.getDifficulty().toString();
-        this.topic = topic;
-        this.discription = discription;
-        this.difficulty = difficulty;
+        // String courseName = courses.getName();
+        // String alterTopic = courses.getTopic();
+        // String alterDescription = courses.getDiscription();
+        // String alterDificulty = courses.getDifficulty().toString();
+        // this.topic = topic;
+        // this.discription = discription;
+        // this.difficulty = difficulty;
         // alter command courses based of name Course
 
         //
