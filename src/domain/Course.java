@@ -65,6 +65,10 @@ public class Course {
         this.name = name;
     }
 
+    public void addModule(Module module) {
+        modules.add(module);
+    }
+
     @Override
     public String toString() {
         // TODO Auto-generated method stub
