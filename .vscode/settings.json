@@ -7,7 +7,16 @@
         "c:\\dev\\javafx17\\lib\\javafx.media.jar",
         "c:\\dev\\javafx17\\lib\\javafx.swing.jar",
         "c:\\dev\\javafx17\\lib\\javafx.web.jar",
-        "c:\\dev\\javafx17\\lib\\javafx-swt.jar"
+        "c:\\dev\\javafx17\\lib\\javafx-swt.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.base.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.controls.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.fxml.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.graphics.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.media.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.swing.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx.web.jar",
+        "c:\\Users\\bende\\Documents\\javafx-sdk-17.0.1\\lib\\javafx-swt.jar",
+        "c:\\Users\\bende\\Documents\\sqljdbc_9.4.1.0_enu\\sqljdbc_9.4\\enu\\mssql-jdbc-9.4.1.jre11.jar"
     ],
     "java.project.sourcePaths": [
         "src"
