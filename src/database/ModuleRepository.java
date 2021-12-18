@@ -71,8 +71,20 @@ public class ModuleRepository extends Repository {
         }
     }
 
-    // @Override
-    // public ArrayList<Object> retrieve() {
-    //     return super.retrieve();
-    // }
+    @Override
+    public ArrayList<Object> retrieve() {
+        try {
+            Statement statement = this.connection.getConnection().createStatement();
+            ResultSet result = statement .executeQuery("SELECT * FROM Module");
+            while (result.next()) {
+                String moduleData = "";
+                for (Result) {
+
+                } 
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

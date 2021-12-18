@@ -9,4 +9,6 @@ public abstract class ContentItem {
         this.status = status;
     }
 
+    
+
 }
