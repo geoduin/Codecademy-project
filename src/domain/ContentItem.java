@@ -6,9 +6,9 @@ public abstract class ContentItem {
     private LocalDate publicationDate;
     private Status status;
 
-    public ContentItem(Status status) {
-        this.publicationDate = java.time.LocalDate.now();
+    public ContentItem(LocalDate date, Status status) {
+        this.publicationDate = date;
         this.status = status;
+        this.publicationDate = date;
     }
-
 }

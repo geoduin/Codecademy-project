@@ -10,15 +10,20 @@ public class Module extends ContentItem {
     private String contactName;
     private String emailAddress;
 
-    public Module(Status status, String title, int version, int trackingNumber,
+    public Module(LocalDate date, Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
-        super(status);
+        super(date, status);
         this.title = title;
         this.version = version;
         this.trackingNumber = trackingNumber;
         this.description = description;
         this.contactName = contactName;
         this.emailAddress = emailAddress;
+    }
+
+    public Module(Status status, String title, int version, int trackingNumber,
+            String description, String contactName, String emailAddress) {
+        this(java.time.LocalDate.now(), status, title, version, trackingNumber, description, contactName, emailAddress);
     }
 
     // Getters and setters bulk

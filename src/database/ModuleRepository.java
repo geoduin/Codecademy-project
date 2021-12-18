@@ -1,11 +1,13 @@
 package database;
 
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import domain.*;
 import domain.Module;
+import domain.Status;
 
 public class ModuleRepository extends Repository {
 
@@ -75,16 +77,26 @@ public class ModuleRepository extends Repository {
     public ArrayList<Object> retrieve() {
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet result = statement .executeQuery("SELECT * FROM Module");
+            ResultSet result = statement .executeQuery("SELECT * FROM Module JOIN ContentItem ON Module.ContentID = ContentItem.ContentID JOIN Contact ON Module.ContactEmail = Contact.Email");
+            ArrayList<Object> modules = new ArrayList<>();
+
             while (result.next()) {
-                String moduleData = "";
-                for (Result) {
-
-                } 
-
+            LocalDate localDate = LocalDate.parse(result.getString("CreationDate"));
+            Status status = Status.valueOf(result.getString("Status"));
+            String title = result.getString("Title");
+            int version = result.getInt("Version");
+            int trackingNumber = result.getInt("OrderNumber");
+            String description = result.getString("Description");
+            String contactName = result.getString("Name");
+            String emailAddress = result.getString("Email");
+            modules.add(new Module(localDate, status, title, version, trackingNumber, description, contactName, emailAddress));
             }
+
+            return modules;
+            
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
