@@ -3,12 +3,12 @@ package domain;
 public class Module extends ContentItem {
     private String title;
     private int version;
-    private String trackingNumber;
+    private int trackingNumber;
     private String description;
     private String contactName;
     private String emailAddress;
 
-    public Module(String publicationDate, Status status, String title, int version, String trackingNumber,
+    public Module(String publicationDate, Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
         super(publicationDate, status);
         this.title = title;
@@ -36,11 +36,11 @@ public class Module extends ContentItem {
         this.version = version;
     }
 
-    public String getTrackingNumber() {
+    public int getTrackingNumber() {
         return trackingNumber;
     }
 
-    public void setTrackingNumber(String trackingNumber) {
+    public void setTrackingNumber(int trackingNumber) {
         this.trackingNumber = trackingNumber;
     }
 
