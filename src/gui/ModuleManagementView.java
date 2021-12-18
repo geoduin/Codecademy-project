@@ -2,6 +2,7 @@ package gui;
 
 import java.util.List;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -59,17 +60,31 @@ public class ModuleManagementView extends View {
         // Initial layout setup
 
         VBox view = new VBox();
-        view.setAlignment(Pos.CENTER);
-
+        view.setPadding(new Insets(30));
         // text fields
+
         Label nameModule = new Label("Titel:");
         TextField moduleField = new TextField();
-
+        //
+        //
         Label version = new Label("Version:");
         TextField versionField = new TextField();
 
+        versionField.textProperty().addListener((change, oldValue, newValue) -> {
+            // NewValue gebruiken
+            if (!(checkTextIsNumber(newValue)) && !(newValue.equals(""))) {
+                version.setText("Version (has to be a number!):");
+            } else {
+                version.setText("Version:");
+            }
+
+        });
+
         Label trackingNumber = new Label("Trackingnumber:");
         TextField trckField = new TextField();
+        /// Test if text is an number
+
+        // Apart
 
         Label description = new Label("Description:");
         TextField descriptionField = new TextField();
@@ -83,13 +98,39 @@ public class ModuleManagementView extends View {
         Button create = new Button("Create module");
         create.setOnMouseClicked((event) -> {
 
+            // Version and trackingNumber convert to int
+            if (!(checkTextIsNumber(versionField.getText()))) {
+                Label warning = new Label("Version is not a number");
+                view.getChildren().add(warning);
+            } else {
+                // Command create
+
+            }
+
         });
         // Futher layout setup
-        view.getChildren().addAll(nameModule, moduleField, version, versionField, trackingNumber, trckField,
+        view.getChildren().addAll(nameModule, moduleField, version, versionField, trackingNumber,
+                trckField,
                 description,
                 descriptionField,
                 contact, contactField, contactEmail, contactEmField, create);
+
         activate(view, "Create module");
     }
 
+    // Edit modules
+
+    public static boolean checkTextIsNumber(String text) {
+        if (text == null) {
+            return true;
+        }
+        try {
+            int number = Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            // TODO: handle exception
+            return false;
+        }
+
+        return true;
+    }
 }

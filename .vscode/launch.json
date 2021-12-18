@@ -9,7 +9,13 @@
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "gui.Launcher",
-            
+            "projectName": "Codecademy-project_fa9bb85c"
+        },
+        {
+            "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
+            "mainClass": "gui.Launcher",
             "vmArgs": "--module-path C:/Users/jefko/AppData/Local/Programs/MicrosoftVSCode/fx/lib --add-modules javafx.controls",
             "projectName": "Codecademy-project_f330d753"
         },
