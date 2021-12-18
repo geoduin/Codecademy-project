@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
  */
 public class GUI extends Application {
     private BorderPane layout;
-    private Stage stage;
+    protected Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
