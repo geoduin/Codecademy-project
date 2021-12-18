@@ -6,10 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Test",
+            "name": "Launch test",
             "request": "launch",
-            "mainClass": "database.Test",
-            "projectName": "Codecademy-project_7efb1406"
+            "mainClass": "test",
+            "projectName": "Codecademy-project_f330d753"
+        },
+        {
+            "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
+            "mainClass": "gui.Launcher",
+            "projectName": "Codecademy-project_fa9bb85c"
         },
         {
             "type": "java",

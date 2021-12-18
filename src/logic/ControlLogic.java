@@ -15,10 +15,15 @@ public class ControlLogic {
     public ControlLogic() {
         this.courses = new ArrayList<>();
         this.modules = new ArrayList<>();
+        // retrieveData();
+
     }
 
+    // Fill the domain container lists with instances, retrieved and created in the
+    // repository's
     private void retrieveData() {
 
+        // this.modules = this.courseRepo.retrieve();
     }
 
     public void addModuleToCourse(Module module, Course courses) {

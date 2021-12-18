@@ -21,6 +21,8 @@ public class ManageView extends View {
         Button moduleManageBtn = new Button("Module");
 
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
+        // courseManageBtn.setOnMouseClicked(clicked -> new
+        // CourseManageView(this.gui).createView());
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
         view.add(moduleManageBtn, 1, 0);
