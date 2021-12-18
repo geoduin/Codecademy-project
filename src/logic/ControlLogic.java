@@ -38,7 +38,7 @@ public class ControlLogic {
         return modules;
     }
 
-    public void newModule(Status status, String title, int version, String trackingNumber,
+    public void newModule(Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
 
         this.modules.add(new Module(status, title, version, trackingNumber, description, contactName,

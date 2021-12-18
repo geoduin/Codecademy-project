@@ -7,9 +7,9 @@ public class DBConnection {
 
     private Connection connection;
 
-    public DBConnection(String nameOFConnection) {
+    public DBConnection() {
         try {
-            this.connection = DriverManager.getConnection(nameOFConnection);
+            this.connection = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=Codecademy;integratedSecurity=true;");
         } catch (SQLException e) {
             e.printStackTrace();
         }

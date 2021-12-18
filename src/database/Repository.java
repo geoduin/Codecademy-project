@@ -5,9 +5,9 @@ public abstract class Repository implements DMLBehaviour {
 
     DBConnection connection;
 
-    public Repository(String connectionurl) {
+    public Repository() {
         //Default URL "jdbc:sqlserver://localhost;databaseName=Codecademy;integratedSecurity=true;" 
-        this.connection = new DBConnection(connectionurl);
+        this.connection = new DBConnection();
     }
 
     public void insert(Object domainObject) {
