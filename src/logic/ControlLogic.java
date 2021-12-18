@@ -38,10 +38,10 @@ public class ControlLogic {
         return modules;
     }
 
-    public void newModule(String publicationDate, Status status, String title, int version, String trackingNumber,
+    public void newModule(Status status, String title, int version, String trackingNumber,
             String description, String contactName, String emailAddress) {
 
-        this.modules.add(new Module(publicationDate, status, title, version, trackingNumber, description, contactName,
+        this.modules.add(new Module(status, title, version, trackingNumber, description, contactName,
                 emailAddress));
 
     }
@@ -73,16 +73,13 @@ public class ControlLogic {
         // Remove command based on nameCourse
     }
 
-    public void deleteModule(Module module) {
-        // TODO document why this method is empty
-        String nameModule = module.getTitle();
-        for (Module mod : modules) {
-            if (mod.getTitle().equals(nameModule)) {
-                modules.remove(mod);
-            }
+    public boolean deleteModule(Module module) {
+        if (!this.modules.contains(module)) {
+            return false;
+        } else {
+            return true;
         }
 
-        // Remove module command, based on nameModule
     }
 
     public void alterModule(Module module) {
