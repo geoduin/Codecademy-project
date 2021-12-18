@@ -1,5 +1,7 @@
 package domain;
 
+import java.time.LocalDate;
+
 public class Module extends ContentItem {
     private String title;
     private int version;
@@ -8,9 +10,9 @@ public class Module extends ContentItem {
     private String contactName;
     private String emailAddress;
 
-    public Module(String publicationDate, Status status, String title, int version, int trackingNumber,
+    public Module(Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
-        super(publicationDate, status);
+        super(status);
         this.title = title;
         this.version = version;
         this.trackingNumber = trackingNumber;

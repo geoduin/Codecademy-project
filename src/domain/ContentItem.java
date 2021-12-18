@@ -1,14 +1,14 @@
 package domain;
 
+import java.time.LocalDate;
+
 public abstract class ContentItem {
-    private String publicationDate;
+    private LocalDate publicationDate;
     private Status status;
 
-    public ContentItem(String publicationDate, Status status) {
-        this.publicationDate = publicationDate;
+    public ContentItem(Status status) {
+        this.publicationDate = java.time.LocalDate.now();
         this.status = status;
     }
-
-    
 
 }

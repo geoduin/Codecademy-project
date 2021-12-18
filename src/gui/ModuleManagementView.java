@@ -55,7 +55,9 @@ public class ModuleManagementView extends View {
                 int indexToDelete = Integer.parseInt(splitted[0]);
                 Module moduleToDelete = this.logic.getModules().get(indexToDelete);
 
-                successfullyDeletedView();
+                if (this.logic.deleteModule(moduleToDelete)) {
+                    successfullyDeletedView();
+                }
 
             }
 
@@ -87,15 +89,6 @@ public class ModuleManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
         activate(view, "Successfully deleted");
-    }
-
-    private GridPane generateGrid() {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(40);
-        grid.setVgap(10);
-
-        return grid;
     }
 
     public void addModuleView() {
@@ -159,7 +152,14 @@ public class ModuleManagementView extends View {
         activate(view, "Create module");
     }
 
-    // Edit modules
+    private GridPane generateGrid() {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(40);
+        grid.setVgap(10);
+
+        return grid;
+    }
 
     public static boolean checkTextIsNumber(String text) {
         if (text == null) {
