@@ -6,10 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "database.Test",
+            "projectName": "Codecademy-project_7efb1406"
+        },
+        {
+            "type": "java",
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "gui.Launcher",
-            
             "vmArgs": "--module-path C:/Users/jefko/AppData/Local/Programs/MicrosoftVSCode/fx/lib --add-modules javafx.controls",
             "projectName": "Codecademy-project_f330d753"
         },
