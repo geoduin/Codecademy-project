@@ -88,17 +88,25 @@ public class ControlLogic {
         }
     }
 
-    public void alterModule(Module module) {
-        // TODO document why this method is empty
-        String nameModule = module.getTitle();
-        // Alterable information
-        String alterDescription = module.getDescription();
-        // int alterVersion = module.getVersion();
-        // int trackNumber = module.getTrackNumber();
-        String alterContactName = module.getContactName();
-        String alterEmail = module.getEmailAddress();
+    public void editModule(String email, String contact, String description, String status, int orderNumber,
+            Module module) {
 
-        // Alter command op basis van nameModule
+        // Alterable information
+        module.setEmailAddress(email);
+        module.setContactName(contact);
+        module.setDescription(description);
+        Status enumi;
+        if (status.equals("ACTIVE")) {
+            enumi = domain.Status.ACTIVE;
+        } else if (status.equals("ARCHIVED")) {
+            enumi = domain.Status.ARCHIVED;
+        } else {
+            enumi = domain.Status.CONCEPT;
+        }
+        module.setStatus(enumi);
+        module.setTrackingNumber(orderNumber);
+
+        moduleRepo.update(module);
 
     }
 

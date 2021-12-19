@@ -9,7 +9,7 @@
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "gui.Launcher",
-            "projectName": "Codecademy-project_7efb1406"
+            "projectName": "Codecademy-project_f1d69cc"
         },
         {
             "type": "java",
