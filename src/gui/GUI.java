@@ -38,7 +38,7 @@ public class GUI extends Application {
         menu.getChildren().add(homeBtn);
         menu.getChildren().add(exitBtn);
 
-        // setup the stage
+        // Stage setup
         this.layout.setBottom(menu);
         new HomeView(this).createView();
         Scene scene = new Scene(this.layout);
@@ -51,7 +51,7 @@ public class GUI extends Application {
 
     /**
      * Can receive any pane to act as a new view on screen. Center is only set to
-     * the view, so that the menu remains
+     * the view, so that the menu remains visible on all pages
      */
     public void goToNext(Parent view, String windowTitle) {
         this.layout.setCenter(view);

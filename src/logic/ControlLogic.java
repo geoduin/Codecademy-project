@@ -44,9 +44,10 @@ public class ControlLogic {
 
     public void newModule(Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
-
-        this.modules.add(new Module(status, title, version, trackingNumber, description, contactName,
-                emailAddress));
+        Module module = new Module(status, title, version, trackingNumber, description, contactName,
+                emailAddress);
+        this.modules.add(module);
+        this.moduleRepo.insert((Object) module);
 
     }
 

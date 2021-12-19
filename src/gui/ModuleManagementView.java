@@ -309,8 +309,8 @@ public class ModuleManagementView extends View {
     }
 
     // Method to help checking if input is empty
-    private boolean hasNoInput(TextField moduleNameField) {
-        if (moduleNameField.getText().trim().equals("")) {
+    private boolean hasNoInput(TextField field) {
+        if (field.getText().trim().equals("")) {
             return true;
         }
         return false;
