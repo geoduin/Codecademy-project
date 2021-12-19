@@ -21,6 +21,9 @@ public class Module extends ContentItem {
         this.emailAddress = emailAddress;
     }
 
+    // An overloaded method exists to automatically give created courses the date of
+    // creation. However, retrieved modules from the database need to get their
+    // actual historical date, therefore an overloaded constructor is necessary
     public Module(Status status, String title, int version, int positionWithinCourse,
             String description, String contactName, String emailAddress) {
         this(java.time.LocalDate.now(), status, title, version, positionWithinCourse, description, contactName,
@@ -44,11 +47,11 @@ public class Module extends ContentItem {
         this.version = version;
     }
 
-    public int getTrackingNumber() {
+    public int getPositionWithinCourse() {
         return positionWithinCourse;
     }
 
-    public void setTrackingNumber(int positionWithinCourse) {
+    public void setPositionWithinCourse(int positionWithinCourse) {
         this.positionWithinCourse = positionWithinCourse;
     }
 
@@ -88,20 +91,26 @@ public class Module extends ContentItem {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
+
         Module other = (Module) obj;
+
         if (title == null) {
             if (other.title != null)
                 return false;
-        } else if (!title.equals(other.title))
+        } else if (!title.equals(other.title)) {
             return false;
-        if (version != other.version)
+        } else if (version != other.version) {
             return false;
+        }
         return true;
     }
 

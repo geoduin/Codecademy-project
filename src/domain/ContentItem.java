@@ -2,6 +2,7 @@ package domain;
 
 import java.time.LocalDate;
 
+//CLass responsible for defining the overarching attributes of Webcasts and Modules
 public abstract class ContentItem {
     private LocalDate publicationDate;
     private Status status;

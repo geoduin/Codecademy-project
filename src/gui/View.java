@@ -2,7 +2,6 @@ package gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 //  Class to standardize every view that will sit inside the center of the base
@@ -12,7 +11,7 @@ public abstract class View {
 
     // associating the gui so that its methods can be used to set the center of the
     // base layout
-    public View(GUI gui) {
+    protected View(GUI gui) {
         this.gui = gui;
     }
 

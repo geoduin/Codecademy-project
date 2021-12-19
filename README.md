@@ -1,4 +1,11 @@
 # Codecademy-project
+Groep: PAP4
+
+#Instructies
+1. We gaan ervan uit dat de vereiste setup voor de JDBC is doorgelopen.
+2. Verwijder een eventuele bestaande database met de naam 'Codecademy' en run het script uit de 'Database Script' folder
+3. Import alle classes die in de 'lib' folder staan in de referenced libraries (let op: bevat driver voor JDK11)
+4. Run de Launcher.java class, onder de src map
 
 <---------------Log---------------------->
   

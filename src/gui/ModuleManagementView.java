@@ -45,22 +45,23 @@ public class ModuleManagementView extends View {
         Button deleteBtn = new Button("Delete");
 
         // porting the modules to the dropdown
-        dropdown.setValue("-no module selected-");
-        dropdown.getItems().add("-no module selected-");
+        final String defaultDropdownValue = "-no module selected-";
+        dropdown.setValue(defaultDropdownValue);
+        dropdown.getItems().add(defaultDropdownValue);
         for (int i = 0; i < this.logic.getModules().size(); i++) {
             Module module = this.logic.getModules().get(i);
             dropdown.getItems().add(i + ": " + module.getTitle() + " (version: " + module.getVersion() + ")");
         }
 
-        // Edit button action, retrieving the selected module to delete
+        // Edit button action, retrieving the selected module to edit
         editBtn.setOnMouseClicked(clicked -> {
-            if (dropdown.getValue().equals("-no module selected-")) {
+            if (dropdown.getValue().equals(defaultDropdownValue)) {
                 view.add(new Label("No module selected!"), 0, 4);
             } else {
                 // getting the to-be-edited module
                 String[] splitted = dropdown.getValue().split(":");
-                int indexToDelete = Integer.parseInt(splitted[0]);
-                editModule(indexToDelete);
+                int indexToEdit = Integer.parseInt(splitted[0]);
+                editModuleView(indexToEdit);
             }
         });
 
@@ -91,23 +92,6 @@ public class ModuleManagementView extends View {
 
         activate(view, "Module management");
 
-    }
-
-    // When a module is deleted, this method creates a view to give the user a
-    // general menu
-    private void successfullyDeletedView() {
-        GridPane view = generateGrid();
-        Label label = new Label("Successfully deleted!");
-        Button homeBtn = new Button("Go home");
-        Button backBtn = new Button("Go back");
-
-        view.add(label, 1, 0);
-        view.add(homeBtn, 0, 1);
-        view.add(backBtn, 2, 1);
-
-        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
-        backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        activate(view, "Successfully deleted");
     }
 
     // Creating a view for the user to create a new module
@@ -176,7 +160,7 @@ public class ModuleManagementView extends View {
 
         // Status input
         Label statusLabel = new Label("Module status:");
-        ComboBox<String> dropdown = new ComboBox<String>();
+        ComboBox<String> dropdown = new ComboBox<>();
         Text noStatusSelectedError = new Text("");
         noStatusSelectedError.setFill(Color.FIREBRICK);
         final String defaultDropDownString = "-please select a value-";
@@ -206,20 +190,19 @@ public class ModuleManagementView extends View {
         view.add(createButton, 1, 8);
 
         // Error to show when not all fields have an input
-        Text nullOrAlreadyExistsField = new Text("");
-        nullOrAlreadyExistsField.setFill(Color.FIREBRICK);
-        view.add(nullOrAlreadyExistsField, 1, 9);
+        Text nullOrAlreadyExistsErrorField = new Text("");
+        nullOrAlreadyExistsErrorField.setFill(Color.FIREBRICK);
+        view.add(nullOrAlreadyExistsErrorField, 1, 9);
 
         // Input validation when user presses 'create'
-        createButton.setOnMouseClicked((event) -> {
+        createButton.setOnMouseClicked(clicked -> {
             // check if any field has no input
             if (hasNoInput(moduleNameField) || hasNoInput(descriptionField) || hasNoInput(contactField)
                     || hasNoInput(contactEmailField)) {
-                nullOrAlreadyExistsField.setText("One or more fields are not filled!");
+                nullOrAlreadyExistsErrorField.setText("One or more fields are not filled!");
                 return;
             } else {
-                nullOrAlreadyExistsField.setText("");
-
+                nullOrAlreadyExistsErrorField.setText("");
             }
 
             // checking if dropdown has no selected value
@@ -228,12 +211,11 @@ public class ModuleManagementView extends View {
                 return;
             } else {
                 noStatusSelectedError.setText("");
-
             }
 
-            // Checking if version and order ar an int
+            // Checking if version- and orderfield have an integer-type input
             String versionInput = versionField.getText();
-            if (!versionInput.matches("\\d+") && !versionField.equals("")) {
+            if (!versionInput.matches("\\d+") || versionInput.equals("")) {
                 versionInputError.setText("has to be a (positive) number!");
                 return;
             } else {
@@ -241,7 +223,7 @@ public class ModuleManagementView extends View {
             }
 
             String orderNumberInput = orderNumberField.getText();
-            if (!orderNumberInput.matches("\\d+") && !orderNumberField.equals("")) {
+            if (!orderNumberInput.matches("\\d+") || orderNumberInput.equals("")) {
                 orderNumberInputError.setText("has to be a (positive) number!");
                 return;
 
@@ -250,11 +232,11 @@ public class ModuleManagementView extends View {
             }
 
             // If the whole input validation is done, the module gets created if it doesn't
-            // exists yet.
+            // exist yet.
             String title = moduleNameField.getText();
-            int version = Integer.valueOf(versionField.getText());
+            int version = Integer.parseInt(versionField.getText());
             if (this.logic.moduleAlreadyExistsBasedOn(title, version)) {
-                nullOrAlreadyExistsField.setText("Module already exists!");
+                nullOrAlreadyExistsErrorField.setText("Module already exists!");
                 return;
             }
 
@@ -275,11 +257,10 @@ public class ModuleManagementView extends View {
                     contactField.getText(), contactEmailField.getText());
             moduleSuccessfullyCreatedView();
         });
-        // Futher layout setup
         activate(view, "Create module");
     }
 
-    // Method responsible for the layout setup of the add module view
+    // Method responsible for the layout setup of the add and edit module view
     public GridPane moduleFormGrid() {
         GridPane grid = new GridPane();
 
@@ -301,20 +282,21 @@ public class ModuleManagementView extends View {
 
     }
 
-    public void editModule(int indexToDelete) {
+    // Creating a view for the user to edit a module
+    public void editModuleView(int indexToEdit) {
         GridPane view = moduleFormGrid();
 
         // Getting modifiable fields
-        Module module = this.logic.getModules().get(indexToDelete);
+        Module module = this.logic.getModules().get(indexToEdit);
 
         // form label
-        Label welcomeToFormLabel = new Label("Editing:" + module.getTitle());
+        Label welcomeToFormLabel = new Label("Editing: '" + module.getTitle() + "'");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
         GridPane.setMargin(welcomeToFormLabel, new Insets(20, 0, 20, 0));
 
-        // Ordernumber input
+        // Order number input
         Label orderNumberLabel = new Label("Order it has within a course:");
         TextField orderNumberField = new TextField("" + module.getVersion());
         Text orderNumberInputError = new Text("");
@@ -323,14 +305,22 @@ public class ModuleManagementView extends View {
         view.add(orderNumberField, 1, 1);
         view.add(orderNumberInputError, 2, 1);
 
-        // contact person
+        // Checking (live) if the user doesn't put anything in other than an int
+        orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
+            if (!newValue.matches("\\d+") && !(newValue.equals(""))) {
+                orderNumberInputError.setText("has to be a (positive) number!");
+            } else {
+                orderNumberInputError.setText("");
+            }
+        });
 
+        // Contactperson name input
         Label contactLabel = new Label("Name of contactperson:");
         TextField contactField = new TextField(module.getContactName());
         view.add(contactLabel, 0, 2);
         view.add(contactField, 1, 2);
 
-        // Email contact
+        // Contactperson email input
         Label contactEmailLabel = new Label("Email of contactperson:");
         TextField contactEmailField = new TextField(module.getEmailAddress());
         view.add(contactEmailLabel, 0, 3);
@@ -338,7 +328,7 @@ public class ModuleManagementView extends View {
 
         // Status
         Label statusLabel = new Label("Module status:");
-        ComboBox<String> dropdown = new ComboBox<String>();
+        ComboBox<String> dropdown = new ComboBox<>();
         Text noStatusSelectedError = new Text("");
         noStatusSelectedError.setFill(Color.FIREBRICK);
         final String defaultDropDownString = "-please select a value-";
@@ -353,16 +343,18 @@ public class ModuleManagementView extends View {
 
         // Description
         Label descriptionLabel = new Label("Description:");
-        TextField descriptionField = new TextField();
+        TextField descriptionField = new TextField(module.getDescription());
         view.add(descriptionLabel, 0, 4);
         view.add(descriptionField, 1, 4);
 
         Button editBtn = new Button("Edit module");
+        editBtn.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        view.add(editBtn, 0, 6);
         // Edit button
 
-        Text nullOrAlreadyExistsField = new Text("");
-        nullOrAlreadyExistsField.setFill(Color.FIREBRICK);
-        view.add(nullOrAlreadyExistsField, 1, 9);
+        Text nullOrAlreadyExistsErrorField = new Text("");
+        nullOrAlreadyExistsErrorField.setFill(Color.FIREBRICK);
+        view.add(nullOrAlreadyExistsErrorField, 1, 9);
 
         editBtn.setOnMouseClicked((clicked -> {
             if (dropdown.getValue().equals(defaultDropDownString)) {
@@ -374,72 +366,80 @@ public class ModuleManagementView extends View {
 
             if (hasNoInput(descriptionField) || hasNoInput(contactField)
                     || hasNoInput(contactEmailField)) {
-                nullOrAlreadyExistsField.setText("One or more fields are not filled!");
+                nullOrAlreadyExistsErrorField.setText("One or more fields are not filled!");
                 return;
             } else {
-                nullOrAlreadyExistsField.setText("");
+                nullOrAlreadyExistsErrorField.setText("");
             }
-
-            // SQL Commando
-
-            // Let op gegevens van dit formulier set
 
             this.logic.editModule(contactEmailField.getText(), contactField.getText(), descriptionField.getText(),
                     dropdown.getValue(), Integer.parseInt(orderNumberField.getText()), module);
 
-            // Naar pop-up of manage pagina
             moduleSuccessfullyEditedView();
 
         }));
-        // Module: Ordernumber, Contactemail
-        // ContentItem: Status/, description
-        // Contacts: Contactname
-
         activate(view, "Edit module");
     }
 
-    // Pop up end edit module
-
+    // When a module is created, this method creates a view to give the user a
+    // general menu
     private void moduleSuccessfullyEditedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully Edited!");
         Button homeBtn = new Button("Go home");
-        Button anotherModuleBtn = new Button("Make another module");
+        Button editAnotherModuleBtn = new Button("Edit other");
 
         view.add(label, 1, 0);
         view.add(homeBtn, 0, 1);
-        view.add(anotherModuleBtn, 2, 1);
+        view.add(editAnotherModuleBtn, 2, 1);
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
-        anotherModuleBtn
-                .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).moduleSuccessfullyCreatedView());
+        editAnotherModuleBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
         activate(view, "Successfully edited!");
     }
 
-    // If a module can be created, an user has an easy option to directly add
+    // If a module can be created, a user has an easy option to directly add
     // another
     private void moduleSuccessfullyCreatedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully created!");
         Button homeBtn = new Button("Go home");
-        Button anotherModuleBtn = new Button("Make another module");
+        Button createAnotherModuleBtn = new Button("Create other");
 
         view.add(label, 1, 0);
         view.add(homeBtn, 0, 1);
-        view.add(anotherModuleBtn, 2, 1);
+        view.add(createAnotherModuleBtn, 2, 1);
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
-        anotherModuleBtn
-                .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).moduleSuccessfullyCreatedView());
+        createAnotherModuleBtn
+                .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).addModuleView());
         activate(view, "Successfully created!");
+    }
+
+    // When a module is deleted, this method creates a view to give the user a
+    // general menu
+    private void successfullyDeletedView() {
+        GridPane view = generateGrid();
+        Label label = new Label("Successfully deleted!");
+        Button homeBtn = new Button("Go home");
+        Button backBtn = new Button("Go back");
+
+        view.add(label, 1, 0);
+        view.add(homeBtn, 0, 1);
+        view.add(backBtn, 2, 1);
+
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
+        activate(view, "Successfully deleted");
     }
 
     // Method to help checking if input is empty
     private boolean hasNoInput(TextField field) {
+        boolean hasNoInput = false;
         if (field.getText().trim().equals("")) {
-            return true;
+            hasNoInput = true;
         }
-        return false;
+        return hasNoInput;
 
     }
 }

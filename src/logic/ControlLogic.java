@@ -30,18 +30,20 @@ public class ControlLogic {
                 .map(Module.class::cast).collect(Collectors.toList());
     }
 
-    public void addModuleToCourse(Module module, Course courses) {
-        // TODO document why this method is empty
-    }
+    // public void addModuleToCourse(Module module, Course courses) {
+    // // TODO document why this method is empty
+    // }
 
-    public List<Course> getCourses() {
-        return courses;
-    }
+    // public List<Course> getCourses() {
+    // return courses;
+    // }
 
     public List<Module> getModules() {
         return modules;
     }
 
+    // Uses the overloaded constructor of Module to add a new one to the list.
+    // Consequentially saves it in the database
     public void newModule(Status status, String title, int version, int trackingNumber,
             String description, String contactName, String emailAddress) {
         Module module = new Module(status, title, version, trackingNumber, description, contactName,
@@ -57,26 +59,26 @@ public class ControlLogic {
     // Course courses = new Course(name, subject, difficulty, description);
     // }
 
-    public Course pickCourse(String courseName) {
-        Course pickedCourse = null;
-        for (Course courses : courses) {
-            if (courses.getName().equals(courseName)) {
-                pickedCourse = courses;
-            }
-        }
+    // public Course pickCourse(String courseName) {
+    // Course pickedCourse = null;
+    // for (Course courses : courses) {
+    // if (courses.getName().equals(courseName)) {
+    // pickedCourse = courses;
+    // }
+    // }
 
-        return pickedCourse;
-    }
+    // return pickedCourse;
+    // }
 
     // public Module pickModule() {
 
     // }
 
-    public void deleteCourse(Course course) {
-        // TODO document why this method is empty
-        courses.remove(course);
-        // Remove command based on nameCourse
-    }
+    // public void deleteCourse(Course course) {
+    // // TODO document why this method is empty
+    // courses.remove(course);
+    // // Remove command based on nameCourse
+    // }
 
     // Delete a module, if exists. Returns true if succesfull and aks repo to delete
     // from DB
@@ -89,6 +91,8 @@ public class ControlLogic {
         }
     }
 
+    // Method to edit the editable fields in a module. Gets instantly saved in the
+    // database
     public void editModule(String email, String contact, String description, String status, int orderNumber,
             Module module) {
 
@@ -96,35 +100,39 @@ public class ControlLogic {
         module.setEmailAddress(email);
         module.setContactName(contact);
         module.setDescription(description);
-        Status enumi;
+
+        Status statusEnum;
         if (status.equals("ACTIVE")) {
-            enumi = domain.Status.ACTIVE;
+            statusEnum = domain.Status.ACTIVE;
         } else if (status.equals("ARCHIVED")) {
-            enumi = domain.Status.ARCHIVED;
+            statusEnum = domain.Status.ARCHIVED;
         } else {
-            enumi = domain.Status.CONCEPT;
+            statusEnum = domain.Status.CONCEPT;
         }
-        module.setStatus(enumi);
-        module.setTrackingNumber(orderNumber);
+
+        module.setStatus(statusEnum);
+        module.setPositionWithinCourse(orderNumber);
 
         moduleRepo.update(module);
 
     }
 
-    public void alterCourse(Course courses) {
-        // TODO document why this method is empty
-        // String courseName = courses.getName();
-        // String alterTopic = courses.getTopic();
-        // String alterDescription = courses.getDiscription();
-        // String alterDificulty = courses.getDifficulty().toString();
-        // this.topic = topic;
-        // this.discription = discription;
-        // this.difficulty = difficulty;
-        // alter command courses based of name Course
+    // public void alterCourse(Course courses) {
+    // TODO document why this method is empty
+    // String courseName = courses.getName();
+    // String alterTopic = courses.getTopic();
+    // String alterDescription = courses.getDiscription();
+    // String alterDificulty = courses.getDifficulty().toString();
+    // this.topic = topic;
+    // this.discription = discription;
+    // this.difficulty = difficulty;
+    // alter command courses based of name Course
 
-        //
-    }
+    //
+    // }
 
+    // A module is unique by its title and version combination. HashCode is not used
+    // for check-if-exists, to prevent having to instantiate the module immediately
     public boolean moduleAlreadyExistsBasedOn(String title, int version) {
         for (Module module : this.modules) {
             if (module.getTitle().equals(title) && module.getVersion() == version) {

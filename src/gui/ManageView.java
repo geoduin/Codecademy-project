@@ -2,6 +2,7 @@ package gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 //Class responsible to give the user the choice to go into course or module management
@@ -18,12 +19,15 @@ public class ManageView extends View {
         // setting the layout of the view
         GridPane view = generateGrid();
 
-        // Buttons including actionevents
+        // Buttons including the action events
         Button courseManageBtn = new Button("Course");
+        courseManageBtn
+                .setOnMouseClicked(clicked -> {
+                    view.add(new Label("Not available yet!"), 0, 1);
+                });
         Button moduleManageBtn = new Button("Module");
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        // courseManageBtn.setOnMouseClicked(clicked -> new
-        // CourseManageView(this.gui).createView());
+
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
         view.add(moduleManageBtn, 1, 0);

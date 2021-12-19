@@ -15,7 +15,6 @@ public class ModuleRepository extends Repository {
 
     }
 
-
     @Override
     public void insert(Object domainObject) {
         if (domainObject instanceof Module) {
@@ -24,7 +23,7 @@ public class ModuleRepository extends Repository {
             Status status = module.getStatus();
             String title = module.getTitle();
             int version = module.getVersion();
-            int trackingNumber = module.getTrackingNumber();
+            int trackingNumber = module.getPositionWithinCourse();
             String description = module.getDescription();
             String contactName = module.getContactName();
             String email = module.getEmailAddress();
@@ -55,7 +54,8 @@ public class ModuleRepository extends Repository {
             // was being skipped over
             try {
                 Statement statement = this.connection.getConnection().createStatement();
-                statement.executeUpdate("INSERT INTO Module VALUES (" + contentID + ", NULL, '" + title + "', "+ version + ", " + trackingNumber + ", '" + email + "')");
+                statement.executeUpdate("INSERT INTO Module VALUES (" + contentID + ", NULL, '" + title + "', "
+                        + version + ", " + trackingNumber + ", '" + email + "')");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -71,8 +71,7 @@ public class ModuleRepository extends Repository {
         }
     }
 
-
-    //Updates module in database
+    // Updates module in database
     @Override
     public void update(Object domainObject) {
         if (domainObject instanceof Module) {
@@ -80,7 +79,7 @@ public class ModuleRepository extends Repository {
             Module module = (Module) domainObject;
             String description = module.getDescription();
             String status = module.getStatus().toString();
-            int trackingNumber = module.getTrackingNumber();
+            int trackingNumber = module.getPositionWithinCourse();
             String contactEmail = module.getEmailAddress();
             String contactName = module.getContactName();
             String title = module.getTitle();
@@ -91,19 +90,23 @@ public class ModuleRepository extends Repository {
                 // Checks if contact with provided email exists, if not: creates new contact
                 // with provided email
                 Statement statement = this.connection.getConnection().createStatement();
-                ResultSet result = statement.executeQuery("SELECT Email FROM Contact WHERE Email = '" + contactEmail + "'");
+                ResultSet result = statement
+                        .executeQuery("SELECT Email FROM Contact WHERE Email = '" + contactEmail + "'");
                 if (result.next() == false) {
                     // Creates contact
                     createContact(contactEmail, contactName);
                 }
                 // Gets correct content ID
-                result = statement.executeQuery("SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = " + version + "");
+                result = statement.executeQuery(
+                        "SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = " + version + "");
                 while (result.next()) {
                     contentID = result.getInt("ContentID");
                 }
                 // Updates the relevant tables in the database
-                statement.executeUpdate("UPDATE ContentItem SET Description = '" + description + "', Status = '" + status + "' WHERE ContentID = " + contentID + "");
-                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + " WHERE ContentID = "+contentID+"");
+                statement.executeUpdate("UPDATE ContentItem SET Description = '" + description + "', Status = '"
+                        + status + "' WHERE ContentID = " + contentID + "");
+                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = "
+                        + trackingNumber + " WHERE ContentID = " + contentID + "");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -150,7 +153,8 @@ public class ModuleRepository extends Repository {
                 String description = result.getString("Description");
                 String contactName = result.getString("Name");
                 String emailAddress = result.getString("Email");
-                modules.add(new Module(localDate, status, title, version, trackingNumber, description, contactName, emailAddress));
+                modules.add(new Module(localDate, status, title, version, trackingNumber, description, contactName,
+                        emailAddress));
             }
 
             return modules;
