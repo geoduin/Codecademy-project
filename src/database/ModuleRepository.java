@@ -19,9 +19,7 @@ public class ModuleRepository extends Repository {
     @Override
     public void insert(Object domainObject) {
         if(domainObject instanceof Module){
-            Integer id = 6;
-            Module module = (Module) domainObject;
-            String courseName = "Test";
+            Module module = (Module) domainObject
             String title = module.getTitle();
             int version = module.getVersion();
             int orderNumber = module.getTrackingNumber();
@@ -30,7 +28,7 @@ public class ModuleRepository extends Repository {
             try {
                 Statement statement = this.connection.getConnection().createStatement();
                 
-                statement.executeQuery("INSERT INTO Module VALUES("+id+", '"+courseName+"', '"+title+"', "+version+", "+orderNumber+", '"+contactEmail+"')");
+                statement.executeQuery("INSERT INTO Module VALUES(NULL, '"+title+"', "+version+", "+orderNumber+", '"+contactEmail+"')");
                 
             } catch (SQLException e) {
                 e.printStackTrace();
