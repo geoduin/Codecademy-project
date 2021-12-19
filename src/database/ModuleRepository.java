@@ -103,7 +103,7 @@ public class ModuleRepository extends Repository {
                 }
                 // Updates the relevant tables in the database
                 statement.executeUpdate("UPDATE ContentItem SET Description = '" + description + "', Status = '" + status + "' WHERE ContentID = " + contentID + "");
-                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + "");
+                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + " WHERE ContentID = "+contentID+"");
 
             } catch (SQLException e) {
                 e.printStackTrace();
