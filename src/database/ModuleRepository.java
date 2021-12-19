@@ -103,7 +103,7 @@ public class ModuleRepository extends Repository {
                 }
                 // Updates the relevant tables in the database
                 statement.executeUpdate("UPDATE ContentItem SET Description = '" + description + "', Status = '" + status + "' WHERE ContentID = " + contentID + "");
-                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + "");
+                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + " WHERE ContentID = "+contentID+"");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -126,7 +126,7 @@ public class ModuleRepository extends Repository {
                 while (result.next()) {
                     contentID = result.getInt("ContentID");
                 }
-                statement.executeQuery("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
+                statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
