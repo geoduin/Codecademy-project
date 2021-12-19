@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import domain.*;
 import domain.Module;
 import domain.Status;
 
@@ -38,7 +37,6 @@ public class ModuleRepository extends Repository {
                 // retrieves the correct content ID
                 ResultSet result = statement
                         .executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
-                String emailHelper = null;
                 // Turns "result" into String value
                 while (result.next()) {
                     contentID = result.getInt("ContentID");
@@ -48,7 +46,7 @@ public class ModuleRepository extends Repository {
                 // Checks if email is NULL
                 if (result.next() == false) {
                     // Creates contact
-                    statement.executeUpdate("INSERT INTO Contact VALUES ('" + email + "', '" + contactName + "')");
+                    createContact(email, contactName);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -64,21 +62,54 @@ public class ModuleRepository extends Repository {
         }
     }
 
+    private void createContact(String email, String contactName) {
+        try {
+            Statement statement = this.connection.getConnection().createStatement();
+            statement.executeUpdate("INSERT INTO Contact VALUES ('" + email + "', '" + contactName + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-    //TODO: Implement "update" funcionality
-    // @Override
-    // public void update(Object domainObject) {
-    // if(domainObject instanceof Module){
-    // Module module = (Module) domainObject;
-    // try {
-    // Statement statement = this.connection.getConnection().createStatement();
-    // statement.executeQuery();
 
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-    // }
-    // }
+    //Updates module in database
+    @Override
+    public void update(Object domainObject) {
+        if (domainObject instanceof Module) {
+            // Collection of needed variables
+            Module module = (Module) domainObject;
+            String description = module.getDescription();
+            String status = module.getStatus().toString();
+            int trackingNumber = module.getTrackingNumber();
+            String contactEmail = module.getEmailAddress();
+            String contactName = module.getContactName();
+            String title = module.getTitle();
+            int version = module.getVersion();
+            int contentID = 0;
+
+            try {
+                // Checks if contact with provided email exists, if not: creates new contact
+                // with provided email
+                Statement statement = this.connection.getConnection().createStatement();
+                ResultSet result = statement.executeQuery("SELECT Email FROM Contact WHERE Email = '" + contactEmail + "'");
+                if (result.next() == false) {
+                    // Creates contact
+                    createContact(contactEmail, contactName);
+                }
+                // Gets correct content ID
+                result = statement.executeQuery("SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = " + version + "");
+                while (result.next()) {
+                    contentID = result.getInt("ContentID");
+                }
+                // Updates the relevant tables in the database
+                statement.executeUpdate("UPDATE ContentItem SET Description = '" + description + "', Status = '" + status + "' WHERE ContentID = " + contentID + "");
+                statement.executeUpdate("UPDATE Module SET ContactEmail = '" + contactEmail + "', OrderNumber = " + trackingNumber + "");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void delete(Object domainObject) {
