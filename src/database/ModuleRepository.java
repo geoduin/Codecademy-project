@@ -126,7 +126,7 @@ public class ModuleRepository extends Repository {
                 while (result.next()) {
                     contentID = result.getInt("ContentID");
                 }
-                statement.executeQuery("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
+                statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
