@@ -68,7 +68,7 @@ public class Module extends ContentItem {
     }
 
     public String getEmailAddress() {
-        return emailAddress;
+        return this.emailAddress;
     }
 
     public void setEmailAddress(String emailAddress) {

@@ -11,4 +11,12 @@ public abstract class ContentItem {
         this.status = status;
         this.publicationDate = date;
     }
+
+    public LocalDate getDate() {
+        return this.publicationDate;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
 }
