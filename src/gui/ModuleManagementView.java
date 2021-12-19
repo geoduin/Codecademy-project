@@ -60,9 +60,7 @@ public class ModuleManagementView extends View {
                 // getting the to-be-edited module
                 String[] splitted = dropdown.getValue().split(":");
                 int indexToDelete = Integer.parseInt(splitted[0]);
-                Module moduleToEdit = this.logic.getModules().get(indexToDelete);
-
-                editModule(moduleToEdit);
+                editModule(indexToDelete);
             }
         });
 
@@ -303,8 +301,11 @@ public class ModuleManagementView extends View {
 
     }
 
-    public void editModule(Module module) {
+    public void editModule(int indexToDelete) {
         GridPane view = moduleFormGrid();
+
+        // Getting modifiable fields
+        Module module = this.logic.getModules().get(indexToDelete);
 
         // form label
         Label welcomeToFormLabel = new Label("Editing:" + module.getTitle());
@@ -381,7 +382,10 @@ public class ModuleManagementView extends View {
 
             // SQL Commando
 
-            this.logic.alterModule(module);
+            // Let op gegevens van dit formulier set
+
+            this.logic.editModule(contactEmailField.getText(), contactField.getText(), descriptionField.getText(),
+                    dropdown.getValue(), Integer.parseInt(orderNumberField.getText()), module);
 
             // Naar pop-up of manage pagina
             moduleSuccessfullyEditedView();
