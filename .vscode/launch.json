@@ -8,6 +8,13 @@
             "type": "java",
             "name": "Launch Launcher",
             "request": "launch",
+            "mainClass": "Launcher",
+            "projectName": "Codecademy-project_7efb1406"
+        },
+        {
+            "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
             "mainClass": "gui.Launcher",
             "projectName": "Codecademy-project_7efb1406"
         },
