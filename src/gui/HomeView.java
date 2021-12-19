@@ -1,13 +1,12 @@
 package gui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+//Class is responsible for creating the first view of the application. Is a part of the homepage.
 public class HomeView extends View {
 
     public HomeView(GUI baseUI) {
@@ -17,32 +16,27 @@ public class HomeView extends View {
     @Override
     public void createView() {
         // Initial layout setup
-        GridPane view = new GridPane();
-        view.setAlignment(Pos.CENTER);
+        GridPane view = generateGrid();
 
+        // Welcoming the user
         Label welcomeLabel = new Label("Welcome.");
         welcomeLabel.setFont(Font.font("Comic Sans MS", 30));
 
-        // Buttons
+        // Option buttons for the user to go to functionality of the application
         Button manageBtn = new Button("Manage");
-        manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
         Button statisticsBtn = new Button("Statistics");
         statisticsBtn
                 .setOnMouseClicked(clicked -> {
-                    view.add(new Label("Bestaat nog niet voor deze vertical slice :)"), 2, 2);
+                    view.add(new Label("Not available yet!"), 2, 2);
                 });
-        Button exitBtn = new Button("Exit");
-        exitBtn.setOnMouseClicked(clicked -> System.exit(1));
+        manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
 
         // Futher layout setup
         view.add(welcomeLabel, 1, 0);
         view.add(manageBtn, 0, 1);
         view.add(statisticsBtn, 2, 1);
-        view.add(exitBtn, 1, 2);
-        view.setHalignment(exitBtn, HPos.CENTER);
+
         view.setPadding(new Insets(40, 0, 0, 0));
-        view.setHgap(40);
-        view.setVgap(20);
 
         activate(view,
                 "Jascha van der Ark (2182194), Jef Koldenhof (2187834), Mohammed Bogatyrev (2182116), Xin Wang (2154458)");

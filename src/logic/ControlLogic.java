@@ -2,6 +2,9 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import database.ModuleRepository;
 import domain.Module;
 import domain.Course;
 import domain.*;
@@ -10,20 +13,21 @@ public class ControlLogic {
     private List<Course> courses;
     private List<Module> modules;
     // private CourseRepository courseRepo;
-    // private ModuleRepository moduleRepo;
+    private ModuleRepository moduleRepo;
 
     public ControlLogic() {
         this.courses = new ArrayList<>();
         this.modules = new ArrayList<>();
-        // retrieveData();
+        this.moduleRepo = new ModuleRepository();
+        retrieveData();
 
     }
 
     // Fill the domain container lists with instances, retrieved and created in the
     // repository's
     private void retrieveData() {
-
-        // this.modules = this.courseRepo.retrieve();
+        this.modules = this.moduleRepo.retrieve().stream().filter(Module.class::isInstance)
+                .map(Module.class::cast).collect(Collectors.toList());
     }
 
     public void addModuleToCourse(Module module, Course courses) {
@@ -73,13 +77,15 @@ public class ControlLogic {
         // Remove command based on nameCourse
     }
 
+    // Delete a module, if exists. Returns true if succesfull and aks repo to delete
+    // from DB
     public boolean deleteModule(Module module) {
         if (!this.modules.contains(module)) {
             return false;
         } else {
+            this.moduleRepo.delete((Object) module);
             return true;
         }
-
     }
 
     public void alterModule(Module module) {
@@ -108,5 +114,15 @@ public class ControlLogic {
         // alter command courses based of name Course
 
         //
+    }
+
+    public boolean moduleAlreadyExistsBasedOn(String title, int version) {
+        for (Module module : this.modules) {
+            if (module.getTitle().equals(title) && module.getVersion() == version) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

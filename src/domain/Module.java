@@ -5,25 +5,26 @@ import java.time.LocalDate;
 public class Module extends ContentItem {
     private String title;
     private int version;
-    private int trackingNumber;
+    private int positionWithinCourse;
     private String description;
     private String contactName;
     private String emailAddress;
 
-    public Module(LocalDate date, Status status, String title, int version, int trackingNumber,
+    public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
             String description, String contactName, String emailAddress) {
         super(date, status);
         this.title = title;
         this.version = version;
-        this.trackingNumber = trackingNumber;
+        this.positionWithinCourse = positionWithinCourse;
         this.description = description;
         this.contactName = contactName;
         this.emailAddress = emailAddress;
     }
 
-    public Module(Status status, String title, int version, int trackingNumber,
+    public Module(Status status, String title, int version, int positionWithinCourse,
             String description, String contactName, String emailAddress) {
-        this(java.time.LocalDate.now(), status, title, version, trackingNumber, description, contactName, emailAddress);
+        this(java.time.LocalDate.now(), status, title, version, positionWithinCourse, description, contactName,
+                emailAddress);
     }
 
     // Getters and setters bulk
@@ -44,11 +45,11 @@ public class Module extends ContentItem {
     }
 
     public int getTrackingNumber() {
-        return trackingNumber;
+        return positionWithinCourse;
     }
 
-    public void setTrackingNumber(int trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public void setTrackingNumber(int positionWithinCourse) {
+        this.positionWithinCourse = positionWithinCourse;
     }
 
     public String getDescription() {
