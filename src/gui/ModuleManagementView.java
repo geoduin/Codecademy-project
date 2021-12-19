@@ -41,6 +41,7 @@ public class ModuleManagementView extends View {
         Label selectLabel = new Label("Select an existing module");
         ComboBox<String> dropdown = new ComboBox<>();
         Button editBtn = new Button("Edit");
+
         Button deleteBtn = new Button("Delete");
 
         // porting the modules to the dropdown
@@ -51,7 +52,21 @@ public class ModuleManagementView extends View {
             dropdown.getItems().add(i + ": " + module.getTitle() + " (version: " + module.getVersion() + ")");
         }
 
-        // button actions related to existing modules
+        // Edit button action, retrieving the selected module to delete
+        editBtn.setOnMouseClicked(clicked -> {
+            if (dropdown.getValue().equals("-no module selected-")) {
+                view.add(new Label("No module selected!"), 0, 4);
+            } else {
+                // getting the to-be-edited module
+                String[] splitted = dropdown.getValue().split(":");
+                int indexToDelete = Integer.parseInt(splitted[0]);
+                Module moduleToEdit = this.logic.getModules().get(indexToDelete);
+
+                editModule(moduleToEdit);
+            }
+        });
+
+        // Delete button action, retrieving the selected module to delete
         deleteBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals("-no module selected-")) {
                 view.add(new Label("No module selected!"), 0, 4);
@@ -100,7 +115,7 @@ public class ModuleManagementView extends View {
     // Creating a view for the user to create a new module
     public void addModuleView() {
         // Initial layout setup
-        GridPane view = addModuleFormGrid();
+        GridPane view = moduleFormGrid();
 
         // form label
         Label welcomeToFormLabel = new Label("Create a module");
@@ -162,16 +177,17 @@ public class ModuleManagementView extends View {
         view.add(descriptionField, 1, 4);
 
         // Status input
-        Label Status = new Label("Module status:");
+        Label statusLabel = new Label("Module status:");
         ComboBox<String> dropdown = new ComboBox<String>();
         Text noStatusSelectedError = new Text("");
         noStatusSelectedError.setFill(Color.FIREBRICK);
-        dropdown.setValue("-please select a value-");
-        dropdown.getItems().add("-please select a value-");
+        final String defaultDropDownString = "-please select a value-";
+        dropdown.setValue(defaultDropDownString);
+        dropdown.getItems().add(defaultDropDownString);
         dropdown.getItems().add("ACTIVE");
         dropdown.getItems().add("CONCEPT");
         dropdown.getItems().add("ARCHIVED");
-        view.add(Status, 0, 5);
+        view.add(statusLabel, 0, 5);
         view.add(dropdown, 1, 5);
         view.add(noStatusSelectedError, 2, 5);
 
@@ -209,7 +225,7 @@ public class ModuleManagementView extends View {
             }
 
             // checking if dropdown has no selected value
-            if (dropdown.getValue().equals("-please select a value-")) {
+            if (dropdown.getValue().equals(defaultDropDownString)) {
                 noStatusSelectedError.setText("No value selected!");
                 return;
             } else {
@@ -260,16 +276,13 @@ public class ModuleManagementView extends View {
                     Integer.valueOf(orderNumberField.getText()), descriptionField.getText(),
                     contactField.getText(), contactEmailField.getText());
             moduleSuccessfullyCreatedView();
-
         });
-
         // Futher layout setup
         activate(view, "Create module");
-
     }
 
     // Method responsible for the layout setup of the add module view
-    public GridPane addModuleFormGrid() {
+    public GridPane moduleFormGrid() {
         GridPane grid = new GridPane();
 
         ColumnConstraints col1 = new ColumnConstraints();
@@ -288,6 +301,115 @@ public class ModuleManagementView extends View {
 
         return grid;
 
+    }
+
+    public void editModule(Module module) {
+        GridPane view = moduleFormGrid();
+
+        // form label
+        Label welcomeToFormLabel = new Label("Editing:" + module.getTitle());
+        welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        view.add(welcomeToFormLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
+        GridPane.setMargin(welcomeToFormLabel, new Insets(20, 0, 20, 0));
+
+        // Ordernumber input
+        Label orderNumberLabel = new Label("Order it has within a course:");
+        TextField orderNumberField = new TextField("" + module.getVersion());
+        Text orderNumberInputError = new Text("");
+        orderNumberInputError.setFill(Color.FIREBRICK);
+        view.add(orderNumberLabel, 0, 1);
+        view.add(orderNumberField, 1, 1);
+        view.add(orderNumberInputError, 2, 1);
+
+        // contact person
+
+        Label contactLabel = new Label("Name of contactperson:");
+        TextField contactField = new TextField(module.getContactName());
+        view.add(contactLabel, 0, 2);
+        view.add(contactField, 1, 2);
+
+        // Email contact
+        Label contactEmailLabel = new Label("Email of contactperson:");
+        TextField contactEmailField = new TextField(module.getEmailAddress());
+        view.add(contactEmailLabel, 0, 3);
+        view.add(contactEmailField, 1, 3);
+
+        // Status
+        Label statusLabel = new Label("Module status:");
+        ComboBox<String> dropdown = new ComboBox<String>();
+        Text noStatusSelectedError = new Text("");
+        noStatusSelectedError.setFill(Color.FIREBRICK);
+        final String defaultDropDownString = "-please select a value-";
+        dropdown.setValue(module.getStatus().toString());
+        dropdown.getItems().add(defaultDropDownString);
+        dropdown.getItems().add("ACTIVE");
+        dropdown.getItems().add("CONCEPT");
+        dropdown.getItems().add("ARCHIVED");
+        view.add(statusLabel, 0, 5);
+        view.add(dropdown, 1, 5);
+        view.add(noStatusSelectedError, 2, 5);
+
+        // Description
+        Label descriptionLabel = new Label("Description:");
+        TextField descriptionField = new TextField();
+        view.add(descriptionLabel, 0, 4);
+        view.add(descriptionField, 1, 4);
+
+        Button editBtn = new Button("Edit module");
+        // Edit button
+
+        Text nullOrAlreadyExistsField = new Text("");
+        nullOrAlreadyExistsField.setFill(Color.FIREBRICK);
+        view.add(nullOrAlreadyExistsField, 1, 9);
+
+        editBtn.setOnMouseClicked((clicked -> {
+            if (dropdown.getValue().equals(defaultDropDownString)) {
+                noStatusSelectedError.setText("No value selected!");
+                return;
+            } else {
+                noStatusSelectedError.setText("");
+            }
+
+            if (hasNoInput(descriptionField) || hasNoInput(contactField)
+                    || hasNoInput(contactEmailField)) {
+                nullOrAlreadyExistsField.setText("One or more fields are not filled!");
+                return;
+            } else {
+                nullOrAlreadyExistsField.setText("");
+            }
+
+            // SQL Commando
+
+            this.logic.alterModule(module);
+
+            // Naar pop-up of manage pagina
+            moduleSuccessfullyEditedView();
+
+        }));
+        // Module: Ordernumber, Contactemail
+        // ContentItem: Status/, description
+        // Contacts: Contactname
+
+        activate(view, "Edit module");
+    }
+
+    // Pop up end edit module
+
+    private void moduleSuccessfullyEditedView() {
+        GridPane view = generateGrid();
+        Label label = new Label("Successfully Edited!");
+        Button homeBtn = new Button("Go home");
+        Button anotherModuleBtn = new Button("Make another module");
+
+        view.add(label, 1, 0);
+        view.add(homeBtn, 0, 1);
+        view.add(anotherModuleBtn, 2, 1);
+
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        anotherModuleBtn
+                .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).moduleSuccessfullyCreatedView());
+        activate(view, "Successfully edited!");
     }
 
     // If a module can be created, an user has an easy option to directly add
