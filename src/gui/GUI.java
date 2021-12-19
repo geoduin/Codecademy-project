@@ -29,10 +29,14 @@ public class GUI extends Application {
         // menu
         Button homeBtn = new Button("Home");
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this).createView());
+        Button exitBtn = new Button("Exit");
+        exitBtn.setOnMouseClicked(clicked -> System.exit(1));
         HBox menu = new HBox();
         menu.setPadding(new Insets(0, 0, 150, 0));
+        menu.setSpacing(15);
         menu.setAlignment(Pos.CENTER);
         menu.getChildren().add(homeBtn);
+        menu.getChildren().add(exitBtn);
 
         // setup the stage
         this.layout.setBottom(menu);
