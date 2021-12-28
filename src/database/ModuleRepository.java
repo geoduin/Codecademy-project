@@ -92,8 +92,7 @@ public class ModuleRepository extends Repository {
                 // Checks if contact with provided email exists, if not: creates new contact
                 // with provided email
                 Statement statement = this.connection.getConnection().createStatement();
-                ResultSet result = statement
-                        .executeQuery("SELECT Email FROM Contact WHERE Email = '" + contactEmail + "'");
+                ResultSet result = statement.executeQuery("SELECT Email FROM Contact WHERE Email = '" + contactEmail + "'");
                 if (result.next() == false) {
                     // Creates contact
                     createContact(contactEmail, contactName);
@@ -117,7 +116,7 @@ public class ModuleRepository extends Repository {
     public void delete(int id) {
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            statement.executeQuery("DELETE FROM ContentItem WHERE ContentID = "+id+"");
+            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = "+id+"");
         } catch (SQLException e) {
             e.printStackTrace();
         }
