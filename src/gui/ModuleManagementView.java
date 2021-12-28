@@ -2,31 +2,29 @@ package gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import logic.ControlLogic;
+import logic.ModuleLogic;
 
 import java.util.HashMap;
 
 import domain.Module;
 import domain.Status;
 
-//Class responsible for all the views that are related to the management of a module
+//Class responsible for all the views that are related to the management of modules
 public class ModuleManagementView extends View {
-    private ControlLogic logic;
+    private ModuleLogic logic;
 
     public ModuleManagementView(GUI baseUI) {
         super(baseUI);
-        this.logic = new ControlLogic();
+        this.logic = new ModuleLogic();
     }
 
     // The following method creates the first view that the user sees when going
@@ -41,6 +39,7 @@ public class ModuleManagementView extends View {
         Button addModuleBtn = new Button("+");
         addModuleBtn.setOnMouseClicked(clicked -> addModuleView());
 
+        // Dropdown showing existing modules
         Label selectLabel = new Label("Select an existing module");
         ComboBox<String> dropdown = new ComboBox<>();
         Button editBtn = new Button("Edit");

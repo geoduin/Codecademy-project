@@ -22,9 +22,7 @@ public class ManageView extends View {
         // Buttons including the action events
         Button courseManageBtn = new Button("Course");
         courseManageBtn
-                .setOnMouseClicked(clicked -> {
-                    view.add(new Label("Not available yet!"), 0, 1);
-                });
+                .setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
         Button moduleManageBtn = new Button("Module");
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
 

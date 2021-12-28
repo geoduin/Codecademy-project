@@ -11,12 +11,12 @@ import domain.Module;
 import domain.Course;
 import domain.*;
 
-public class ControlLogic {
+public class ModuleLogic {
 
     private List<Module> modules;
     private ModuleRepository moduleRepo;
 
-    public ControlLogic() {
+    public ModuleLogic() {
         this.modules = new ArrayList<>();
         this.moduleRepo = new ModuleRepository();
     }
