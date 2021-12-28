@@ -21,7 +21,8 @@ public class Module extends ContentItem {
         this.emailAddress = emailAddress;
     }
 
-    // An overloaded method exists to automatically give created courses the date of
+    // An overloaded method exists to automatically give newly created modules the
+    // date of
     // creation. However, retrieved modules from the database need to get their
     // actual historical date, therefore an overloaded constructor is necessary
     public Module(Status status, String title, int version, int positionWithinCourse,

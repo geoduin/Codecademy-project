@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 /**
  * This class works as the base UI of the application. It contains the layout,
  * of which the center will be changed to other views, while containing a menu
- * in the top.
+ * at the top.
  */
 public class GUI extends Application {
     private BorderPane layout;
@@ -51,7 +51,7 @@ public class GUI extends Application {
 
     /**
      * Can receive any pane to act as a new view on screen. Center is only set to
-     * the view, so that the menu remains visible on all pages
+     * the view, so that the menu remains visible at the top on all pages
      */
     public void goToNext(Parent view, String windowTitle) {
         this.layout.setCenter(view);

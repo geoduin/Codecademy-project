@@ -14,6 +14,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.ControlLogic;
+
+import java.util.HashMap;
+
 import domain.Module;
 import domain.Status;
 
@@ -48,9 +51,9 @@ public class ModuleManagementView extends View {
         final String defaultDropdownValue = "-no module selected-";
         dropdown.setValue(defaultDropdownValue);
         dropdown.getItems().add(defaultDropdownValue);
-        for (int i = 0; i < this.logic.getModules().size(); i++) {
-            Module module = this.logic.getModules().get(i);
-            dropdown.getItems().add(i + ": " + module.getTitle() + " (version: " + module.getVersion() + ")");
+        HashMap<String, Integer> moduleNameVersionAndIDPairs = this.logic.getModuleNamesVersionsAndIDs();
+        for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
+            dropdown.getItems().add(moduleNameAndVersion);
         }
 
         // Edit button action, retrieving the selected module to edit
@@ -59,9 +62,9 @@ public class ModuleManagementView extends View {
                 view.add(new Label("No module selected!"), 0, 4);
             } else {
                 // getting the to-be-edited module
-                String[] splitted = dropdown.getValue().split(":");
-                int indexToEdit = Integer.parseInt(splitted[0]);
-                editModuleView(indexToEdit);
+                Module moduleToEdit = this.logic
+                        .retrieveModuleByID((moduleNameVersionAndIDPairs.get(dropdown.getValue())));
+                editModuleView(moduleToEdit);
             }
         });
 
@@ -70,13 +73,8 @@ public class ModuleManagementView extends View {
             if (dropdown.getValue().equals("-no module selected-")) {
                 view.add(new Label("No module selected!"), 0, 4);
             } else {
-                // getting the module to delete
-                String[] splitted = dropdown.getValue().split(":");
-                int indexToDelete = Integer.parseInt(splitted[0]);
-                Module moduleToDelete = this.logic.getModules().get(indexToDelete);
-
                 // called method deletes module + sends a true if succesfull
-                if (this.logic.deleteModule(moduleToDelete)) {
+                if (this.logic.deleteModule(moduleNameVersionAndIDPairs.get(dropdown.getValue()))) {
                     successfullyDeletedView();
                 }
             }
@@ -97,7 +95,7 @@ public class ModuleManagementView extends View {
     // Creating a view for the user to create a new module
     public void addModuleView() {
         // Initial layout setup
-        GridPane view = moduleFormGrid();
+        GridPane view = generateFormGrid();
 
         // form label
         Label welcomeToFormLabel = new Label("Create a module");
@@ -120,6 +118,7 @@ public class ModuleManagementView extends View {
         Label versionLabel = new Label("Version:");
         TextField versionField = new TextField();
         Text versionInputError = new Text("");
+        final String positiveNumberErrorMSG = "has to be a (positive) rounded number!";
         versionInputError.setFill(Color.FIREBRICK);
         view.add(versionLabel, 0, 2);
         view.add(versionField, 1, 2);
@@ -128,7 +127,7 @@ public class ModuleManagementView extends View {
         // Checking (live) if the user doesn't put anything in other than an int
         versionField.textProperty().addListener((change, oldValue, newValue) -> {
             if (!newValue.matches("\\d+") && !(newValue.equals(""))) {
-                versionInputError.setText("has to be a (positive) number!");
+                versionInputError.setText(positiveNumberErrorMSG);
             } else {
                 versionInputError.setText("");
             }
@@ -146,7 +145,7 @@ public class ModuleManagementView extends View {
         // Checking (live) if the user doesn't put anything in other than an int
         orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
             if (!newValue.matches("\\d+") && !(newValue.equals(""))) {
-                orderNumberInputError.setText("has to be a (positive) number!");
+                orderNumberInputError.setText(positiveNumberErrorMSG);
             } else {
                 orderNumberInputError.setText("");
             }
@@ -216,7 +215,7 @@ public class ModuleManagementView extends View {
             // Checking if version- and orderfield have an integer-type input
             String versionInput = versionField.getText();
             if (!versionInput.matches("\\d+") || versionInput.equals("")) {
-                versionInputError.setText("has to be a (positive) number!");
+                versionInputError.setText(positiveNumberErrorMSG);
                 return;
             } else {
                 versionInputError.setText("");
@@ -224,7 +223,7 @@ public class ModuleManagementView extends View {
 
             String orderNumberInput = orderNumberField.getText();
             if (!orderNumberInput.matches("\\d+") || orderNumberInput.equals("")) {
-                orderNumberInputError.setText("has to be a (positive) number!");
+                orderNumberInputError.setText(positiveNumberErrorMSG);
                 return;
 
             } else {
@@ -260,37 +259,12 @@ public class ModuleManagementView extends View {
         activate(view, "Create module");
     }
 
-    // Method responsible for the layout setup of the add and edit module view
-    public GridPane moduleFormGrid() {
-        GridPane grid = new GridPane();
-
-        ColumnConstraints col1 = new ColumnConstraints();
-        ColumnConstraints col2 = new ColumnConstraints();
-        ColumnConstraints col3 = new ColumnConstraints();
-        col1.setPercentWidth(17);
-        col2.setPercentWidth(50);
-        col3.setPercentWidth(18);
-
-        grid.getColumnConstraints().addAll(col1, col2, col3);
-
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.setPadding(new Insets(25));
-        grid.setVgap(20);
-        grid.setHgap(30);
-
-        return grid;
-
-    }
-
     // Creating a view for the user to edit a module
-    public void editModuleView(int indexToEdit) {
-        GridPane view = moduleFormGrid();
-
-        // Getting modifiable fields
-        Module module = this.logic.getModules().get(indexToEdit);
+    public void editModuleView(Module moduleToEdit) {
+        GridPane view = generateFormGrid();
 
         // form label
-        Label welcomeToFormLabel = new Label("Editing: '" + module.getTitle() + "'");
+        Label welcomeToFormLabel = new Label("Editing: '" + moduleToEdit.getTitle() + "'");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -298,7 +272,7 @@ public class ModuleManagementView extends View {
 
         // Order number input
         Label orderNumberLabel = new Label("Order it has within a course:");
-        TextField orderNumberField = new TextField("" + module.getVersion());
+        TextField orderNumberField = new TextField("" + moduleToEdit.getVersion());
         Text orderNumberInputError = new Text("");
         orderNumberInputError.setFill(Color.FIREBRICK);
         view.add(orderNumberLabel, 0, 1);
@@ -308,7 +282,7 @@ public class ModuleManagementView extends View {
         // Checking (live) if the user doesn't put anything in other than an int
         orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
             if (!newValue.matches("\\d+") && !(newValue.equals(""))) {
-                orderNumberInputError.setText("has to be a (positive) number!");
+                orderNumberInputError.setText("Has to be a (positive) rounded number");
             } else {
                 orderNumberInputError.setText("");
             }
@@ -316,13 +290,13 @@ public class ModuleManagementView extends View {
 
         // Contactperson name input
         Label contactLabel = new Label("Name of contactperson:");
-        TextField contactField = new TextField(module.getContactName());
+        TextField contactField = new TextField(moduleToEdit.getContactName());
         view.add(contactLabel, 0, 2);
         view.add(contactField, 1, 2);
 
         // Contactperson email input
         Label contactEmailLabel = new Label("Email of contactperson:");
-        TextField contactEmailField = new TextField(module.getEmailAddress());
+        TextField contactEmailField = new TextField(moduleToEdit.getEmailAddress());
         view.add(contactEmailLabel, 0, 3);
         view.add(contactEmailField, 1, 3);
 
@@ -332,7 +306,7 @@ public class ModuleManagementView extends View {
         Text noStatusSelectedError = new Text("");
         noStatusSelectedError.setFill(Color.FIREBRICK);
         final String defaultDropDownString = "-please select a value-";
-        dropdown.setValue(module.getStatus().toString());
+        dropdown.setValue(moduleToEdit.getStatus().toString());
         dropdown.getItems().add(defaultDropDownString);
         dropdown.getItems().add("ACTIVE");
         dropdown.getItems().add("CONCEPT");
@@ -343,7 +317,7 @@ public class ModuleManagementView extends View {
 
         // Description
         Label descriptionLabel = new Label("Description:");
-        TextField descriptionField = new TextField(module.getDescription());
+        TextField descriptionField = new TextField(moduleToEdit.getDescription());
         view.add(descriptionLabel, 0, 4);
         view.add(descriptionField, 1, 4);
 
@@ -373,7 +347,7 @@ public class ModuleManagementView extends View {
             }
 
             this.logic.editModule(contactEmailField.getText(), contactField.getText(), descriptionField.getText(),
-                    dropdown.getValue(), Integer.parseInt(orderNumberField.getText()), module);
+                    dropdown.getValue(), Integer.parseInt(orderNumberField.getText()), moduleToEdit);
 
             moduleSuccessfullyEditedView();
 
