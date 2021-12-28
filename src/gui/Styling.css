@@ -1,4 +1,4 @@
-/* CSS to apply uniform styling on the whole GUI*/
+/* CSS to apply uniform styling to the whole GUI*/
 .root{
     -fx-background-color: linear-gradient(#ffffff, #c2c2c2);
     -fx-font-family: 'Arial';

@@ -1,7 +1,9 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import database.ModuleRepository;
@@ -10,17 +12,13 @@ import domain.Course;
 import domain.*;
 
 public class ControlLogic {
-    private List<Course> courses;
+
     private List<Module> modules;
-    // private CourseRepository courseRepo;
     private ModuleRepository moduleRepo;
 
     public ControlLogic() {
-        this.courses = new ArrayList<>();
         this.modules = new ArrayList<>();
         this.moduleRepo = new ModuleRepository();
-        retrieveData();
-
     }
 
     // Fill the domain container lists with instances, retrieved and created in the
@@ -30,13 +28,15 @@ public class ControlLogic {
                 .map(Module.class::cast).collect(Collectors.toList());
     }
 
-    // public void addModuleToCourse(Module module, Course courses) {
-    // // TODO document why this method is empty
-    // }
+    public Map<String, Integer> getModuleNamesVersionsAndIDs() {
 
-    // public List<Course> getCourses() {
-    // return courses;
-    // }
+        HashMap<String, Integer> mapToReturn = this.moduleRepo.getAllModuleNames();
+        return mapToReturn;
+    }
+
+    public Module retrieveModuleByID(int id) {
+        return this.moduleRepo.retrieveModuleByID(id);
+    }
 
     public List<Module> getModules() {
         return modules;
@@ -53,47 +53,16 @@ public class ControlLogic {
 
     }
 
-    // public void newCourse(String name, String subject, Difficulty difficulty,
-    // String description) {
-    // // TODO document why this method is empty
-    // Course courses = new Course(name, subject, difficulty, description);
-    // }
-
-    // public Course pickCourse(String courseName) {
-    // Course pickedCourse = null;
-    // for (Course courses : courses) {
-    // if (courses.getName().equals(courseName)) {
-    // pickedCourse = courses;
-    // }
-    // }
-
-    // return pickedCourse;
-    // }
-
-    // public Module pickModule() {
-
-    // }
-
-    // public void deleteCourse(Course course) {
-    // // TODO document why this method is empty
-    // courses.remove(course);
-    // // Remove command based on nameCourse
-    // }
-
     // Delete a module, if exists. Returns true if succesfull and aks repo to delete
     // from DB
-    public boolean deleteModule(Module module) {
-        if (!this.modules.contains(module)) {
-            return false;
-        } else {
-            this.moduleRepo.delete((Object) module);
-            return true;
-        }
+    public boolean deleteModule(int id) {
+        this.moduleRepo.delete(id);
+        return true;
     }
 
     // Method to edit the editable fields in a module. Gets instantly saved in the
     // database
-    public void editModule(String email, String contact, String description, String status, int orderNumber,
+    public void editModule(String email, String contact, String description, String status, int positionInCourse,
             Module module) {
 
         // Alterable information
@@ -111,25 +80,9 @@ public class ControlLogic {
         }
 
         module.setStatus(statusEnum);
-        module.setPositionWithinCourse(orderNumber);
-
+        module.setPositionWithinCourse(positionInCourse);
         moduleRepo.update(module);
-
     }
-
-    // public void alterCourse(Course courses) {
-    // TODO document why this method is empty
-    // String courseName = courses.getName();
-    // String alterTopic = courses.getTopic();
-    // String alterDescription = courses.getDiscription();
-    // String alterDificulty = courses.getDifficulty().toString();
-    // this.topic = topic;
-    // this.discription = discription;
-    // this.difficulty = difficulty;
-    // alter command courses based of name Course
-
-    //
-    // }
 
     // A module is unique by its title and version combination. HashCode is not used
     // for check-if-exists, to prevent having to instantiate the module immediately
