@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-//Class is responsible for creating the first view of the application. Is a part of the homepage.
+//Class is responsible for creating the first view of the application (home)
 public class HomeView extends View {
 
     public HomeView(GUI baseUI) {

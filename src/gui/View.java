@@ -1,7 +1,9 @@
 package gui;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 //  Class to standardize every view that will sit inside the center of the base
@@ -26,6 +28,28 @@ public abstract class View {
         grid.setVgap(10);
 
         return grid;
+    }
+
+    // Method responsible for the layout setup of the add and edit module view
+    public GridPane generateFormGrid() {
+        GridPane grid = new GridPane();
+
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+        col1.setPercentWidth(17);
+        col2.setPercentWidth(50);
+        col3.setPercentWidth(18);
+
+        grid.getColumnConstraints().addAll(col1, col2, col3);
+
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setPadding(new Insets(25));
+        grid.setVgap(20);
+        grid.setHgap(30);
+
+        return grid;
+
     }
 
     // every view needs to create a parent type that can sit in the center of the
