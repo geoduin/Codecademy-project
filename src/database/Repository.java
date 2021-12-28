@@ -1,7 +1,7 @@
 package database;
 import java.util.ArrayList;
 
-public abstract class Repository implements DMLBehaviour {
+public abstract class Repository {
 
     DBConnection connection;
 

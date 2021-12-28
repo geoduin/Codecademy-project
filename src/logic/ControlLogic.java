@@ -28,7 +28,7 @@ public class ControlLogic {
                 .map(Module.class::cast).collect(Collectors.toList());
     }
 
-    public Map<String, Integer> getModuleNamesVersionsAndIDs() {
+    public HashMap<String, Integer> getModuleNamesVersionsAndIDs() {
 
         HashMap<String, Integer> mapToReturn = this.moduleRepo.getAllModuleNames();
         return mapToReturn;

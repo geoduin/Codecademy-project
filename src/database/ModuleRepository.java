@@ -113,26 +113,15 @@ public class ModuleRepository extends Repository {
         }
     }
 
-    @Override
-    public void delete(Object domainObject) {
-        if (domainObject instanceof Module) {
-            Module module = (Module) domainObject;
-            try {
-                String title = module.getTitle();
-                int version = module.getVersion();
-                Statement statement = this.connection.getConnection().createStatement();
-                ResultSet result = statement.executeQuery(
-                        "SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = '" + version + "'");
-                System.out.println(result.toString());
-                int contentID = 0;
-                while (result.next()) {
-                    contentID = result.getInt("ContentID");
-                }
-                statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+    public void delete(int id) {
+        try {
+            Statement statement = this.connection.getConnection().createStatement();
+            statement.executeQuery("DELETE FROM ContentItem WHERE ContentID = "+id+"");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
@@ -172,7 +161,6 @@ public class ModuleRepository extends Repository {
             HashMap<String, Integer> modules = new HashMap<>();
             while(resultSet.next()) {
                 String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
-                System.out.println(key);
                 modules.put(key, resultSet.getInt("ContentID"));
             }
             return modules;
@@ -210,11 +198,12 @@ public class ModuleRepository extends Repository {
 
         try {
             statement = this.connection.getConnection().createStatement();
-            ResultSet contentItemRetrieve = statement.executeQuery("SELECT CreationDate, Status FROM ContentItem WHERE ContentID = "+ID+"");
+            ResultSet contentItemRetrieve = statement.executeQuery("SELECT CreationDate, Status, Description FROM ContentItem WHERE ContentID = "+ID+"");
             
             while(contentItemRetrieve.next()) {
                 date = LocalDate.parse(contentItemRetrieve.getString("CreationDate"));
                 status = Status.valueOf(contentItemRetrieve.getString("Status"));
+                description = contentItemRetrieve.getString("Description");
             }
         } catch (SQLException e) {
             e.printStackTrace();

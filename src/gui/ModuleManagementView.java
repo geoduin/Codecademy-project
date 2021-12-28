@@ -272,7 +272,7 @@ public class ModuleManagementView extends View {
 
         // Order number input
         Label orderNumberLabel = new Label("Order it has within a course:");
-        TextField orderNumberField = new TextField("" + moduleToEdit.getVersion());
+        TextField orderNumberField = new TextField("" + moduleToEdit.getPositionWithinCourse());
         Text orderNumberInputError = new Text("");
         orderNumberInputError.setFill(Color.FIREBRICK);
         view.add(orderNumberLabel, 0, 1);
