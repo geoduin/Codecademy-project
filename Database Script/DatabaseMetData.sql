@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [Codecademy]    Script Date: 28/12/2021 11:22:19 ******/
+/****** Object:  Database [Codecademy]    Script Date: 28/12/2021 15:20:40 ******/
 CREATE DATABASE [Codecademy]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [Codecademy] SET QUERY_STORE = OFF
 GO
 USE [Codecademy]
 GO
-/****** Object:  Table [dbo].[Certificate]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Certificate]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +98,7 @@ CREATE TABLE [dbo].[Certificate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -112,7 +112,7 @@ CREATE TABLE [dbo].[Contact](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ContentItem]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[ContentItem]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -128,7 +128,7 @@ CREATE TABLE [dbo].[ContentItem](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -158,7 +158,7 @@ CREATE TABLE [dbo].[CourseRecommendation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Enrollment]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Enrollment]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,7 +174,7 @@ CREATE TABLE [dbo].[Enrollment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -184,7 +184,7 @@ CREATE TABLE [dbo].[Module](
 	[CourseName] [nvarchar](225) NULL,
 	[Title] [nvarchar](225) NOT NULL,
 	[Version] [int] NOT NULL,
-	[OrderNumber] [int] NOT NULL,
+	[PositionInCourse] [int] NOT NULL,
 	[ContactEmail] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_Module] PRIMARY KEY CLUSTERED 
 (
@@ -192,7 +192,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Organization]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Organization]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +205,7 @@ CREATE TABLE [dbo].[Organization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Progress]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Progress]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -221,7 +221,7 @@ CREATE TABLE [dbo].[Progress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Speaker]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Speaker]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -235,7 +235,7 @@ CREATE TABLE [dbo].[Speaker](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +254,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Webcast]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Table [dbo].[Webcast]    Script Date: 28/12/2021 15:20:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -280,41 +280,37 @@ INSERT [dbo].[Contact] ([Email], [Name]) VALUES (N'herwinsaalmink@rhyta.com', N'
 GO
 SET IDENTITY_INSERT [dbo].[ContentItem] ON 
 GO
-INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (2, CAST(N'2020-12-19' AS Date), N'A course teaching you how to connect Java to SQL Server', N'ACTIVE')
+INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (2, CAST(N'2020-12-19' AS Date), N'Hello', N'CONCEPT')
 GO
 INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (4, CAST(N'2020-12-31' AS Date), N'A course teaching you how to download more RAM', N'CONCEPT')
 GO
-INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (5, CAST(N'2021-06-03' AS Date), N'A course teaching you how to to write Hello World in Java', N'ACTIVE')
+INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (5, CAST(N'2021-06-03' AS Date), N'system.out.println("Hello, World");', N'ARCHIVED')
 GO
 INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (7, CAST(N'2004-07-29' AS Date), N'An introduction to JavaScript', N'ARCHIVED')
 GO
 INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (8, CAST(N'2021-01-31' AS Date), N'Printing Hello World in Assembly Language', N'ACTIVE')
 GO
-INSERT [dbo].[ContentItem] ([ContentID], [CreationDate], [Description], [Status]) VALUES (9, CAST(N'2020-02-29' AS Date), N'Avans intake course', N'ACTIVE')
-GO
 SET IDENTITY_INSERT [dbo].[ContentItem] OFF
 GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (2, NULL, N'JAVA SQL Connection', 1, 1, N'eduardrozeboom@teleworm.us')
+INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [PositionInCourse], [ContactEmail]) VALUES (2, NULL, N'JAVA SQL Connection', 1, 1, N'eduardrozeboom@teleworm.us')
 GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (4, NULL, N'How to Download more RAM', 4, 20, N'herwinsaalmink@rhyta.com')
+INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [PositionInCourse], [ContactEmail]) VALUES (4, NULL, N'How to Download more RAM', 4, 20, N'herwinsaalmink@rhyta.com')
 GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (5, NULL, N'Hello World in Java', 13, 37, N'eduardrozeboom@teleworm.us')
+INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [PositionInCourse], [ContactEmail]) VALUES (5, NULL, N'Hello World in Java', 13, 13, N'eduardrozeboom@teleworm.us')
 GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (7, NULL, N'Intro JavaScript', 2, 5, N'henk@politiekatwijk.com')
+INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [PositionInCourse], [ContactEmail]) VALUES (7, NULL, N'Intro JavaScript', 2, 5, N'henk@politiekatwijk.com')
 GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (8, NULL, N'Hello World in Assembly', 6, 242, N'herwinsaalmink@rhyta.com')
-GO
-INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [OrderNumber], [ContactEmail]) VALUES (9, NULL, N'Avans Intake', 42, 5425, N'henk@politiekatwijk.com')
+INSERT [dbo].[Module] ([ContentID], [CourseName], [Title], [Version], [PositionInCourse], [ContactEmail]) VALUES (8, NULL, N'Hello World in Assembly', 6, 242, N'herwinsaalmink@rhyta.com')
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CourseRecommendation]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Index [IX_CourseRecommendation]    Script Date: 28/12/2021 15:20:40 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecommendation]
 (
 	[CourseName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Enrollment]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Index [IX_Enrollment]    Script Date: 28/12/2021 15:20:40 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 (
 	[ID] ASC
@@ -322,7 +318,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_Title_Version]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Index [AK_Title_Version]    Script Date: 28/12/2021 15:20:40 ******/
 ALTER TABLE [dbo].[Module] ADD  CONSTRAINT [AK_Title_Version] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC,
@@ -331,7 +327,7 @@ ALTER TABLE [dbo].[Module] ADD  CONSTRAINT [AK_Title_Version] UNIQUE NONCLUSTERE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_Title]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Index [AK_Title]    Script Date: 28/12/2021 15:20:40 ******/
 ALTER TABLE [dbo].[Webcast] ADD  CONSTRAINT [AK_Title] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
@@ -339,7 +335,7 @@ ALTER TABLE [dbo].[Webcast] ADD  CONSTRAINT [AK_Title] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_URL]    Script Date: 28/12/2021 11:22:20 ******/
+/****** Object:  Index [AK_URL]    Script Date: 28/12/2021 15:20:40 ******/
 ALTER TABLE [dbo].[Webcast] ADD  CONSTRAINT [AK_URL] UNIQUE NONCLUSTERED 
 (
 	[URL] ASC
