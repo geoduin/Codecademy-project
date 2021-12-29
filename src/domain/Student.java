@@ -7,17 +7,23 @@ public class Student {
     private Gender gender;
     private String email;
     private LocalDate dateOfBirth;
-    private String addres;
+    private String street;
+    private int houseNumber;
+    private String postalCode;
     private String country;
     private String city;
 
-    public Student(String name, Gender gender, String email, LocalDate dateOfBirth, String addres, String country,
+    public Student(String name, Gender gender, String email, LocalDate dateOfBirth, String street, int houseNumber,
+            String postalCode,
+            String country,
             String city) {
         this.studentName = name;
         this.gender = gender;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
-        this.addres = addres;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
         this.country = country;
         this.city = city;
     }
@@ -26,8 +32,16 @@ public class Student {
         return studentName;
     }
 
-    public String getAddres() {
-        return addres;
+    public String getstreet() {
+        return street;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
     }
 
     public String getCity() {
@@ -50,8 +64,16 @@ public class Student {
         return gender;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setstreet(String street) {
+        this.street = street;
+    }
+
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public void setCity(String city) {
