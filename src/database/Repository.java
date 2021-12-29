@@ -12,19 +12,12 @@ public abstract class Repository<T> {
 
 
     
-    public void insert(T domainObject) {
+    abstract public void insert(T domainObject);
 
-    }
+    abstract public void update(T domainObject);
+    
 
-    public void update(T domainObject) {
+    abstract public void delete(T domainObject);
 
-    }
-
-    public void delete(T domainObject) {
-
-    }
-
-    public ArrayList<T> retrieve() {
-        return null;
-    }
+    abstract public ArrayList<T> retrieve();
 }
