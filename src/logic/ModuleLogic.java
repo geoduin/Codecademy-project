@@ -49,7 +49,7 @@ public class ModuleLogic {
         Module module = new Module(status, title, version, trackingNumber, description, contactName,
                 emailAddress);
         this.modules.add(module);
-        this.moduleRepo.insert((Object) module);
+        this.moduleRepo.insert(module);
 
     }
 
