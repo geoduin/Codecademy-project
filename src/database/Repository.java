@@ -1,7 +1,7 @@
 package database;
 import java.util.ArrayList;
 
-public abstract class Repository {
+public abstract class Repository<T> {
 
     DBConnection connection;
 
@@ -10,19 +10,21 @@ public abstract class Repository {
         this.connection = new DBConnection();
     }
 
-    public void insert(Object domainObject) {
+
+    
+    public void insert(T domainObject) {
 
     }
 
-    public void update(Object domainObject) {
+    public void update(T domainObject) {
 
     }
 
-    public void delete(Object domainObject) {
+    public void delete(T domainObject) {
 
     }
 
-    public ArrayList<Object> retrieve() {
+    public ArrayList<T> retrieve() {
         return null;
     }
 }
