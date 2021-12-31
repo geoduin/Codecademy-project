@@ -19,5 +19,14 @@ public class Webcast extends ContentItem{
         this.durationInMinutes = durationInMinutes;
         this.url = url;
     }
+
+    public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status) {
+        super(LocalDate.now(), status);
+        this.title = title;
+        this.speaker = speaker;
+        this.organization = organization;
+        this.durationInMinutes = durationInMinutes;
+        this.url = url;
+    }
     
 }
