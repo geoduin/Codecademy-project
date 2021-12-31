@@ -15,7 +15,6 @@ public abstract class Repository<T> {
     abstract public void insert(T domainObject);
 
     abstract public void update(T domainObject);
-    
 
     abstract public void delete(T domainObject);
 
