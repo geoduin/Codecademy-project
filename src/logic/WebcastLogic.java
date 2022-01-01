@@ -1,5 +1,6 @@
 package logic;
 import domain.Webcast;
+import javafx.scene.control.TextField;
 import domain.Status;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,10 +44,16 @@ public class WebcastLogic {
         Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description);
         this.repo.update(webcast);
     }
+
+    public void editURL(String initialURL, String newURL) {
+        this.repo.updateURL(initialURL, newURL);
+    }
     //result set will be empty if the title of a module is given
     public Webcast retrieveByTitle(String title) { 
         return this.repo.retrieveByTitle(title);
     }
+
+    
 
     
 }

@@ -87,27 +87,35 @@ public class WebcastRepository extends Repository<Webcast> {
 
         }
     }
-    //updates ContentItem (all changeable columns of webcast are located there in the database)
+    //updates ContentItem 
     @Override
     public void update(Webcast domainObject) {
         Connection connection = this.connection.getConnection();
 
         try {
 
-            PreparedStatement updateWebcast = connection.prepareStatement("UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
+            PreparedStatement updateContentItem = connection.prepareStatement("UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
 
-            updateWebcast.setString(1, domainObject.getTitle());
-            updateWebcast.setString(2, domainObject.getDescription());
-            updateWebcast.setString(3, domainObject.getStatus().toString());
-            updateWebcast.setInt(4, getIDFromURL(domainObject.getUrl()));
-            updateWebcast.executeUpdate();
-            
-            
+            updateContentItem.setString(1, domainObject.getTitle());
+            updateContentItem.setString(2, domainObject.getDescription());
+            updateContentItem.setString(3, domainObject.getStatus().toString()); 
+            updateContentItem.setInt(4, getIDFromURL(domainObject.getUrl())); 
+            updateContentItem.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public void updateURL(String initialURL, String newURL) { 
+        Connection connection = this.connection.getConnection();
+        try {
+            PreparedStatement updateURL = connection.prepareStatement("UPDATE Webcast SET URL = ? WHERE URL = ?");
+            updateURL.setString(1, newURL);
+            updateURL.setString(2, initialURL);
+            updateURL.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
