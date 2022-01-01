@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import domain.Webcast;
 
@@ -113,20 +114,46 @@ public class WebcastRepository extends Repository<Webcast> {
         try {
             PreparedStatement deleteWebcast = connection.prepareStatement("DELETE FROM ContentItem WHERE ContentID = ?");
             deleteWebcast.setInt(1, getIDFromURL(domainObject.getUrl()));
+            deleteWebcast.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
+    //not usefull for webcast
     @Override
     public ArrayList<Webcast> retrieve() {
         // TODO Auto-generated method stub
         return null;
     }
+
+    //returns a hashmap with the webcast URL as key and the webcast title as value.
+    public HashMap<String, String> getAllWebcastNames(){
+        HashMap<String, String> webcasts = new HashMap<>();
+
+        try {
+            Statement statement = this.connection.getConnection().createStatement();
+            ResultSet webcastResult = statement.executeQuery("SELECT Title, URL FROM Webcast JOIN ContentItem ON Webcast.ContentID = ContentItem.ContentID");
+            while(webcastResult.next()) {
+                String url = webcastResult.getString("URL");
+                String title = webcastResult.getString("Title");
+                webcasts.put(url, title);
+            }
+            return webcasts;
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
     
-    
-    public int getIDFromURL(String url) { 
+
+    private int getIDFromURL(String url) { 
         try {
             Connection connection = this.connection.getConnection();
             PreparedStatement getID = connection.prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?");
