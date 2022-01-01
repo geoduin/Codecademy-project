@@ -10,10 +10,10 @@ import domain.Course;
 public class CourseRepository extends Repository<Course> {
 
     @Override
-    public void insert(Course domainObject) {
-        String name = domainObject.getName();
-        String topic = domainObject.getTopic();
-        String difficulty = domainObject.getDifficulty().name();
+    public void insert(Course course) {
+        String name = course.getName();
+        String topic = course.getTopic();
+        String difficulty = course.getDifficulty().name();
 
         try {
             Statement statement = this.connection.getConnection().createStatement();
@@ -24,13 +24,13 @@ public class CourseRepository extends Repository<Course> {
     }
 
     @Override
-    public void update(Course domainObject) {
+    public void update(Course course) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void delete(Course domainObject) {
+    public void delete(Course course) {
         // TODO Auto-generated method stub
         
     }
