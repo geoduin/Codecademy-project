@@ -26,7 +26,16 @@
         "c:\\Users\\jefko\\AppData\\Local\\Programs\\MicrosoftVSCode\\fx\\lib\\javafx.media.jar",
         "c:\\Users\\jefko\\AppData\\Local\\Programs\\MicrosoftVSCode\\fx\\lib\\javafx.swing.jar",
         "c:\\Users\\jefko\\AppData\\Local\\Programs\\MicrosoftVSCode\\fx\\lib\\javafx.web.jar",
-        "c:\\Users\\jefko\\AppData\\Local\\Programs\\MicrosoftVSCode\\fx\\lib\\javafx-swt.jar"
+        "c:\\Users\\jefko\\AppData\\Local\\Programs\\MicrosoftVSCode\\fx\\lib\\javafx-swt.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.base.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.controls.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.fxml.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.graphics.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.media.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.swing.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.web.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx-swt.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JDBC Driver\\enu\\mssql-jdbc-9.4.1.jre11.jar"
     ],
     "java.project.sourcePaths": [
         "src"
