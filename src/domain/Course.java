@@ -9,15 +9,15 @@ import java.util.List;
 public class Course {
     private String name;
     private String topic;
-    private String discription;
+    private String description;
     private Difficulty difficulty;
     private List<Module> modules;
     private List<Course> recommendedCourses;
 
-    public Course(String name, String topic, String discription, Difficulty difficulty) {
+    public Course(String name, String topic, String description, Difficulty difficulty) {
         this.name = name;
         this.topic = topic;
-        this.discription = discription;
+        this.description = description;
         this.difficulty = difficulty;
         this.modules = new ArrayList<>();
         this.recommendedCourses = new ArrayList<>();
@@ -31,8 +31,8 @@ public class Course {
         return topic;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
     public Difficulty getDifficulty() {
@@ -59,8 +59,8 @@ public class Course {
         this.difficulty = difficulty;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDiscription(String description) {
+        this.description = description;
     }
 
     public void setName(String name) {
@@ -75,6 +75,6 @@ public class Course {
     public String toString() {
         // TODO Auto-generated method stub
         return String.format("Name: %s, Topic: %s, Discription: %s, Difficulty: %s\n%s\n \n%s\n  ", name, topic,
-                discription, this.difficulty, this.modules, this.recommendedCourses);
+                description, this.difficulty, this.modules, this.recommendedCourses);
     }
 }
