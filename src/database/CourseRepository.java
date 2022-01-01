@@ -58,5 +58,4 @@ public class CourseRepository extends Repository<Course> {
     public ArrayList<Course> retrieve() {
         return null;
     }
-
 }
