@@ -77,7 +77,34 @@ public class WebcastManageView extends View{
     public void editWebcastView(Webcast webcastToEdit) { 
         //Column 1
         GridPane view = generateFormGrid();
-       
+        Label titleLabel = new Label("Title");
+        TextField titleField = new TextField(webcastToEdit.getTitle());
+        Label descriptionLabel = new Label("Description");
+        TextArea descriptionArea = new TextArea(webcastToEdit.getDescription());
+        Label urlLabel = new Label("URL");
+        TextField urlField = new TextField(webcastToEdit.getUrl());
+        Label statusLabel = new Label("Status");
+        ComboBox<String> statusComboBox = new ComboBox<>();
+        statusComboBox.setValue(webcastToEdit.getStatus().toString());
+        statusComboBox.getItems().add("ACTIVE");
+        statusComboBox.getItems().add("CONCEPT");
+        statusComboBox.getItems().add("ARCHIVED");
+
+        //column 2
+        Button editButton = new Button("Save edit");
+
+
+
+        //layout
+        view.add(titleLabel, 0, 0);
+        view.add(titleField, 0, 1);
+        view.add(descriptionLabel, 0, 2);
+        view.add(descriptionArea, 0, 3);
+        view.add(urlLabel, 0, 4);
+        view.add(urlField, 0, 5);
+        view.add(statusLabel, 0, 6);
+        view.add(statusComboBox, 0, 7);
+        view.add(editButton, 1, 7);
         
 
         activate(view, "Add webcast");
