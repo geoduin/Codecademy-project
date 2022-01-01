@@ -10,7 +10,6 @@ public abstract class ContentItem {
     public ContentItem(LocalDate date, Status status) {
         this.publicationDate = date;
         this.status = status;
-        this.publicationDate = date;
     }
 
     public LocalDate getDate() {
