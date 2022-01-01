@@ -94,6 +94,7 @@ public class WebcastRepository extends Repository<Webcast> {
         try {
 
             PreparedStatement updateWebcast = connection.prepareStatement("UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
+
             updateWebcast.setString(1, domainObject.getTitle());
             updateWebcast.setString(2, domainObject.getDescription());
             updateWebcast.setString(3, domainObject.getStatus().toString());
@@ -129,7 +130,7 @@ public class WebcastRepository extends Repository<Webcast> {
     }
 
     //returns a hashmap with the webcast URL as key and the webcast title as value.
-    public HashMap<String, String> getAllWebcastNames(){
+    public HashMap<String, String> getAllWebcastNamesAndURL(){
         HashMap<String, String> webcasts = new HashMap<>();
 
         try {
