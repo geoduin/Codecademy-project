@@ -18,9 +18,8 @@ public class ModuleRepository extends Repository<Module> {
     }
 
     @Override
-    public void insert(Module domainObject) {
+    public void insert(Module module) {
 
-        Module module = domainObject;
         LocalDate date = module.getDate();
         Status status = module.getStatus();
         String title = module.getTitle();
@@ -75,10 +74,10 @@ public class ModuleRepository extends Repository<Module> {
 
     // Updates module in database
     @Override
-    public void update(Module domainObject) {
+    public void update(Module module) {
 
         // Collection of needed variables
-        Module module = domainObject;
+
         String description = module.getDescription();
         String status = module.getStatus().toString();
         int trackingNumber = module.getPositionWithinCourse();
@@ -115,8 +114,7 @@ public class ModuleRepository extends Repository<Module> {
     }
 
     @Override
-    public void delete(Module domainObject) {
-        Module module = domainObject;
+    public void delete(Module module) {
         try {
             String title = module.getTitle();
             int version = module.getVersion();

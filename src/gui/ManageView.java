@@ -25,10 +25,12 @@ public class ManageView extends View {
                 .setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
         Button moduleManageBtn = new Button("Module");
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-
+        Button studentManageBtn = new Button("Student");
+        studentManageBtn.setOnMouseClicked(clicked -> new StudentManageView(this.gui).createView());
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
         view.add(moduleManageBtn, 1, 0);
+        view.add(studentManageBtn, 2, 0);
         view.setPadding(new Insets(40, 0, 0, 0));
         view.setHgap(40);
 
