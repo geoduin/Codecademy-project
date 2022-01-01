@@ -47,6 +47,7 @@ public class WebcastManageView extends View{
 
         //second column
         //Will take you to add view
+        Label addStudent = new Label("Add webcast");
         Button addView = new Button("+");
 
 
@@ -55,17 +56,32 @@ public class WebcastManageView extends View{
         view.add(webcastComboBox, 0, 1);
         view.add(editView, 0, 2);
         view.add(deleteView, 0, 3);
+        view.add(addStudent, 1, 0);
         view.add(addView, 1, 1);
 
 
         //event handlers
+
+        //changes to edit view
         editView.setOnAction(clicked -> {
             if(webcastComboBox.getValue().equals(defaultWebcastValue)) {
-                view.add(new Label("Not selected anything"), 0, 5);
+                view.add(new Label("Please select a webcast"), 0, 5);
                 return;
             }else { 
                 String title = webcastComboBox.getValue();
                 editWebcastView(logic.retrieveByTitle(title));
+            }
+        });
+        //Deletes webcast
+        deleteView.setOnAction(clicked -> {
+            if(webcastComboBox.getValue().equals(defaultWebcastValue)) { 
+                view.add(new Label("Please select a webcast"), 0, 5);
+                return;
+            }else { 
+                this.logic.deleteWebcast(this.logic.retrieveByTitle(webcastComboBox.getValue()));
+                view.add(new Label("Deletion successfull"), 0, 5);
+                webcastComboBox.setValue(defaultWebcastValue);
+                return;
             }
         });
         
@@ -75,6 +91,9 @@ public class WebcastManageView extends View{
     }
     //String url, String title, String description, Status status
     public void editWebcastView(Webcast webcastToEdit) { 
+
+        //Saving original URL since URL is the being used to identify the webcast in the database, it has to be saved temporarily if you want to edit the URL.
+        String originalURL = webcastToEdit.getUrl();
         //Column 1
         GridPane view = generateFormGrid();
         Label titleLabel = new Label("Title");
@@ -105,6 +124,26 @@ public class WebcastManageView extends View{
         view.add(statusLabel, 0, 6);
         view.add(statusComboBox, 0, 7);
         view.add(editButton, 1, 7);
+
+        editButton.setOnAction(click -> {
+            //checking if all fields are filled
+            Boolean noFieldEmpty = true;
+            if(titleField.getText().isBlank()|| descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
+                noFieldEmpty = false;
+            }
+            if(noFieldEmpty) { 
+                //edditing the webcast
+                this.logic.editURL(originalURL, urlField.getText());
+                this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(), Status.valueOf(statusComboBox.getValue()));
+                Label successLabel = new Label("Success");
+                view.add(successLabel, 0, 8);
+                return;
+            }else{
+                Label fieldIsempty = new Label("No field may be empty");
+                view.add(fieldIsempty, 0, 8);
+                return;
+            }
+        });
         
 
         activate(view, "Add webcast");
@@ -112,6 +151,8 @@ public class WebcastManageView extends View{
 
 
     }
+
+
 
     
 }

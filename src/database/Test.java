@@ -15,9 +15,10 @@ public class Test {
        
         Webcast webcast = new Webcast("Not a rick roll", "Rick Astley", "PWL", 3, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", Status.ACTIVE, LocalDate.now(), "A perfectly normal webcast");
         WebcastRepository repo = new WebcastRepository();
-        //repo.insert(webcast);
-        Webcast test = repo.retrieveByTitle("Not a rick roll");
-        System.out.println(test.getTitle());
+        repo.insert(webcast);
+    
+        // Webcast test = repo.retrieveByTitle("Not a rick roll");
+        // System.out.println(test.getTitle());
 
       
         // logic.editWebcast("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "Test", "Test", Status.ARCHIVED);
