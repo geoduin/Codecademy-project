@@ -48,7 +48,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
             }
 
-            PreparedStatement contentItemInserter = connection.prepareStatement("INSERT INTO ContentItem VALUES(?, ?, ?, ?);");
+            PreparedStatement contentItemInserter = connection.prepareStatement("INSERT INTO ContentItem VALUES(?, ?, ?, ?)");
             // Setting prepared statement variables
             contentItemInserter.setString(1, domainObject.getTitle());
             contentItemInserter.setString(2, domainObject.getDescription());
@@ -85,16 +85,37 @@ public class WebcastRepository extends Repository<Webcast> {
 
         }
     }
-
+    //updates ContentItem (all changeable columns of webcast are located there in the database)
     @Override
     public void update(Webcast domainObject) {
-        // TODO Auto-generated method stub
+        Connection connection = this.connection.getConnection();
+
+        try {
+
+            PreparedStatement updateWebcast = connection.prepareStatement("UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
+            updateWebcast.setString(1, domainObject.getTitle());
+            updateWebcast.setString(2, domainObject.getDescription());
+            updateWebcast.setString(3, domainObject.getStatus().toString());
+            updateWebcast.setInt(4, getIDFromURL(domainObject.getUrl()));
+            updateWebcast.executeUpdate();
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     @Override
     public void delete(Webcast domainObject) {
-        // TODO Auto-generated method stub
+        Connection connection = this.connection.getConnection();
+        try {
+            PreparedStatement deleteWebcast = connection.prepareStatement("DELETE FROM ContentItem WHERE ContentID = ?");
+            deleteWebcast.setInt(1, getIDFromURL(domainObject.getUrl()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -102,6 +123,24 @@ public class WebcastRepository extends Repository<Webcast> {
     public ArrayList<Webcast> retrieve() {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    
+    public int getIDFromURL(String url) { 
+        try {
+            Connection connection = this.connection.getConnection();
+            PreparedStatement getID = connection.prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?");
+            getID.setString(1, url);
+            ResultSet idResult = getID.executeQuery();
+            int id = -1;
+            while(idResult.next()) {
+                id = idResult.getInt("ContentID");
+            }
+            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
 }
