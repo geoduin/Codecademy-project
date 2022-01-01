@@ -43,4 +43,10 @@ public class WebcastLogic {
         Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description);
         this.repo.update(webcast);
     }
+    //result set will be empty if the title of a module is given
+    public Webcast retrieveByTitle(String title) { 
+        return this.repo.retrieveByTitle(title);
+    }
+
+    
 }

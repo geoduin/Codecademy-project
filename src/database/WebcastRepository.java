@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Status;
 import domain.Webcast;
 
 public class WebcastRepository extends Repository<Webcast> {
@@ -127,6 +128,36 @@ public class WebcastRepository extends Repository<Webcast> {
     public ArrayList<Webcast> retrieve() {
         // TODO Auto-generated method stub
         return null;
+    }
+    //result set will be empty if the title of a module is given
+    public Webcast retrieveByTitle(String webcastTitle) { 
+        Connection connection = this.connection.getConnection();
+        //retrieves all values needed to create a webcast object based on the (unique) URL.
+        try {
+            PreparedStatement retrieveByTitle = connection.prepareStatement("SELECT Title, Webcast.SpeakerName, Speaker.OrganizationName, Duration, URL, Status, CreationDate, Description FROM Webcast JOIN ContentItem ON ContentItem.ContentID = Webcast.ContentID JOIN Speaker ON Webcast.SpeakerName = Speaker.Name WHERE Title = ?");
+            retrieveByTitle.setString(1, webcastTitle);
+            ResultSet result = retrieveByTitle.executeQuery();
+            while(result.next()) { 
+                String title = result.getString("Title");
+                String speaker = result.getString("SpeakerName");
+                String organization = result.getString("OrganizationName");
+                int durationInMinutes = result.getInt("Duration");
+                Status status = Status.valueOf(result.getString("Status"));
+                LocalDate date = LocalDate.parse(result.getString("CreationDate"));
+                String description = result.getString("Description");
+                String url = result.getString("URL");
+
+                Webcast webcast = new Webcast(title, speaker, organization, durationInMinutes, url, status, date, description);
+                return webcast;
+        }
+
+        return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        
     }
 
     //returns a hashmap with the webcast URL as key and the webcast title as value.

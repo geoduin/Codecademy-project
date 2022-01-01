@@ -3,10 +3,13 @@ package gui;
 import java.util.List;
 import java.util.Map;
 
+import domain.Status;
 import domain.Webcast;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import logic.WebcastLogic;
@@ -26,7 +29,7 @@ public class WebcastManageView extends View{
         GridPane view = generateGrid();
 
         //First column
-        final String defaultWebcastValue = "Select an organization";
+        final String defaultWebcastValue = "Select a webcast";
         Label selectStudent = new Label(defaultWebcastValue);
         ComboBox<String> webcastComboBox = new ComboBox<>();
         webcastComboBox.setValue(defaultWebcastValue);
@@ -59,8 +62,10 @@ public class WebcastManageView extends View{
         editView.setOnAction(clicked -> {
             if(webcastComboBox.getValue().equals(defaultWebcastValue)) {
                 view.add(new Label("Not selected anything"), 0, 5);
+                return;
             }else { 
-                
+                String title = webcastComboBox.getValue();
+                editWebcastView(logic.retrieveByTitle(title));
             }
         });
         
@@ -68,9 +73,17 @@ public class WebcastManageView extends View{
         
         
     }
-
+    //String url, String title, String description, Status status
     public void editWebcastView(Webcast webcastToEdit) { 
+        //Column 1
+        GridPane view = generateFormGrid();
+       
         
+
+        activate(view, "Add webcast");
+
+
+
     }
 
     
