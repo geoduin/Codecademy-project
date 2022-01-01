@@ -14,11 +14,12 @@ public class Test {
         //"A test", "Speaker", "Organization", 1, "www.webcast.nl", Status.CONCEPT, LocalDate.now(), "This is a test"
        
         Webcast webcast = new Webcast("Not a rick roll", "Rick Astley", "PWL", 3, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", Status.ACTIVE, LocalDate.now(), "A perfectly normal webcast");
-        WebcastLogic logic = new WebcastLogic();
-        // logic.createWebcast("Not a rick roll", "Rick Astley", "PWL", 3, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", "ACTIVE", "A perfectly normal webcast");
+        WebcastRepository repo = new WebcastRepository();
+        repo.insert(webcast);
+      
         // logic.editWebcast("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "Test", "Test", Status.ARCHIVED);
         // logic.editWebcast(url, title, description, status);
-        logic.deleteWebcast(webcast);
+        // logic.deleteWebcast(webcast);
 
 
         
