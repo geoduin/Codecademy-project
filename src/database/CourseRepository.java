@@ -120,4 +120,20 @@ public class CourseRepository extends Repository<Course> {
     public ArrayList<Course> retrieve() {
         return null;
     }
+
+    public void addRecommendedCourse(String courseName, String recommendedCourseName) {
+        try {
+            String sql = "INSERT INTO CourseRecommendation VALUES (?, ?)";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+            statement.setString(2, recommendedCourseName);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

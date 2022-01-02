@@ -44,4 +44,8 @@ public class CourseLogic {
         course.setDifficulty(difficulty);
         this.repository.update(course);
     }
+
+    public void setRecommendedCourse(String courseName, String recommendedCourseName) {
+        this.repository.addRecommendedCourse(courseName, recommendedCourseName);
+    }
 }
