@@ -14,7 +14,7 @@ abstract class View {
 
     // associating the gui so that its methods can be used to set the center of the
     // base layout
-    protected View(GUI gui) {
+    View(GUI gui) {
         this.gui = gui;
     }
 
