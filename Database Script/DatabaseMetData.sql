@@ -136,6 +136,7 @@ GO
 CREATE TABLE [dbo].[Course](
 	[CourseName] [nvarchar](225) NOT NULL,
 	[Subject] [nvarchar](255) NOT NULL,
+	[Description] [nvarchar](1024) NULL, 
 	[Difficulty] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED 
 (
@@ -379,8 +380,7 @@ ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Module_ContentItem]
 GO
 ALTER TABLE [dbo].[Module]  WITH CHECK ADD  CONSTRAINT [FK_Module_Course] FOREIGN KEY([CourseName])
 REFERENCES [dbo].[Course] ([CourseName])
-GO
-ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Module_Course]
+ON DELETE SET NULL
 GO
 ALTER TABLE [dbo].[Progress]  WITH CHECK ADD  CONSTRAINT [FK_Progress_ContentItem] FOREIGN KEY([ContentID])
 REFERENCES [dbo].[ContentItem] ([ContentID])

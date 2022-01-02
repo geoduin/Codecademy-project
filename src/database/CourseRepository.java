@@ -16,11 +16,6 @@ public class CourseRepository extends Repository<Course> {
         super();
     }
 
-    public static void main(String[] args) {
-        CourseRepository tesRepository = new CourseRepository();
-        tesRepository.insert(new Course("Henk Course", "Henken", "Even henken", Difficulty.HARD));
-    }
-
     // Insert individual course
     @Override
     public void insert(Course course) {
@@ -32,16 +27,34 @@ public class CourseRepository extends Repository<Course> {
             // Adding arguments to query based on the course instance
             preppedStatement.setString(1, course.getName());
             preppedStatement.setString(2, course.getTopic());
-            preppedStatement.setString(3, course.getDifficulty().toString());
-            preppedStatement.setString(4, course.getDescription());
+            preppedStatement.setString(3, course.getDescription());
+            preppedStatement.setString(4, course.getDifficulty().toString());
 
             // Executing
-            preppedStatement.executeQuery();
+            preppedStatement.executeUpdate();
             preppedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Course retrieveCourseByName(String courseName) {
+        Course returnValue = null;
+        try {
+            Statement statement = connection.getConnection()
+                    .createStatement();
+            ResultSet queryResult = statement
+                    .executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
+
+            if (queryResult.next()) {
+                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"),
+                        queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 
     @Override

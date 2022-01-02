@@ -43,9 +43,7 @@ public class ModuleManagementView extends View {
         Label selectLabel = new Label("Select an existing module");
         ComboBox<String> dropdown = new ComboBox<>();
         Button editBtn = new Button("Edit");
-
         Button deleteBtn = new Button("Delete");
-
         // porting the modules to the dropdown
         final String defaultDropdownValue = "-no module selected-";
         dropdown.setValue(defaultDropdownValue);
@@ -404,15 +402,5 @@ public class ModuleManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
         activate(view, "Successfully deleted");
-    }
-
-    // Method to help checking if input is empty
-    private boolean hasNoInput(TextField field) {
-        boolean hasNoInput = false;
-        if (field.getText().trim().equals("")) {
-            hasNoInput = true;
-        }
-        return hasNoInput;
-
     }
 }

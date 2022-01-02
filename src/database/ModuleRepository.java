@@ -35,7 +35,7 @@ public class ModuleRepository extends Repository<Module> {
             // Makes content item
             String contentItemQuery = "INSERT INTO ContentItem VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = this.connection.getConnection().prepareStatement(contentItemQuery);
-            
+
             preparedStatement.setString(1, date.toString());
             preparedStatement.setString(2, description);
             preparedStatement.setString(3, status.name());
@@ -45,7 +45,8 @@ public class ModuleRepository extends Repository<Module> {
 
             // retrieves the correct content ID
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
+            ResultSet result = statement
+                    .executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
             // Turns "result" into String value
             while (result.next()) {
                 contentID = result.getInt("ContentID");
@@ -53,7 +54,7 @@ public class ModuleRepository extends Repository<Module> {
             // Retrieves email from database
             String contactEmailQuery = "SELECT Email FROM Contact WHERE Email = '?'";
             preparedStatement = this.connection.getConnection().prepareStatement(contactEmailQuery);
-            
+
             preparedStatement.setString(1, email);
             result = preparedStatement.executeQuery();
             preparedStatement.close();
@@ -131,7 +132,7 @@ public class ModuleRepository extends Repository<Module> {
                 createContact(contactEmail, contactName);
             }
             // Gets correct content ID
-            String  contentIDQuery = "SELECT ContentID FROM Module WHERE Title = '?' AND Version = '?'";
+            String contentIDQuery = "SELECT ContentID FROM Module WHERE Title = '?' AND Version = '?'";
             preparedStatement = this.connection.getConnection().prepareStatement(contentIDQuery);
 
             preparedStatement.setString(1, title);
@@ -174,7 +175,8 @@ public class ModuleRepository extends Repository<Module> {
             String title = module.getTitle();
             int version = module.getVersion();
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = '" + version + "'");
+            ResultSet result = statement.executeQuery(
+                    "SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = '" + version + "'");
             System.out.println(result.toString());
             int contentID = 0;
             while (result.next()) {
@@ -225,11 +227,19 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    public HashMap<String, Integer> getAllModuleNames() {
+    // To showcase distinct modules by name and version, a map is returned that
+    // links the module ID to the version and title combination
+    public HashMap<String, Integer> getAllModuleNames(Boolean notAssignedToACourse) {
         try {
 
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT Title, Version ,ContentID FROM Module");
+            ResultSet resultSet;
+            if (notAssignedToACourse) {
+                resultSet = statement
+                        .executeQuery("SELECT Title, Version , ContentID FROM Module WHERE CourseName IS NULL");
+            } else {
+                resultSet = statement.executeQuery("SELECT Title, Version , ContentID FROM Module");
+            }
             HashMap<String, Integer> modules = new HashMap<>();
             while (resultSet.next()) {
                 String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
@@ -301,4 +311,20 @@ public class ModuleRepository extends Repository<Module> {
             return null;
         }
     }
+
+    // Method to link a module with a course
+    public void assignModuleToCourse(String courseName, int id) {
+        try {
+            String sql = "UPDATE Module SET CourseName = ? WHERE ContentID = ?";
+            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+            statement.setInt(2, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
