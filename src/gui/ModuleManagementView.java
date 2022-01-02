@@ -352,7 +352,7 @@ public class ModuleManagementView extends View {
         activate(view, "Edit module");
     }
 
-    // When a module is created, this method creates a view to give the user a
+    // When a module is edited, this method creates a view to give the user a
     // general menu
     private void moduleSuccessfullyEditedView() {
         GridPane view = generateGrid();

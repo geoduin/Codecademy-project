@@ -78,6 +78,20 @@ public class CourseRepository extends Repository<Course> {
 
     @Override
     public void update(Course course) {
+        try {
+            String sql = "UPDATE Course SET Subject = ?, Description = ?, Difficulty = ? WHERE CourseName = ?";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, course.getTopic());
+            statement.setString(2, course.getDescription());
+            statement.setString(3, course.getDifficulty().toString());
+            statement.setString(4, course.getName());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

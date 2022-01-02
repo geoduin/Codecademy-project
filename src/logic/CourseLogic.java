@@ -37,4 +37,11 @@ public class CourseLogic {
     public void deleteCourse(String courseName) {
         this.repository.delete(courseName);
     }
+
+    public void editCourse(String topic, String description, Difficulty difficulty, Course course) {
+        course.setTopic(topic);
+        course.setDescription(description);
+        course.setDifficulty(difficulty);
+        this.repository.update(course);
+    }
 }

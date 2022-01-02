@@ -59,8 +59,12 @@ public class Course {
         this.difficulty = difficulty;
     }
 
-    public void setDiscription(String description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public void setName(String name) {
