@@ -249,6 +249,32 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
+    // An overloaded variant that gives the modules which are linked to a specific
+    // course
+    public HashMap<String, Integer> getAllModuleNames(String courseName) {
+        try {
+            String sql = "SELECT Title, Version , ContentID FROM Module WHERE CourseName = ?";
+            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+
+            ResultSet resultSet = statement
+                    .executeQuery();
+
+            HashMap<String, Integer> modules = new HashMap<>();
+            while (resultSet.next()) {
+                String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
+                modules.put(key, resultSet.getInt("ContentID"));
+            }
+
+            return modules;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Module retrieveModuleByID(int ID) {
         LocalDate date = null;
         Status status = null;
@@ -322,4 +348,16 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
+    // Method to unlink a module with a course
+    public void unassignModuleToCourse(int id) {
+        try {
+            String sql = "UPDATE Module SET CourseName = NULL WHERE ContentID = ?";
+            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
+
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

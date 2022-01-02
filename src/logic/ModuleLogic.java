@@ -36,6 +36,18 @@ public class ModuleLogic {
         return this.moduleRepo.getAllModuleNames(true);
     }
 
+    public void unlinkModuleWithCourse(int id) {
+        this.moduleRepo.unassignModuleToCourse(id);
+    }
+
+    public void linkModuleWithCourse(String courseName, int id) {
+        this.moduleRepo.assignModuleToCourse(courseName, id);
+    }
+
+    public HashMap<String, Integer> getModulesWithinCourse(String courseName) {
+        return this.moduleRepo.getAllModuleNames(courseName);
+    }
+
     public Module retrieveModuleByID(int id) {
         return this.moduleRepo.retrieveModuleByID(id);
     }

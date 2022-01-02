@@ -52,15 +52,15 @@ public class CourseManagementView extends View {
 
         // Options for user with existing course
         Button editBtn = new Button("Edit");
-        Button addModuleToCourseBtn = new Button("Add module");
-        Button deleteModuleFromCourseBtn = new Button("Delete module");
+        Button manageModulesBtn = new Button("Manage modules within courses");
         Button addRecommendedCourseBtn = new Button("Add recommended course");
         Button deleteBtn = new Button("Delete the course");
-        // Button logic
+        /** Button logic */
         // Delete course
+        final String errorMSG = "No Course selected!";
         deleteBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label("No Course selected!"), 0, 7);
+                view.add(new Label(errorMSG), 0, 6);
             } else {
                 this.logic.deleteCourse(dropdown.getValue());
                 successfullyDeletedView();
@@ -69,11 +69,20 @@ public class CourseManagementView extends View {
         // Edit course
         editBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label("No Course selected!"), 0, 7);
+                view.add(new Label(errorMSG), 0, 6);
             } else {
                 // getting the to-be-edited module
                 String courseToDelete = dropdown.getValue();
                 editModuleView(courseToDelete);
+            }
+        });
+        // Manage modules
+        manageModulesBtn.setOnMouseClicked(clicked -> {
+            if (dropdown.getValue().equals(defaultDropdownValue)) {
+                view.add(new Label(errorMSG), 0, 6);
+            } else {
+                String courseName = dropdown.getValue();
+                manageModulesWithinCourseView(courseName);
             }
         });
 
@@ -83,12 +92,88 @@ public class CourseManagementView extends View {
         view.add(selectLabel, 0, 0);
         view.add(dropdown, 0, 1);
         view.add(editBtn, 0, 2);
-        view.add(addModuleToCourseBtn, 0, 3);
-        view.add(deleteModuleFromCourseBtn, 0, 4);
-        view.add(addRecommendedCourseBtn, 0, 5);
-        view.add(deleteBtn, 0, 6);
+        view.add(manageModulesBtn, 0, 3);
+        view.add(addRecommendedCourseBtn, 0, 4);
+        view.add(deleteBtn, 0, 5);
 
         activate(view, "Course management");
+    }
+
+    // View in which a user can manage modules linked to a course
+    private void manageModulesWithinCourseView(String courseName) {
+        // Initial layout setup
+        GridPane view = generateFormGrid();
+
+        // form label
+        Label welcomeToFormLabel = new Label("Manage modules of course: " + courseName);
+        welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        view.add(welcomeToFormLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
+        GridPane.setMargin(welcomeToFormLabel, new Insets(20, 0, 20, 0));
+
+        // Dropdown with modules that are linked to the course
+        Label linkedModulesLabel = new Label("Existing modules within course:");
+        ComboBox<String> linkedModulesDropdown = new ComboBox<>();
+        Text noModuleSelectedError = new Text("");
+        noModuleSelectedError.setFill(Color.FIREBRICK);
+        // Retrieving formatted module strings and adding them to dropdown
+        HashMap<String, Integer> linkedModulesList = new ModuleLogic().getModulesWithinCourse(courseName);
+        for (String moduleNameAndVersion : linkedModulesList.keySet()) {
+            linkedModulesDropdown.getItems().add(moduleNameAndVersion);
+        }
+        // Giving the user the option to select nothing
+        linkedModulesDropdown.getItems().add("-");
+        linkedModulesDropdown.setValue("-");
+
+        // Delete linked module button and action
+        Button deleteLinkedModuleLabel = new Button("Unlink with course");
+        deleteLinkedModuleLabel.setOnMouseClicked(clicked -> {
+            if (linkedModulesDropdown.getValue().equals("-")) {
+                noModuleSelectedError.setText("No module selected!");
+            } else {
+                new ModuleLogic()
+                        .unlinkModuleWithCourse(linkedModulesList.get(linkedModulesDropdown.getValue()));
+                moduleManagementSuccessfulView();
+            }
+        });
+
+        // Dropdown with modules available for linking with a course
+        Label addModuleLabel = new Label("Add a module to course:");
+        ComboBox<String> modulesDropdown = new ComboBox<>();
+        Text noModuleSelectedError2 = new Text("");
+        noModuleSelectedError2.setFill(Color.FIREBRICK);
+        // Retrieving formatted module strings and adding them to dropdown
+        HashMap<String, Integer> moduleNameVersionAndIDPairs = new ModuleLogic().getAddableModules();
+        for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
+            modulesDropdown.getItems().add(moduleNameAndVersion);
+        }
+        // Giving the user the option to select nothing
+        modulesDropdown.getItems().add("-");
+        modulesDropdown.setValue("-");
+
+        Button addModuleButton = new Button("Add to course");
+        addModuleButton.setOnMouseClicked(clicked -> {
+            if (modulesDropdown.getValue().equals("-")) {
+                noModuleSelectedError2.setText("None selected!");
+            } else {
+                int moduleID = moduleNameVersionAndIDPairs.get(modulesDropdown.getValue());
+                new ModuleLogic().linkModuleWithCourse(courseName, moduleID);
+                moduleManagementSuccessfulView();
+            }
+        });
+        // Final view setup
+        view.add(linkedModulesLabel, 0, 1);
+        view.add(linkedModulesDropdown, 0, 2);
+        view.add(deleteLinkedModuleLabel, 0, 3);
+        view.add(noModuleSelectedError, 0, 4);
+
+        view.add(addModuleLabel, 0, 5);
+        view.add(modulesDropdown, 0, 6);
+        view.add(addModuleButton, 0, 7);
+        view.add(noModuleSelectedError2, 0, 8);
+
+        activate(view, "Manage modules within course");
+
     }
 
     // Creating a view for the user to create a new course
@@ -203,8 +288,8 @@ public class CourseManagementView extends View {
 
     }
 
-    // Creating a view for the user to edit a module
-    public void editModuleView(String courseName) {
+    // Creating a view for the user to edit a course
+    private void editModuleView(String courseName) {
         GridPane view = generateFormGrid();
         Course course = this.logic.retrieveCourse(courseName);
 
@@ -262,8 +347,8 @@ public class CourseManagementView extends View {
         activate(view, "Edit module");
     }
 
-    // When a module is edited, this method creates a view to give the user a
-    // general menu
+    // When a course is edited, this method creates a view to give the user a
+    // menu to edit another or go home
     private void courseSuccessfullyEditedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully Edited!");
@@ -280,7 +365,7 @@ public class CourseManagementView extends View {
     }
 
     // When a course is created, this method creates a view to give the user a
-    // general menu
+    // menu to create another or go hom
     private void courseSuccessfullyCreatedView() {
 
         GridPane view = generateGrid();
@@ -299,8 +384,26 @@ public class CourseManagementView extends View {
 
     }
 
+    // When a module is successfully added or delete from a course, user gets a menu
+    // to do it again or go home
+    private void moduleManagementSuccessfulView() {
+        GridPane view = generateGrid();
+        Label label = new Label("Done!");
+        Button homeBtn = new Button("Go home");
+        Button goBackBtn = new Button("Go back");
+
+        view.add(label, 1, 0);
+        view.add(homeBtn, 0, 1);
+        view.add(goBackBtn, 2, 1);
+
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        goBackBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
+
+        activate(view, "Module management aftermath");
+    }
+
     // When a course is deleted, this method creates a view to give the user a
-    // general menu
+    // menu to delete another or go home
     private void successfullyDeletedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully deleted!");

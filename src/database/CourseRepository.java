@@ -40,6 +40,7 @@ public class CourseRepository extends Repository<Course> {
         }
     }
 
+    // For every existing Course record, return its name within a list.
     public ArrayList<String> retrieveAllCourseNames() {
         ArrayList<String> courseNames = new ArrayList<>();
 
@@ -58,6 +59,7 @@ public class CourseRepository extends Repository<Course> {
         return courseNames;
     }
 
+    // Instantiate a individual course by name (name is the primary key)
     public Course retrieveCourseByName(String courseName) {
         Course returnValue = null;
         try {
@@ -100,6 +102,7 @@ public class CourseRepository extends Repository<Course> {
 
     }
 
+    // Delete a course, using its primary key (name)
     public void delete(String courseName) {
         try {
             String sql = "DELETE FROM Course WHERE CourseName = ?";
