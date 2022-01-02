@@ -20,10 +20,10 @@ import logic.CourseLogic;
 import logic.ModuleLogic;
 
 //Class responsible for all the views that are related to the management of courses
-public class CourseManagementView extends View {
+class CourseManagementView extends View {
     private CourseLogic logic;
 
-    public CourseManagementView(GUI baseUI) {
+    CourseManagementView(GUI baseUI) {
         super(baseUI);
         this.logic = new CourseLogic();
     }
@@ -31,7 +31,7 @@ public class CourseManagementView extends View {
     // The following method creates the first view that the user sees when going
     // into course management
     @Override
-    public void createView() {
+    protected void createView() {
         // Initial layout setup
         GridPane view = generateGrid();
 
@@ -444,7 +444,8 @@ public class CourseManagementView extends View {
 
     }
 
-    // Variant of a general menu after an action has been done
+    // Variant of a general menu that shows after a course recommendation has been
+    // added or a module within a course has been deleted/added
     private void genericAftermathView() {
         GridPane view = generateGrid();
         Label label = new Label("Done!");

@@ -9,12 +9,12 @@ import javafx.scene.layout.GridPane;
 
 //  Class to standardize every view that will sit inside the center of the base
 //  layout in the GUI class
-public abstract class View {
+abstract class View {
     protected GUI gui;
 
     // associating the gui so that its methods can be used to set the center of the
     // base layout
-    protected View(GUI gui) {
+    View(GUI gui) {
         this.gui = gui;
     }
 
@@ -32,7 +32,7 @@ public abstract class View {
     }
 
     // Method responsible for the layout setup of the add and edit module view
-    public GridPane generateFormGrid() {
+    protected GridPane generateFormGrid() {
         GridPane grid = new GridPane();
 
         ColumnConstraints col1 = new ColumnConstraints();
@@ -65,11 +65,11 @@ public abstract class View {
 
     // every view needs to create a parent type that can sit in the center of the
     // base layout
-    public abstract void createView();
+    protected abstract void createView();
 
     // method to add any type of view to the center of the main base layout + giving
     // the window a new title
-    public void activate(Parent view, String windowTitle) {
+    protected void activate(Parent view, String windowTitle) {
         this.gui.goToNext(view, windowTitle);
     }
 
