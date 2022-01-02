@@ -47,7 +47,7 @@ public class WebcastManageView extends View{
 
         //second column
         //Will take you to add view
-        Label addStudent = new Label("Add webcast");
+        Label addWebcast = new Label("Add webcast");
         Button addView = new Button("+");
 
 
@@ -56,7 +56,7 @@ public class WebcastManageView extends View{
         view.add(webcastComboBox, 0, 1);
         view.add(editView, 0, 2);
         view.add(deleteView, 0, 3);
-        view.add(addStudent, 1, 0);
+        view.add(addWebcast, 1, 0);
         view.add(addView, 1, 1);
 
 
@@ -83,9 +83,16 @@ public class WebcastManageView extends View{
                 webcastComboBox.setValue(defaultWebcastValue);
                 return;
             }
+
+
+        });
+
+        //opens add webcast view
+        addView.setOnAction(clicked -> {
+            addWebcastView();
         });
         
-        activate(view, "Student management view");
+        activate(view, "Webcast management view");
         
         
     }
@@ -146,11 +153,96 @@ public class WebcastManageView extends View{
         });
         
 
-        activate(view, "Add webcast");
+        activate(view, "Edit webcast");
+
 
 
 
     }
+
+    public void addWebcastView(){
+        GridPane view = generateFormGrid();
+        final String defaultStatusValue = "Select value";
+
+        //column 1
+        Label titleLabel = new Label("Title");
+        TextField titleTextField = new TextField();
+
+        Label descriptionLabel = new Label("Description");
+        TextArea descriptionArea = new TextArea();
+
+        Label durationInMinutesLabel = new Label("Duration (in minutes)");
+        TextField durationTextField = new TextField();
+       
+        Label speakerLabel = new Label("Speaker");
+        TextField speakerTextField = new TextField();
+       
+        Label organizationLabel = new Label("Organization");
+        TextField organizationField = new TextField();
+
+        Label urlLabel = new Label("URL");
+        TextField urlTextField = new TextField();
+        
+        Label statusLabel = new Label("Status");
+        ComboBox<String> statusComboBox = new ComboBox<>();
+        statusComboBox.setValue(defaultStatusValue);
+        statusComboBox.getItems().add("ACTIVE");
+        statusComboBox.getItems().add("CONCEPT");
+        statusComboBox.getItems().add("ARCHIVED");
+
+        
+        //column 2
+        Button saveButton = new Button("Save");
+
+        
+        //Layout
+        view.add(titleLabel, 0, 0);
+        view.add(titleTextField, 0, 1);
+        view.add(descriptionLabel, 0, 2);
+        view.add(descriptionArea, 0, 3);
+        view.add(durationInMinutesLabel, 0, 4);
+        view.add(durationTextField, 0, 5);
+        view.add(speakerLabel, 0, 6);
+        view.add(speakerTextField, 0, 7);
+        view.add(organizationLabel, 0, 8);
+        view.add(organizationField, 0, 9);
+        view.add(urlLabel, 0, 10);
+        view.add(urlTextField, 0, 11);
+        view.add(statusLabel, 0, 12);
+        view.add(statusComboBox, 0, 13);
+        view.add(saveButton, 1, 13);
+
+        activate(view, "Add Webcast");
+
+        //Event handler
+
+        saveButton.setOnAction(clicked -> {
+            boolean allFieldsFilled = true;
+            if(titleTextField.getText().isBlank() || descriptionArea.getText().isBlank() || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank() || organizationField.getText().isBlank() || urlTextField.getText().isBlank() || statusComboBox.getValue().equals(defaultStatusValue)) {
+                allFieldsFilled = false;
+                view.add(new Label("All fields must be filled"), 0, 14);
+                return;
+            } else { 
+                int duration = Integer.valueOf(durationTextField.getText());
+                this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(), organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(), descriptionArea.getText());
+                view.add(new Label("Success"), 0, 14);
+            }
+
+
+        });
+
+    
+
+
+
+
+
+
+
+
+    }
+
+
 
 
 
