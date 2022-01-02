@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import domain.Course;
@@ -85,6 +86,15 @@ public class CourseManagementView extends View {
                 manageModulesWithinCourseView(courseName);
             }
         });
+        // Recommended course
+        addRecommendedCourseBtn.setOnMouseClicked(clicked -> {
+            if (dropdown.getValue().equals(defaultDropdownValue)) {
+                view.add(new Label(errorMSG), 0, 6);
+            } else {
+                String courseName = dropdown.getValue();
+                addRecommendedCourseView(courseName);
+            }
+        });
 
         // Futher layout setup
         view.add(createLabel, 1, 0);
@@ -97,6 +107,56 @@ public class CourseManagementView extends View {
         view.add(deleteBtn, 0, 5);
 
         activate(view, "Course management");
+    }
+
+    private void addRecommendedCourseView(String courseName) {
+        // Initial layout setup
+        GridPane view = generateFormGrid();
+
+        // form label
+        Label welcomeToFormLabel = new Label("Add recommended course to course: " + courseName);
+        welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        view.add(welcomeToFormLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
+        GridPane.setMargin(welcomeToFormLabel, new Insets(20, 0, 20, 0));
+
+        // Dropdown with all courses
+        Label courseDropdownLabel = new Label("Courses:");
+        ComboBox<String> courseDropdown = new ComboBox<>();
+        Text noCourseSelectedError = new Text("");
+        noCourseSelectedError.setFill(Color.FIREBRICK);
+        // Retrieving formatted module strings and adding them to dropdown
+        ArrayList<String> courseNames = this.logic.retrieveCourseNames();
+        for (String name : courseNames) {
+            if (name.equals(courseName)) {
+                continue;
+            }
+
+            courseDropdown.getItems().add(name);
+        }
+
+        // Button to set selection as recommended
+        Button setRecommendedBtn = new Button("Add as recommended course");
+        setRecommendedBtn.setOnMouseClicked(clicked -> {
+            if (courseDropdown.getValue().equals("-")) {
+                noCourseSelectedError.setText("No course selected!");
+            } else {
+                this.logic.setRecommendedCourse(courseName, courseDropdown.getValue());
+                genericAftermathView();
+            }
+        });
+
+        // Giving the user the option to select nothing
+        courseDropdown.getItems().add("-");
+        courseDropdown.setValue("-");
+
+        view.add(courseDropdownLabel, 0, 1);
+        view.add(courseDropdown, 0, 2);
+        view.add(setRecommendedBtn, 0, 3);
+        view.add(noCourseSelectedError, 0, 4);
+
+        activate(view, "Add course recommendation");
+
     }
 
     // View in which a user can manage modules linked to a course
@@ -126,14 +186,14 @@ public class CourseManagementView extends View {
         linkedModulesDropdown.setValue("-");
 
         // Delete linked module button and action
-        Button deleteLinkedModuleLabel = new Button("Unlink with course");
-        deleteLinkedModuleLabel.setOnMouseClicked(clicked -> {
+        Button deleteLinkedModuleBtn = new Button("Unlink with course");
+        deleteLinkedModuleBtn.setOnMouseClicked(clicked -> {
             if (linkedModulesDropdown.getValue().equals("-")) {
                 noModuleSelectedError.setText("No module selected!");
             } else {
                 new ModuleLogic()
                         .unlinkModuleWithCourse(linkedModulesList.get(linkedModulesDropdown.getValue()));
-                moduleManagementSuccessfulView();
+                genericAftermathView();
             }
         });
 
@@ -158,13 +218,13 @@ public class CourseManagementView extends View {
             } else {
                 int moduleID = moduleNameVersionAndIDPairs.get(modulesDropdown.getValue());
                 new ModuleLogic().linkModuleWithCourse(courseName, moduleID);
-                moduleManagementSuccessfulView();
+                genericAftermathView();
             }
         });
         // Final view setup
         view.add(linkedModulesLabel, 0, 1);
         view.add(linkedModulesDropdown, 0, 2);
-        view.add(deleteLinkedModuleLabel, 0, 3);
+        view.add(deleteLinkedModuleBtn, 0, 3);
         view.add(noModuleSelectedError, 0, 4);
 
         view.add(addModuleLabel, 0, 5);
@@ -384,9 +444,8 @@ public class CourseManagementView extends View {
 
     }
 
-    // When a module is successfully added or delete from a course, user gets a menu
-    // to do it again or go home
-    private void moduleManagementSuccessfulView() {
+    // Variant of a general menu after an action has been done
+    private void genericAftermathView() {
         GridPane view = generateGrid();
         Label label = new Label("Done!");
         Button homeBtn = new Button("Go home");
@@ -399,7 +458,7 @@ public class CourseManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         goBackBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
 
-        activate(view, "Module management aftermath");
+        activate(view, "Aftermath");
     }
 
     // When a course is deleted, this method creates a view to give the user a
