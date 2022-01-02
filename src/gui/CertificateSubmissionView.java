@@ -29,4 +29,18 @@ public class CertificateSubmissionView extends View {
         hbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
         view.add(hbox, 0, 0);
     }
+
+    public void certificateSuccesfullyAdded() {
+        GridPane view = generateGrid();
+
+        Label label = new Label("Succesfully added certificate!");
+        Button homeBtn = new Button("Home");
+        Button addAnotherCertificateBtn = new Button("Add");
+
+        view.add(label, 1, 0);
+        view.add(homeBtn, 0, 1);
+        view.add(addAnotherCertificateBtn, 2, 1);
+
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+    }
 }
