@@ -2,7 +2,6 @@ package database;
 
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.lang.Thread.State;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -120,31 +119,29 @@ public class ModuleRepository extends Repository<Module> {
         try {
             // Checks if contact with provided email exists, if not: creates new contact
             // with provided email
-            String contactEmailQuery = "SELECT Email FROM Contact WHERE Email = '?'";
+            String contactEmailQuery = "SELECT Email FROM Contact WHERE Email = ?";
             PreparedStatement preparedStatement = this.connection.getConnection().prepareStatement(contactEmailQuery);
 
             preparedStatement.setString(1, contactEmail);
 
             ResultSet result = preparedStatement.executeQuery();
-            preparedStatement.close();
             if (result.next() == false) {
                 // Creates contact
                 createContact(contactEmail, contactName);
             }
             // Gets correct content ID
-            String contentIDQuery = "SELECT ContentID FROM Module WHERE Title = '?' AND Version = '?'";
+            String contentIDQuery = "SELECT ContentID FROM Module WHERE Title = ? AND Version = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(contentIDQuery);
 
             preparedStatement.setString(1, title);
             preparedStatement.setInt(2, version);
 
             result = preparedStatement.executeQuery();
-            preparedStatement.close();
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
             // Updates the relevant tables in the database
-            String updateQuery = "UPDATE ContentItem SET Description = '?', Status = '?', WHERE ContentID = '?'";
+            String updateQuery = "UPDATE ContentItem SET Description = ?, Status = ? WHERE ContentID = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(updateQuery);
 
             preparedStatement.setString(1, description);
@@ -152,9 +149,8 @@ public class ModuleRepository extends Repository<Module> {
             preparedStatement.setInt(3, contentID);
 
             preparedStatement.executeUpdate();
-            preparedStatement.close();
 
-            String updateQuery2 = "UPDATE Module SET ContactEmail = '?', PositionInCourse = '?', HERE ContentID = '?'";
+            String updateQuery2 = "UPDATE Module SET ContactEmail = ?, PositionInCourse = ? WHERE ContentID = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(updateQuery2);
 
             preparedStatement.setString(1, contactEmail);
@@ -303,9 +299,8 @@ public class ModuleRepository extends Repository<Module> {
                 return null;
             }
 
-            Module module = new Module(date, status, title, version, positionWithinCourse, description, contactName,
+            return new Module(date, status, title, version, positionWithinCourse, description, contactName,
                     emailAddress);
-            return module;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
