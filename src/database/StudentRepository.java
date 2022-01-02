@@ -1,6 +1,7 @@
 package database;
 
 import java.lang.Thread.State;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,24 +17,23 @@ public class StudentRepository extends Repository<Student> {
 
     @Override
     public void insert(Student student) {
-        // TODO Auto-generated method stub
-        String studentEmail = student.getEmail();
-        String studentName = student.getStudentName();
-        LocalDate dateOfBirth = student.getDateOfBirth();
-        Gender gender = student.getGender();
-        String street = student.getstreet();
-        String city = student.getCity();
-        String country = student.getCountry();
-        int houseNr = student.getHouseNumber();
-        String postalCode = student.getPostalCode();
-
         try {
             // Format tabel student is email, name, date of birth, gender, street, city,
             // country, housenumber and postalcode
-            Statement statement = this.connection.getConnection().createStatement();
-            statement.executeUpdate("INSERT INTO Student VALUES('" + studentEmail + "','" + studentName + "', '"
-                    + dateOfBirth + "','" + gender + "','" + street + "','" + city + "','" + country + "', " + houseNr
-                    + ", '" + postalCode + "')");
+            String getStudentInfo = "INSERT INTO Student VALUES( ?, ? , ? , ?, ?, ? ,? ,? ,?)";
+            PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(getStudentInfo);
+            prepStatement.setString(1, student.getEmail());
+            prepStatement.setString(2, student.getStudentName());
+            prepStatement.setString(3, student.getDateOfBirth().toString());
+            prepStatement.setString(4, student.getGender().toString());
+            prepStatement.setString(5, student.getstreet());
+            prepStatement.setString(6, student.getCity());
+            prepStatement.setString(7, student.getCountry());
+            prepStatement.setInt(8, student.getHouseNumber());
+            prepStatement.setString(9, student.getPostalCode());
+
+            prepStatement.executeUpdate();
+            prepStatement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,22 +41,22 @@ public class StudentRepository extends Repository<Student> {
 
     @Override
     public void update(Student student) {
-        // TODO Auto-generated method stub
-        String studentEmail = student.getEmail();
-        String studentName = student.getStudentName();
-        LocalDate dateOfBirth = student.getDateOfBirth();
-        Gender gender = student.getGender();
-        String street = student.getstreet();
-        String city = student.getCity();
-        String country = student.getCountry();
-        int houseNr = student.getHouseNumber();
-        String postalCode = student.getPostalCode();
+
         try {
-            Statement statement = this.connection.getConnection().createStatement();
-            statement.executeUpdate("UPDATE Student SET Name = '" + studentName + "', Birthdate = '" + dateOfBirth
-                    + "', Gender = '" + gender + "', Street ='" + street + "', City = '" + city + "', Country = '"
-                    + country + "', Housenumber = " + houseNr + ", Postalcode = '" + postalCode + "' WHERE Email = '"
-                    + studentEmail + "'");
+            String updateQuery = "Update Student SET Name = ? , Birthdate = ? , Gender = ? , Street = ? , City = ? , Country = ? , Housenumber = ? , Postalcode = ?  WHERE Email = ?";
+            PreparedStatement updateStatement = this.connection.getConnection().prepareStatement(updateQuery);
+            updateStatement.setString(1, student.getStudentName());
+            updateStatement.setString(2, student.getDateOfBirth().toString());
+            updateStatement.setString(3, student.getGender().toString());
+            updateStatement.setString(4, student.getstreet());
+            updateStatement.setString(5, student.getCity());
+            updateStatement.setString(6, student.getCountry());
+            updateStatement.setInt(7, student.getHouseNumber());
+            updateStatement.setString(8, student.getPostalCode());
+            updateStatement.setString(9, student.getEmail());
+
+            updateStatement.executeUpdate();
+            updateStatement.close();
 
         } catch (Exception e) {
             // TODO: handle exception
