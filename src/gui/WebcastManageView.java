@@ -1,8 +1,6 @@
 package gui;
 
 import java.util.List;
-import java.util.Map;
-
 import domain.Status;
 import domain.Webcast;
 import javafx.scene.control.Button;
@@ -217,7 +215,6 @@ public class WebcastManageView extends View{
         //Event handler
 
         saveButton.setOnAction(clicked -> {
-            boolean allFieldsFilled = true;
             if(titleTextField.getText().isBlank() || descriptionArea.getText().isBlank() || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank() || organizationField.getText().isBlank() || urlTextField.getText().isBlank() || statusComboBox.getValue().equals(defaultStatusValue)) {
                 allFieldsFilled = false;
                 view.add(new Label("All fields must be filled"), 0, 14);

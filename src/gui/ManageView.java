@@ -2,7 +2,6 @@ package gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 //Class responsible to give the user the choice to go into course or module management

@@ -1,8 +1,6 @@
 package logic;
 import domain.Webcast;
-import javafx.scene.control.TextField;
 import domain.Status;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
