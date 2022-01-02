@@ -21,17 +21,31 @@ public class ModuleLogic {
         this.moduleRepo = new ModuleRepository();
     }
 
-    // Fill the domain container lists with instances, retrieved and created in the
-    // repository's
-    private void retrieveData() {
-        this.modules = this.moduleRepo.retrieve().stream().filter(Module.class::isInstance)
-                .map(Module.class::cast).collect(Collectors.toList());
+    // Retrieve formatted strings representing each existing modules, coupled with
+    // their ID via a map
+    public HashMap<String, Integer> getModuleNamesVersionsAndIDs() {
+        // Argument set false, to not make the repo method filter the results.
+        return this.moduleRepo.getAllModuleNames(false);
     }
 
-    public HashMap<String, Integer> getModuleNamesVersionsAndIDs() {
+    // Addable module means a module that has no relation with a Course yet. Use
+    // same format as previous method
+    public HashMap<String, Integer> getAddableModules() {
+        // Argument set true, to not make the repo method filter the results to only
+        // modules that have no Course assigned.
+        return this.moduleRepo.getAllModuleNames(true);
+    }
 
-        HashMap<String, Integer> mapToReturn = this.moduleRepo.getAllModuleNames();
-        return mapToReturn;
+    public void unlinkModuleWithCourse(int id) {
+        this.moduleRepo.unassignModuleToCourse(id);
+    }
+
+    public void linkModuleWithCourse(String courseName, int id) {
+        this.moduleRepo.assignModuleToCourse(courseName, id);
+    }
+
+    public HashMap<String, Integer> getModulesWithinCourse(String courseName) {
+        return this.moduleRepo.getAllModuleNames(courseName);
     }
 
     public Module retrieveModuleByID(int id) {

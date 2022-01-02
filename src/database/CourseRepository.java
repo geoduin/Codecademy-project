@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
@@ -14,11 +15,6 @@ public class CourseRepository extends Repository<Course> {
 
     public CourseRepository() {
         super();
-    }
-
-    public static void main(String[] args) {
-        CourseRepository tesRepository = new CourseRepository();
-        tesRepository.insert(new Course("Henk Course", "Henken", "Even henken", Difficulty.HARD));
     }
 
     // Insert individual course
@@ -32,11 +28,11 @@ public class CourseRepository extends Repository<Course> {
             // Adding arguments to query based on the course instance
             preppedStatement.setString(1, course.getName());
             preppedStatement.setString(2, course.getTopic());
-            preppedStatement.setString(3, course.getDifficulty().toString());
-            preppedStatement.setString(4, course.getDescription());
+            preppedStatement.setString(3, course.getDescription());
+            preppedStatement.setString(4, course.getDifficulty().toString());
 
             // Executing
-            preppedStatement.executeQuery();
+            preppedStatement.executeUpdate();
             preppedStatement.close();
 
         } catch (SQLException e) {
@@ -44,8 +40,60 @@ public class CourseRepository extends Repository<Course> {
         }
     }
 
+    // For every existing Course record, return its name within a list.
+    public ArrayList<String> retrieveAllCourseNames() {
+        ArrayList<String> courseNames = new ArrayList<>();
+
+        try {
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet queryResult = statement.executeQuery("SELECT CourseName FROM Course");
+
+            while (queryResult.next()) {
+                courseNames.add(queryResult.getString("CourseName"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return courseNames;
+    }
+
+    // Instantiate a individual course by name (name is the primary key)
+    public Course retrieveCourseByName(String courseName) {
+        Course returnValue = null;
+        try {
+            Statement statement = connection.getConnection()
+                    .createStatement();
+            ResultSet queryResult = statement
+                    .executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
+
+            if (queryResult.next()) {
+                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"),
+                        queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
     @Override
     public void update(Course course) {
+        try {
+            String sql = "UPDATE Course SET Subject = ?, Description = ?, Difficulty = ? WHERE CourseName = ?";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, course.getTopic());
+            statement.setString(2, course.getDescription());
+            statement.setString(3, course.getDifficulty().toString());
+            statement.setString(4, course.getName());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -54,8 +102,38 @@ public class CourseRepository extends Repository<Course> {
 
     }
 
+    // Delete a course, using its primary key (name)
+    public void delete(String courseName) {
+        try {
+            String sql = "DELETE FROM Course WHERE CourseName = ?";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public ArrayList<Course> retrieve() {
         return null;
+    }
+
+    public void addRecommendedCourse(String courseName, String recommendedCourseName) {
+        try {
+            String sql = "INSERT INTO CourseRecommendation VALUES (?, ?)";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+            statement.setString(2, recommendedCourseName);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

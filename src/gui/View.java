@@ -3,6 +3,7 @@ package gui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
@@ -49,6 +50,16 @@ public abstract class View {
         grid.setHgap(30);
 
         return grid;
+
+    }
+
+    // Method to help checking if input is empty
+    protected boolean hasNoInput(TextField field) {
+        boolean hasNoInput = false;
+        if (field.getText().trim().equals("")) {
+            hasNoInput = true;
+        }
+        return hasNoInput;
 
     }
 
