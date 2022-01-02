@@ -67,7 +67,7 @@ public class ModuleManagementView extends View {
 
         // Delete button action, retrieving the selected module to delete
         deleteBtn.setOnMouseClicked(clicked -> {
-            if (dropdown.getValue().equals("-no module selected-")) {
+            if (dropdown.getValue().equals(defaultDropdownValue)) {
                 view.add(new Label("No module selected!"), 0, 4);
             } else {
                 // called method deletes module + sends a true if succesfull

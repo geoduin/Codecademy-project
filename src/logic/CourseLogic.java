@@ -21,6 +21,10 @@ public class CourseLogic {
 
     }
 
+    public ArrayList<String> retrieveCourseNames() {
+        return this.repository.retrieveAllCourseNames();
+    }
+
     public void newCourse(String name, String topic, String description, Difficulty difficulty,
             int firstModuleOfCourseID) {
         Course course = new Course(name, topic, description, difficulty);
@@ -28,5 +32,9 @@ public class CourseLogic {
         this.repository.insert(course);
 
         new ModuleRepository().assignModuleToCourse(name, firstModuleOfCourseID);
+    }
+
+    public void deleteCourse(String courseName) {
+        this.repository.delete(courseName);
     }
 }

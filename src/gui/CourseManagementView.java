@@ -41,11 +41,29 @@ public class CourseManagementView extends View {
         // Dropdown showing existing courses
         Label selectLabel = new Label("Select an existing course");
         ComboBox<String> dropdown = new ComboBox<>();
+        final String defaultDropdownValue = "-no course selected-";
+        dropdown.setValue(defaultDropdownValue);
+        dropdown.getItems().add(defaultDropdownValue);
+        // Porting all the course names to the dropdown
+        for (String courseName : this.logic.retrieveCourseNames()) {
+            dropdown.getItems().add(courseName);
+        }
+
+        // Options for user with existing course
         Button editBtn = new Button("Edit");
         Button addModuleToCourseBtn = new Button("Add module");
         Button deleteModuleFromCourseBtn = new Button("Delete module");
         Button addRecommendedCourseBtn = new Button("Add recommended course");
-        Button deleteBtn = new Button("Delete");
+        Button deleteBtn = new Button("Delete the course");
+        // Button logic
+        deleteBtn.setOnMouseClicked(clicked -> {
+            if (dropdown.getValue().equals(defaultDropdownValue)) {
+                view.add(new Label("No Course selected!"), 0, 7);
+            } else {
+                this.logic.deleteCourse(dropdown.getValue());
+                successfullyDeletedView();
+            }
+        });
 
         // Futher layout setup
         view.add(createLabel, 1, 0);
@@ -191,5 +209,22 @@ public class CourseManagementView extends View {
 
         activate(view, "Successfully created!");
 
+    }
+
+    // When a course is deleted, this method creates a view to give the user a
+    // general menu
+    private void successfullyDeletedView() {
+        GridPane view = generateGrid();
+        Label label = new Label("Successfully deleted!");
+        Button homeBtn = new Button("Go home");
+        Button backBtn = new Button("Go back");
+
+        view.add(label, 1, 0);
+        view.add(homeBtn, 0, 1);
+        view.add(backBtn, 2, 1);
+
+        homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        backBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
+        activate(view, "Successfully deleted");
     }
 }

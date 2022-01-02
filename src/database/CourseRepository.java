@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
@@ -39,6 +40,24 @@ public class CourseRepository extends Repository<Course> {
         }
     }
 
+    public ArrayList<String> retrieveAllCourseNames() {
+        ArrayList<String> courseNames = new ArrayList<>();
+
+        try {
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet queryResult = statement.executeQuery("SELECT CourseName FROM Course");
+
+            while (queryResult.next()) {
+                courseNames.add(queryResult.getString("CourseName"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return courseNames;
+    }
+
     public Course retrieveCourseByName(String courseName) {
         Course returnValue = null;
         try {
@@ -65,6 +84,19 @@ public class CourseRepository extends Repository<Course> {
     @Override
     public void delete(Course course) {
 
+    }
+
+    public void delete(String courseName) {
+        try {
+            String sql = "DELETE FROM Course WHERE CourseName = ?";
+            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
+
+            statement.setString(1, courseName);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
