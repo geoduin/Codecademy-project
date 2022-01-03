@@ -19,10 +19,10 @@ import domain.Module;
 import domain.Status;
 
 //Class responsible for all the views that are related to the management of modules
-public class ModuleManagementView extends View {
+class ModuleManagementView extends View {
     private ModuleLogic logic;
 
-    public ModuleManagementView(GUI baseUI) {
+    ModuleManagementView(GUI baseUI) {
         super(baseUI);
         this.logic = new ModuleLogic();
     }
@@ -30,7 +30,7 @@ public class ModuleManagementView extends View {
     // The following method creates the first view that the user sees when going
     // into module management.
     @Override
-    public void createView() {
+    protected void createView() {
         // Initial layout setup
         GridPane view = generateGrid();
 
@@ -90,7 +90,7 @@ public class ModuleManagementView extends View {
     }
 
     // Creating a view for the user to create a new module
-    public void addModuleView() {
+    private void addModuleView() {
         // Initial layout setup
         GridPane view = generateFormGrid();
 
@@ -257,7 +257,7 @@ public class ModuleManagementView extends View {
     }
 
     // Creating a view for the user to edit a module
-    public void editModuleView(Module moduleToEdit) {
+    private void editModuleView(Module moduleToEdit) {
         GridPane view = generateFormGrid();
 
         // form label

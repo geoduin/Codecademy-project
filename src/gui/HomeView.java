@@ -7,14 +7,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 //Class is responsible for creating the first view of the application (home)
-public class HomeView extends View {
+class HomeView extends View {
 
-    public HomeView(GUI baseUI) {
+    HomeView(GUI baseUI) {
         super(baseUI);
     }
 
     @Override
-    public void createView() {
+    protected void createView() {
         // Initial layout setup
         GridPane view = generateGrid();
 

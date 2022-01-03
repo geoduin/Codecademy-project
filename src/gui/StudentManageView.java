@@ -14,17 +14,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
 
-public class StudentManageView extends View {
+class StudentManageView extends View {
     private StudentLogic studentLogic;
 
-    protected StudentManageView(GUI gui) {
+    StudentManageView(GUI gui) {
         super(gui);
         // TODO Auto-generated constructor stub
         this.studentLogic = new StudentLogic();
     }
 
     @Override
-    public void createView() {
+    protected void createView() {
 
         GridPane view = generateGrid();
 
@@ -91,7 +91,7 @@ public class StudentManageView extends View {
 
     }
 
-    public void addStudentView() {
+    private void addStudentView() {
         GridPane view = generateFormGrid();
         Label title = new Label("Create new student");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
@@ -218,7 +218,7 @@ public class StudentManageView extends View {
 
     }
 
-    public void editStudentView(Student studentToEdit) {
+    private void editStudentView(Student studentToEdit) {
         GridPane view = generateFormGrid();
         // In case we want to edit his email
         Label welcomeToFormLabel = new Label("Editing: '" + studentToEdit.getStudentName() + "'");
@@ -304,13 +304,13 @@ public class StudentManageView extends View {
         activate(view, "Edit student information");
     }
 
-    public void readAllStudentsView() {
+    private void readAllStudentsView() {
         GridPane view = generateGrid();
 
         activate(view, "All students");
     }
 
-    public void succesfullProcesView() {
+    private void succesfullProcesView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully processed");
         Button homeBtn = new Button("Home");
