@@ -144,7 +144,7 @@ public class ModuleRepository extends Repository<Module> {
 
             // Gets the ContentItem which is necessary to create a record in the Module
             // table
-            String contentIDQuery = "SELECT ContentID FROM Module WHERE Title = ? AND Version = ?";
+            String contentIDQuery = "SELECT m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE Title = ? AND Version = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(contentIDQuery);
 
             preparedStatement.setString(1, title);
@@ -188,7 +188,7 @@ public class ModuleRepository extends Repository<Module> {
             String title = module.getTitle();
             int version = module.getVersion();
 
-            String sql = "SELECT ContentID FROM Module WHERE Title = ? AND Version = ?";
+            String sql = "SELECT m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE Title = ? AND Version = ?";
             PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
             statement.setString(1, title);
             statement.setInt(2, version);
@@ -200,7 +200,7 @@ public class ModuleRepository extends Repository<Module> {
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
-            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
+            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = " + contentID);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,7 +211,7 @@ public class ModuleRepository extends Repository<Module> {
     public void delete(int id) {
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = " + id + "");
+            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = " + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -262,9 +262,11 @@ public class ModuleRepository extends Repository<Module> {
             // relation with a course yet
             if (Boolean.TRUE.equals(notAssignedToACourse)) {
                 resultSet = statement
-                        .executeQuery("SELECT Title, Version , ContentID FROM Module WHERE CourseName IS NULL");
+                        .executeQuery(
+                                "SELECT Title, Version , m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE CourseName IS NULL");
             } else {
-                resultSet = statement.executeQuery("SELECT Title, Version , ContentID FROM Module");
+                resultSet = statement.executeQuery(
+                        "SELECT Title, Version , m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID ");
             }
 
             /*
@@ -290,7 +292,7 @@ public class ModuleRepository extends Repository<Module> {
     // course
     public HashMap<String, Integer> getAllModuleNames(String courseName) {
         try {
-            String sql = "SELECT Title, Version , ContentID FROM Module WHERE CourseName = ?";
+            String sql = "SELECT Title, Version , m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE CourseName = ?";
             PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
             statement.setString(1, courseName);
 
@@ -300,7 +302,7 @@ public class ModuleRepository extends Repository<Module> {
             // Using the same map method as explained in the previous method
             HashMap<String, Integer> modules = new HashMap<>();
             while (resultSet.next()) {
-                String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
+                String key = resultSet.getString("Title") + " (Version: " + resultSet.getInt("Version") + ")";
                 modules.put(key, resultSet.getInt("ContentID"));
             }
             return modules;
