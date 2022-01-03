@@ -1,10 +1,9 @@
 package database;
 
-import java.lang.Thread.State;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,122 +13,170 @@ import domain.Gender;
 import domain.Student;
 
 public class StudentRepository extends Repository<Student> {
+    private Connection connect;
+
+    public StudentRepository() {
+        this.connect = this.connection.getConnection();
+    }
 
     @Override
     public void insert(Student student) {
-        try {
-            // Format tabel student is email, name, date of birth, gender, street, city,
-            // country, housenumber and postalcode
-            String getStudentInfo = "INSERT INTO Student VALUES( ?, ? , ? , ?, ?, ? ,? ,? ,?)";
-            PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(getStudentInfo);
+
+        String insertStudent = "INSERT INTO Student VALUES(?,?, ? ,?,?)";
+        int addresID = -1;
+        int i = getAddressID(student);
+        // If it exist, then it will asign the addressID to the student
+        if (i != -1) {
+            addresID = i;
+        } else {
+            // Else it will create another address and assign the AddressID
+            createAddress(student);
+            addresID = getAddressID(student);
+        }
+        // String insertIntoAddres = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
+        try (PreparedStatement prepStatement = connect.prepareStatement(insertStudent)) {
             prepStatement.setString(1, student.getEmail());
             prepStatement.setString(2, student.getStudentName());
-            prepStatement.setString(3, student.getDateOfBirth().toString());
+            prepStatement.setObject(3, student.getDateOfBirth());
             prepStatement.setString(4, student.getGender().toString());
-            prepStatement.setString(5, student.getstreet());
-            prepStatement.setString(6, student.getCity());
-            prepStatement.setString(7, student.getCountry());
-            prepStatement.setInt(8, student.getHouseNumber());
-            prepStatement.setString(9, student.getPostalCode());
-
+            prepStatement.setInt(5, addresID);
             prepStatement.executeUpdate();
-            prepStatement.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void createAddress(Student student) {
+        final String insertAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
+        try (PreparedStatement prepState = connect.prepareStatement(insertAddress)) {
+            prepState.setString(1, student.getstreet());
+            prepState.setInt(2, student.getHouseNumber());
+            prepState.setString(3, student.getCity());
+            prepState.setString(4, student.getCountry());
+            prepState.setString(5, student.getPostalCode());
+            prepState.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public int getAddressID(Student student) {
+        int id = -1;
+        String searchForAddressID = "SELECT TOP 1 AddressID FROM Address " +
+                "WHERE Street = ? AND HouseNumber = ? AND City = ? AND Country = ?" +
+                " AND PostalCode = ? ORDER BY AddressID ASC";
+        try (PreparedStatement statement = connect.prepareStatement(searchForAddressID)) {
+            statement.setString(1, student.getstreet());
+            statement.setInt(2, student.getHouseNumber());
+            statement.setString(3, student.getCity());
+            statement.setString(4, student.getCountry());
+            statement.setString(5, student.getPostalCode());
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                id = set.getInt("AddressID");
+            }
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
     @Override
     public void update(Student student) {
-
-        try {
-            String updateQuery = "Update Student SET Name = ? , Birthdate = ? , Gender = ? , Street = ? , City = ? , Country = ? , Housenumber = ? , Postalcode = ?  WHERE Email = ?";
-            PreparedStatement updateStatement = this.connection.getConnection().prepareStatement(updateQuery);
-            updateStatement.setString(1, student.getStudentName());
-            updateStatement.setString(2, student.getDateOfBirth().toString());
-            updateStatement.setString(3, student.getGender().toString());
-            updateStatement.setString(4, student.getstreet());
-            updateStatement.setString(5, student.getCity());
-            updateStatement.setString(6, student.getCountry());
-            updateStatement.setInt(7, student.getHouseNumber());
-            updateStatement.setString(8, student.getPostalCode());
-            updateStatement.setString(9, student.getEmail());
-
-            updateStatement.executeUpdate();
-            updateStatement.close();
-
+        // Will get the address ID
+        int addressID = getAddressID(student);
+        String updateQuery = "UPDATE Student SET Name = ?, Birthdate = ?, Gender = ?, AddressID = ? WHERE Email = ?";
+        try (PreparedStatement prepQuery = connect.prepareStatement(updateQuery)) {
+            if (addressID == -1) {
+                // In case the student changes address, the system will create a new address +
+                // id
+                createAddress(student);
+                addressID = getAddressID(student);
+            }
+            prepQuery.setString(1, student.getStudentName());
+            prepQuery.setObject(2, student.getDateOfBirth());
+            prepQuery.setString(3, student.getGender().toString());
+            prepQuery.setInt(4, addressID);
+            prepQuery.setString(5, student.getEmail());
+            prepQuery.executeUpdate();
+            deleteAddresWithoutResident();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
 
     @Override
     public void delete(Student student) {
-        // TODO Auto-generated method stub
-        try {
-            String email = student.getEmail();
-            Statement statement = this.connection.getConnection().createStatement();
-            statement.executeUpdate("DELETE FROM Student WHERE Email = '" + email + "'");
+        String deleteQuery = "DELETE FROM Student WHERE Email = ?";
+        try (PreparedStatement studentRemoval = connect.prepareStatement(deleteQuery)) {
+            studentRemoval.setString(1, student.getEmail());
+            studentRemoval.executeUpdate();
+            deleteAddresWithoutResident();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            System.out.println("Deleting student has failed");
+        }
+    }
+
+    public void deleteAddresWithoutResident() {
+        String deleteAddressQuery = "DELETE FROM Address WHERE NOT EXISTS (SELECT * FROM Student WHERE Student.AddressID = Address.AddressID)";
+        try (PreparedStatement deleteAddress = connect.prepareStatement(deleteAddressQuery)) {
+            deleteAddress.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public ArrayList<Student> retrieve() {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     public Map<String, String> retrieveNameByEmail() {
         Map<String, String> nameList = new HashMap<>();
-        try {
+        String retrieveQuery = "SELECT Name, Email FROM Student";
+        try (PreparedStatement retrieveStatement = connect.prepareStatement(retrieveQuery)) {
             int i = 1;
-            Statement statement = this.connection.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT Name, Email FROM Student");
-            while (resultSet.next()) {
-                String name = resultSet.getString("Name");
-                String email = resultSet.getString("Email");
-                nameList.put("(" + Integer.toString(i) + ") " + name, email);
+            ResultSet rS = retrieveStatement.executeQuery();
+            while (rS.next()) {
+                nameList.put("(" + Integer.toString(i) + ") " + rS.getString("Name"), rS.getString("Email"));
                 i++;
             }
 
             return nameList;
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error in retrieving data.");
-            return null;
+            return nameList;
         }
     }
 
-    public Student searchForStudent(String email) {
-        try {
-            Student student = null;
-            Statement state = this.connection.getConnection().createStatement();
-            ResultSet result = state.executeQuery("SELECT TOP 1 * FROM Student WHERE Email = '" + email + "'");
-            while (result.next()) {
-                String name = result.getString("Name");
-                String emailaddress = result.getString("Email");
-                Gender gender = Gender.valueOf(result.getString("Gender"));
-                LocalDate birthday = LocalDate.parse(result.getString("Birthdate"));
-                String street = result.getString("Street");
-                int houseNumber = Integer.parseInt(result.getString("Housenumber"));
-                String postalCode = result.getString("Postalcode");
-                String country = result.getString("Country");
-                String city = result.getString("City");
-
-                student = new Student(name, gender, emailaddress, birthday, street, houseNumber, postalCode, country,
-                        city);
+    public Student searchForForStudent(String email) {
+        Student student = null;
+        String studentQuery = "SELECT * FROM Student INNER JOIN Address ON Address.AddressID = Student.AddressID WHERE Email = ?";
+        try (PreparedStatement retrieveStudentByEmail = connect.prepareStatement(studentQuery)) {
+            // Email in question
+            retrieveStudentByEmail.setString(1, email);
+            // Executes query
+            ResultSet resultSet = retrieveStudentByEmail.executeQuery();
+            // resultset results
+            while (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                LocalDate dateOfBirth = LocalDate.parse(resultSet.getString("Birthdate"));
+                Gender gender = Gender.valueOf(resultSet.getString("Gender"));
+                String street = resultSet.getString("Street");
+                int houseNr = resultSet.getInt("HouseNumber");
+                String city = resultSet.getString("City");
+                String country = resultSet.getString("Country");
+                String postalCode = resultSet.getString("PostalCode");
+                student = new Student(name, gender, email, dateOfBirth, street, houseNr, postalCode, country, city);
             }
+            // Returns a student
             return student;
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            System.out.println("Retrieval failed");
-            return null;
+            return student;
         }
     }
 
