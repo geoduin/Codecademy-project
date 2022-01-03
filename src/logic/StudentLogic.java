@@ -62,13 +62,13 @@ public class StudentLogic {
     // This method receives the email string and sends it to the student repository
     // It will get the student back and sends it to the Student GUI
     public Student getStudentByEmail(String email) {
-        return this.studentRepo.searchForStudent(email);
+        return this.studentRepo.searchForForStudent(email);
     }
 
     // Based on the student email, it will search for the student, than it will
     // delete this student from the DB
     public void deleteStudentByEmail(String email) {
-        Student studentAboutToDelete = this.studentRepo.searchForStudent(email);
+        Student studentAboutToDelete = this.studentRepo.searchForForStudent(email);
         this.studentRepo.delete(studentAboutToDelete);
     }
 
