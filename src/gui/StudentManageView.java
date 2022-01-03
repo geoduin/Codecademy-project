@@ -111,7 +111,7 @@ public class StudentManageView extends View {
         TextField cityField = new TextField();
         // Dropdown / Radio buttons
 
-        // Togglegroup holds the values of M, F, O together
+        // Combobox holding genders
         ComboBox genderBox = new ComboBox<>();
         final String defaultChoice = "O";
         genderBox.getItems().addAll("O", "M", "F");
@@ -203,7 +203,6 @@ public class StudentManageView extends View {
             // NOTE: When tested, I changed my database in order put housenumber and street
             // seperately
             if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addresValid) {
-                System.out.println("Succesfull");
                 this.studentLogic.newStudent(nameField.getText(), emailField.getText(),
                         genderBox.getValue().toString(),
                         dayField.getText(), monthField.getText(), yearField.getText(),
