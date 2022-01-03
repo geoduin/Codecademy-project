@@ -15,12 +15,15 @@ public class ModuleRepository extends Repository<Module> {
 
     public ModuleRepository() {
         super();
-
     }
 
+    /*
+     * Insert a new module into the database, based of an instance of module as
+     * parameter
+     */
     @Override
     public void insert(Module module) {
-
+        // Collecting all required values into variables.
         LocalDate date = module.getDate();
         Status status = module.getStatus();
         String title = module.getTitle();
@@ -29,20 +32,29 @@ public class ModuleRepository extends Repository<Module> {
         String description = module.getDescription();
         String contactName = module.getContactName();
         String email = module.getEmailAddress();
+
+        /*
+         * ContentID (from the ContentItem table) needs to be used when inserting into
+         * the
+         * Module table. See relational model to overview the relationship
+         * between the two tables
+         */
         int contentID = 0;
+
         try {
-            // Makes content item
-            String contentItemQuery = "INSERT INTO ContentItem VALUES (?, ?, ?)";
-            PreparedStatement preparedStatement = this.connection.getConnection().prepareStatement(contentItemQuery);
+            // Creating the ContentItem part first
+            String contentItemQuery = "INSERT INTO ContentItem VALUES (?, ?, ?, ?)";
+            PreparedStatement contenItemStatement = this.connection.getConnection().prepareStatement(contentItemQuery);
 
-            preparedStatement.setString(1, date.toString());
-            preparedStatement.setString(2, description);
-            preparedStatement.setString(3, status.name());
+            // Query arguments
+            contenItemStatement.setString(1, title);
+            contenItemStatement.setString(2, description);
+            contenItemStatement.setString(3, date.toString());
+            contenItemStatement.setString(4, status.toString());
 
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
+            contenItemStatement.executeUpdate();
 
-            // retrieves the correct content ID
+            // Fetching the newly created ContentID to use in the Module table insert
             Statement statement = this.connection.getConnection().createStatement();
             ResultSet result = statement
                     .executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
@@ -50,42 +62,43 @@ public class ModuleRepository extends Repository<Module> {
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
-            // Retrieves email from database
-            String contactEmailQuery = "SELECT Email FROM Contact WHERE Email = '?'";
-            preparedStatement = this.connection.getConnection().prepareStatement(contactEmailQuery);
 
-            preparedStatement.setString(1, email);
-            result = preparedStatement.executeQuery();
-            preparedStatement.close();
+            // The contact table is involved to check wether the user given email already
+            // exists
+            String contactEmailQuery = "SELECT Email FROM Contact WHERE Email = ?";
+            PreparedStatement contactEmailStatement = this.connection.getConnection()
+                    .prepareStatement(contactEmailQuery);
 
-            // Checks if email is NULL
+            contactEmailStatement.setString(1, email);
+            result = contactEmailStatement.executeQuery();
+
+            // If the email does not exists, a new Contact record will be created
             if (result.next() == false) {
-                // Creates contact
                 createContact(email, contactName);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // A second try catch block was needed because query after the "if" statement
-        // was being skipped over
+
+        // Now that the involved ContentItem and Contact tables have been sorted out,
+        // the final insert into the Module table is done
         try {
-            String query = "INSERT INTO Module VALUES (?, NULL, ?, ?, ?, ?)";
+            String query = "INSERT INTO Module VALUES (?, NULL, ?, ?, ?)";
             PreparedStatement preparedStatement = this.connection.getConnection().prepareStatement(query);
 
             preparedStatement.setInt(1, contentID);
-            preparedStatement.setString(2, title);
-            preparedStatement.setInt(3, version);
-            preparedStatement.setInt(4, trackingNumber);
-            preparedStatement.setString(5, email);
+            preparedStatement.setInt(2, version);
+            preparedStatement.setInt(3, trackingNumber);
+            preparedStatement.setString(4, email);
 
             preparedStatement.executeUpdate();
-            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
+    // A contact within a Module is a separate table 'Contact'. Method to insert a
+    // new contact
     private void createContact(String email, String contactName) {
         try {
             String query = "INSERT INTO Contact VALUES (?, ?)";
@@ -126,10 +139,11 @@ public class ModuleRepository extends Repository<Module> {
 
             ResultSet result = preparedStatement.executeQuery();
             if (result.next() == false) {
-                // Creates contact
                 createContact(contactEmail, contactName);
             }
-            // Gets correct content ID
+
+            // Gets the ContentItem which is necessary to create a record in the Module
+            // table
             String contentIDQuery = "SELECT ContentID FROM Module WHERE Title = ? AND Version = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(contentIDQuery);
 
@@ -140,7 +154,8 @@ public class ModuleRepository extends Repository<Module> {
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
-            // Updates the relevant tables in the database
+
+            // Updates the two tables related to a Module in the database
             String updateQuery = "UPDATE ContentItem SET Description = ?, Status = ? WHERE ContentID = ?";
             preparedStatement = this.connection.getConnection().prepareStatement(updateQuery);
 
@@ -158,32 +173,41 @@ public class ModuleRepository extends Repository<Module> {
             preparedStatement.setInt(3, contentID);
 
             preparedStatement.executeUpdate();
-            preparedStatement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
+    // The identifiers (title and version) is retrieved from the method argument
+    // (instance of Module) and used to delete the matching record from the database
     @Override
     public void delete(Module module) {
         try {
+            // Module identifiers
             String title = module.getTitle();
             int version = module.getVersion();
-            Statement statement = this.connection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery(
-                    "SELECT ContentID FROM Module WHERE Title = '" + title + "' AND Version = '" + version + "'");
-            System.out.println(result.toString());
+
+            String sql = "SELECT ContentID FROM Module WHERE Title = ? AND Version = ?";
+            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
+            statement.setString(1, title);
+            statement.setInt(2, version);
+
+            // Because Module is also a ContentItem in the database, the ContentID has to
+            // retrieved to perform a cascade delete on it.
+            ResultSet result = statement.executeQuery();
             int contentID = 0;
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
             statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = '" + contentID + "'");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // An alternative delete method, this time via the ContentID
     public void delete(int id) {
         try {
             Statement statement = this.connection.getConnection().createStatement();
@@ -191,9 +215,10 @@ public class ModuleRepository extends Repository<Module> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
+    // Instantiate all existing Modules, based on the involved tables: ContentItem,
+    // Module and Contact
     @Override
     public ArrayList<Module> retrieve() {
         try {
@@ -223,19 +248,31 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    // To showcase distinct modules by name and version, a map is returned that
-    // links the module ID to the version and title combination
+    /*
+     * To showcase distinct modules by the combination of name and version (their
+     * identifier), a map is returned that
+     * links the module id to the version and title combination
+     */
     public HashMap<String, Integer> getAllModuleNames(Boolean notAssignedToACourse) {
         try {
-
             Statement statement = this.connection.getConnection().createStatement();
             ResultSet resultSet;
-            if (notAssignedToACourse) {
+
+            // The method can also be used to only select modules which do not have a
+            // relation with a course yet
+            if (Boolean.TRUE.equals(notAssignedToACourse)) {
                 resultSet = statement
                         .executeQuery("SELECT Title, Version , ContentID FROM Module WHERE CourseName IS NULL");
             } else {
                 resultSet = statement.executeQuery("SELECT Title, Version , ContentID FROM Module");
             }
+
+            /*
+             * Saving the Module title and version combination as a key which hold their ID.
+             * That way, the map can used to quickly perform other Module database
+             * actions
+             * with their ID and thus less code is necessary
+             */
             HashMap<String, Integer> modules = new HashMap<>();
             while (resultSet.next()) {
                 String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
@@ -255,18 +292,17 @@ public class ModuleRepository extends Repository<Module> {
         try {
             String sql = "SELECT Title, Version , ContentID FROM Module WHERE CourseName = ?";
             PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
-
             statement.setString(1, courseName);
 
             ResultSet resultSet = statement
                     .executeQuery();
 
+            // Using the same map method as explained in the previous method
             HashMap<String, Integer> modules = new HashMap<>();
             while (resultSet.next()) {
                 String key = resultSet.getString("Title") + " (Versie: " + resultSet.getInt("Version") + ")";
                 modules.put(key, resultSet.getInt("ContentID"));
             }
-
             return modules;
 
         } catch (SQLException e) {
@@ -275,7 +311,8 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    public Module retrieveModuleByID(int ID) {
+    // Instantiate one Module from the database based on its ID
+    public Module retrieveModuleByID(int id) {
         LocalDate date = null;
         Status status = null;
         String title = "";
@@ -285,32 +322,22 @@ public class ModuleRepository extends Repository<Module> {
         String contactName = "";
         String emailAddress = "";
 
+        // Retrieve from the ContentItem and Module table
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet moduleRetrieve = statement.executeQuery("SELECT * FROM Module WHERE ContentID = " + ID + "");
+            ResultSet moduleRetrieve = statement.executeQuery(
+                    "SELECT * FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = " + id);
 
             while (moduleRetrieve.next()) {
                 title = moduleRetrieve.getString("Title");
                 version = moduleRetrieve.getInt("Version");
                 positionWithinCourse = moduleRetrieve.getInt("PositionInCourse");
                 emailAddress = moduleRetrieve.getString("ContactEmail");
+                date = (LocalDate.parse(moduleRetrieve.getString("CreationDate")));
+                status = Status.valueOf(moduleRetrieve.getString("Status"));
+                description = moduleRetrieve.getString("Description");
             }
-
-            try {
-                statement = this.connection.getConnection().createStatement();
-                ResultSet contentItemRetrieve = statement.executeQuery(
-                        "SELECT CreationDate, Status, Description FROM ContentItem WHERE ContentID = " + ID + "");
-
-                while (contentItemRetrieve.next()) {
-                    date = LocalDate.parse(contentItemRetrieve.getString("CreationDate"));
-                    status = Status.valueOf(contentItemRetrieve.getString("Status"));
-                    description = contentItemRetrieve.getString("Description");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
-            }
-
+            // Retrieve from the Contact table to get the contact's name
             try {
                 statement = this.connection.getConnection().createStatement();
                 ResultSet contactRetrieve = statement
@@ -327,13 +354,15 @@ public class ModuleRepository extends Repository<Module> {
 
             return new Module(date, status, title, version, positionWithinCourse, description, contactName,
                     emailAddress);
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    // Method to link a module with a course
+    // Method to link a module with a course. Their relationship is defined within
+    // the Module table
     public void assignModuleToCourse(String courseName, int id) {
         try {
             String sql = "UPDATE Module SET CourseName = ? WHERE ContentID = ?";
@@ -348,14 +377,12 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    // Method to unlink a module with a course
+    // Method to unlink a module from whatever course it has a relationship with
     public void unassignModuleToCourse(int id) {
         try {
-            String sql = "UPDATE Module SET CourseName = NULL WHERE ContentID = ?";
-            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
+            Statement statement = this.connection.getConnection().createStatement();
 
-            statement.setInt(1, id);
-            statement.executeUpdate();
+            statement.executeUpdate("UPDATE Module SET CourseName = NULL WHERE ContentID = " + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
