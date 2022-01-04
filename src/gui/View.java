@@ -53,7 +53,7 @@ abstract class View {
 
     }
 
-    // Method to help checking if input is empty
+    // Method to that verifies if a user inputfield is not filled
     protected boolean hasNoInput(TextField field) {
         boolean hasNoInput = false;
         if (field.getText().trim().equals("")) {
@@ -67,8 +67,8 @@ abstract class View {
     // base layout
     protected abstract void createView();
 
-    // method to add any type of view to the center of the main base layout + giving
-    // the window a new title
+    // method to add any type of view to the center of the main base layout (GUI)
+    // and give the window a custom title
     protected void activate(Parent view, String windowTitle) {
         this.gui.goToNext(view, windowTitle);
     }

@@ -109,6 +109,11 @@ class CourseManagementView extends View {
         activate(view, "Course management");
     }
 
+    /*
+     * When a user has selected a course from the dropdown and wants to set an other
+     * course in the selected one as recommendation, the following method provides a
+     * view to perform that
+     */
     private void addRecommendedCourseView(String courseName) {
         // Initial layout setup
         GridPane view = generateFormGrid();
