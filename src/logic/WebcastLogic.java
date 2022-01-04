@@ -49,6 +49,14 @@ public class WebcastLogic {
         return retrieveWebcastNames().contains(title);
     }
 
+    public boolean saveSuccessful(String title) { 
+        Webcast test = this.repo.retrieveByTitle(title);
+        if(test == null) { 
+            return false;
+        }
+        return true;
+    }
+
 
 
     

@@ -225,7 +225,11 @@ class WebcastManageView extends View {
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(),
                         descriptionArea.getText());
-                        result.setText("Success");
+                        if(this.logic.saveSuccessful(titleTextField.getText())) { 
+                            result.setText("Save successful");
+                        }else {
+                            result.setText("Save failed");
+                        }
                 return;
             }
 
