@@ -259,11 +259,10 @@ class StudentManageView extends View {
         // Layout first column
         view.add(new Label("Name"), 0, 1);
         view.add(new Label("GenderBox"), 0, 2);
-        view.add(new Label("Emailadress"), 0, 3);
-        view.add(new Label("Date of birth"), 0, 4);
-        view.add(new Label("Addres"), 0, 5);
-        view.add(new Label("Country"), 0, 6);
-        view.add(new Label("City"), 0, 7);
+        view.add(new Label("Date of birth"), 0, 3);
+        view.add(new Label("Addres"), 0, 4);
+        view.add(new Label("Country"), 0, 5);
+        view.add(new Label("City"), 0, 6);
         // Layout second column
         view.add(nameField, 1, 1);
         view.add(genderBox, 1, 2);
@@ -302,12 +301,6 @@ class StudentManageView extends View {
             }
         });
         activate(view, "Edit student information");
-    }
-
-    private void readAllStudentsView() {
-        GridPane view = generateGrid();
-
-        activate(view, "All students");
     }
 
     private void succesfullProcesView() {
