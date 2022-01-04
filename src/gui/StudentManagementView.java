@@ -46,7 +46,6 @@ class StudentManagementView extends View {
         // student information.
         Button editStudentButton = new Button("Edit student");
         Button deleteStudent = new Button("Delete student");
-        Button readAllStudent = new Button("Show all students");
 
         // Second column
         Label createStudentLabel = new Label("Create student:");
@@ -58,7 +57,6 @@ class StudentManagementView extends View {
         view.add(studentList, 0, 1);
         view.add(editStudentButton, 0, 2);
         view.add(deleteStudent, 0, 3);
-        view.add(readAllStudent, 0, 4);
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
