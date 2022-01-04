@@ -13,11 +13,12 @@ import domain.Difficulty;
 //Class responsible for database communication regarding courses. 
 public class CourseRepository extends Repository<Course> {
 
+    // CoursRepository IS a repository and thus extends the abstract repo class
     public CourseRepository() {
         super();
     }
 
-    // Insert individual course
+    // Inserts an individual course instance into the course table
     @Override
     public void insert(Course course) {
         try {
@@ -59,7 +60,8 @@ public class CourseRepository extends Repository<Course> {
         return courseNames;
     }
 
-    // Instantiate a individual course by name (name is the primary key)
+    // Instantiate an individual course from the database, selected by its name
+    // (which is the primary key)
     public Course retrieveCourseByName(String courseName) {
         Course returnValue = null;
         try {
@@ -78,6 +80,11 @@ public class CourseRepository extends Repository<Course> {
         return returnValue;
     }
 
+    /*
+     * Based of a course instance, received as argument, update the related record
+     * attributes
+     * according to the current state of the course instance
+     */
     @Override
     public void update(Course course) {
         try {
@@ -97,12 +104,15 @@ public class CourseRepository extends Repository<Course> {
 
     }
 
+    // Same as with an update, only this time the related record gets deleted. Any
+    // relations with modules get deleted per 'cascade delete'
     @Override
     public void delete(Course course) {
 
     }
 
-    // Delete a course, using its primary key (name)
+    // Perform the same type of delete action, but now using the name of the course
+    // the method receives on call as argument
     public void delete(String courseName) {
         try {
             String sql = "DELETE FROM Course WHERE CourseName = ?";
@@ -121,6 +131,8 @@ public class CourseRepository extends Repository<Course> {
         return null;
     }
 
+    // Within in the CourseRecommendation table, define a new
+    // recommendation-relationship between two courses
     public void addRecommendedCourse(String courseName, String recommendedCourseName) {
         try {
             String sql = "INSERT INTO CourseRecommendation VALUES (?, ?)";
@@ -132,7 +144,11 @@ public class CourseRepository extends Repository<Course> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            /*
+             * If an exception occurs perform no action and futher exception handling,
+             * because the course is already set as
+             * recommendation (which is fine).
+             */
         }
 
     }
