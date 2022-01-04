@@ -1,14 +1,22 @@
 package gui;
 
+
+import java.awt.Font;
 import java.util.List;
+
+
+
 import domain.Status;
 import domain.Webcast;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import logic.WebcastLogic;
 
 class WebcastManageView extends View {
@@ -47,6 +55,35 @@ class WebcastManageView extends View {
         Label addWebcast = new Label("Add webcast");
         Button addView = new Button("+");
 
+        //Third column
+        Label titleLabel = new Label("Title");
+        TextField titleTextField = new TextField();
+        titleTextField.setEditable(false);
+
+        Label descriptionLabel = new Label("Description");
+        TextArea descriptionArea = new TextArea();
+        descriptionArea.setEditable(false);
+        descriptionArea.setPrefHeight(50);
+
+        Label durationInMinutesLabel = new Label("Duration (in minutes)");
+        TextField durationTextField = new TextField();
+        durationTextField.setEditable(false);
+
+        Label speakerLabel = new Label("Speaker");
+        TextField speakerTextField = new TextField();
+        speakerTextField.setEditable(false);
+
+        Label urlLabel = new Label("URL");
+        TextField urlTextField = new TextField();
+        urlTextField.setEditable(false);
+
+        Label statusLabel = new Label("Status");
+        TextField statusField = new TextField();
+        statusField.setEditable(false);
+
+
+       
+
         // Layout management view
         view.add(selectWebcast, 0, 0);
         view.add(webcastComboBox, 0, 1);
@@ -55,6 +92,20 @@ class WebcastManageView extends View {
         view.add(addWebcast, 1, 0);
         view.add(addView, 1, 1);
         view.add(result, 0, 5);
+        view.add(titleLabel, 2, 0);
+        view.add(titleTextField, 2, 1);
+        view.add(descriptionLabel, 2, 2);
+        view.add(descriptionArea, 2, 3);
+        view.add(durationInMinutesLabel, 2, 4);
+        view.add(durationTextField, 2, 5);
+        view.add(speakerLabel, 2, 6);
+        view.add(speakerTextField, 2, 7);
+        view.add(urlLabel, 2, 8);
+        view.add(urlTextField, 2, 9);
+        view.add(statusLabel, 2, 10);
+        view.add(statusField, 2, 11);
+
+        
 
         // event handlers
 
@@ -81,6 +132,21 @@ class WebcastManageView extends View {
                 
                 return;
             }
+
+
+            
+
+        });
+
+        webcastComboBox.setOnAction(chosenWebcast -> {
+            Webcast webcast = this.logic.retrieveByTitle(webcastComboBox.getValue());
+            titleTextField.setText(webcast.getTitle());
+            descriptionArea.setText(webcast.getDescription());
+            durationTextField.setText(String.valueOf(webcast.getDurationInMinutes()));
+            speakerTextField.setText(webcast.getSpeaker());
+            urlTextField.setText(webcast.getUrl());
+            statusField.setText(webcast.getStatus().toString());
+
 
         });
 

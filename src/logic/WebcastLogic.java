@@ -65,7 +65,7 @@ public class WebcastLogic {
         Webcast updateTest = this.repo.retrieveByTitle(title);
         if (updateTest == null) {
             return false;
-            // returns true only if all changed values were updated in the database
+            // returns true only if all values from the database match the values in the app
         } else if (updateTest.getTitle().equals(title) && updateTest.getDescription().equals(description)
                 && updateTest.getUrl().equals(url) && updateTest.getStatus().toString().equals(status)) {
             return true;
