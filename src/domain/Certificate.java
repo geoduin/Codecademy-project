@@ -1,7 +1,5 @@
 package domain;
 
-import java.time.LocalDate;
-
 public class Certificate {
     private String studentName;
     private String nameOfIssuer;
