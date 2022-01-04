@@ -3,46 +3,44 @@ package domain;
 import java.time.LocalDate;
 
 public class Certificate {
-    private int certificateID;
-    private int enrollmentID;
-    private double grade;
-    private String employeeName;
+    private String studentName;
+    private String nameOfIssuer;
+    private int grade;
     
-    public Certificate(int enrollmentID, double grade, String employeeName) {
-        this.enrollmentID = enrollmentID;
+    
+    public Certificate(String studentName, String nameOfIssuer, int grade) {
+        this.studentName = studentName;
+        this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
-        this.employeeName = employeeName;
     }
 
-    public int getCertificateID() {
-        return certificateID;
+
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setCertificateID(int certificateID) {
-        this.certificateID = certificateID;
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public int getEnrollmentID() {
-        return enrollmentID;
+
+    public String getNameOfIssuer() {
+        return nameOfIssuer;
     }
 
-    public void setEnrollmentID(int enrollmentID) {
-        this.enrollmentID = enrollmentID;
+
+    public void setNameOfIssuer(String nameOfIssuer) {
+        this.nameOfIssuer = nameOfIssuer;
     }
 
-    public double getGrade() {
+
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(double grade) {
+
+    public void setGrade(int grade) {
         this.grade = grade;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
     }
 }
