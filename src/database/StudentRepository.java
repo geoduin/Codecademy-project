@@ -13,11 +13,6 @@ import domain.Gender;
 import domain.Student;
 
 public class StudentRepository extends Repository<Student> {
-    private Connection connect;
-
-    public StudentRepository() {
-        this.connect = this.connection.getConnection();
-    }
 
     @Override
     public void insert(Student student) {
@@ -34,7 +29,7 @@ public class StudentRepository extends Repository<Student> {
             addresID = getAddressID(student);
         }
         // String insertIntoAddres = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
-        try (PreparedStatement prepStatement = connect.prepareStatement(insertStudent)) {
+        try (PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(insertStudent)) {
             prepStatement.setString(1, student.getEmail());
             prepStatement.setString(2, student.getStudentName());
             prepStatement.setObject(3, student.getDateOfBirth());
@@ -50,7 +45,7 @@ public class StudentRepository extends Repository<Student> {
 
     public void createAddress(Student student) {
         final String insertAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
-        try (PreparedStatement prepState = connect.prepareStatement(insertAddress)) {
+        try (PreparedStatement prepState = this.connection.getConnection().prepareStatement(insertAddress)) {
             prepState.setString(1, student.getstreet());
             prepState.setInt(2, student.getHouseNumber());
             prepState.setString(3, student.getCity());
@@ -67,7 +62,7 @@ public class StudentRepository extends Repository<Student> {
         String searchForAddressID = "SELECT TOP 1 AddressID FROM Address " +
                 "WHERE Street = ? AND HouseNumber = ? AND City = ? AND Country = ?" +
                 " AND PostalCode = ? ORDER BY AddressID ASC";
-        try (PreparedStatement statement = connect.prepareStatement(searchForAddressID)) {
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(searchForAddressID)) {
             statement.setString(1, student.getstreet());
             statement.setInt(2, student.getHouseNumber());
             statement.setString(3, student.getCity());
@@ -89,7 +84,7 @@ public class StudentRepository extends Repository<Student> {
         // Will get the address ID
         int addressID = getAddressID(student);
         String updateQuery = "UPDATE Student SET Name = ?, Birthdate = ?, Gender = ?, AddressID = ? WHERE Email = ?";
-        try (PreparedStatement prepQuery = connect.prepareStatement(updateQuery)) {
+        try (PreparedStatement prepQuery = this.connection.getConnection().prepareStatement(updateQuery)) {
             if (addressID == -1) {
                 // In case the student changes address, the system will create a new address +
                 // id
@@ -111,7 +106,7 @@ public class StudentRepository extends Repository<Student> {
     @Override
     public void delete(Student student) {
         String deleteQuery = "DELETE FROM Student WHERE Email = ?";
-        try (PreparedStatement studentRemoval = connect.prepareStatement(deleteQuery)) {
+        try (PreparedStatement studentRemoval = this.connection.getConnection().prepareStatement(deleteQuery)) {
             studentRemoval.setString(1, student.getEmail());
             studentRemoval.executeUpdate();
             deleteAddresWithoutResident();
@@ -122,7 +117,7 @@ public class StudentRepository extends Repository<Student> {
 
     public void deleteAddresWithoutResident() {
         String deleteAddressQuery = "DELETE FROM Address WHERE NOT EXISTS (SELECT * FROM Student WHERE Student.AddressID = Address.AddressID)";
-        try (PreparedStatement deleteAddress = connect.prepareStatement(deleteAddressQuery)) {
+        try (PreparedStatement deleteAddress = this.connection.getConnection().prepareStatement(deleteAddressQuery)) {
             deleteAddress.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,7 +132,7 @@ public class StudentRepository extends Repository<Student> {
     public Map<String, String> retrieveNameByEmail() {
         Map<String, String> nameList = new HashMap<>();
         String retrieveQuery = "SELECT Name, Email FROM Student";
-        try (PreparedStatement retrieveStatement = connect.prepareStatement(retrieveQuery)) {
+        try (PreparedStatement retrieveStatement = this.connection.getConnection().prepareStatement(retrieveQuery)) {
             int i = 1;
             ResultSet rS = retrieveStatement.executeQuery();
             while (rS.next()) {
@@ -155,7 +150,8 @@ public class StudentRepository extends Repository<Student> {
     public Student searchForForStudent(String email) {
         Student student = null;
         String studentQuery = "SELECT * FROM Student INNER JOIN Address ON Address.AddressID = Student.AddressID WHERE Email = ?";
-        try (PreparedStatement retrieveStudentByEmail = connect.prepareStatement(studentQuery)) {
+        try (PreparedStatement retrieveStudentByEmail = this.connection.getConnection()
+                .prepareStatement(studentQuery)) {
             // Email in question
             retrieveStudentByEmail.setString(1, email);
             // Executes query
