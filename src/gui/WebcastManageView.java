@@ -141,7 +141,11 @@ class WebcastManageView extends View {
                 this.logic.editURL(originalURL, urlField.getText());
                 this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
                         Status.valueOf(statusComboBox.getValue()));
-                        result.setText("Success");
+                        if(this.logic.updateSuccessful(titleField.getText(), descriptionArea.getText(), urlField.getText(), statusComboBox.getValue())) { 
+                            result.setText("Update successful");
+                        } else {
+                            result.setText("Update failed");
+                        }
                 return;
             } else {
                 result.setText("All fields must be filled");
