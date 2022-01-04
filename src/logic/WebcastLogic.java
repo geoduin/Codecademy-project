@@ -14,19 +14,11 @@ public class WebcastLogic {
         this.repo = new WebcastRepository();
     }
 
-    public HashMap<String, String> retrieveWebcasts() {
-        return this.repo.getAllWebcastNamesAndURL();
+    public ArrayList<String> retrieveWebcastNames() {
+        return this.repo.getAllWebcastNames();
     }
 
-    public ArrayList<String> retrieveWebcastNames() {
-        HashMap<String, String> webcastMap = this.repo.getAllWebcastNamesAndURL();
-        ArrayList<String> webcastNames = new ArrayList<>();
-        for(String key : webcastMap.keySet()) { 
-            webcastNames.add(webcastMap.get(key));
-        }
-        return webcastNames;
-        
-    }    
+
 
     public void createWebcast(String title, String speaker, String organization, int duration, String url, String status, String description) { 
         Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description);
