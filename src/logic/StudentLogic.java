@@ -39,6 +39,7 @@ public class StudentLogic {
         Gender newGender = convertToGender(gender);
         student.setGender(newGender);
         student.setstreet(street);
+        student.setCountry(country);
         student.setCity(city);
         student.setHouseNumber(Integer.parseInt(houseNr));
         student.setPostalCode(postalCode);
@@ -135,12 +136,20 @@ public class StudentLogic {
     // Formats the individual parts day, month and year in LocalDate format
     // yyyy-mm-dd
     public LocalDate formatDate(String year, String month, String day) {
+        if (!(year.matches("//d") || !month.matches("//d") || !day.matches("//d"))) {
+            throw new NumberFormatException();
+        }
+
         if (Integer.parseInt(day) < 10) {
             day = "0" + day;
         }
 
         if (Integer.parseInt(month) < 10) {
             month = "0" + month;
+        }
+
+        if (Integer.parseInt(year) < 1000) {
+            year = "0" + year;
         }
 
         return LocalDate.parse(year + "-" + month + "-" + day);
