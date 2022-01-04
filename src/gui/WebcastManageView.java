@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import logic.WebcastLogic;
 
 class WebcastManageView extends View {
@@ -27,9 +26,10 @@ class WebcastManageView extends View {
 
         // First column
         final String defaultWebcastValue = "Select a webcast";
-        Label selectStudent = new Label(defaultWebcastValue);
+        Label selectWebcast = new Label(defaultWebcastValue);
         ComboBox<String> webcastComboBox = new ComboBox<>();
         webcastComboBox.setValue(defaultWebcastValue);
+        Label result = new Label();
 
         // retrieves all webcast names and adds them to the combox
         List<String> webcastList = this.logic.retrieveWebcastNames();
@@ -48,19 +48,20 @@ class WebcastManageView extends View {
         Button addView = new Button("+");
 
         // Layout management view
-        view.add(selectStudent, 0, 0);
+        view.add(selectWebcast, 0, 0);
         view.add(webcastComboBox, 0, 1);
         view.add(editView, 0, 2);
         view.add(deleteView, 0, 3);
         view.add(addWebcast, 1, 0);
         view.add(addView, 1, 1);
+        view.add(result, 0, 5);
 
         // event handlers
 
         // changes to edit view
         editView.setOnAction(clicked -> {
             if (webcastComboBox.getValue().equals(defaultWebcastValue)) {
-                view.add(new Label("Please select a webcast"), 0, 5);
+                result.setText("Please select a webcast");
                 return;
             } else {
                 String title = webcastComboBox.getValue();
@@ -70,12 +71,14 @@ class WebcastManageView extends View {
         // Deletes webcast
         deleteView.setOnAction(clicked -> {
             if (webcastComboBox.getValue().equals(defaultWebcastValue)) {
-                view.add(new Label("Please select a webcast"), 0, 5);
+                result.setText("Please select a webcast");
                 return;
             } else {
                 this.logic.deleteWebcast(this.logic.retrieveByTitle(webcastComboBox.getValue()));
-                view.add(new Label("Deletion successfull"), 0, 5);
+                result.setText("Deletion successful");
+                webcastComboBox.getItems().remove(webcastComboBox.getValue());
                 webcastComboBox.setValue(defaultWebcastValue);
+                
                 return;
             }
 
@@ -110,6 +113,7 @@ class WebcastManageView extends View {
         statusComboBox.getItems().add("ACTIVE");
         statusComboBox.getItems().add("CONCEPT");
         statusComboBox.getItems().add("ARCHIVED");
+        Label result = new Label();
 
         // column 2
         Button editButton = new Button("Save edit");
@@ -124,6 +128,7 @@ class WebcastManageView extends View {
         view.add(statusLabel, 0, 6);
         view.add(statusComboBox, 0, 7);
         view.add(editButton, 1, 7);
+        view.add(result, 0, 8);
 
         editButton.setOnAction(click -> {
             // checking if all fields are filled
@@ -136,12 +141,10 @@ class WebcastManageView extends View {
                 this.logic.editURL(originalURL, urlField.getText());
                 this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
                         Status.valueOf(statusComboBox.getValue()));
-                Label successLabel = new Label("Success");
-                view.add(successLabel, 0, 8);
+                        result.setText("Success");
                 return;
             } else {
-                Label fieldIsempty = new Label("No field may be empty");
-                view.add(fieldIsempty, 0, 8);
+                result.setText("All fields must be filled");
                 return;
             }
         });
@@ -180,6 +183,8 @@ class WebcastManageView extends View {
         statusComboBox.getItems().add("CONCEPT");
         statusComboBox.getItems().add("ARCHIVED");
 
+        Label result = new Label();
+
         // column 2
         Button saveButton = new Button("Save");
 
@@ -199,6 +204,7 @@ class WebcastManageView extends View {
         view.add(statusLabel, 0, 12);
         view.add(statusComboBox, 0, 13);
         view.add(saveButton, 1, 13);
+        view.add(result, 0, 14);
 
         activate(view, "Add Webcast");
 
@@ -209,15 +215,18 @@ class WebcastManageView extends View {
                     || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank()
                     || organizationField.getText().isBlank() || urlTextField.getText().isBlank()
                     || statusComboBox.getValue().equals(defaultStatusValue)) {
-                allFieldsFilled = false;
-                view.add(new Label("All fields must be filled"), 0, 14);
+                        result.setText("All fields must be filled");
+                return;
+            }else if(this.logic.titleAlreadyExists(titleTextField.getText())) { 
+                result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
                 int duration = Integer.valueOf(durationTextField.getText());
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(),
                         descriptionArea.getText());
-                view.add(new Label("Success"), 0, 14);
+                        result.setText("Success");
+                return;
             }
 
         });

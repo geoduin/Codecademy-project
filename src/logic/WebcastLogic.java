@@ -43,6 +43,14 @@ public class WebcastLogic {
         return this.repo.retrieveByTitle(title);
     }
 
+
+    //Ensures that the webcast title is unique as described in the assignment description. See report as to why this is done in Java and not SQL.
+    public boolean titleAlreadyExists(String title) { 
+        return retrieveWebcastNames().contains(title);
+    }
+
+
+
     
 
     
