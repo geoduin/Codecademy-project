@@ -169,16 +169,15 @@ public class WebcastRepository extends Repository<Webcast> {
     }
 
     //returns a hashmap with the webcast URL as key and the webcast title as value.
-    public HashMap<String, String> getAllWebcastNamesAndURL(){
-        HashMap<String, String> webcasts = new HashMap<>();
+    public ArrayList<String> getAllWebcastNames(){
+        ArrayList<String> webcasts = new ArrayList<>();
 
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet webcastResult = statement.executeQuery("SELECT Title, URL FROM Webcast JOIN ContentItem ON Webcast.ContentID = ContentItem.ContentID");
+            ResultSet webcastResult = statement.executeQuery("SELECT Title FROM Webcast JOIN ContentItem ON Webcast.ContentID = ContentItem.ContentID");
             while(webcastResult.next()) {
-                String url = webcastResult.getString("URL");
                 String title = webcastResult.getString("Title");
-                webcasts.put(url, title);
+                webcasts.add(title);
             }
             return webcasts;
 
