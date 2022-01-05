@@ -74,7 +74,7 @@ class CourseManagementView extends View {
             } else {
                 // getting the to-be-edited module
                 String courseToDelete = dropdown.getValue();
-                editModuleView(courseToDelete);
+                editCourseView(courseToDelete);
             }
         });
         // Manage modules
@@ -354,7 +354,7 @@ class CourseManagementView extends View {
     }
 
     // Creating a view for the user to edit a course
-    private void editModuleView(String courseName) {
+    private void editCourseView(String courseName) {
         GridPane view = generateFormGrid();
         Course course = this.logic.retrieveCourse(courseName);
 
