@@ -115,6 +115,16 @@ public class CourseRepository extends Repository<Course> {
     // the method receives on call as argument
     public void delete(String courseName) {
         try {
+            // In the CourseRecommendation table, delete all records where the given
+            // CourseName argument is involved
+            String sql2 = "DELETE FROM CourseRecommendation WHERE CourseName = ? OR RecommendedCourse = ?";
+            PreparedStatement statement2 = connection.getConnection().prepareStatement(sql2);
+
+            statement2.setString(1, courseName);
+            statement2.setString(2, courseName);
+            statement2.executeUpdate();
+
+            // Now delete the actual Course record
             String sql = "DELETE FROM Course WHERE CourseName = ?";
             PreparedStatement statement = connection.getConnection().prepareStatement(sql);
 

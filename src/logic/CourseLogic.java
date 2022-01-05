@@ -26,12 +26,12 @@ public class CourseLogic {
     }
 
     public void newCourse(String name, String topic, String description, Difficulty difficulty,
-            int firstModuleOfCourseID) {
+            int idOfFirstModuleWithinCourse) {
         Course course = new Course(name, topic, description, difficulty);
         courses.add(course);
         this.repository.insert(course);
 
-        new ModuleRepository().assignModuleToCourse(name, firstModuleOfCourseID);
+        new ModuleRepository().assignModuleToCourse(name, idOfFirstModuleWithinCourse);
     }
 
     public void deleteCourse(String courseName) {
