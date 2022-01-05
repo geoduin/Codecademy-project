@@ -28,6 +28,8 @@ public class CertificateSubmissionView extends View {
         // Further layout setup
         hbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
         view.add(hbox, 0, 0);
+
+        activate(view, "Add Certificate");
     }
 
     public void certificateSuccessfullyAdded() {
@@ -41,6 +43,9 @@ public class CertificateSubmissionView extends View {
         view.add(homeBtn, 0, 1);
         view.add(addAnotherCertificateBtn, 2, 1);
 
+        //Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+
+        activate(view, "Successfully added!");
     }
 }

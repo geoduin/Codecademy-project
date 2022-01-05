@@ -95,10 +95,10 @@ class StudentManagementView extends View {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         // Labels
         Label nameLabel = new Label("Name");
-        Label genderBoxLabel = new Label("GenderBox");
-        Label emailLabel = new Label("Emailadress");
+        Label genderBoxLabel = new Label("Gender");
+        Label emailLabel = new Label("Emailaddress");
         Label dateOfBirthLabel = new Label("Date of birth");
-        Label addresLabel = new Label("Addres");
+        Label addresLabel = new Label("Address");
         Label countryLabel = new Label("Country");
         Label cityLabel = new Label("City");
 
@@ -256,9 +256,9 @@ class StudentManagementView extends View {
         addres.setSpacing(25);
         // Layout first column
         view.add(new Label("Name"), 0, 1);
-        view.add(new Label("GenderBox"), 0, 2);
+        view.add(new Label("Gender"), 0, 2);
         view.add(new Label("Date of birth"), 0, 3);
-        view.add(new Label("Addres"), 0, 4);
+        view.add(new Label("Address"), 0, 4);
         view.add(new Label("Country"), 0, 5);
         view.add(new Label("City"), 0, 6);
         // Layout second column
