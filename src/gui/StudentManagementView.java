@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.Collection;
 import java.util.Map;
 import domain.Student;
 import javafx.scene.control.Button;
@@ -38,9 +39,8 @@ class StudentManagementView extends View {
         // Retrieves the list of studentnames from database, with a hashMap<name,
         // emailaddres>
         Map<String, String> studentMap = this.studentLogic.getNameAndEmail();
-        for (String name : studentMap.keySet()) {
-            studentList.getItems().add(name);
-        }
+        Collection<String> list = studentMap.keySet();
+        studentList.getItems().addAll(list);
 
         // Based on the value of the combobox value, it will either delete or edit the
         // student information.
