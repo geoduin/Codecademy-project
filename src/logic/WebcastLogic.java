@@ -3,7 +3,6 @@ package logic;
 import domain.Webcast;
 import domain.Status;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import database.WebcastRepository;
 
@@ -29,7 +28,6 @@ public class WebcastLogic {
         this.repo.delete(webcast);
     }
 
-    // url: String, title: String, description: String, status: Status
     public void editWebcast(String url, String title, String description, Status status) {
         // creating helper webcast to use WebcastRepository method
         Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description);

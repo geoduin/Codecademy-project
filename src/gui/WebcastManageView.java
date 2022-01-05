@@ -1,22 +1,17 @@
 package gui;
 
-
-import java.awt.Font;
 import java.util.List;
 
 
 
 import domain.Status;
 import domain.Webcast;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import logic.WebcastLogic;
 
 class WebcastManageView extends View {
@@ -137,7 +132,8 @@ class WebcastManageView extends View {
             
 
         });
-
+        
+        //retrieves the selected webcast and displays it on the GUI.
         webcastComboBox.setOnAction(chosenWebcast -> {
             Webcast webcast = this.logic.retrieveByTitle(webcastComboBox.getValue());
             titleTextField.setText(webcast.getTitle());
@@ -160,7 +156,7 @@ class WebcastManageView extends View {
     }
 
     // String url, String title, String description, Status status
-    private void editWebcastView(Webcast webcastToEdit) {
+    protected void editWebcastView(Webcast webcastToEdit) {
 
         // Saving original URL since URL is the being used to identify the webcast in
         // the database, it has to be saved temporarily if you want to edit the URL.
@@ -223,7 +219,8 @@ class WebcastManageView extends View {
 
     }
 
-    private void addWebcastView() {
+    //Adds webcast to database
+    protected void addWebcastView() {
         GridPane view = generateFormGrid();
         final String defaultStatusValue = "Select value";
 
@@ -281,20 +278,25 @@ class WebcastManageView extends View {
         // Event handler
 
         saveButton.setOnAction(clicked -> {
+            //Checks if all fields are filled
             if (titleTextField.getText().isBlank() || descriptionArea.getText().isBlank()
                     || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank()
                     || organizationField.getText().isBlank() || urlTextField.getText().isBlank()
                     || statusComboBox.getValue().equals(defaultStatusValue)) {
                         result.setText("All fields must be filled");
                 return;
+                //checks if the webcast already exists
             }else if(this.logic.titleAlreadyExists(titleTextField.getText())) { 
                 result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
+
+                //adds webcast to database
                 int duration = Integer.valueOf(durationTextField.getText());
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(),
                         descriptionArea.getText());
+                        //tells user wether the webcast was successfully saved
                         if(this.logic.saveSuccessful(titleTextField.getText())) { 
                             result.setText("Save successful");
                         }else {
