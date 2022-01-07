@@ -33,7 +33,7 @@ public class CertificateSubmissionView extends View {
     }
 
     public void certificateSuccessfullyAdded() {
-        GridPane view = generateGrid();
+        GridPane view = generateFormGrid();
 
         Label label = new Label("Successfully added certificate!");
         Button homeBtn = new Button("Home");
