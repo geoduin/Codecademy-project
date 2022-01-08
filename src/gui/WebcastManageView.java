@@ -3,7 +3,6 @@ package gui;
 import java.util.List;
 
 
-
 import domain.Status;
 import domain.Webcast;
 import javafx.scene.control.Button;
@@ -200,6 +199,7 @@ class WebcastManageView extends View {
             }
             if (noFieldEmpty) {
                 // edditing the webcast
+                
                 this.logic.editURL(originalURL, urlField.getText());
                 this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
                         Status.valueOf(statusComboBox.getValue()));
