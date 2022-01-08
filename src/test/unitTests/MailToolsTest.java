@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import test.testedMethods.MailTools;
+import test.testedMethods.inputValidations;
 
 public class MailToolsTest {
 
@@ -24,7 +25,7 @@ public class MailToolsTest {
         String mailAddress = "henk.butsergmail.nl";
 
         // Act
-        Boolean result = MailTools.validateMailAddress(mailAddress);
+        Boolean result = inputValidations.validateMailAddress(mailAddress);
 
         // Assert
         assertEquals(false, result);
@@ -44,7 +45,7 @@ public class MailToolsTest {
         String mailAddress = "henk.butsers@gmail.com.com";
 
         // Act
-        Boolean result = MailTools.validateMailAddress(mailAddress);
+        Boolean result = inputValidations.validateMailAddress(mailAddress);
 
         // Assert
         assertEquals(false, result);
@@ -63,7 +64,7 @@ public class MailToolsTest {
         String mailAddress = "henk.butsers@.nl";
 
         // Act
-        Boolean result = MailTools.validateMailAddress(mailAddress);
+        Boolean result = inputValidations.validateMailAddress(mailAddress);
 
         // Assert
         assertEquals(false, result);
@@ -82,7 +83,7 @@ public class MailToolsTest {
         String mailAddress = "henk.butsers@sub";
 
         // Act
-        Boolean result = MailTools.validateMailAddress(mailAddress);
+        Boolean result = inputValidations.validateMailAddress(mailAddress);
 
         // Assert
         assertEquals(false, result);
@@ -101,7 +102,7 @@ public class MailToolsTest {
         String mailAddress = "henk.butsers@gmail.nl";
 
         // Act
-        Boolean result = MailTools.validateMailAddress(mailAddress);
+        Boolean result = inputValidations.validateMailAddress(mailAddress);
 
         // Assert
         assertEquals(true, result);

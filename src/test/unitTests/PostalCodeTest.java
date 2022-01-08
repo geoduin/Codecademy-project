@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Test;
 
 import test.testedMethods.PostalCode;
+import test.testedMethods.inputValidations;
 
 public class PostalCodeTest {
     /**
@@ -16,7 +17,7 @@ public class PostalCodeTest {
      */
     @Test(expected = NullPointerException.class)
     public void formatPostalCodeNullPointerTest() {
-        PostalCode.formatPostalCode(null);
+        inputValidations.formatPostalCode(null);
     }
 
     /**
@@ -38,9 +39,9 @@ public class PostalCodeTest {
 
     @Test
     public void formatPostalCodeAcceptsValidPostalCodesTest() {
-        assertEquals("1000 AB", PostalCode.formatPostalCode("1000ab"));
-        assertEquals("2513 AA", PostalCode.formatPostalCode("2513 aA"));
-        assertEquals("9999 ZZ", PostalCode.formatPostalCode(" 9999Zz "));
+        assertEquals("1000 AB", inputValidations.formatPostalCode("1000ab"));
+        assertEquals("2513 AA", inputValidations.formatPostalCode("2513 aA"));
+        assertEquals("9999 ZZ", inputValidations.formatPostalCode(" 9999Zz "));
     }
 
     /**
@@ -52,11 +53,11 @@ public class PostalCodeTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void formatPostalCodeDoesNotAcceptIllegalArguments() {
-        PostalCode.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
-        PostalCode.formatPostalCode("AZ 4500");
-        PostalCode.formatPostalCode("999Az");
-        PostalCode.formatPostalCode("10000ab");
-        PostalCode.formatPostalCode("0123aa");
+        inputValidations.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
+        inputValidations.formatPostalCode("AZ 4500");
+        inputValidations.formatPostalCode("999Az");
+        inputValidations.formatPostalCode("10000ab");
+        inputValidations.formatPostalCode("0123aa");
     }
 
 }

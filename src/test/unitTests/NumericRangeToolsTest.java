@@ -3,7 +3,8 @@ package test.unitTests;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import test.testedMethods.NumericRangeTools;
+import test.testedMethods.inputValidations;
+import test.testedMethods.inputValidations;
 
 public class NumericRangeToolsTest {
     /*
@@ -18,7 +19,7 @@ public class NumericRangeToolsTest {
         // Arrange
         int input = 0;
         // Act
-        boolean result = NumericRangeTools.isValidPercentage(input);
+        boolean result = inputValidations.isValidPercentage(input);
         // Assert
         Assert.assertEquals(true, result);
     }
@@ -28,7 +29,7 @@ public class NumericRangeToolsTest {
         // Arrange
         int input = 100;
         // Act
-        boolean result = NumericRangeTools.isValidPercentage(input);
+        boolean result = inputValidations.isValidPercentage(input);
         // Assert
         Assert.assertEquals(true, result);
     }
@@ -45,7 +46,7 @@ public class NumericRangeToolsTest {
         // Arrange
         int input = -1;
         // Act
-        boolean result = NumericRangeTools.isValidPercentage(input);
+        boolean result = inputValidations.isValidPercentage(input);
         // Assert
         Assert.assertEquals(false, result);
     }
@@ -62,7 +63,7 @@ public class NumericRangeToolsTest {
         // Arrange
         int input = 101;
         // Act
-        boolean result = NumericRangeTools.isValidPercentage(input);
+        boolean result = inputValidations.isValidPercentage(input);
         // Assert
         Assert.assertEquals(false, result);
     }

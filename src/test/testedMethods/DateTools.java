@@ -42,10 +42,6 @@ public class DateTools {
      * 
      */
 
-    public static void main(String[] args) {
-        System.out.println(validateDate(29, 2, 1800));
-    }
-
     public static boolean validateDate(int day, int month, int year) {
         try {
             LocalDate date = LocalDate.of(year, month, day);
