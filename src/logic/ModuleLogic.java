@@ -59,9 +59,9 @@ public class ModuleLogic {
     // Uses the overloaded constructor of Module to add a new one to the list.
     // Consequentially saves it in the database
     public void newModule(Status status, String title, int version, int trackingNumber,
-            String description, String contactName, String emailAddress) {
+            String description, String contactName, String emailAddress, int contentID) {
         Module module = new Module(status, title, version, trackingNumber, description, contactName,
-                emailAddress);
+                emailAddress, null, contentID);
         this.modules.add(module);
         this.moduleRepo.insert(module);
 

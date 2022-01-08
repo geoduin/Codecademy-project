@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import domain.Course;
 import domain.Module;
 import domain.Status;
@@ -225,7 +227,7 @@ public class ModuleRepository extends Repository<Module> {
         try {
             Statement statement = this.connection.getConnection().createStatement();
             ResultSet result = statement.executeQuery(
-                    "SELECT * FROM Module JOIN ContentItem ON Module.ContentID = ContentItem.ContentID JOIN Contact ON Module.ContactEmail = Contact.Email");
+                    "SELECT *, m.ContentID FROM Module m JOIN ContentItem ON m.ContentID = ContentItem.ContentID JOIN Contact ON m.ContactEmail = Contact.Email");
             ArrayList<Module> modules = new ArrayList<>();
 
             while (result.next()) {
@@ -237,8 +239,10 @@ public class ModuleRepository extends Repository<Module> {
                 String description = result.getString("Description");
                 String contactName = result.getString("Name");
                 String emailAddress = result.getString("Email");
+                String nameOfRelatedCourse = result.getString("CourseName");
+                int contentID = result.getInt("Module.ContentID");
                 modules.add(new Module(localDate, status, title, version, trackingNumber, description, contactName,
-                        emailAddress));
+                        emailAddress, nameOfRelatedCourse, contentID));
             }
 
             return modules;
@@ -324,27 +328,26 @@ public class ModuleRepository extends Repository<Module> {
         String description = "";
         String contactName = "";
         String emailAddress = "";
-        Course relatedCourse = null;
+        String nameOfRelatedCourse = null;
         int cID = 0;
 
         // Retrieve from the ContentItem and Module table
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet moduleRetrieve = statement.executeQuery(
+            ResultSet resultSet = statement.executeQuery(
                     "SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "
                             + id);
 
-            while (moduleRetrieve.next()) {
-                title = moduleRetrieve.getString("Title");
-                version = moduleRetrieve.getInt("Version");
-                positionWithinCourse = moduleRetrieve.getInt("PositionInCourse");
-                emailAddress = moduleRetrieve.getString("ContactEmail");
-                date = (LocalDate.parse(moduleRetrieve.getString("CreationDate")));
-                status = Status.valueOf(moduleRetrieve.getString("Status"));
-                description = moduleRetrieve.getString("Description");
-                relatedCourse = new CourseRepository()
-                        .retrieveCourseByName(moduleRetrieve.getString("CourseName"));
-                cID = moduleRetrieve.getInt("cID");
+            while (resultSet.next()) {
+                title = resultSet.getString("Title");
+                version = resultSet.getInt("Version");
+                positionWithinCourse = resultSet.getInt("PositionInCourse");
+                emailAddress = resultSet.getString("ContactEmail");
+                date = (LocalDate.parse(resultSet.getString("CreationDate")));
+                status = Status.valueOf(resultSet.getString("Status"));
+                description = resultSet.getString("Description");
+                nameOfRelatedCourse = resultSet.getString("CourseName");
+                cID = resultSet.getInt("cID");
             }
             // Retrieve from the Contact table to get the contact's name
             try {
@@ -362,7 +365,7 @@ public class ModuleRepository extends Repository<Module> {
             }
 
             return new Module(date, status, title, version, positionWithinCourse, description, contactName,
-                    emailAddress, relatedCourse, cID);
+                    emailAddress, nameOfRelatedCourse, cID);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -370,7 +373,6 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    // Method to link a module with a course. Their relationship is defined within
     // the Module table
     public void assignModuleToCourse(String courseName, int id) {
         try {

@@ -164,7 +164,7 @@ public class WebcastRepository extends Repository<Webcast> {
         // URL.
         try {
             PreparedStatement retrieveByTitle = connection.prepareStatement(
-                    "SELECT Title, Webcast.SpeakerName, Speaker.OrganizationName, Duration, URL, Status, CreationDate, Description, Views FROM Webcast JOIN ContentItem ON ContentItem.ContentID = Webcast.ContentID JOIN Speaker ON Webcast.SpeakerName = Speaker.Name WHERE Title = ?");
+                    "SELECT Title, Webcast.SpeakerName, Speaker.OrganizationName, Duration, URL, Status, CreationDate, Description, Views, Webcast.ContentID FROM Webcast JOIN ContentItem ON ContentItem.ContentID = Webcast.ContentID JOIN Speaker ON Webcast.SpeakerName = Speaker.Name WHERE Title = ?");
             retrieveByTitle.setString(1, webcastTitle);
             ResultSet result = retrieveByTitle.executeQuery();
             while (result.next()) {
@@ -177,10 +177,9 @@ public class WebcastRepository extends Repository<Webcast> {
                 String description = result.getString("Description");
                 String url = result.getString("URL");
                 int view = result.getInt("Views");
-
-                Webcast webcast = new Webcast(title, speaker, organization, durationInMinutes, url, status, date,
-                        description, view);
-                return webcast;
+                int contentID = result.getInt("ContentID");
+                return new Webcast(title, speaker, organization, durationInMinutes, url, status, date,
+                        description, view, contentID);
             }
 
             return null;
@@ -231,14 +230,14 @@ public class WebcastRepository extends Repository<Webcast> {
 
     public String getTitleFromContentID(int contentID) {
         String title = "";
-        String query = "SELECT Title FROM ContentItem WHERE ContentID = "+contentID+"";
-        try (Statement statement = this.connection.getConnection().createStatement()){
+        String query = "SELECT Title FROM ContentItem WHERE ContentID = " + contentID + "";
+        try (Statement statement = this.connection.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(query);
-            
+
             while (result.next()) {
                 title = result.getString("Title");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

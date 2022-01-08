@@ -13,8 +13,8 @@ public class Webcast extends ContentItem {
     private int views;
 
     public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status,
-            LocalDate date, String description, int viewCount) {
-        super(date, status);
+            LocalDate date, String description, int viewCount, int contentID) {
+        super(date, status, contentID);
         this.title = title;
         this.speaker = speaker;
         this.organization = organization;
@@ -25,8 +25,8 @@ public class Webcast extends ContentItem {
     }
 
     public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status,
-            String description, int viewCount) {
-        super(LocalDate.now(), status);
+            String description, int viewCount, int contentID) {
+        super(LocalDate.now(), status, contentID);
         this.title = title;
         this.speaker = speaker;
         this.organization = organization;
@@ -95,6 +95,8 @@ public class Webcast extends ContentItem {
 
     @Override
     public String toString() {
-        return "Tile: " + this.title + " Speaker: " + this.speaker + " Organization: " + this.organization + " Duration: " + this.durationInMinutes + "\n" + "URL: " + this.url + "\n" + "Status: " + super.getStatus().toString() + " Creationdate: " + " Description: " + this.description;
+        return "Tile: " + this.title + " Speaker: " + this.speaker + " Organization: " + this.organization
+                + " Duration: " + this.durationInMinutes + "\n" + "URL: " + this.url + "\n" + "Status: "
+                + super.getStatus().toString() + " Creationdate: " + " Description: " + this.description;
     }
 }

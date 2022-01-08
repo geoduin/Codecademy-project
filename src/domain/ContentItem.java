@@ -8,14 +8,10 @@ public abstract class ContentItem {
     private Status status;
     private int contentID;
 
-    public ContentItem(LocalDate date, Status status, Integer contentID) {
+    public ContentItem(LocalDate date, Status status, int contentID) {
         this.publicationDate = date;
         this.status = status;
         this.contentID = contentID;
-    }
-
-    public ContentItem(LocalDate date, Status status) {
-        this(date, status, null);
     }
 
     public LocalDate getDate() {

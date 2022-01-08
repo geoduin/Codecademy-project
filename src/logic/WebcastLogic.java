@@ -22,7 +22,7 @@ public class WebcastLogic {
             String status, String description, String views) {
         int viewCount = Integer.parseInt(views);
         Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description,
-                viewCount);
+                viewCount, 0);
         this.repo.insert(webcast);
     }
 
@@ -32,7 +32,7 @@ public class WebcastLogic {
 
     public void editWebcast(String url, String title, String description, Status status) {
         // creating helper webcast to use WebcastRepository method
-        Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description, -1);
+        Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description, -1, 0);
         this.repo.update(webcast);
     }
 

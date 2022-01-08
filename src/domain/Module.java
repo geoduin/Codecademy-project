@@ -9,11 +9,11 @@ public class Module extends ContentItem {
     private String description;
     private String contactName;
     private String emailAddress;
-    private Course relatedCourse;
-    private int contentID;
+    private String nameOfRelatedCourse;
 
     public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
-            String description, String contactName, String emailAddress, Course relatedCourse, Integer contentID) {
+            String description, String contactName, String emailAddress, String nameOfRelatedCourse,
+            int contentID) {
         super(date, status, contentID);
         this.title = title;
         this.version = version;
@@ -21,12 +21,7 @@ public class Module extends ContentItem {
         this.description = description;
         this.contactName = contactName;
         this.emailAddress = emailAddress;
-        this.relatedCourse = relatedCourse;
-    }
-
-    public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
-            String description, String contactName, String emailAddress) {
-        this(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, null, null);
+        this.nameOfRelatedCourse = nameOfRelatedCourse;
     }
 
     // An overloaded method exists to automatically give newly created modules the
@@ -34,9 +29,11 @@ public class Module extends ContentItem {
     // creation. However, retrieved modules from the database need to get their
     // actual historical date, therefore an overloaded constructor is necessary
     public Module(Status status, String title, int version, int positionWithinCourse,
-            String description, String contactName, String emailAddress) {
+            String description, String contactName, String emailAddress, String nameOfRelatedCourse,
+            int contentID) {
         this(java.time.LocalDate.now(), status, title, version, positionWithinCourse, description, contactName,
-                emailAddress);
+                emailAddress, nameOfRelatedCourse,
+                contentID);
     }
 
     // Getters and setters bulk
@@ -89,7 +86,7 @@ public class Module extends ContentItem {
     }
 
     public String getRelatedCourseName() {
-        return this.relatedCourse.getName();
+        return this.nameOfRelatedCourse;
     }
 
     // Title and version makes a module instance unique

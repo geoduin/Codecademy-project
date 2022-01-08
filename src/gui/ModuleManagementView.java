@@ -250,7 +250,7 @@ class ModuleManagementView extends View {
             // Creating the module
             this.logic.newModule(status, title, version,
                     Integer.valueOf(orderNumberField.getText()), descriptionField.getText(),
-                    contactField.getText(), contactEmailField.getText());
+                    contactField.getText(), contactEmailField.getText(), 0);
             moduleSuccessfullyCreatedView();
         });
         activate(view, "Create module");
