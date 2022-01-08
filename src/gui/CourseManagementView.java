@@ -118,12 +118,12 @@ class CourseManagementView extends View {
         // Initial layout setup
         GridPane view = generateFormGrid();
 
-        // form label
-        Label welcomeToFormLabel = new Label("Add recommended course to course: " + courseName);
-        welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-        view.add(welcomeToFormLabel, 0, 0, 2, 1);
-        GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
-        GridPane.setMargin(welcomeToFormLabel, new Insets(20, 0, 20, 0));
+        // Welcoming the user
+        Label welcomeLabel = new Label("Add recommended course to course: " + courseName);
+        welcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        view.add(welcomeLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(welcomeLabel, HPos.LEFT);
+        GridPane.setMargin(welcomeLabel, new Insets(20, 0, 20, 0));
 
         // Dropdown with all courses
         Label courseDropdownLabel = new Label("Courses:");
@@ -160,7 +160,7 @@ class CourseManagementView extends View {
         view.add(setRecommendedBtn, 0, 3);
         view.add(noCourseSelectedError, 0, 4);
 
-        activate(view, "Add course recommendation");
+        activate(view, "Add course recommendation for Course: " + courseName);
 
     }
 
