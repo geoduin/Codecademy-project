@@ -93,4 +93,8 @@ public class Webcast extends ContentItem {
         this.views = view;
     }
 
+    @Override
+    public String toString() {
+        return "Tile: " + this.title + " Speaker: " + this.speaker + " Organization: " + this.organization + " Duration: " + this.durationInMinutes + "\n" + "URL: " + this.url + "\n" + "Status: " + super.getStatus().toString() + " Creationdate: " + " Description: " + this.description;
+    }
 }
