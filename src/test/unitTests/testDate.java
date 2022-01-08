@@ -4,12 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import test.testedMethods.DateTools;
-import test.testedMethods.inputValidations;
+import test.Methods.inputValidations;
 
 public class testDate {
-
-    private DateTools tools;
 
     /*
      * @subcontract all other cases {

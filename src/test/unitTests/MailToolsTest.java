@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import test.testedMethods.MailTools;
-import test.testedMethods.inputValidations;
+import test.Methods.inputValidations;
 
 public class MailToolsTest {
 
