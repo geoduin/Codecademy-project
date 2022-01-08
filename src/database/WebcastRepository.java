@@ -66,7 +66,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
             
             // creates webcast in database
-            PreparedStatement webcastCreator = connection.prepareStatement("INSERT INTO Webcast VALUES(?, ?, ?, ?)");
+            PreparedStatement webcastCreator = connection.prepareStatement("INSERT INTO Webcast (ContentID, URL, Duration, SpeakerName) VALUES(?, ?, ?, ?)");
             webcastCreator.setInt(1, contentID);
             webcastCreator.setString(2, domainObject.getUrl());
             webcastCreator.setInt(3, domainObject.getDurationInMinutes());
