@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import domain.Student;
-import javafx.beans.value.ObservableValue;
+import domain.Module;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -104,8 +101,8 @@ class StudentManagementView extends View {
                 return;
             }
 
-            String studentName = studentList.getValue().split("\\)")[1].trim();
-            contentProgressView(studentName);
+            Student student = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
+            contentProgressView(student);
 
         });
 
@@ -114,12 +111,33 @@ class StudentManagementView extends View {
 
     }
 
-    private void contentProgressView(String studentName) {
+    // View responsible for showing the progress within ContentItems for the
+    // selected student, and making that progress updatable for the user
+    private void contentProgressView(Student student) {
+        /*
+         * Retrieving a map of all Modules in Course to which a Student is enrolled.
+         * Each Module is (as instantiated form) the key of the value, which is the
+         * progression amount 1-100
+         */
+        Map<Module, Integer> moduleProgressMap = this.logic.receiveModuleProgressForStudent(student);
+
+        // Setting a list of all CourseNames in which a Student is enrolled, via the map
+        // created above
+        ArrayList<String> courseNames = new ArrayList<>();
+        for (Module module : moduleProgressMap.keySet()) {
+            String courseName = module.getRelatedCourseName();
+            if (!courseNames.contains(courseName)) {
+                courseNames.add(courseName);
+
+            }
+
+        }
+
         // Initial layout setup
         GridPane view = generateFormGrid();
 
         // View title for use
-        Label welcomeLabel = new Label("View and update progress of : " + studentName);
+        Label welcomeLabel = new Label("View and update progress of : " + student.getStudentName());
         welcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeLabel, HPos.LEFT);
@@ -131,10 +149,14 @@ class StudentManagementView extends View {
         Text noCourseSelectedError = new Text("");
         noCourseSelectedError.setFill(Color.FIREBRICK);
 
+        for (String courseName : courseNames) {
+            courseDropdown.getItems().add(courseName);
+        }
+
+        // Final setup and activation
         view.add(courseDropdownLabel, 0, 1);
         view.add(courseDropdown, 0, 2);
-
-        activate(view, "Content progress of Student: " + studentName);
+        activate(view, "Content progress of Student: " + student.getStudentName());
 
     }
 
@@ -147,7 +169,7 @@ class StudentManagementView extends View {
         Label genderBoxLabel = new Label("Gender");
         Label emailLabel = new Label("Email address");
         Label dateOfBirthLabel = new Label("Date of birth");
-        Label addresLabel = new Label("Address");
+        Label addressLabel = new Label("Address");
         Label countryLabel = new Label("Country");
         Label cityLabel = new Label("City");
 
@@ -202,7 +224,7 @@ class StudentManagementView extends View {
         view.add(genderBoxLabel, 0, 2);
         view.add(emailLabel, 0, 3);
         view.add(dateOfBirthLabel, 0, 4);
-        view.add(addresLabel, 0, 5);
+        view.add(addressLabel, 0, 5);
         view.add(countryLabel, 0, 6);
         view.add(cityLabel, 0, 7);
         // secondColumn

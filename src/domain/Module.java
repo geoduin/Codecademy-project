@@ -9,9 +9,10 @@ public class Module extends ContentItem {
     private String description;
     private String contactName;
     private String emailAddress;
+    private Course relatedCourse;
 
     public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
-            String description, String contactName, String emailAddress) {
+            String description, String contactName, String emailAddress, Course relatedCourse) {
         super(date, status);
         this.title = title;
         this.version = version;
@@ -19,6 +20,12 @@ public class Module extends ContentItem {
         this.description = description;
         this.contactName = contactName;
         this.emailAddress = emailAddress;
+        this.relatedCourse = relatedCourse;
+    }
+
+    public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
+            String description, String contactName, String emailAddress) {
+        this(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, null);
     }
 
     // An overloaded method exists to automatically give newly created modules the
@@ -78,6 +85,10 @@ public class Module extends ContentItem {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getRelatedCourseName() {
+        return this.relatedCourse.getName();
     }
 
     // Title and version makes a module instance unique
