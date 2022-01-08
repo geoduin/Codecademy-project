@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
 import domain.Gender;
 import domain.Webcast;
-import database.WebcastRepository;
 
 //Does not use any of the methods from repository, so it does not extend the abstract class.
 public class StatisticsRepository{
@@ -21,9 +21,9 @@ public class StatisticsRepository{
         this.dbConnection = new DBConnection();
     }
 
-    //Retrieves percentage of aquired certificates compared to all enrollments by gender
-    public int retrievePercentageAquiredCertificates(Gender gender) {
-        int percentageAquiredCertificates = 0;
+    //Retrieves percentage of acquired certificates compared to all enrollments by gender
+    public int retrievePercentageAcquiredCertificates(Gender gender) {
+        int percentageAcquiredCertificates = 0;
         try {
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT 100 * (1.0 * COUNT(Certificate.CertificateID)) / (1.0 * COUNT(Enrollment.ID)) AS Percentage FROM Enrollment LEFT JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.Email IN (SELECT Email FROM Student WHERE Gender = ?)");
             preparedStatement.setString(1, gender.name());
@@ -31,13 +31,13 @@ public class StatisticsRepository{
             preparedStatement.close();
 
             while(result.next()) {
-                percentageAquiredCertificates = result.getInt("Percentage");
+                percentageAcquiredCertificates = result.getInt("Percentage");
             }
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }
-        return percentageAquiredCertificates;
+        return percentageAcquiredCertificates;
     }
     
     //retrieves the ContentID of each module and the average progressions of all students for that module. 
@@ -60,8 +60,6 @@ public class StatisticsRepository{
             e.printStackTrace();
             return null;
         }
-
-        
     }
 
     //Retrieves progression per module for a selected course
@@ -88,7 +86,7 @@ public class StatisticsRepository{
     }
 
     //Retrieves top 3 most watched webcasts
-    public ArrayList<Webcast> retrieveTop3MostWachtedWebcasts() {
+    public ArrayList<Webcast> retrieveTop3MostWatchedWebcasts() {
         ArrayList<Webcast> top3Webcasts = new ArrayList<>();
         WebcastRepository repo = new WebcastRepository();
         try {
@@ -108,24 +106,23 @@ public class StatisticsRepository{
         return top3Webcasts;
     }
 
+    //Retrieves recommended courses for a selected course
+    public List<Course> retrieveRecommendedCourses(String courseName) {
+        ArrayList<Course> retrievedCourses = new ArrayList<>();
+        String query = "SELECT * FROM CourseRecommendation WHERE CourseName = ?";
+        try (PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, courseName);
+            ResultSet result = preparedStatement.executeQuery();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            while (result.next()) {
+                retrievedCourses.add(new Course(result.getString("CourseName"), result.getString("Subject"), result.getString("Description"), Difficulty.valueOf(result.getString("Difficulty"))));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return retrievedCourses;
+    }
 
     //Retrieves the number of certificates that a student has achieved, see SQL documentation for explanation of the query
     public ArrayList<Integer> retrieveStudentCertificates(String studentEmail) { 
@@ -143,17 +140,7 @@ public class StatisticsRepository{
             e.printStackTrace();
             return null;
         }
-
-    
     }
-
-
-
-
-
-    
-
-
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
     public HashMap<Course, Integer> retrieveTop3CoursesByNumberOfCertificates() { 
@@ -170,15 +157,10 @@ public class StatisticsRepository{
             e.printStackTrace();
             return null;
         }
-
-
     }
 
-
     
-
     public int retrieveNumberOFCertificates(String courseName) { 
-        
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");
             statement.setString(1, courseName);
@@ -193,8 +175,4 @@ public class StatisticsRepository{
         return -1;
         
     }
-
-
-
-    
 }

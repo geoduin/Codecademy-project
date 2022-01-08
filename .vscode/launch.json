@@ -9,6 +9,13 @@
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "Launcher",
+            "projectName": "Codecademy-project_42cfae02"
+        },
+        {
+            "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
+            "mainClass": "Launcher",
             "projectName": "Codecademy-project_3ed796c7"
         },
         {

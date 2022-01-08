@@ -398,4 +398,14 @@ public class ModuleRepository extends Repository<Module> {
             e.printStackTrace();
         }
     }
+
+    public void deleteProgressWithoutCourse() {
+        try (PreparedStatement statement = this.connection.getConnection()
+                .prepareStatement("DELETE Progress FROM Progress JOIN Module ON" +
+                        "Module.ContentID = Progress.ContentID" + "WHERE CourseName IS NULL")) {
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
