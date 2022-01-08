@@ -38,6 +38,7 @@ public class ModuleLogic {
 
     public void unlinkModuleWithCourse(int id) {
         this.moduleRepo.unassignModuleToCourse(id);
+        this.moduleRepo.deleteProgressWithoutCourse();
     }
 
     public void linkModuleWithCourse(String courseName, int id) {
