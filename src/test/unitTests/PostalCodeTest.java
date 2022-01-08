@@ -4,8 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import test.testedMethods.PostalCode;
-import test.testedMethods.inputValidations;
+import test.Methods.inputValidations;
 
 public class PostalCodeTest {
     /**

@@ -3,8 +3,7 @@ package test.unitTests;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import test.testedMethods.inputValidations;
-import test.testedMethods.inputValidations;
+import test.Methods.inputValidations;
 
 public class NumericRangeToolsTest {
     /*
