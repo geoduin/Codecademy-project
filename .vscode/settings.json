@@ -35,7 +35,8 @@
         "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.swing.jar",
         "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx.web.jar",
         "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JavaFX\\lib\\javafx-swt.jar",
-        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JDBC Driver\\enu\\mssql-jdbc-9.4.1.jre11.jar"
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JDBC Driver\\enu\\mssql-jdbc-9.4.1.jre11.jar",
+        "c:\\Users\\Xin20\\Documents\\InformaticaTools\\SQLServer\\junit\\junit-platform-console-standalone-1.8.2.jar"
     ],
     "java.project.sourcePaths": [
         "src"
