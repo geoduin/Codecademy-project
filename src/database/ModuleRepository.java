@@ -325,12 +325,14 @@ public class ModuleRepository extends Repository<Module> {
         String contactName = "";
         String emailAddress = "";
         Course relatedCourse = null;
+        int cID = 0;
 
         // Retrieve from the ContentItem and Module table
         try {
             Statement statement = this.connection.getConnection().createStatement();
             ResultSet moduleRetrieve = statement.executeQuery(
-                    "SELECT * FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = " + id);
+                    "SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "
+                            + id);
 
             while (moduleRetrieve.next()) {
                 title = moduleRetrieve.getString("Title");
@@ -342,6 +344,7 @@ public class ModuleRepository extends Repository<Module> {
                 description = moduleRetrieve.getString("Description");
                 relatedCourse = new CourseRepository()
                         .retrieveCourseByName(moduleRetrieve.getString("CourseName"));
+                cID = moduleRetrieve.getInt("cID");
             }
             // Retrieve from the Contact table to get the contact's name
             try {
@@ -359,7 +362,7 @@ public class ModuleRepository extends Repository<Module> {
             }
 
             return new Module(date, status, title, version, positionWithinCourse, description, contactName,
-                    emailAddress, relatedCourse);
+                    emailAddress, relatedCourse, cID);
 
         } catch (SQLException e) {
             e.printStackTrace();
