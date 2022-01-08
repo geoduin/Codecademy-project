@@ -299,18 +299,13 @@ class ModuleManagementView extends View {
 
         // Status
         Label statusLabel = new Label("Module status:");
-        ComboBox<String> dropdown = new ComboBox<>();
-        Text noStatusSelectedError = new Text("");
-        noStatusSelectedError.setFill(Color.FIREBRICK);
-        final String defaultDropDownString = "-please select a value-";
-        dropdown.setValue(moduleToEdit.getStatus().toString());
-        dropdown.getItems().add(defaultDropDownString);
-        dropdown.getItems().add("ACTIVE");
-        dropdown.getItems().add("CONCEPT");
-        dropdown.getItems().add("ARCHIVED");
+        ComboBox<Status> dropdown = new ComboBox<>();
+        dropdown.setValue(moduleToEdit.getStatus());
+        dropdown.getItems().add(Status.ACTIVE);
+        dropdown.getItems().add(Status.ARCHIVED);
+        dropdown.getItems().add(Status.CONCEPT);
         view.add(statusLabel, 0, 5);
         view.add(dropdown, 1, 5);
-        view.add(noStatusSelectedError, 2, 5);
 
         // Description
         Label descriptionLabel = new Label("Description:");
@@ -328,12 +323,6 @@ class ModuleManagementView extends View {
         view.add(nullOrAlreadyExistsErrorField, 1, 9);
 
         editBtn.setOnMouseClicked((clicked -> {
-            if (dropdown.getValue().equals(defaultDropDownString)) {
-                noStatusSelectedError.setText("No value selected!");
-                return;
-            } else {
-                noStatusSelectedError.setText("");
-            }
 
             if (hasNoInput(descriptionField) || hasNoInput(contactField)
                     || hasNoInput(contactEmailField)) {

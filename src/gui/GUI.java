@@ -47,7 +47,6 @@ public class GUI extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
-        new DBConnection();
     }
 
     /**

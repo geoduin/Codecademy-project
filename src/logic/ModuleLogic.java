@@ -77,24 +77,14 @@ public class ModuleLogic {
 
     // Method to edit the editable fields in a module. Gets instantly saved in the
     // database
-    public void editModule(String email, String contact, String description, String status, int positionInCourse,
+    public void editModule(String email, String contact, String description, Status status, int positionInCourse,
             Module module) {
 
         // Alterable information
         module.setEmailAddress(email);
         module.setContactName(contact);
         module.setDescription(description);
-
-        Status statusEnum;
-        if (status.equals("ACTIVE")) {
-            statusEnum = domain.Status.ACTIVE;
-        } else if (status.equals("ARCHIVED")) {
-            statusEnum = domain.Status.ARCHIVED;
-        } else {
-            statusEnum = domain.Status.CONCEPT;
-        }
-
-        module.setStatus(statusEnum);
+        module.setStatus(status);
         module.setPositionWithinCourse(positionInCourse);
         moduleRepo.update(module);
     }
