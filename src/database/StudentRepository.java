@@ -189,7 +189,7 @@ public class StudentRepository extends Repository<Student> {
         final ModuleRepository moduleRepository = new ModuleRepository();
 
         // Setting the query to get all Module Content ID and related progression value
-        String sql = "SELECT m.ContentID, Percentage, m.PositionInCourse FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE StudentEmail = ? ORDER BY m.PositionInCourse";
+        String sql = "SELECT m.ContentID, Percentage FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE StudentEmail = ? ORDER BY m.PositionInCourse";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
             // Query execution
             statement.setString(1, student.getEmail());
@@ -197,7 +197,6 @@ public class StudentRepository extends Repository<Student> {
             // Instantiating Modules from the results, and putting as value in a map,
             // setting its related progression amount as a key
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("PositionInCourse"));
                 Module module = moduleRepository.retrieveModuleByID(resultSet.getInt("ContentID"));
                 int progressPercentage = resultSet.getInt("Percentage");
                 modulesWithProgressMap.put(module, progressPercentage);

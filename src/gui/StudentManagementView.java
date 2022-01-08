@@ -50,7 +50,7 @@ class StudentManagementView extends View {
         studentList.getItems().add(defaultStudentValue);
 
         // Retrieves the list of Student names from database in combination with their
-        // key (mail saddress) in a map
+        // key (mail address) in a map
         Map<String, String> studentMap = this.logic.getNameAndEmail();
         Collection<String> list = studentMap.keySet();
         studentList.getItems().addAll(list);
@@ -58,8 +58,8 @@ class StudentManagementView extends View {
         // Buttons for possible actions on a selected student from the dropdown
         Button editStudentButton = new Button("Edit student");
         Button deleteStudentButton = new Button("Delete student");
-        Button contentProgressButton = new Button("Content progress");
-        Button enrollmentToCourseBtn = new Button("Enroll student");
+        Button contentProgressButton = new Button("View and update module/webcast progress");
+        Button enrollmentToCourseBtn = new Button("Enroll student in Course");
         // Second column
         Label createStudentLabel = new Label("Create student:");
         // The plus sign will lead you to the create new student view.
@@ -163,8 +163,7 @@ class StudentManagementView extends View {
         // Dropdown with all courses the Student is enrolled in
         Label courseDropdownLabel = new Label("Courses:");
         ComboBox<String> courseDropdown = new ComboBox<>();
-        Text noCourseSelectedError = new Text("");
-        noCourseSelectedError.setFill(Color.FIREBRICK);
+        courseDropdown.getItems().add("-");
 
         for (String courseName : courseNames) {
             courseDropdown.getItems().add(courseName);
@@ -192,10 +191,14 @@ class StudentManagementView extends View {
                 }
             }
 
-            if (count == 1) {
-                moduleDropdownLabel.setText(count + " module available:");
+            if (count == 0) {
+                moduleDropdownLabel.setText("-no module(s) linked with selected course-");
+            } else if (count == 1) {
+                moduleDropdownLabel.setText("1 module linked with course: ");
+
             } else {
-                moduleDropdownLabel.setText(count + " modules available:");
+                moduleDropdownLabel
+                        .setText(count + " modules available (ordered by their position within course, set by you!):");
             }
         });
 
@@ -208,38 +211,44 @@ class StudentManagementView extends View {
         Group progressVisualization = new Group();
         progressVisualization.getChildren().addAll(slider, pb, pi);
         Button updateProgressButton = new Button("Update progress");
+        Label updateProgressLabel = new Label("");
+        updateProgressLabel.setTextFill(Color.GREEN);
         updateProgressButton.setVisible(false);
 
-        // Making the progression updatable by the user, via the slider
+        // Making the progression updatable by the user, by the slider
         slider.valueProperty().addListener(
                 (ObservableValue<? extends Number> ov, Number oldValue,
                         Number newValue) -> {
+                    updateProgressLabel.setText("");
                     pb.setProgress(newValue.doubleValue() / 100);
                     pi.setProgress(newValue.doubleValue() / 100);
                 });
 
-        // Linking the progression slider with the selected Module from the dropdown
+        // Every time a new module is selected, the progress indicators and sliders get
+        // the current value from the module
         moduleDropdown.setOnAction(moduleSelected -> {
+            updateProgressLabel.setText("");
             Module selectedModule = moduleDropdown.getValue();
             if (selectedModule == null) {
                 updateProgressButton.setVisible(false);
                 return;
             }
+
             int progressionPercentage = moduleProgressMap.get(selectedModule);
             slider.setValue(progressionPercentage);
-            pb.setProgress(progressionPercentage);
-            pb.setProgress(progressionPercentage);
             updateProgressButton.setVisible(true);
         });
 
         // Action event for the progress update button, so that progress of the selected
-        // module gets updated
+        // module gets updated based on the progress indicator (set by user)
         updateProgressButton.setOnMouseClicked(clicked -> {
             int moduleContentID = moduleDropdown.getValue().getID();
-            int newProgressAmount = (int) slider.getValue();
+            int newProgressAmount = (int) Math.round(slider.getValue());
 
             this.logic.updateProgressContenItem(moduleContentID, student, newProgressAmount);
             moduleProgressMap.replace(moduleDropdown.getValue(), newProgressAmount);
+
+            updateProgressLabel.setText("Updated!");
 
         });
 
@@ -252,6 +261,7 @@ class StudentManagementView extends View {
         view.add(pb, 1, 4);
         view.add(pi, 1, 5);
         view.add(updateProgressButton, 2, 3);
+        view.add(updateProgressLabel, 2, 4);
 
         activate(view, "Content progress of Student: " + student.getStudentName());
 

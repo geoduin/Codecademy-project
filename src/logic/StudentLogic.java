@@ -48,7 +48,7 @@ public class StudentLogic {
         this.studentRepo.update(student);
     }
 
-    // It receives a hashmap from the studentrepository and returns this hashmap to
+    // It receives a hashmap from the student repository and returns this hashmap to
     // the StudentManagement view
     public Map<String, String> getNameAndEmail() {
         return this.studentRepo.retrieveNameByEmail();
