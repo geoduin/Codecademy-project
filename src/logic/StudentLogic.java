@@ -233,4 +233,10 @@ public class StudentLogic {
         return this.studentRepo.retrieveAllModuleProgressOfStudent(student);
     }
 
+    // Relay between GUI and Repo to update the progression a Student has within a
+    // Module or webcast (ContentItem). See StudentRepo for more details
+    public void updateProgressContenItem(int contentID, Student student, int newAmount) {
+        this.studentRepo.updateProgressOfContentItem(contentID, student.getEmail(), newAmount);
+    }
+
 }

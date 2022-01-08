@@ -1,5 +1,6 @@
 package gui;
 
+import database.DBConnection;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -46,7 +47,7 @@ public class GUI extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
-
+        new DBConnection();
     }
 
     /**

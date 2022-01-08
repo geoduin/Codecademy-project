@@ -1,12 +1,17 @@
 package database;
 
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Course;
+import domain.Difficulty;
 import domain.Gender;
+import domain.Webcast;
+import database.WebcastRepository;
 
 //Does not use any of the methods from repository, so it does not extend the abstract class.
 public class StatisticsRepository{
@@ -82,8 +87,26 @@ public class StatisticsRepository{
         }
     }
 
-    
+    //Retrieves top 3 most watched webcasts
+    public ArrayList<Webcast> retrieveTop3MostWachtedWebcasts() {
+        ArrayList<Webcast> top3Webcasts = new ArrayList<>();
+        WebcastRepository repo = new WebcastRepository();
+        try {
+            Statement statement = this.dbConnection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT TOP 3 * FROM Webcast ORDER BY Views DESC");
 
+            while (result.next()) {
+                int contentID = result.getInt("ContentID");
+                top3Webcasts.add(repo.retrieveByTitle(repo.getTitleFromContentID(contentID)));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return top3Webcasts;
+    }
 
 
 
@@ -123,14 +146,53 @@ public class StatisticsRepository{
 
     
     }
+
+
+
+
+
     
 
 
 
+    //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
+    public HashMap<Course, Integer> retrieveTop3CoursesByNumberOfCertificates() { 
+        HashMap<Course, Integer> topCourses = new HashMap<>();
+        try {
+            Statement statement = this.dbConnection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT TOP 3 Course.CourseName, Course.Subject, Course.Description, Course.Difficulty, COUNT(Certificate.CertificateID) AS NrOfCertificates FROM Course LEFT JOIN Enrollment ON Course.CourseName = Enrollment.CourseName LEFT JOIN Certificate ON Enrollment.ID = Certificate.CertificateID GROUP BY Course.CourseName, Course.Subject, Course.Description, Course.Difficulty ORDER BY NrOfCertificates DESC");           
+            while(result.next()) { 
+                Course course = new Course(result.getString("CourseName"), result.getString("Subject"), result.getString("Description"), Difficulty.valueOf(result.getString("Difficulty")));
+                topCourses.put(course, result.getInt("NrOfCertificates"));
+            }
+            return topCourses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+
+    }
 
 
     
+
+    public int retrieveNumberOFCertificates(String courseName) { 
+        
+        try {
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");
+            statement.setString(1, courseName);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) { 
+                return result.getInt("CourseName"); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return -1;
+        
+    }
 
 
 

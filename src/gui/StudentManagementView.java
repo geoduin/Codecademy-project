@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Map;
 import domain.Student;
 import domain.Module;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -142,9 +147,7 @@ class StudentManagementView extends View {
             String courseName = module.getRelatedCourseName();
             if (!courseNames.contains(courseName)) {
                 courseNames.add(courseName);
-
             }
-
         }
 
         // Initial layout setup
@@ -167,9 +170,89 @@ class StudentManagementView extends View {
             courseDropdown.getItems().add(courseName);
         }
 
+        /**
+         * Of the selected Course in the Course dropdown, show all modules in another
+         * dropdown which are related to that course. The modules are ordered by their
+         * position within the course
+         **/
+        Label moduleDropdownLabel = new Label("Select a course first!");
+        ComboBox<Module> moduleDropdown = new ComboBox<>();
+
+        courseDropdown.setOnAction(courseSelected -> {
+            moduleDropdown.getItems().clear();
+            String selectedCourseName = courseDropdown.getValue();
+
+            // Each related module to the current selected Course by the user, gets put into
+            // the module dropdown
+            int count = 0;
+            for (Module module : moduleProgressMap.keySet()) {
+                if (module.getRelatedCourseName().equals(selectedCourseName)) {
+                    moduleDropdown.getItems().add(module);
+                    count++;
+                }
+            }
+
+            if (count == 1) {
+                moduleDropdownLabel.setText(count + " module available:");
+            } else {
+                moduleDropdownLabel.setText(count + " modules available:");
+            }
+        });
+
+        // Progress visualization using a slide and indicators
+        final Slider slider = new Slider();
+        slider.setMin(0);
+        slider.setMax(100);
+        final ProgressBar pb = new ProgressBar(0);
+        final ProgressIndicator pi = new ProgressIndicator(0);
+        Group progressVisualization = new Group();
+        progressVisualization.getChildren().addAll(slider, pb, pi);
+        Button updateProgressButton = new Button("Update progress");
+        updateProgressButton.setVisible(false);
+
+        // Making the progression updatable by the user, via the slider
+        slider.valueProperty().addListener(
+                (ObservableValue<? extends Number> ov, Number oldValue,
+                        Number newValue) -> {
+                    pb.setProgress(newValue.doubleValue() / 100);
+                    pi.setProgress(newValue.doubleValue() / 100);
+                });
+
+        // Linking the progression slider with the selected Module from the dropdown
+        moduleDropdown.setOnAction(moduleSelected -> {
+            Module selectedModule = moduleDropdown.getValue();
+            if (selectedModule == null) {
+                updateProgressButton.setVisible(false);
+                return;
+            }
+            int progressionPercentage = moduleProgressMap.get(selectedModule);
+            slider.setValue(progressionPercentage);
+            pb.setProgress(progressionPercentage);
+            pb.setProgress(progressionPercentage);
+            updateProgressButton.setVisible(true);
+        });
+
+        // Action event for the progress update button, so that progress of the selected
+        // module gets updated
+        updateProgressButton.setOnMouseClicked(clicked -> {
+            int moduleContentID = moduleDropdown.getValue().getID();
+            int newProgressAmount = (int) slider.getValue();
+
+            this.logic.updateProgressContenItem(moduleContentID, student, newProgressAmount);
+            moduleProgressMap.replace(moduleDropdown.getValue(), newProgressAmount);
+
+        });
+
         // Final setup and activation
         view.add(courseDropdownLabel, 0, 1);
         view.add(courseDropdown, 0, 2);
+        view.add(moduleDropdownLabel, 1, 1);
+        view.add(moduleDropdown, 1, 2);
+        view.add(slider, 1, 3);
+        view.add(pb, 1, 4);
+        view.add(pi, 1, 5);
+        view.add(updateProgressButton, 2, 3);
+
         activate(view, "Content progress of Student: " + student.getStudentName());
 
     }

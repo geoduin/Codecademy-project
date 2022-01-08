@@ -186,7 +186,7 @@ public class StudentRepository extends Repository<Student> {
      */
     public Map<Module, Integer> retrieveAllModuleProgressOfStudent(Student student) {
         Map<Module, Integer> modulesWithProgressMap = new HashMap<>();
-        final ModuleRepository ModuleRepository = new ModuleRepository();
+        final ModuleRepository moduleRepository = new ModuleRepository();
 
         // Setting the query to get all Module Content ID and related progression value
         String sql = "SELECT m.ContentID, Percentage FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE StudentEmail = ?";
@@ -198,7 +198,7 @@ public class StudentRepository extends Repository<Student> {
             // Instantiating Modules from the results, and putting as value in a map,
             // setting its related progression amount as a key
             while (resultSet.next()) {
-                Module module = ModuleRepository.retrieveModuleByID(resultSet.getInt("ContentID"));
+                Module module = moduleRepository.retrieveModuleByID(resultSet.getInt("ContentID"));
                 int progressPercentage = resultSet.getInt("Percentage");
                 modulesWithProgressMap.put(module, progressPercentage);
             }
@@ -207,5 +207,23 @@ public class StudentRepository extends Repository<Student> {
             e.printStackTrace();
         }
         return modulesWithProgressMap;
+    }
+
+    // Of an individual ContenItem, update the progress the Student has in it
+    public void updateProgressOfContentItem(int contentID, String studentEmail, int newAmount) {
+
+        String sql = "UPDATE Progress SET Percentage = ? WHERE ContentID = ? AND StudentEmail = ?";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            // Setting the amount of progress between 0 - 100
+            statement.setInt(1, newAmount);
+            statement.setInt(2, contentID);
+            statement.setString(3, studentEmail);
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

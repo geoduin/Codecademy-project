@@ -10,10 +10,11 @@ public class Module extends ContentItem {
     private String contactName;
     private String emailAddress;
     private Course relatedCourse;
+    private int contentID;
 
     public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
-            String description, String contactName, String emailAddress, Course relatedCourse) {
-        super(date, status);
+            String description, String contactName, String emailAddress, Course relatedCourse, Integer contentID) {
+        super(date, status, contentID);
         this.title = title;
         this.version = version;
         this.positionWithinCourse = positionWithinCourse;
@@ -25,7 +26,7 @@ public class Module extends ContentItem {
 
     public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
             String description, String contactName, String emailAddress) {
-        this(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, null);
+        this(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, null, null);
     }
 
     // An overloaded method exists to automatically give newly created modules the
@@ -124,6 +125,11 @@ public class Module extends ContentItem {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.positionWithinCourse + ": " + this.title + " (version " + this.version + ")";
     }
 
 }

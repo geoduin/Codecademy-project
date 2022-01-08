@@ -229,4 +229,20 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
+    public String getTitleFromContentID(int contentID) {
+        String title = "";
+        String query = "SELECT Title FROM ContentItem WHERE ContentID = "+contentID+"";
+        try (Statement statement = this.connection.getConnection().createStatement()){
+            ResultSet result = statement.executeQuery(query);
+            
+            while (result.next()) {
+                title = result.getString("Title");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return title;
+    }
 }
