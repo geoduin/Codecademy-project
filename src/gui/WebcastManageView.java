@@ -186,10 +186,10 @@ class WebcastManageView extends View {
         view.add(urlField, 1, 2);
         view.add(statusLabel, 0, 3);
         view.add(statusComboBox, 1, 3);
-        view.add(editButton, 1, 4);
-        view.add(views, 0, 5);
-        view.add(viewField, 1, 5);
-        view.add(result, 0, 8);
+        view.add(editButton, 1, 5);
+        view.add(views, 0, 4);
+        view.add(viewField, 1, 4);
+        view.add(result, 0, 6);
 
         editButton.setOnAction(click -> {
             // checking if all fields are filled
