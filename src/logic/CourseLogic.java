@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import database.CourseRepository;
 import database.ModuleRepository;
@@ -21,7 +22,7 @@ public class CourseLogic {
 
     }
 
-    public ArrayList<String> retrieveCourseNames() {
+    public List<String> retrieveCourseNames() {
         return this.repository.retrieveAllCourseNames();
     }
 

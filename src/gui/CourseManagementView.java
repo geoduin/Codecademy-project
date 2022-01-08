@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
@@ -131,7 +132,7 @@ class CourseManagementView extends View {
         Text noCourseSelectedError = new Text("");
         noCourseSelectedError.setFill(Color.FIREBRICK);
         // Retrieving formatted module strings and adding them to dropdown
-        ArrayList<String> courseNames = this.logic.retrieveCourseNames();
+        List<String> courseNames = this.logic.retrieveCourseNames();
         for (String name : courseNames) {
             if (name.equals(courseName)) {
                 continue;
