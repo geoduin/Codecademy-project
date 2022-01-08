@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Course;
 import domain.Module;
 import domain.Status;
 
@@ -323,6 +324,7 @@ public class ModuleRepository extends Repository<Module> {
         String description = "";
         String contactName = "";
         String emailAddress = "";
+        Course relatedCourse = null;
 
         // Retrieve from the ContentItem and Module table
         try {
@@ -338,6 +340,8 @@ public class ModuleRepository extends Repository<Module> {
                 date = (LocalDate.parse(moduleRetrieve.getString("CreationDate")));
                 status = Status.valueOf(moduleRetrieve.getString("Status"));
                 description = moduleRetrieve.getString("Description");
+                relatedCourse = new CourseRepository()
+                        .retrieveCourseByName(moduleRetrieve.getString("CourseName"));
             }
             // Retrieve from the Contact table to get the contact's name
             try {
@@ -355,7 +359,7 @@ public class ModuleRepository extends Repository<Module> {
             }
 
             return new Module(date, status, title, version, positionWithinCourse, description, contactName,
-                    emailAddress);
+                    emailAddress, relatedCourse);
 
         } catch (SQLException e) {
             e.printStackTrace();

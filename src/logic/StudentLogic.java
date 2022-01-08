@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import database.StudentRepository;
+
 import domain.Gender;
 import domain.Student;
+import domain.Module;
 
 public class StudentLogic {
     private StudentRepository studentRepo;
@@ -224,4 +226,11 @@ public class StudentLogic {
         boolean dateIsFilled = fieldIsNotEmpty(day) && fieldIsNotEmpty(month) && fieldIsNotEmpty(year);
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
     }
+
+    // Relay between GUI and Repo to receive the progression a Student has within
+    // Modules. See StudentRepo for more details
+    public Map<Module, Integer> receiveModuleProgressForStudent(Student student) {
+        return this.studentRepo.retrieveAllModuleProgressOfStudent(student);
+    }
+
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import domain.Gender;
 import domain.Student;
+import domain.Module;
 
 public class StudentRepository extends Repository<Student> {
 
@@ -97,7 +99,7 @@ public class StudentRepository extends Repository<Student> {
             prepQuery.setInt(4, addressID);
             prepQuery.setString(5, student.getEmail());
             prepQuery.executeUpdate();
-            deleteAddresWithoutResident();
+            deleteAddressWithoutResident();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,13 +111,13 @@ public class StudentRepository extends Repository<Student> {
         try (PreparedStatement studentRemoval = this.connection.getConnection().prepareStatement(deleteQuery)) {
             studentRemoval.setString(1, student.getEmail());
             studentRemoval.executeUpdate();
-            deleteAddresWithoutResident();
+            deleteAddressWithoutResident();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteAddresWithoutResident() {
+    public void deleteAddressWithoutResident() {
         String deleteAddressQuery = "DELETE FROM Address WHERE NOT EXISTS (SELECT * FROM Student WHERE Student.AddressID = Address.AddressID)";
         try (PreparedStatement deleteAddress = this.connection.getConnection().prepareStatement(deleteAddressQuery)) {
             deleteAddress.executeUpdate();
@@ -176,4 +178,34 @@ public class StudentRepository extends Repository<Student> {
         }
     }
 
+    /*
+     * Retrieving all the Modules with its progress, related to the Courses in which
+     * the
+     * Student is enrolled. Returning it as a value within a map, where each module
+     * instance is a key, that holds the progression amount as a value
+     */
+    public Map<Module, Integer> retrieveAllModuleProgressOfStudent(Student student) {
+        Map<Module, Integer> modulesWithProgressMap = new HashMap<>();
+        final ModuleRepository ModuleRepository = new ModuleRepository();
+
+        // Setting the query to get all Module Content ID and related progression value
+        String sql = "SELECT m.ContentID, Percentage FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE StudentEmail = ?";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            // Query execution
+            statement.setString(1, student.getEmail());
+            ResultSet resultSet = statement.executeQuery();
+
+            // Instantiating Modules from the results, and putting as value in a map,
+            // setting its related progression amount as a key
+            while (resultSet.next()) {
+                Module module = ModuleRepository.retrieveModuleByID(resultSet.getInt("ContentID"));
+                int progressPercentage = resultSet.getInt("Percentage");
+                modulesWithProgressMap.put(module, progressPercentage);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return modulesWithProgressMap;
+    }
 }
