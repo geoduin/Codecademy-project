@@ -3,40 +3,50 @@ package test.Methods;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-public class inputValidations {
-    /**
+public class InputValidation {
+    /*
      * @desc Validates is a given date in the form of day, month and year is valid.
      * 
      * 
      * @subcontract 31 days in month {
+     * 
      * @requires (month == 1 || month == 3 || month == 5 || month == 7 ||
-     *           month == 8 || month == 10 || month == 12) && 1 <= day <= 31;
+     * month == 8 || month == 10 || month == 12) && 1 <= day <= 31;
+     * 
      * @ensures \result = true;
-     *          }
+     * }
      * 
      * @subcontract 30 days in month {
+     * 
      * @requires (month == 4 || month == 6 || month == 9 || month == 11) &&
-     *           1 <= day <= 30;
+     * 1 <= day <= 30;
+     * 
      * @ensures \result = true;
-     *          }
+     * }
      * 
      * 
      * @subcontract 29 days in month {
+     * 
      * @requires month == 2 && 1 <= day <= 29 &&
-     *           (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+     * (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+     * 
      * @ensures \result = true;
-     *          }
+     * }
      * 
      * @subcontract 28 days in month {
+     * 
      * @requires month == 2 && 1 <= day <= 28 &&
-     *           (year % 4 != 0 || (year % 100 == 0 && year % 400 != 0));
+     * (year % 4 != 0 || (year % 100 == 0 && year % 400 != 0));
+     * 
      * @ensures \result = true;
-     *          }
+     * }
      * 
      * @subcontract all other cases {
+     * 
      * @requires no other accepting precondition;
+     * 
      * @ensures \result = false;
-     *          }
+     * }
      * 
      */
 
@@ -49,45 +59,113 @@ public class inputValidations {
         return true;
     }
 
+    /*
+     * @desc Validates if mailAddress is valid. It should be in the form of:
+     * <at least 1 character>@<at least 1 character>.<at least 1 character>
+     * 
+     * @subcontract no mailbox part {
+     * 
+     * @requires !mailAddress.contains("@") ||
+     * mailAddress.split("@")[0].length < 1;
+     * 
+     * @ensures \result = false;
+     * }
+     * 
+     * @subcontract subdomain-tld delimiter {
+     * 
+     * @requires !mailAddress.contains("@") ||
+     * mailAddress.split("@")[1].split(".").length > 2;
+     * 
+     * @ensures \result = false;
+     * }
+     * 
+     * @subcontract no subdomain part {
+     * 
+     * @requires !mailAddress.contains("@") ||
+     * mailAddress.split("@")[1].split(".")[0].length < 1;
+     * 
+     * @ensures \result = false;
+     * }
+     *
+     * @subcontract no tld part {
+     * 
+     * @requires !mailAddress.contains("@") ||
+     * mailAddress.split("@")[1].split(".")[1].length < 1;
+     * 
+     * @ensures \result = false;
+     * }
+     *
+     * @subcontract valid email {
+     * 
+     * @requires no other precondition
+     * 
+     * @ensures \result = true;
+     * }
+     * 
+     */
     public static boolean validateMailAddress(String mailAddress) {
         return mailAddress.toLowerCase().matches("^[a-z0-9._%+-]+@[a-z0-9]+\\.[^\\.]+");
     }
 
+    /*
+     * @subcontract value within valid range {
+     * 
+     * @requires 0 <= percentage <= 100;
+     * 
+     * @ensures \result = true; }
+     * 
+     * @subcontract value out of range low {
+     * 
+     * @requires percentage < 0;
+     * 
+     * @ensures \result = false;}
+     * 
+     * @subcontract value out of range high {
+     * 
+     * @requires percentage > 100;
+     * 
+     * @signals \result = false; }
+     */
+
     public static boolean isValidPercentage(int percentage) {
-
         return (percentage >= 0 && percentage <= 100);
-
     }
 
-    /**
+    /*
      * @desc Formats the input postal code to a uniform output in the form
-     *       nnnn<space>MM, where nnnn is numeric and > 999 and MM are 2 capital
-     *       letters.
-     *       Spaces before and after the input string are trimmed.
+     * nnnn<space>MM, where nnnn is numeric and > 999 and MM are 2 capital
+     * letters.
+     * Spaces before and after the input string are trimmed.
      * 
      * @subcontract null postalCode {
+     * 
      * @requires postalCode == null;
+     * 
      * @signals (NullPointerException) postalCode == null;
-     *          }
+     * }
      * 
      * @subcontract valid postalCode {
+     * 
      * @requires Integer.valueOf(postalCode.trim().substring(0, 4)) > 999 &&
-     *           Integer.valueOf(postalCode.trim().substring(0, 4)) <= 9999 &&
-     *           postalCode.trim().substring(4).trim().length == 2 &&
-     *           'A' <=
-     *           postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
-     *           'Z' &&
-     *           'A' <=
-     *           postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
-     *           'Z';
+     * Integer.valueOf(postalCode.trim().substring(0, 4)) <= 9999 &&
+     * postalCode.trim().substring(4).trim().length == 2 &&
+     * 'A' <=
+     * postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
+     * 'Z' &&
+     * 'A' <=
+     * postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
+     * 'Z';
+     * 
      * @ensures \result = postalCode.trim().substring(0, 4) + " " +
-     *          postalCode.trim().substring(4).trim().toUpperCase()
-     *          }
+     * postalCode.trim().substring(4).trim().toUpperCase()
+     * }
      * 
      * @subcontract invalid postalCode {
+     * 
      * @requires no other valid precondition;
+     * 
      * @signals (IllegalArgumentException);
-     *          }
+     * }
      * 
      */
 
@@ -115,7 +193,5 @@ public class inputValidations {
         // throws IllegalArgumentException if the String does not match the basic Dutch
         // postal code format.
         throw new IllegalArgumentException();
-
     }
-
 }
