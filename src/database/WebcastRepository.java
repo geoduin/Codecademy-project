@@ -24,7 +24,8 @@ public class WebcastRepository extends Repository<Webcast> {
 
             // Creates new speaker if the speaker doesn't already exist, creates
             // organization if organization doesn't already exist
-            PreparedStatement checkSpeaker = connection.prepareStatement("SELECT * FROM Speaker WHERE Name = ? AND OrganizationName = ?");
+            PreparedStatement checkSpeaker = connection
+                    .prepareStatement("SELECT * FROM Speaker WHERE Name = ? AND OrganizationName = ?");
             checkSpeaker.setString(1, domainObject.getSpeaker());
             checkSpeaker.setString(2, domainObject.getOrganization());
             ResultSet speakerResult = checkSpeaker.executeQuery();
@@ -37,7 +38,8 @@ public class WebcastRepository extends Repository<Webcast> {
                 // returns true if the organization does not exist
                 if (organization.next() == false) {
                     // creates organization
-                    PreparedStatement organizationCreator = connection.prepareStatement("INSERT INTO Organization VALUES(?)");
+                    PreparedStatement organizationCreator = connection
+                            .prepareStatement("INSERT INTO Organization VALUES(?)");
                     organizationCreator.setString(1, domainObject.getOrganization());
                     organizationCreator.executeUpdate();
                 }
@@ -49,7 +51,8 @@ public class WebcastRepository extends Repository<Webcast> {
 
             }
 
-            PreparedStatement contentItemInserter = connection.prepareStatement("INSERT INTO ContentItem VALUES(?, ?, ?, ?)");
+            PreparedStatement contentItemInserter = connection
+                    .prepareStatement("INSERT INTO ContentItem VALUES(?, ?, ?, ?)");
             // Setting prepared statement variables
             contentItemInserter.setString(1, domainObject.getTitle());
             contentItemInserter.setString(2, domainObject.getDescription());
@@ -57,55 +60,60 @@ public class WebcastRepository extends Repository<Webcast> {
             contentItemInserter.setString(4, domainObject.getStatus().toString());
             contentItemInserter.executeUpdate();
 
-            //retrieves ID of newly created ContentItem
+            // retrieves ID of newly created ContentItem
             Statement getContentIDFromContentItem = connection.createStatement();
-            ResultSet result = getContentIDFromContentItem.executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
+            ResultSet result = getContentIDFromContentItem
+                    .executeQuery("SELECT TOP 1 ContentID FROM ContentItem ORDER BY ContentID DESC");
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
 
-            
             // creates webcast in database
-            PreparedStatement webcastCreator = connection.prepareStatement("INSERT INTO Webcast (ContentID, URL, Duration, SpeakerName) VALUES(?, ?, ?, ?)");
+            PreparedStatement webcastCreator = connection
+                    .prepareStatement(
+                            "INSERT INTO Webcast (ContentID, URL, Duration,SpeakerName, Views) VALUES(?, ?, ?, ?,?)");
             webcastCreator.setInt(1, contentID);
             webcastCreator.setString(2, domainObject.getUrl());
             webcastCreator.setInt(3, domainObject.getDurationInMinutes());
             webcastCreator.setString(4, domainObject.getSpeaker());
+            webcastCreator.setInt(5, domainObject.getView());
             webcastCreator.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            //deletes content item if there is an error in creating a webcast
+            // deletes content item if there is an error in creating a webcast
             try {
                 PreparedStatement deleter = connection.prepareStatement("DELETE FROM ContentItem WHERE ContentID = ?");
                 deleter.setInt(1, contentID);
                 deleter.executeUpdate();
-                
+
             } catch (SQLException webcastException) {
                 webcastException.printStackTrace();
             }
 
         }
     }
-    //updates ContentItem 
+
+    // updates ContentItem
     @Override
     public void update(Webcast domainObject) {
         Connection connection = this.connection.getConnection();
 
         try {
 
-            PreparedStatement updateContentItem = connection.prepareStatement("UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
+            PreparedStatement updateContentItem = connection.prepareStatement(
+                    "UPDATE ContentItem SET Title = ? , Description = ? , Status = ? WHERE ContentID = ?");
 
             updateContentItem.setString(1, domainObject.getTitle());
             updateContentItem.setString(2, domainObject.getDescription());
-            updateContentItem.setString(3, domainObject.getStatus().toString()); 
-            updateContentItem.setInt(4, getIDFromURL(domainObject.getUrl())); 
+            updateContentItem.setString(3, domainObject.getStatus().toString());
+            updateContentItem.setInt(4, getIDFromURL(domainObject.getUrl()));
             updateContentItem.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateURL(String initialURL, String newURL) { 
+    public void updateURL(String initialURL, String newURL) {
         Connection connection = this.connection.getConnection();
         try {
             PreparedStatement updateURL = connection.prepareStatement("UPDATE Webcast SET URL = ? WHERE URL = ?");
@@ -117,11 +125,23 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
+    public void updateViews(String url, int views) {
+        Connection connection = this.connection.getConnection();
+        try (PreparedStatement updateView = connection.prepareStatement("UPDATE Webcast SET Views = ? WHERE URL = ?")) {
+            updateView.setInt(1, views);
+            updateView.setString(2, url);
+            updateView.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void delete(Webcast domainObject) {
         Connection connection = this.connection.getConnection();
         try {
-            PreparedStatement deleteWebcast = connection.prepareStatement("DELETE FROM ContentItem WHERE ContentID = ?");
+            PreparedStatement deleteWebcast = connection
+                    .prepareStatement("DELETE FROM ContentItem WHERE ContentID = ?");
             deleteWebcast.setInt(1, getIDFromURL(domainObject.getUrl()));
             deleteWebcast.executeUpdate();
         } catch (SQLException e) {
@@ -130,21 +150,24 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    //not usefull for webcast
+    // not usefull for webcast
     @Override
     public ArrayList<Webcast> retrieve() {
         // TODO Auto-generated method stub
         return null;
     }
-    //result set will be empty if the title of a module is given
-    public Webcast retrieveByTitle(String webcastTitle) { 
+
+    // result set will be empty if the title of a module is given
+    public Webcast retrieveByTitle(String webcastTitle) {
         Connection connection = this.connection.getConnection();
-        //retrieves all values needed to create a webcast object based on the (unique) URL.
+        // retrieves all values needed to create a webcast object based on the (unique)
+        // URL.
         try {
-            PreparedStatement retrieveByTitle = connection.prepareStatement("SELECT Title, Webcast.SpeakerName, Speaker.OrganizationName, Duration, URL, Status, CreationDate, Description FROM Webcast JOIN ContentItem ON ContentItem.ContentID = Webcast.ContentID JOIN Speaker ON Webcast.SpeakerName = Speaker.Name WHERE Title = ?");
+            PreparedStatement retrieveByTitle = connection.prepareStatement(
+                    "SELECT Title, Webcast.SpeakerName, Speaker.OrganizationName, Duration, URL, Status, CreationDate, Description, Views FROM Webcast JOIN ContentItem ON ContentItem.ContentID = Webcast.ContentID JOIN Speaker ON Webcast.SpeakerName = Speaker.Name WHERE Title = ?");
             retrieveByTitle.setString(1, webcastTitle);
             ResultSet result = retrieveByTitle.executeQuery();
-            while(result.next()) { 
+            while (result.next()) {
                 String title = result.getString("Title");
                 String speaker = result.getString("SpeakerName");
                 String organization = result.getString("OrganizationName");
@@ -153,52 +176,50 @@ public class WebcastRepository extends Repository<Webcast> {
                 LocalDate date = LocalDate.parse(result.getString("CreationDate"));
                 String description = result.getString("Description");
                 String url = result.getString("URL");
+                int view = result.getInt("Views");
 
-                Webcast webcast = new Webcast(title, speaker, organization, durationInMinutes, url, status, date, description);
+                Webcast webcast = new Webcast(title, speaker, organization, durationInMinutes, url, status, date,
+                        description, view);
                 return webcast;
-        }
+            }
 
-        return null;
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
 
-        
     }
 
-    //returns a hashmap with the webcast URL as key and the webcast title as value.
-    public ArrayList<String> getAllWebcastNames(){
+    // returns a hashmap with the webcast URL as key and the webcast title as value.
+    public ArrayList<String> getAllWebcastNames() {
         ArrayList<String> webcasts = new ArrayList<>();
 
         try {
             Statement statement = this.connection.getConnection().createStatement();
-            ResultSet webcastResult = statement.executeQuery("SELECT Title FROM Webcast JOIN ContentItem ON Webcast.ContentID = ContentItem.ContentID");
-            while(webcastResult.next()) {
+            ResultSet webcastResult = statement.executeQuery(
+                    "SELECT Title FROM Webcast JOIN ContentItem ON Webcast.ContentID = ContentItem.ContentID");
+            while (webcastResult.next()) {
                 String title = webcastResult.getString("Title");
                 webcasts.add(title);
             }
             return webcasts;
 
-
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
 
-
     }
-    
 
-    private int getIDFromURL(String url) { 
+    private int getIDFromURL(String url) {
         try {
             Connection connection = this.connection.getConnection();
             PreparedStatement getID = connection.prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?");
             getID.setString(1, url);
             ResultSet idResult = getID.executeQuery();
             int id = -1;
-            while(idResult.next()) {
+            while (idResult.next()) {
                 id = idResult.getInt("ContentID");
             }
             return id;
@@ -208,4 +229,20 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
+    public String getTitleFromContentID(int contentID) {
+        String title = "";
+        String query = "SELECT Title FROM ContentItem WHERE ContentID = "+contentID+"";
+        try (Statement statement = this.connection.getConnection().createStatement()){
+            ResultSet result = statement.executeQuery(query);
+            
+            while (result.next()) {
+                title = result.getString("Title");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return title;
+    }
 }

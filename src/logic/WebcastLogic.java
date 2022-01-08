@@ -19,8 +19,10 @@ public class WebcastLogic {
     }
 
     public void createWebcast(String title, String speaker, String organization, int duration, String url,
-            String status, String description) {
-        Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description);
+            String status, String description, String views) {
+        int viewCount = Integer.parseInt(views);
+        Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description,
+                viewCount);
         this.repo.insert(webcast);
     }
 
@@ -30,12 +32,16 @@ public class WebcastLogic {
 
     public void editWebcast(String url, String title, String description, Status status) {
         // creating helper webcast to use WebcastRepository method
-        Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description);
+        Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description, -1);
         this.repo.update(webcast);
     }
 
     public void editURL(String initialURL, String newURL) {
         this.repo.updateURL(initialURL, newURL);
+    }
+
+    public void editViewCount(String url, int newViewCount) {
+        this.repo.updateViews(url, newViewCount);
     }
 
     // result set will be empty if the title of a module is given
@@ -49,7 +55,7 @@ public class WebcastLogic {
         return retrieveWebcastNames().contains(title);
     }
 
-    //returns true if the webcast was saved to the database.
+    // returns true if the webcast was saved to the database.
     public boolean saveSuccessful(String title) {
         Webcast saveTest = this.repo.retrieveByTitle(title);
         if (saveTest == null) {

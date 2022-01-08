@@ -2,7 +2,6 @@ package gui;
 
 import java.util.List;
 
-
 import domain.Status;
 import domain.Webcast;
 import javafx.scene.control.Button;
@@ -49,7 +48,7 @@ class WebcastManageView extends View {
         Label addWebcast = new Label("Add webcast");
         Button addView = new Button("+");
 
-        //Third column
+        // Third column
         Label titleLabel = new Label("Title");
         TextField titleTextField = new TextField();
         titleTextField.setEditable(false);
@@ -75,8 +74,8 @@ class WebcastManageView extends View {
         TextField statusField = new TextField();
         statusField.setEditable(false);
 
-
-       
+        Label views = new Label("Views");
+        TextField viewStateField = new TextField();
 
         // Layout management view
         view.add(selectWebcast, 0, 0);
@@ -98,8 +97,8 @@ class WebcastManageView extends View {
         view.add(urlTextField, 2, 9);
         view.add(statusLabel, 2, 10);
         view.add(statusField, 2, 11);
-
-        
+        view.add(views, 2, 12);
+        view.add(viewStateField, 2, 13);
 
         // event handlers
 
@@ -123,16 +122,13 @@ class WebcastManageView extends View {
                 result.setText("Deletion successful");
                 webcastComboBox.getItems().remove(webcastComboBox.getValue());
                 webcastComboBox.setValue(defaultWebcastValue);
-                
+
                 return;
             }
 
-
-            
-
         });
-        
-        //retrieves the selected webcast and displays it on the GUI.
+
+        // retrieves the selected webcast and displays it on the GUI.
         webcastComboBox.setOnAction(chosenWebcast -> {
             Webcast webcast = this.logic.retrieveByTitle(webcastComboBox.getValue());
             titleTextField.setText(webcast.getTitle());
@@ -141,8 +137,7 @@ class WebcastManageView extends View {
             speakerTextField.setText(webcast.getSpeaker());
             urlTextField.setText(webcast.getUrl());
             statusField.setText(webcast.getStatus().toString());
-
-
+            viewStateField.setText(Integer.toString(webcast.getView()));
         });
 
         // opens add webcast view
@@ -174,40 +169,49 @@ class WebcastManageView extends View {
         statusComboBox.getItems().add("ACTIVE");
         statusComboBox.getItems().add("CONCEPT");
         statusComboBox.getItems().add("ARCHIVED");
-        Label result = new Label();
+        Label result = new Label("");
+
+        Label views = new Label("View count");
+        TextField viewField = new TextField(Integer.toString(webcastToEdit.getView()));
 
         // column 2
         Button editButton = new Button("Save edit");
 
         // layout
         view.add(titleLabel, 0, 0);
-        view.add(titleField, 0, 1);
-        view.add(descriptionLabel, 0, 2);
-        view.add(descriptionArea, 0, 3);
-        view.add(urlLabel, 0, 4);
-        view.add(urlField, 0, 5);
-        view.add(statusLabel, 0, 6);
-        view.add(statusComboBox, 0, 7);
-        view.add(editButton, 1, 7);
+        view.add(titleField, 1, 0);
+        view.add(descriptionLabel, 0, 1);
+        view.add(descriptionArea, 1, 1);
+        view.add(urlLabel, 0, 2);
+        view.add(urlField, 1, 2);
+        view.add(statusLabel, 0, 3);
+        view.add(statusComboBox, 1, 3);
+        view.add(editButton, 1, 4);
+        view.add(views, 0, 5);
+        view.add(viewField, 1, 5);
         view.add(result, 0, 8);
 
         editButton.setOnAction(click -> {
             // checking if all fields are filled
             Boolean noFieldEmpty = true;
-            if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
+            if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()
+                    || viewField.getText().isBlank()) {
                 noFieldEmpty = false;
             }
             if (noFieldEmpty) {
                 // edditing the webcast
-                
+
                 this.logic.editURL(originalURL, urlField.getText());
                 this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
                         Status.valueOf(statusComboBox.getValue()));
-                        if(this.logic.updateSuccessful(titleField.getText(), descriptionArea.getText(), urlField.getText(), statusComboBox.getValue())) { 
-                            result.setText("Update successful");
-                        } else {
-                            result.setText("Update failed");
-                        }
+                this.logic.editViewCount(urlField.getText(), Integer.parseInt(viewField.getText()));
+                // Checks if the update is succesful
+                if (this.logic.updateSuccessful(titleField.getText(), descriptionArea.getText(), urlField.getText(),
+                        statusComboBox.getValue())) {
+                    result.setText("Update successful");
+                } else {
+                    result.setText("Update failed");
+                }
                 return;
             } else {
                 result.setText("All fields must be filled");
@@ -219,7 +223,7 @@ class WebcastManageView extends View {
 
     }
 
-    //Adds webcast to database
+    // Adds webcast to database
     protected void addWebcastView() {
         GridPane view = generateFormGrid();
         final String defaultStatusValue = "Select value";
@@ -246,62 +250,64 @@ class WebcastManageView extends View {
         Label statusLabel = new Label("Status");
         ComboBox<String> statusComboBox = new ComboBox<>();
         statusComboBox.setValue(defaultStatusValue);
-        statusComboBox.getItems().add("ACTIVE");
-        statusComboBox.getItems().add("CONCEPT");
-        statusComboBox.getItems().add("ARCHIVED");
-
+        statusComboBox.getItems().addAll("ACTIVE", "CONCEPT", "ARCHIVED");
+        Label viewCount = new Label("Views");
+        TextField viewsField = new TextField();
         Label result = new Label();
 
         // column 2
         Button saveButton = new Button("Save");
 
         // Layout
-        view.add(titleLabel, 0, 0);
-        view.add(titleTextField, 0, 1);
+        view.add(titleLabel, 0, 1);
+        view.add(titleTextField, 1, 1);
         view.add(descriptionLabel, 0, 2);
-        view.add(descriptionArea, 0, 3);
-        view.add(durationInMinutesLabel, 0, 4);
-        view.add(durationTextField, 0, 5);
-        view.add(speakerLabel, 0, 6);
-        view.add(speakerTextField, 0, 7);
-        view.add(organizationLabel, 0, 8);
-        view.add(organizationField, 0, 9);
-        view.add(urlLabel, 0, 10);
-        view.add(urlTextField, 0, 11);
-        view.add(statusLabel, 0, 12);
-        view.add(statusComboBox, 0, 13);
-        view.add(saveButton, 1, 13);
-        view.add(result, 0, 14);
+        view.add(descriptionArea, 1, 2);
+        view.add(durationInMinutesLabel, 0, 3);
+        view.add(durationTextField, 1, 3);
+        view.add(speakerLabel, 0, 4);
+        view.add(speakerTextField, 1, 4);
+        view.add(organizationLabel, 0, 5);
+        view.add(organizationField, 1, 5);
+        view.add(urlLabel, 0, 6);
+        view.add(urlTextField, 1, 6);
+        view.add(statusLabel, 0, 7);
+        view.add(statusComboBox, 1, 7);
+        view.add(viewCount, 0, 8);
+        view.add(viewsField, 1, 8);
+        view.add(saveButton, 1, 9);
+        view.add(result, 2, 9);
 
         activate(view, "Add Webcast");
 
         // Event handler
 
         saveButton.setOnAction(clicked -> {
-            //Checks if all fields are filled
+            // Checks if all fields are filled
             if (titleTextField.getText().isBlank() || descriptionArea.getText().isBlank()
                     || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank()
                     || organizationField.getText().isBlank() || urlTextField.getText().isBlank()
                     || statusComboBox.getValue().equals(defaultStatusValue)) {
-                        result.setText("All fields must be filled");
+                result.setText("All fields must be filled");
                 return;
-                //checks if the webcast already exists
-            }else if(this.logic.titleAlreadyExists(titleTextField.getText())) { 
+                // checks if the webcast already exists
+            } else if (this.logic.titleAlreadyExists(titleTextField.getText())) {
                 result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
 
-                //adds webcast to database
-                int duration = Integer.valueOf(durationTextField.getText());
+                // Converts duration to int
+                int duration = Integer.parseInt(durationTextField.getText());
+                // adds webcast to database
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(),
-                        descriptionArea.getText());
-                        //tells user wether the webcast was successfully saved
-                        if(this.logic.saveSuccessful(titleTextField.getText())) { 
-                            result.setText("Save successful");
-                        }else {
-                            result.setText("Save failed");
-                        }
+                        descriptionArea.getText(), viewsField.getText());
+                // tells user wether the webcast was successfully saved
+                if (this.logic.saveSuccessful(titleTextField.getText())) {
+                    result.setText("Save successful");
+                } else {
+                    result.setText("Save failed");
+                }
                 return;
             }
 

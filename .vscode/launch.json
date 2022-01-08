@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Launcher",
+            "request": "launch",
+            "mainClass": "Launcher",
+            "projectName": "Codecademy-project_3ed796c7"
+        },
+        {
+            "type": "java",
             "name": "Launch Test",
             "request": "launch",
             "mainClass": "logic.Test",

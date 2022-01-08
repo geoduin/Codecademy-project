@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import domain.Student;
 import domain.Module;
@@ -24,13 +25,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
+import logic.enrollLogic;
 
 class StudentManagementView extends View {
     private StudentLogic logic;
+    private enrollLogic enrollLogic;
 
     StudentManagementView(GUI gui) {
         super(gui);
         this.logic = new StudentLogic();
+        this.enrollLogic = new enrollLogic();
     }
 
     @Override
@@ -55,7 +59,7 @@ class StudentManagementView extends View {
         Button editStudentButton = new Button("Edit student");
         Button deleteStudentButton = new Button("Delete student");
         Button contentProgressButton = new Button("Content progress");
-
+        Button enrollmentToCourseBtn = new Button("Enroll student");
         // Second column
         Label createStudentLabel = new Label("Create student:");
         // The plus sign will lead you to the create new student view.
@@ -67,6 +71,7 @@ class StudentManagementView extends View {
         view.add(editStudentButton, 0, 2);
         view.add(deleteStudentButton, 0, 3);
         view.add(contentProgressButton, 0, 4);
+        view.add(enrollmentToCourseBtn, 0, 5);
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
@@ -77,7 +82,7 @@ class StudentManagementView extends View {
             // This value is the email.
             // Sends it to the logic class and picks the student from the database
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 5);
+                view.add(new Label("Not selected anything"), 0, 6);
                 return;
             }
             Student pickedStudent = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
@@ -88,7 +93,7 @@ class StudentManagementView extends View {
         // button while a Student is selected
         deleteStudentButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 5);
+                view.add(new Label("Not selected anything"), 0, 6);
                 return;
             }
 
@@ -102,13 +107,22 @@ class StudentManagementView extends View {
         // Student is selected
         contentProgressButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 5);
+                view.add(new Label("Not selected anything"), 0, 6);
                 return;
             }
 
             Student student = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
             contentProgressView(student);
 
+        });
+
+        enrollmentToCourseBtn.setOnMouseClicked(clicked -> {
+            if (studentList.getValue().equals(defaultStudentValue)) {
+                view.add(new Label("Not selected anything"), 0, 6);
+                return;
+            }
+            String studentEmail = studentMap.get(studentList.getValue());
+            enrollStudentView(studentEmail);
         });
 
         // See abstract class "View"
@@ -453,6 +467,36 @@ class StudentManagementView extends View {
             }
         });
         activate(view, "Edit student information");
+    }
+
+    private void enrollStudentView(String studentEmail) {
+        GridPane view = generateGrid();
+        Label title = new Label("Enrollment of " + studentEmail);
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        Label warning = new Label("");
+
+        ComboBox boxes = new ComboBox<>();
+        final String defaultValue = "Select course";
+        boxes.setValue(defaultValue);
+        List<String> courseList = this.enrollLogic.getCourseNames();
+        boxes.getItems().addAll(courseList);
+
+        Button sumbitEnrollBtn = new Button("Enroll student");
+
+        view.add(title, 0, 0);
+        view.add(boxes, 0, 1);
+        view.add(sumbitEnrollBtn, 0, 2);
+
+        sumbitEnrollBtn.setOnMouseClicked(clicked -> {
+            if (boxes.getValue().equals(defaultValue)) {
+                warning.setText("Choose course");
+                return;
+            }
+            Student student = this.logic.getStudentByEmail(studentEmail);
+            this.enrollLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+        });
+
+        activate(view, "Enroll student");
     }
 
     private void succesfullProcesView() {

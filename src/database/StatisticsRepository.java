@@ -1,11 +1,17 @@
 package database;
 
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import domain.Course;
+import domain.Difficulty;
 import domain.Gender;
+import domain.Webcast;
+import database.WebcastRepository;
 
 //Does not use any of the methods from repository, so it does not extend the abstract class.
 public class StatisticsRepository{
@@ -33,22 +39,13 @@ public class StatisticsRepository{
         }
         return percentageAquiredCertificates;
     }
-
-
-
-
-
-
-
-
-
-
-
+    
+    //retrieves the ContentID of each module and the average progressions of all students for that module. 
     //Hashmap is in the format <ID, Percentage>
     public HashMap<Integer, Integer> retrieveAverageProgressionPerModule(String courseName) {
         HashMap<Integer, Integer> percentages = new HashMap<>();
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, AVG(Percentage) AS AverageProgression FROM Progress WHERE ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseNameWHERE Course.CourseName = ?) GROUP BY ContentID");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, AVG(Percentage) AS AverageProgression FROM Progress WHERE ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?) GROUP BY ContentID");
             statement.setString(1, courseName);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
@@ -56,7 +53,7 @@ public class StatisticsRepository{
                 int percentage = result.getInt("AverageProgression");
                 percentages.put(key, percentage);
             }
-            
+            statement.close();
             return percentages;
 
         } catch (SQLException e) {
@@ -65,6 +62,50 @@ public class StatisticsRepository{
         }
 
         
+    }
+
+    //Retrieves progression per module for a selected course
+    public HashMap<Integer, Integer> retrieveProgressionPerModule(String studentEmail, String courseName) {
+        HashMap<Integer, Integer> percentagesPerModule = new HashMap<>();
+        try {
+            PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?)");
+            preparedStatement.setString(1, studentEmail);
+            preparedStatement.setString(2, courseName);
+            
+            ResultSet result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int contentID = result.getInt("ContentID");
+                int percentage = result.getInt("Percentage");
+                percentagesPerModule.put(contentID, percentage);
+            }
+            preparedStatement.close();
+            return percentagesPerModule;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Retrieves top 3 most watched webcasts
+    public ArrayList<Webcast> retrieveTop3MostWachtedWebcasts() {
+        ArrayList<Webcast> top3Webcasts = new ArrayList<>();
+        WebcastRepository repo = new WebcastRepository();
+        try {
+            Statement statement = this.dbConnection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT TOP 3 * FROM Webcast ORDER BY Views DESC");
+
+            while (result.next()) {
+                int contentID = result.getInt("ContentID");
+                top3Webcasts.add(repo.retrieveByTitle(repo.getTitleFromContentID(contentID)));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return top3Webcasts;
     }
 
 
@@ -86,12 +127,74 @@ public class StatisticsRepository{
 
 
 
+    //Retrieves the number of certificates that a student has achieved, see SQL documentation for explanation of the query
+    public ArrayList<Integer> retrieveStudentCertificates(String studentEmail) { 
+        ArrayList<Integer> certificates = new ArrayList<>();
+        try {
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT CertificateID FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
+            statement.setString(1, studentEmail);
+            ResultSet result = statement.executeQuery();
+            statement.close();
+            while(result.next()) { 
+                certificates.add(result.getInt("CertificateID"));
+            }
+            return certificates;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    
+    }
 
 
 
 
 
     
+
+
+
+    //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
+    public HashMap<Course, Integer> retrieveTop3CoursesByNumberOfCertificates() { 
+        HashMap<Course, Integer> topCourses = new HashMap<>();
+        try {
+            Statement statement = this.dbConnection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery("SELECT TOP 3 Course.CourseName, Course.Subject, Course.Description, Course.Difficulty, COUNT(Certificate.CertificateID) AS NrOfCertificates FROM Course LEFT JOIN Enrollment ON Course.CourseName = Enrollment.CourseName LEFT JOIN Certificate ON Enrollment.ID = Certificate.CertificateID GROUP BY Course.CourseName, Course.Subject, Course.Description, Course.Difficulty ORDER BY NrOfCertificates DESC");           
+            while(result.next()) { 
+                Course course = new Course(result.getString("CourseName"), result.getString("Subject"), result.getString("Description"), Difficulty.valueOf(result.getString("Difficulty")));
+                topCourses.put(course, result.getInt("NrOfCertificates"));
+            }
+            return topCourses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+
     
+
+    public int retrieveNumberOFCertificates(String courseName) { 
+        
+        try {
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");
+            statement.setString(1, courseName);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) { 
+                return result.getInt("CourseName"); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return -1;
+        
+    }
+
+
+
     
 }
