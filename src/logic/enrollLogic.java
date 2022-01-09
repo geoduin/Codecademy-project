@@ -7,12 +7,12 @@ import domain.Course;
 import domain.Student;
 import domain.enrollment;
 
-public class enrollLogic {
+public class EnrollLogic {
     private CourseLogic courseLogic;
     private StudentLogic studentLogic;
     private enrollRepository enrollmentRepo;
 
-    public enrollLogic() {
+    public EnrollLogic() {
         this.courseLogic = new CourseLogic();
         this.studentLogic = new StudentLogic();
         this.enrollmentRepo = new enrollRepository();

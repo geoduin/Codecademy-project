@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testDateIsEarlierThenNow {
+public class TestDateIsEarlierThenNow {
 
     /**
      * @desc checks if input date is earlier or equal to today

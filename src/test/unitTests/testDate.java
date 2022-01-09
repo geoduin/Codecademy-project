@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testDate {
+public class TestDate {
     /**
      * @desc Validates is a given date in the form of day, month and year is valid.
      * 

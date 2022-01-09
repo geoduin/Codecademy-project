@@ -28,16 +28,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
-import logic.enrollLogic;
+import logic.EnrollLogic;
 
 class StudentManagementView extends View {
     private StudentLogic logic;
-    private enrollLogic enrollLogic;
+    private EnrollLogic enrollLogic;
 
     StudentManagementView(GUI gui) {
         super(gui);
         this.logic = new StudentLogic();
-        this.enrollLogic = new enrollLogic();
+        this.enrollLogic = new EnrollLogic();
     }
 
     @Override

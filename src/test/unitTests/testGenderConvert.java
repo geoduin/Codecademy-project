@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 import domain.Gender;
 import logic.InputValidations;
 
-public class testGenderConvert {
+public class TestGenderConvert {
 
     /**
      * @desc this method converts string to gender

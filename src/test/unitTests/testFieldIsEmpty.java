@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.*;
 
-public class testFieldIsEmpty {
+public class TestFieldIsEmpty {
 
     /**
      * @desc this methods checks if inputfield is empty

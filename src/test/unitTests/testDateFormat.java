@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.*;
 
-public class testDateFormat {
+public class TestDateFormat {
     /**
      * @desc formats the input values to a valid localDate
      * 
