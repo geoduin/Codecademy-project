@@ -21,7 +21,7 @@ public class EnrollRepository extends Repository<Enrollment> {
 
     @Override
     public void insert(Enrollment enrollment) {
-        // TODO Auto-generated method stub
+        boolean makeProgress = true;
         Connection connect = this.connection.getConnection();
         try (PreparedStatement statement = connect.prepareStatement("INSERT INTO Enrollment VALUES(?,?,?)")) {
             statement.setObject(1, enrollment.getDateOfEnrollment());
@@ -29,30 +29,38 @@ public class EnrollRepository extends Repository<Enrollment> {
             statement.setString(3, enrollment.getCourse().getName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.err.println("Enrollment cannot be inserted");
             e.printStackTrace();
+            // If the combination of email, date and course already exist, it will set
+            // makeProgress on false and it will not create a progress
+            makeProgress = false;
         }
 
-        try {
-            List<Integer> list = collectContentIDs(enrollment);
-            for (Integer id : list) {
-                if (hasStudentProgress(enrollment.getStudent().getEmail(), id) == 0) {
-                    insertProgress(enrollment, id);
+        if (makeProgress) {
+            try {
+                // Retrieves contentID's from that particular course
+                List<Integer> list = collectContentIDs(enrollment);
+                for (Integer id : list) {
+
+                    // if there is no student with this contentID in the progress table, it will
+                    // create one
+                    if (hasStudentProgress(enrollment.getStudent().getEmail(), id) == 0) {
+                        insertProgress(enrollment.getStudent().getEmail(), id);
+                    }
                 }
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
         }
 
     }
 
-    public void insertProgress(Enrollment enrollment, int contentId) {
+    public void insertProgress(String StudentEmail, int contentId) {
         Connection connect = this.connection.getConnection();
         try (PreparedStatement state = connect
                 .prepareStatement("INSERT INTO Progress (StudentEmail, ContentID) VALUES (?, ?)")) {
-            state.setString(1, enrollment.getStudent().getEmail());
+            state.setString(1, StudentEmail);
             state.setInt(2, contentId);
             state.executeUpdate();
         } catch (Exception e) {
@@ -77,6 +85,8 @@ public class EnrollRepository extends Repository<Enrollment> {
         return contentIds;
     }
 
+    // this method will return a 1 if there are students present in the progress
+    // table, it will give zero if there isn't
     public int hasStudentProgress(String email, int contentID) {
         int count = 0;
         try (PreparedStatement query = this.connection.getConnection()
@@ -85,9 +95,10 @@ public class EnrollRepository extends Repository<Enrollment> {
             query.setInt(2, contentID);
             ResultSet set = query.executeQuery();
             set.next();
+            // If result is 1, count = 1
             count = set.getInt("result");
         } catch (Exception e) {
-            // TODO: handle exception
+            // if result is 0, it returns count = 0;
             return count;
         }
         return count;
@@ -105,6 +116,46 @@ public class EnrollRepository extends Repository<Enrollment> {
     public void delete(Enrollment domainObject) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void deleteProgressWithoutCourse() {
+        try (PreparedStatement statement = this.connection.getConnection()
+                .prepareStatement(
+                        "DELETE Progress FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName IS NULL")) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<String> retrieveEmailsFromCourse(String courseName) {
+        String sql = "SELECT StudentEmail FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName = ?";
+        List<String> emailList = new ArrayList<>();
+        // If there are any students, the resultset will add the emails to the email
+        // list
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setString(1, courseName);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                emailList.add(set.getString("StudentEmail"));
+            }
+        } catch (SQLException e) {
+            System.err.println("No students");
+            return emailList;
+        }
+        return emailList;
+    }
+
+    public void updateProgressWithNewModule(String courseName, int contentID) {
+        // Retrieves list of emails who are participating to the course
+        List<String> emailList = retrieveEmailsFromCourse(courseName);
+
+        // If there are students, it will insert a new progress with the new module
+        if (emailList.size() != 0) {
+            for (String studentEmail : emailList) {
+                insertProgress(studentEmail, contentID);
+            }
+        }
     }
 
 }
