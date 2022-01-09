@@ -18,8 +18,8 @@ public class TestDateIsEarlierThenNow {
      * @requires LocalDate.now().plusDays(1)
      * @ensures \result = false
      * 
-     * @subcontract checks if day earlier then today or is today will pass
-     * @requires LocalDate.now() or LocalDate.now().minusDays(1)
+     * @subcontract checks if day earlier then today
+     * @requires LocalDate.now().minusDays(1)
      * @ensures \result = true
      */
     @Test
@@ -47,7 +47,7 @@ public class TestDateIsEarlierThenNow {
         // Act
         boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
         // Assert
-        assertEquals(true, result);
+        assertEquals(false, result);
     }
 
     @Test
