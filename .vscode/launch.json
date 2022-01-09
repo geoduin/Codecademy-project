@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch testDateIsEarlierThenNow",
+            "request": "launch",
+            "mainClass": "test.unitTests.testDateIsEarlierThenNow",
+            "projectName": "Codecademy-project_42cfae02"
+        },
+        {
+            "type": "java",
             "name": "Launch Launcher",
             "request": "launch",
             "mainClass": "Launcher",

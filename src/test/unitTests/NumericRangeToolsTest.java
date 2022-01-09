@@ -6,6 +6,20 @@ import org.junit.jupiter.api.Test;
 import logic.InputValidations;
 
 public class NumericRangeToolsTest {
+    /**
+     * @subcontract value within valid range {
+     * @requires 0 <= percentage <= 100;
+     * @ensures \result = true; }
+     * 
+     * @subcontract value out of range low {
+     * @requires percentage < 0;
+     * @ensures \result = false;}
+     * 
+     * @subcontract value out of range high {
+     * @requires percentage > 100;
+     * @signals \result = false; }
+     */
+
     /*
      * @subcontract value within valid range {
      * 
