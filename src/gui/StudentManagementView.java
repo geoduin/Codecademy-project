@@ -5,16 +5,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import domain.Student;
+import domain.Webcast;
 import domain.Module;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -130,13 +133,13 @@ class StudentManagementView extends View {
 
     }
 
-    // View responsible for showing the progress within ContentItems for the
+    // View responsible for showing ContentItem (Module, Webcast) progress for the
     // selected student, and making that progress updatable for the user
     private void contentProgressView(Student student) {
         /*
          * Retrieving a map of all Modules in Course to which a Student is enrolled.
-         * Each Module is (as instantiated form) the key of the value, which is the
-         * progression amount 1-100
+         * Each Module is (in instantiated form) the key of the value, which is the
+         * progression amount between 1-100
          */
         Map<Module, Integer> moduleProgressMap = this.logic.receiveModuleProgressForStudent(student);
 
@@ -224,7 +227,8 @@ class StudentManagementView extends View {
                     pi.setProgress(newValue.doubleValue() / 100);
                 });
 
-        // Every time a new module is selected, the progress indicators and sliders get
+        // Every time another module is selected, the progress indicators and sliders
+        // get
         // the current value from the module
         moduleDropdown.setOnAction(moduleSelected -> {
             updateProgressLabel.setText("");
@@ -245,14 +249,14 @@ class StudentManagementView extends View {
             int moduleContentID = moduleDropdown.getValue().getID();
             int newProgressAmount = (int) Math.round(slider.getValue());
 
-            this.logic.updateProgressContenItem(moduleContentID, student, newProgressAmount);
+            this.logic.updateProgressContentItem(moduleContentID, student, newProgressAmount);
             moduleProgressMap.replace(moduleDropdown.getValue(), newProgressAmount);
 
             updateProgressLabel.setText("Updated!");
 
         });
 
-        // Final setup and activation
+        // Setting up the view with the elements for Module progress
         view.add(courseDropdownLabel, 0, 1);
         view.add(courseDropdown, 0, 2);
         view.add(moduleDropdownLabel, 1, 1);
@@ -263,6 +267,99 @@ class StudentManagementView extends View {
         view.add(updateProgressButton, 2, 3);
         view.add(updateProgressLabel, 2, 4);
 
+        /*
+         * Next up, are the components to make it possible to view webcast progress and
+         * add new webcasts for a student.
+         */
+
+        // Visually separating the Module and Webcast UI components
+        view.add(new Separator(), 0, 6);
+        view.add(new Separator(), 1, 6);
+        view.add(new Separator(), 2, 6);
+
+        /*
+         * Retrieving a map of all Webcasts for which a Student has a relation with
+         * (progress)
+         * Each Webcast title is the key of the map, to which the
+         * progression amount beween 1-100 is the map value
+         */
+
+        /*
+         * NOTE contrary to Module, here the are no Webcast instances, because their
+         * title is always unique! (opdrachtbeschrijving)
+         */
+        Map<String, Integer> webcastProgressMap = this.logic.receiveWebcastProgressForStudent(student);
+
+        // Dropdown with each individual Webcast title
+        Label webcastDropdownLabel = new Label("Webcasts:");
+        ComboBox<String> webcastDropdown = new ComboBox<>();
+        webcastDropdown.setValue(
+                student.getStudentName() + " is following " + webcastProgressMap.keySet().size() + " webcast(s) ");
+        webcastDropdown.getItems().add("-");
+
+        for (String webcastName : webcastProgressMap.keySet()) {
+            webcastDropdown.getItems().add(webcastName);
+        }
+
+        // Progress visualization using a slide and indicators
+        final Slider sliderWebcast = new Slider();
+        sliderWebcast.setMin(0);
+        sliderWebcast.setMax(100);
+        final ProgressBar pbWebcast = new ProgressBar(0);
+        final ProgressIndicator piWebcast = new ProgressIndicator(0);
+        Group progressVisualizationWebcast = new Group();
+        progressVisualizationWebcast.getChildren().addAll(slider, pb, pi);
+        Button updateWebcastProgressButton = new Button("Update progress");
+        Label updateWebcastProgressLabel = new Label("");
+        updateWebcastProgressLabel.setTextFill(Color.GREEN);
+        updateProgressButton.setVisible(false);
+
+        // Making the progression updatable by the user, by the slider
+        sliderWebcast.valueProperty().addListener(
+                (ObservableValue<? extends Number> ov, Number oldValue,
+                        Number newValue) -> {
+                    updateWebcastProgressLabel.setText("");
+                    pbWebcast.setProgress(newValue.doubleValue() / 100);
+                    piWebcast.setProgress(newValue.doubleValue() / 100);
+                });
+
+        // Every time another webcast is selected, the progress indicators and sliders
+        // get
+        // the current value from the module
+        webcastDropdown.setOnAction(webcastSelected -> {
+            updateWebcastProgressLabel.setText("");
+            String nameOfSelectedWebcast = webcastDropdown.getValue();
+            if (nameOfSelectedWebcast.equals("-")) {
+                updateWebcastProgressButton.setVisible(false);
+                return;
+            }
+
+            int progressionPercentage = webcastProgressMap.get(nameOfSelectedWebcast);
+            sliderWebcast.setValue(progressionPercentage);
+            updateWebcastProgressButton.setVisible(true);
+        });
+
+        // Action event for the progress update button, so that progress of the selected
+        // module gets updated based on the progress indicator (set by user)
+        updateWebcastProgressButton.setOnMouseClicked(clicked -> {
+            String nameOfSelectedWebcast = webcastDropdown.getValue();
+            int newProgressAmount = (int) Math.round(sliderWebcast.getValue());
+
+            this.logic.updateProgressContentItem(nameOfSelectedWebcast, student, newProgressAmount);
+            webcastProgressMap.replace(nameOfSelectedWebcast, newProgressAmount);
+
+            updateWebcastProgressLabel.setText("Updated!");
+        });
+
+        // Setting up the view with the elements for Webcast progress, and showing
+        // (activating) the view to the user
+        view.add(webcastDropdownLabel, 1, 7);
+        view.add(webcastDropdown, 1, 8);
+        view.add(sliderWebcast, 1, 9);
+        view.add(pbWebcast, 1, 10);
+        view.add(piWebcast, 1, 11);
+        view.add(updateWebcastProgressButton, 2, 10);
+        view.add(updateWebcastProgressLabel, 2, 11);
         activate(view, "Content progress of Student: " + student.getStudentName());
 
     }
@@ -485,19 +582,19 @@ class StudentManagementView extends View {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         Label warning = new Label("");
 
-        ComboBox boxes = new ComboBox<>();
+        ComboBox<String> boxes = new ComboBox<>();
         final String defaultValue = "Select course";
         boxes.setValue(defaultValue);
         List<String> courseList = this.enrollLogic.getCourseNames();
         boxes.getItems().addAll(courseList);
 
-        Button sumbitEnrollBtn = new Button("Enroll student");
+        Button submitEnrollmentButton = new Button("Enroll student");
 
         view.add(title, 0, 0);
         view.add(boxes, 0, 1);
-        view.add(sumbitEnrollBtn, 0, 2);
+        view.add(submitEnrollmentButton, 0, 2);
 
-        sumbitEnrollBtn.setOnMouseClicked(clicked -> {
+        submitEnrollmentButton.setOnMouseClicked(clicked -> {
             if (boxes.getValue().equals(defaultValue)) {
                 warning.setText("Choose course");
                 return;

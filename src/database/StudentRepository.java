@@ -12,6 +12,7 @@ import java.util.Map;
 
 import domain.Gender;
 import domain.Student;
+import domain.Webcast;
 import domain.Module;
 
 public class StudentRepository extends Repository<Student> {
@@ -181,14 +182,15 @@ public class StudentRepository extends Repository<Student> {
     /*
      * Retrieving all the Modules with its progress, related to the Courses in which
      * the
-     * Student is enrolled. Returning it as a value within a map, where each module
+     * Student is enrolled. Returning it as a map, where each module
      * instance is a key, that holds the progression amount as a value
      */
     public Map<Module, Integer> retrieveAllModuleProgressOfStudent(Student student) {
         Map<Module, Integer> modulesWithProgressMap = new HashMap<>();
         final ModuleRepository moduleRepository = new ModuleRepository();
 
-        // Setting the query to get all Module Content ID and related progression value
+        // Setting the query to get all Modules Content ID's and related progression
+        // value
         String sql = "SELECT m.ContentID, Percentage FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE StudentEmail = ? ORDER BY m.PositionInCourse";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
             // Query execution
@@ -224,5 +226,35 @@ public class StudentRepository extends Repository<Student> {
             e.printStackTrace();
         }
 
+    }
+
+    /*
+     * Retrieving all the Webcasts with its progress, that have a relation with the
+     * Student (given as argument) in the Progress table. Returning it as a map,
+     * where each Webcast (which contrary to a module, is unique) is a key, that
+     * holds the progression amount as a value
+     */
+    public Map<String, Integer> retrieveAllWebcastProgressOfStudent(Student student) {
+        Map<String, Integer> webcastsWithProgressMap = new HashMap<>();
+
+        // Setting the query to get all Webcasts title's and related progression
+        // value
+        String sql = "SELECT Title, Percentage FROM Progress p JOIN Webcast w ON w.ContentID = p.ContentID JOIN ContentItem co ON co.ContentID = w.ContentID WHERE StudentEmail = ?";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            // Query execution
+            statement.setString(1, student.getEmail());
+            ResultSet resultSet = statement.executeQuery();
+            // Setting all Webcasts title's in a map, setting each progression amount as map
+            // value
+            while (resultSet.next()) {
+                String webcastTitle = resultSet.getString("Title");
+                int progressPercentage = resultSet.getInt("Percentage");
+                webcastsWithProgressMap.put(webcastTitle, progressPercentage);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return webcastsWithProgressMap;
     }
 }
