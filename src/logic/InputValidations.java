@@ -1,9 +1,9 @@
-package test.Methods;
+package logic;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-public class InputValidation {
+public class InputValidations {
     /*
      * @desc Validates is a given date in the form of day, month and year is valid.
      * 
