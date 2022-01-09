@@ -6,12 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
 import domain.Gender;
 import domain.Webcast;
+import domain.Certificate;
 
 //Does not use any of the methods from repository, so it does not extend the abstract class.
 public class StatisticsRepository{
@@ -106,11 +107,11 @@ public class StatisticsRepository{
 
         return top3Webcasts;
     }
-    //TODO: fix method
+    
     //Retrieves recommended courses for a selected course
     public ArrayList<Course> retrieveRecommendedCourses(String courseName) {
         ArrayList<Course> retrievedCourses = new ArrayList<>();
-        String query = "SELECT * FROM CourseRecommendation WHERE CourseName = ?";
+        String query = "SELECT * FROM Course WHERE CourseName IN (SELECT RecommendedCourse FROM CourseRecommendation WHERE CourseName = ?)";
         try (PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, courseName);
             ResultSet result = preparedStatement.executeQuery();
@@ -124,16 +125,16 @@ public class StatisticsRepository{
         }
         return retrievedCourses;
     }
-    //TODO: change method to return an instance of certificate, not just a CertificateID
+
     //Retrieves the number of certificates that a student has achieved, see SQL documentation for explanation of the query
-    public ArrayList<Integer> retrieveStudentCertificates(String studentEmail) { 
-        ArrayList<Integer> certificates = new ArrayList<>();
+    public ArrayList<Certificate> retrieveStudentCertificates(String studentEmail) { 
+        ArrayList<Certificate> certificates = new ArrayList<>();
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT CertificateID FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.CertificateID, Student.Name, Certificate.EmployeeName, Certificate.Grade FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                certificates.add(result.getInt("CertificateID"));
+                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("Name"), result.getString("EmployeeName"), result.getInt("Grade")));
             }
             return certificates;
         } catch (SQLException e) {
@@ -141,25 +142,27 @@ public class StatisticsRepository{
             return null;
         }
     }
-    //TODO: change return value to 2d array in order to ensure the list is returned sorted
+
+
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
-    public HashMap<Course, Integer> retrieveTop3CoursesByNumberOfCertificates() { 
-        HashMap<Course, Integer> topCourses = new HashMap<>();
+    public List<Course> retrieveTop3CoursesByNumberOfCertificates() { 
+        ArrayList<Course> topCourses = new ArrayList<>();
         try {
             Statement statement = this.dbConnection.getConnection().createStatement();
             ResultSet result = statement.executeQuery("SELECT TOP 3 Course.CourseName, Course.Subject, Course.Description, Course.Difficulty, COUNT(Certificate.CertificateID) AS NrOfCertificates FROM Course LEFT JOIN Enrollment ON Course.CourseName = Enrollment.CourseName LEFT JOIN Certificate ON Enrollment.ID = Certificate.CertificateID GROUP BY Course.CourseName, Course.Subject, Course.Description, Course.Difficulty ORDER BY NrOfCertificates DESC");           
             while(result.next()) { 
                 Course course = new Course(result.getString("CourseName"), result.getString("Subject"), result.getString("Description"), Difficulty.valueOf(result.getString("Difficulty")));
-                topCourses.put(course, result.getInt("NrOfCertificates"));
+                course.setNrOfCertificates(result.getInt("NrOfCertificates"));
+                topCourses.add(course);
             }
             return topCourses;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
-    
+    //Retrieves the number of certificates for the selected course, if the query is empty, there are no certificates so the method will return 0.
     public int retrieveNumberOFCertificates(String courseName) { 
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");
@@ -168,11 +171,12 @@ public class StatisticsRepository{
             while(result.next()) { 
                 return result.getInt("CourseName"); 
             }
+            return 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
         }
-        return -1;
+        
         
     }
 }

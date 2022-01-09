@@ -253,6 +253,7 @@ class StudentManagementView extends View {
             moduleProgressMap.replace(moduleDropdown.getValue(), newProgressAmount);
 
             updateProgressLabel.setText("Updated!");
+            updateProgressButton.setVisible(false);
 
         });
 
@@ -264,6 +265,7 @@ class StudentManagementView extends View {
         view.add(slider, 1, 3);
         view.add(pb, 1, 4);
         view.add(pi, 1, 5);
+
         view.add(updateProgressButton, 2, 3);
         view.add(updateProgressLabel, 2, 4);
 
@@ -291,10 +293,9 @@ class StudentManagementView extends View {
         Map<String, Integer> webcastProgressMap = this.logic.receiveWebcastProgressForStudent(student);
 
         // Dropdown with each individual Webcast title
-        Label webcastDropdownLabel = new Label("Webcasts:");
+        Label webcastDropdownLabel = new Label(webcastProgressMap.keySet().size() + " webcast(s) available:");
         ComboBox<String> webcastDropdown = new ComboBox<>();
-        webcastDropdown.setValue(
-                student.getStudentName() + " is following " + webcastProgressMap.keySet().size() + " webcast(s) ");
+        webcastDropdown.setValue("-");
         webcastDropdown.getItems().add("-");
 
         for (String webcastName : webcastProgressMap.keySet()) {
@@ -310,9 +311,9 @@ class StudentManagementView extends View {
         Group progressVisualizationWebcast = new Group();
         progressVisualizationWebcast.getChildren().addAll(slider, pb, pi);
         Button updateWebcastProgressButton = new Button("Update progress");
+        updateWebcastProgressButton.setVisible(false);
         Label updateWebcastProgressLabel = new Label("");
         updateWebcastProgressLabel.setTextFill(Color.GREEN);
-        updateProgressButton.setVisible(false);
 
         // Making the progression updatable by the user, by the slider
         sliderWebcast.valueProperty().addListener(
@@ -330,11 +331,10 @@ class StudentManagementView extends View {
             updateWebcastProgressLabel.setText("");
             String nameOfSelectedWebcast = webcastDropdown.getValue();
             if (nameOfSelectedWebcast.equals("-")) {
-                updateWebcastProgressButton.setVisible(false);
                 return;
             }
 
-            int progressionPercentage = webcastProgressMap.get(nameOfSelectedWebcast);
+            int progressionPercentage = this.logic.receiveWebcastProgressForStudent(student).get(nameOfSelectedWebcast);
             sliderWebcast.setValue(progressionPercentage);
             updateWebcastProgressButton.setVisible(true);
         });
@@ -343,13 +343,86 @@ class StudentManagementView extends View {
         // module gets updated based on the progress indicator (set by user)
         updateWebcastProgressButton.setOnMouseClicked(clicked -> {
             String nameOfSelectedWebcast = webcastDropdown.getValue();
+
+            if (nameOfSelectedWebcast.isEmpty() || nameOfSelectedWebcast.equals("-")) {
+                return;
+            }
+
             int newProgressAmount = (int) Math.round(sliderWebcast.getValue());
+            sliderWebcast.setValue(newProgressAmount);
 
             this.logic.updateProgressContentItem(nameOfSelectedWebcast, student, newProgressAmount);
-            webcastProgressMap.replace(nameOfSelectedWebcast, newProgressAmount);
-
             updateWebcastProgressLabel.setText("Updated!");
+
         });
+
+        // Functionality to link another webcast to the student
+        Label linkWebcastLabel = new Label("Add webcast");
+        Button selectWebcastButton = new Button("Select webcast");
+        ComboBox<String> dropdownOfLinkableWebcasts = new ComboBox<>();
+        dropdownOfLinkableWebcasts.setVisible(false);
+
+        // Setting the necessary components, outside the scope of the actionevents here
+        // beneath
+        Button linkButton = new Button("Link");
+        linkButton.setVisible(false);
+        Label confirmMSG = new Label("Linked!");
+        confirmMSG.setTextFill(Color.GREEN);
+        confirmMSG.setVisible(false);
+
+        // Retrieving webcasts available for linking, adding them to the dropdown
+        selectWebcastButton.setOnMouseClicked(clicked -> {
+            dropdownOfLinkableWebcasts.getItems().clear();
+            dropdownOfLinkableWebcasts.setVisible(true);
+            linkButton.setVisible(false);
+            confirmMSG.setVisible(false);
+
+            ArrayList<String> namesOfWebcasts = logic.getWebcastsNotYetLinkedWithStudent(student);
+            String dynamicDefaultValue = namesOfWebcasts.size() + " webcast(s) available";
+            dropdownOfLinkableWebcasts.setValue(dynamicDefaultValue);
+            namesOfWebcasts.forEach(name -> dropdownOfLinkableWebcasts.getItems().add(name));
+
+            dropdownOfLinkableWebcasts.setOnMouseClicked(webcastSelected -> {
+                String dropDownValue = dropdownOfLinkableWebcasts.getValue();
+                if (dropDownValue.isEmpty() || dropDownValue.equals("-")) {
+                    return;
+                }
+
+                linkButton.setVisible(true);
+
+                linkButton.setOnMouseClicked(click -> {
+                    if (dropdownOfLinkableWebcasts.getValue().isEmpty()) {
+                        return;
+                    }
+                    String webcastName = dropdownOfLinkableWebcasts.getValue();
+                    this.logic.studentStartsWatching(webcastName, student);
+
+                    dropdownOfLinkableWebcasts.setVisible(false);
+                    dropdownOfLinkableWebcasts.getItems().clear();
+                    linkButton.setVisible(false);
+                    confirmMSG.setVisible(true);
+
+                    // For better user experience, directly updating the dropdown of linked
+                    // webcasts, so that the user does not have to refresh the view
+                    webcastDropdown.getItems().clear();
+                    this.logic.receiveWebcastProgressForStudent(student).keySet()
+                            .forEach(name -> webcastDropdown.getItems().add(name));
+                    webcastDropdown.setValue("-");
+                    webcastDropdown.getItems().add("-");
+                    webcastDropdownLabel
+                            .setText(this.logic.receiveWebcastProgressForStudent(student).keySet().size()
+                                    + " webcast(s) available:");
+
+                });
+            });
+        });
+
+        // Setting up the view with the elements to link a webcast with a user
+        view.add(linkWebcastLabel, 0, 7);
+        view.add(selectWebcastButton, 0, 8);
+        view.add(dropdownOfLinkableWebcasts, 0, 9);
+        view.add(linkButton, 0, 10);
+        view.add(confirmMSG, 0, 11);
 
         // Setting up the view with the elements for Webcast progress, and showing
         // (activating) the view to the user
@@ -359,7 +432,7 @@ class StudentManagementView extends View {
         view.add(pbWebcast, 1, 10);
         view.add(piWebcast, 1, 11);
         view.add(updateWebcastProgressButton, 2, 10);
-        view.add(updateWebcastProgressLabel, 2, 11);
+        view.add(updateWebcastProgressLabel, 2, 12);
         activate(view, "Content progress of Student: " + student.getStudentName());
 
     }

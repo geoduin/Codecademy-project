@@ -257,7 +257,20 @@ public class StudentLogic {
     // Webcasts. In this case the key is the Webcast title, because contrary to a
     // module, a title for a webcast is always unique
     public Map<String, Integer> receiveWebcastProgressForStudent(Student student) {
-        return this.studentRepo.retrieveAllWebcastProgressOfStudent(student);
+        return this.studentRepo.retrieveAllWebcastProgressOfStudent(student.getEmail());
 
+    }
+
+    // Retrieving webcasts were the Student (given as argument) has no relation with
+    // yet (Student isn't watching that webcast yet). Using the Student email as key
+    // for the repo call
+    public ArrayList<String> getWebcastsNotYetLinkedWithStudent(Student student) {
+        return this.studentRepo.getWebcastTitlesForStudentThatHaveNoProgressRelation(student.getEmail());
+    }
+
+    // Make Student start having progress in a Webcast
+    public void studentStartsWatching(String webcastName, Student student) {
+        this.studentRepo.newProgressRecord(new WebcastRepository().retrieveByTitle(webcastName).getID(),
+                student.getEmail());
     }
 }

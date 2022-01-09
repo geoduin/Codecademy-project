@@ -1,17 +1,27 @@
 package domain;
 
 public class Certificate {
+    private int certificateID;
     private String studentName;
     private String nameOfIssuer;
     private int grade;
     
     
-    public Certificate(String studentName, String nameOfIssuer, int grade) {
+    public Certificate(int certificateID, String studentName, String nameOfIssuer, int grade) {
+        this.certificateID = certificateID;
         this.studentName = studentName;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
     }
 
+    public int getCertificateID() {
+        return certificateID;
+    }
+
+
+    public void setCertificateID(int certificateID) {
+        this.certificateID = certificateID;
+    }
 
     public String getStudentName() {
         return studentName;
@@ -40,5 +50,10 @@ public class Certificate {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "CertificateID: " + this.certificateID + ", Studentname: " + this.studentName + ", Name of Issuer: " + this.nameOfIssuer + ", Grade: " + this.grade;
     }
 }
