@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import test.Methods.inputValidations;
+import logic.InputValidations;
 
 public class testDate {
 
@@ -23,7 +23,7 @@ public class testDate {
         int month = 1;
         int year = 2012;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(false, isDate);
     }
@@ -43,7 +43,7 @@ public class testDate {
         int month = -1;
         int year = 2000;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
 
         assertEquals(false, isDate);
@@ -66,7 +66,7 @@ public class testDate {
         int month = 1;
         int year = 2000;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isDate);
     }
@@ -87,7 +87,7 @@ public class testDate {
         int month = 3;
         int year = 2000;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isDate);
     }
@@ -108,7 +108,7 @@ public class testDate {
         int month = 7;
         int year = 2000;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isDate);
     }
@@ -129,7 +129,7 @@ public class testDate {
         int month = 8;
         int year = 2000;
         // Act
-        boolean isDate = inputValidations.validateDate(day, month, year);
+        boolean isDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isDate);
     }
@@ -150,7 +150,7 @@ public class testDate {
         int month = 4;
         int year = 2000;
         // Act
-        boolean isThirtyDays = inputValidations.validateDate(day, month, year);
+        boolean isThirtyDays = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isThirtyDays);
     }
@@ -171,7 +171,7 @@ public class testDate {
         int month = 9;
         int year = 2000;
         // Act
-        boolean isThirtyDays = inputValidations.validateDate(day, month, year);
+        boolean isThirtyDays = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isThirtyDays);
     }
@@ -192,7 +192,7 @@ public class testDate {
         int month = 9;
         int year = 2021;
         // Act
-        boolean isValidDate = inputValidations.validateDate(day, month, year);
+        boolean isValidDate = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(false, isValidDate);
     }
@@ -214,7 +214,7 @@ public class testDate {
         int month = 2;
         int year = 2000;
         // Act
-        boolean isLeapYear = inputValidations.validateDate(day, month, year);
+        boolean isLeapYear = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isLeapYear);
     }
@@ -236,7 +236,7 @@ public class testDate {
         int month = 2;
         int year = 2012;
         // Act
-        boolean isLeapYear = inputValidations.validateDate(day, month, year);
+        boolean isLeapYear = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(true, isLeapYear);
     }
@@ -255,7 +255,7 @@ public class testDate {
         int month = 2;
         int year = 1800;
         // Act
-        boolean isLeapYear = inputValidations.validateDate(day, month, year);
+        boolean isLeapYear = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(false, isLeapYear);
     }
@@ -274,7 +274,7 @@ public class testDate {
         int month = 2;
         int year = 2011;
         // Act
-        boolean isLeapYear = inputValidations.validateDate(day, month, year);
+        boolean isLeapYear = InputValidations.validateDate(day, month, year);
         // Assert
         assertEquals(false, isLeapYear);
     }

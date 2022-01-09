@@ -93,12 +93,14 @@ public class enrollRepository extends Repository<enrollment> {
         return count;
     }
 
+    // Updates the enrollment
     @Override
     public void update(enrollment domainObject) {
         // TODO Auto-generated method stub
 
     }
 
+    // Delete method not being used.
     @Override
     public void delete(enrollment domainObject) {
         // TODO Auto-generated method stub
