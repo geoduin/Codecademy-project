@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import database.StudentRepository;
 
+import database.ModuleRepository;
+import database.StudentRepository;
+import database.WebcastRepository;
 import domain.Gender;
 import domain.Student;
+import domain.Webcast;
 import domain.Module;
 
 public class StudentLogic {
@@ -235,8 +238,21 @@ public class StudentLogic {
 
     // Relay between GUI and Repo to update the progression a Student has within a
     // Module or webcast (ContentItem). See StudentRepo for more details
-    public void updateProgressContenItem(int contentID, Student student, int newAmount) {
+    public void updateProgressContentItem(int contentID, Student student, int newAmount) {
         this.studentRepo.updateProgressOfContentItem(contentID, student.getEmail(), newAmount);
     }
 
+    // Overloaded variant for Webcast, where firstly the Webcast ID is retrieved
+    public void updateProgressContentItem(String nameOfSelectedWebcast, Student student, int newAmount) {
+        updateProgressContentItem(new WebcastRepository().retrieveByTitle(nameOfSelectedWebcast).getID(), student,
+                newAmount);
+    }
+
+    // Relay between GUI and Repo to receive the progression a Student has within
+    // Webcasts. In this case the key is the Webcast title, because contrary to a
+    // module, a title for a webcast is always unique
+    public Map<String, Integer> receiveWebcastProgressForStudent(Student student) {
+        return this.studentRepo.retrieveAllWebcastProgressOfStudent(student);
+
+    }
 }
