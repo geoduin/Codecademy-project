@@ -32,10 +32,10 @@ class ManageView extends View {
         certificateBtn.setOnMouseClicked(clicked -> new CertificateSubmissionView(this.gui).createView());
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
-        view.add(moduleManageBtn, 1, 0);
-        view.add(studentManageBtn, 2, 0);
-        view.add(webcastManageBtn, 3, 0);
-        view.add(certificateBtn, 4, 0);
+        view.add(moduleManageBtn, 0, 1);
+        view.add(studentManageBtn, 1, 0);
+        view.add(webcastManageBtn, 0, 2);
+        view.add(certificateBtn, 1, 1);
         view.setPadding(new Insets(40, 0, 0, 0));
         view.setHgap(40);
 

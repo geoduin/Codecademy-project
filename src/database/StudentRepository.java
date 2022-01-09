@@ -234,7 +234,7 @@ public class StudentRepository extends Repository<Student> {
      * where each Webcast (which contrary to a module, is unique) is a key, that
      * holds the progression amount as a value
      */
-    public Map<String, Integer> retrieveAllWebcastProgressOfStudent(Student student) {
+    public Map<String, Integer> retrieveAllWebcastProgressOfStudent(String studentEmail) {
         Map<String, Integer> webcastsWithProgressMap = new HashMap<>();
 
         // Setting the query to get all Webcasts title's and related progression
@@ -242,7 +242,7 @@ public class StudentRepository extends Repository<Student> {
         String sql = "SELECT Title, Percentage FROM Progress p JOIN Webcast w ON w.ContentID = p.ContentID JOIN ContentItem co ON co.ContentID = w.ContentID WHERE StudentEmail = ?";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
             // Query execution
-            statement.setString(1, student.getEmail());
+            statement.setString(1, studentEmail);
             ResultSet resultSet = statement.executeQuery();
             // Setting all Webcasts title's in a map, setting each progression amount as map
             // value
@@ -256,5 +256,41 @@ public class StudentRepository extends Repository<Student> {
             e.printStackTrace();
         }
         return webcastsWithProgressMap;
+    }
+
+    // With the Student key, retrieve all webcasts that exists, but are not in
+    // linked with the student in the progress table
+    public ArrayList<String> getWebcastTitlesForStudentThatHaveNoProgressRelation(String studentEmail) {
+        ArrayList<String> webcastNames = new ArrayList<>();
+
+        String sql = "SELECT * FROM ContentItem co JOIN Webcast w ON w.ContentID = co.ContentID WHERE w.ContentID NOT IN (SELECT ContentID FROM Progress WHERE StudentEmail = ?)";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setString(1, studentEmail);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                webcastNames.add(resultSet.getString("Title"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return webcastNames;
+    }
+
+    // Based on Student key and Webcast key as argument, set a new progress record
+    public void newProgressRecord(int webcastContentID, String studentEmail) {
+        String sql = "INSERT INTO Progress VALUES (?, ?, 0)";
+
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+
+            statement.setString(1, studentEmail);
+            statement.setInt(2, webcastContentID);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
