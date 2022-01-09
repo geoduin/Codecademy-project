@@ -1,8 +1,10 @@
-package logic;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
+
+import logic.InputValidations;
 
 public class testAreNumbers {
     /**
