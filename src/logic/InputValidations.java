@@ -76,7 +76,6 @@ public class InputValidations {
         try {
             inputDate = formatDate(year, month, day);
         } catch (Exception e) {
-            // TODO: handle exception
             return false;
         }
         return inputDate.isBefore(LocalDate.now()) || inputDate.isEqual(LocalDate.now());
@@ -107,11 +106,6 @@ public class InputValidations {
         return LocalDate.parse(year + "-" + month + "-" + day);
     }
 
-    // Method to check if email contains email
-    // TWIJFEL GEVAL, Want deze methode roept emails vanuit de database op, moet
-    // hierin blijven of moet het in studentLogic blijven?
-    // Op dit moment is er dummy gegevens in de emailExistence klasse om deze
-    // methode te kunnen testen
     public static boolean emailExist(String checkedMail) {
         StudentRepository repo = new StudentRepository();
         List<String> emails = new ArrayList<>();
@@ -121,7 +115,7 @@ public class InputValidations {
         return emails.contains(checkedMail);
     }
 
-    public static boolean addresIsValid(String street, String houseNr, String postalCode) {
+    public static boolean addressIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);
         boolean postalCodeIsRight = postalCodeHasTheRightFormat(postalCode);

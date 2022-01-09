@@ -11,10 +11,10 @@ import logic.InputValidations;
 public class testDateIsEarlierThenNow {
 
     /**
-     * @desc checks if inputdate is earlier or equal to today
+     * @desc checks if input date is earlier or equal to today
      * @beforehand day, month and year will be first formatted through the
      *             formatDate method
-     * @subcontract checks if the day tommorow gives false
+     * @subcontract checks if the day tomorrow gives false
      * @requires LocalDate.now().plusDays(1)
      * @ensures \result = false
      * 

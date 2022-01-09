@@ -10,7 +10,7 @@ import logic.*;
 
 public class testDateFormat {
     /**
-     * @desc formats the inputvalues to a valid localDate
+     * @desc formats the input values to a valid localDate
      * 
      * @Subcontract checks the method puts a 0 before the number if the number is
      *              below 10
