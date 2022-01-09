@@ -23,10 +23,9 @@ public class StudentLogic {
     }
 
     // Creates a new student and sends it to the studentrepository
-    public void newStudent(String name, String email, String GenderValue, String day, String month, String year,
+    public void newStudent(String name, String email, Gender gender, String day, String month, String year,
             String street, String houseNumber, String postalCode, String country, String city) {
         LocalDate date = formatDate(year, month, day);
-        Gender gender = convertToGender(GenderValue);
         int houseNr = Integer.parseInt(houseNumber);
         String formattedPostalCode = formatPostalCode(postalCode);
         Student createdStudent = new Student(name, gender, email, date, street, houseNr, formattedPostalCode, country,
@@ -36,13 +35,12 @@ public class StudentLogic {
 
     // Receives the attributes from the StudentGUI
     public void updateStudent(Student student, String name, String year,
-            String month, String day, String gender, String street, String city, String country, String houseNr,
+            String month, String day, Gender gender, String street, String city, String country, String houseNr,
             String postalCode) {
         student.setStudentName(name);
         LocalDate newDate = formatDate(year, month, day);
         student.setDateOfBirth(newDate);
-        Gender newGender = convertToGender(gender);
-        student.setGender(newGender);
+        student.setGender(gender);
         student.setstreet(street);
         student.setCountry(country);
         student.setCity(city);
@@ -161,18 +159,6 @@ public class StudentLogic {
         return LocalDate.parse(year + "-" + month + "-" + day);
     }
 
-    // Converts the string value to one of the Gender enumaration
-    public Gender convertToGender(String Value) {
-        if (Value.equals("O")) {
-            return Gender.O;
-        } else if (Value.equals("F")) {
-            return Gender.F;
-        } else {
-            return Gender.M;
-        }
-    }
-
-    // READY TO BE REMOVED
     public boolean addresIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);

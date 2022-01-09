@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import domain.Student;
 import domain.Webcast;
+import domain.Gender;
 import domain.Module;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
@@ -102,7 +103,7 @@ class StudentManagementView extends View {
 
             String chosenStudentEmail = studentMap.get(studentList.getValue());
             this.logic.deleteStudentByEmail(chosenStudentEmail);
-            succesfullProcesView();
+            successfullyProcessView();
         });
 
         // Switchting to ContentProgress view if a user clicks 'Content progress'.
@@ -362,7 +363,7 @@ class StudentManagementView extends View {
         ComboBox<String> dropdownOfLinkableWebcasts = new ComboBox<>();
         dropdownOfLinkableWebcasts.setVisible(false);
 
-        // Setting the necessary components, outside the scope of the actionevents here
+        // Setting the necessary components, outside the scope of the action events here
         // beneath
         Button linkButton = new Button("Link");
         linkButton.setVisible(false);
@@ -458,17 +459,17 @@ class StudentManagementView extends View {
         // Dropdown / Radio buttons
 
         // Combobox holding genders
-        ComboBox genderBox = new ComboBox<>();
-        final String defaultChoice = "O";
-        genderBox.getItems().addAll("O", "M", "F");
+        ComboBox<Gender> genderBox = new ComboBox<>();
+        final Gender defaultChoice = Gender.O;
+        genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         genderBox.setValue(defaultChoice);
 
-        // These three inputfields make up the date of birth
+        // These three input fields make up the date of birth
         TextField dayField = new TextField();
         TextField monthField = new TextField();
         TextField yearField = new TextField();
 
-        // Together with the right label, are the inputfields for day, month and year
+        // Together with the right label, are the input fields for day, month and year
         // stored in a VBOX;
         VBox days = new VBox(new Label("Day"), dayField);
         VBox month = new VBox(new Label("Month"), monthField);
@@ -477,7 +478,7 @@ class StudentManagementView extends View {
         HBox birthdayBox = new HBox(days, month, year);
         birthdayBox.setSpacing(25);
 
-        // Street, Postalcode and Housenumber make up the addres
+        // Street, Postalcode and Housenumber make up the address
         TextField street = new TextField();
         TextField postalCode = new TextField();
         TextField houseNr = new TextField();
@@ -487,8 +488,8 @@ class StudentManagementView extends View {
         VBox houseNumber = new VBox((new Label("House number")), houseNr);
         VBox postalBox = new VBox(new Label("Postalcode"), postalCode);
         // These VBOXES are put in a HBOX
-        HBox addresInformation = new HBox(streetBox, houseNumber, postalBox);
-        addresInformation.setSpacing(25);
+        HBox addressInformation = new HBox(streetBox, houseNumber, postalBox);
+        addressInformation.setSpacing(25);
 
         // Warning labels
         Text warningDateOfBirth = new Text("");
@@ -509,12 +510,12 @@ class StudentManagementView extends View {
         view.add(genderBox, 1, 2);
         view.add(emailField, 1, 3);
         view.add(birthdayBox, 1, 4);
-        view.add(addresInformation, 1, 5);
+        view.add(addressInformation, 1, 5);
         view.add(countryField, 1, 6);
         view.add(cityField, 1, 7);
         view.add(warningDateOfBirth, 2, 4);
         view.add(warningEmail, 2, 3);
-        // Button to submit and go to succesfull screen
+        // Button to submit and go to successful screen
         Button studentCreationButton = new Button("Create student");
         view.add(studentCreationButton, 1, 9);
         view.add(lastWarningText, 2, 9);
@@ -528,7 +529,7 @@ class StudentManagementView extends View {
             boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
             boolean addresValid = logic.addresIsValid(street.getText(), houseNr.getText(), postalCode.getText());
-            // Checks if inputfields are not empty
+            // Checks if input fields are not empty
             boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
             boolean emailIsValid = logic.validateMailAddress(emailField.getText());
             boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
@@ -547,15 +548,15 @@ class StudentManagementView extends View {
             // If every boolean value is true, than it will insert the new student to the
             // logic to create a new student and will be send to the database
             // NOTE: When tested, I changed my database in order put housenumber and street
-            // seperately
+            // separately
             if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addresValid) {
                 this.logic.newStudent(nameField.getText(), emailField.getText(),
-                        genderBox.getValue().toString(),
+                        genderBox.getValue(),
                         dayField.getText(), monthField.getText(), yearField.getText(),
                         street.getText(), houseNr.getText(), postalCode.getText(),
                         countryField.getText(), cityField.getText());
-                // When succesfully inserted, it will go to the succesfullprocesView
-                succesfullProcesView();
+                // When successfully inserted, it will go to the succesfullprocesView
+                successfullyProcessView();
             } else {
                 lastWarningText.setText("one of the input values are invalid");
             }
@@ -571,9 +572,9 @@ class StudentManagementView extends View {
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 1, 0, 2, 1);
         // Gender combobox
-        ComboBox genderBox = new ComboBox<>();
-        genderBox.setValue(studentToEdit.getGender().toString());
-        genderBox.getItems().addAll("O", "F", "M");
+        ComboBox<Gender> genderBox = new ComboBox<>();
+        genderBox.setValue(studentToEdit.getGender());
+        genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         TextField nameField = new TextField(studentToEdit.getStudentName());
 
         // input fields filled with information of the student
@@ -595,13 +596,13 @@ class StudentManagementView extends View {
         HBox birthdayBox = new HBox(days, month, year);
         birthdayBox.setSpacing(25);
 
-        // Verical boxes for addres information(street, housenumber, postalcode)
+        // Vertical boxes for address information(street, housenumber, postalcode)
         VBox street = new VBox((new Label("Street")), streetField);
         VBox house = new VBox((new Label("Housenumber")), houseNumber);
         VBox postal = new VBox((new Label("Postalcode")), postalCodeField);
-        // Horizontal box to put all the addres information together
-        HBox addres = new HBox(street, house, postal);
-        addres.setSpacing(25);
+        // Horizontal box to put all the address information together
+        HBox address = new HBox(street, house, postal);
+        address.setSpacing(25);
         // Layout first column
         view.add(new Label("Name"), 0, 1);
         view.add(new Label("Gender"), 0, 2);
@@ -613,7 +614,7 @@ class StudentManagementView extends View {
         view.add(nameField, 1, 1);
         view.add(genderBox, 1, 2);
         view.add(birthdayBox, 1, 3);
-        view.add(addres, 1, 4);
+        view.add(address, 1, 4);
         view.add(countryField, 1, 5);
         view.add(cityField, 1, 6);
         // Button to submit changes
@@ -623,25 +624,25 @@ class StudentManagementView extends View {
         Text lastWarningText = new Text("");
         view.add(lastWarningText, 2, 7);
         updateButton.setOnMouseClicked(clicked -> {
-            // Validate inputfields date of birth and addres
-            // It also checks if the date of birth or addresfields are blank
+            // Validate input fields date of birth and address
+            // It also checks if the date of birth or address fields are blank
             boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addresValid = logic.addresIsValid(streetField.getText(), houseNumber.getText(),
+            boolean addressValid = logic.addresIsValid(streetField.getText(), houseNumber.getText(),
                     postalCodeField.getText());
-            // Checks if inputfields are not empty
+            // Checks if input fields are not empty
             boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
             boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
             boolean countryIsFilled = logic.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
-            if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addresValid) {
-                System.out.println("Succesfull");
+            if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
+                System.out.println("Successful");
                 this.logic.updateStudent(studentToEdit, nameField.getText(),
-                        yearField.getText(), monthField.getText(), dayField.getText(), genderBox.getValue().toString(),
+                        yearField.getText(), monthField.getText(), dayField.getText(), genderBox.getValue(),
                         streetField.getText(), cityField.getText(), countryField.getText(),
                         houseNumber.getText(), postalCodeField.getText());
 
-                succesfullProcesView();
+                successfullyProcessView();
             } else {
                 lastWarningText.setText("one of the input values are invalid");
             }
@@ -679,7 +680,7 @@ class StudentManagementView extends View {
         activate(view, "Enroll student");
     }
 
-    private void succesfullProcesView() {
+    private void successfullyProcessView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully processed");
         Button homeBtn = new Button("Home");
@@ -691,7 +692,7 @@ class StudentManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         resumeBtn.setOnMouseClicked(clicked -> new StudentManagementView(this.gui).createView());
-        activate(view, "Successful proces");
+        activate(view, "Successful process");
     }
 
 }
