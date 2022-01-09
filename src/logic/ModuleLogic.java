@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import database.EnrollRepository;
 import database.ModuleRepository;
 import domain.Module;
 import domain.Course;
@@ -15,10 +16,12 @@ public class ModuleLogic {
 
     private List<Module> modules;
     private ModuleRepository moduleRepo;
+    private EnrollRepository enrollmentRepo;
 
     public ModuleLogic() {
         this.modules = new ArrayList<>();
         this.moduleRepo = new ModuleRepository();
+        this.enrollmentRepo = new EnrollRepository();
     }
 
     // Retrieve formatted strings representing each existing modules, coupled with
@@ -38,11 +41,12 @@ public class ModuleLogic {
 
     public void unlinkModuleWithCourse(int id) {
         this.moduleRepo.unassignModuleToCourse(id);
-        this.moduleRepo.deleteProgressWithoutCourse();
+        this.enrollmentRepo.deleteProgressWithoutCourse();
     }
 
     public void linkModuleWithCourse(String courseName, int id) {
         this.moduleRepo.assignModuleToCourse(courseName, id);
+        this.enrollmentRepo.updateProgressWithNewModule(courseName, id);
     }
 
     public HashMap<String, Integer> getModulesWithinCourse(String courseName) {
