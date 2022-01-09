@@ -162,7 +162,7 @@ public class StatisticsRepository{
         }
     }
 
-    //Retrieves the number of certificates for the selected course, if the query is empty, there are no certificates so the method will return 0.
+    //Retrieves the number of certificates for the selected course, if the query is empty, there are no certificates so the method will return 
     public int retrieveNumberOFCertificates(String courseName) { 
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");

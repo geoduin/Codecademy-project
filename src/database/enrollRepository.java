@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.naming.spi.DirStateFactory.Result;
 
-import domain.enrollment;
+import domain.Enrollment;
 
-public class enrollRepository extends Repository<enrollment> {
+public class EnrollRepository extends Repository<Enrollment> {
 
     @Override
     public ArrayList retrieve() {
@@ -20,7 +20,7 @@ public class enrollRepository extends Repository<enrollment> {
     }
 
     @Override
-    public void insert(enrollment enrollment) {
+    public void insert(Enrollment enrollment) {
         // TODO Auto-generated method stub
         Connection connect = this.connection.getConnection();
         try (PreparedStatement statement = connect.prepareStatement("INSERT INTO Enrollment VALUES(?,?,?)")) {
@@ -48,7 +48,7 @@ public class enrollRepository extends Repository<enrollment> {
 
     }
 
-    public void insertProgress(enrollment enrollment, int contentId) {
+    public void insertProgress(Enrollment enrollment, int contentId) {
         Connection connect = this.connection.getConnection();
         try (PreparedStatement state = connect
                 .prepareStatement("INSERT INTO Progress (StudentEmail, ContentID) VALUES (?, ?)")) {
@@ -62,7 +62,7 @@ public class enrollRepository extends Repository<enrollment> {
     }
 
     // Check if contentID and
-    public List<Integer> collectContentIDs(enrollment enrollment) {
+    public List<Integer> collectContentIDs(Enrollment enrollment) {
         Connection connect = this.connection.getConnection();
         List<Integer> contentIds = new ArrayList<>();
         try (PreparedStatement stat = connect.prepareStatement("SELECT ContentID FROM Module WHERE CourseName = ?")) {
@@ -95,14 +95,14 @@ public class enrollRepository extends Repository<enrollment> {
 
     // Updates the enrollment
     @Override
-    public void update(enrollment domainObject) {
+    public void update(Enrollment domainObject) {
         // TODO Auto-generated method stub
 
     }
 
     // Delete method not being used.
     @Override
-    public void delete(enrollment domainObject) {
+    public void delete(Enrollment domainObject) {
         // TODO Auto-generated method stub
 
     }

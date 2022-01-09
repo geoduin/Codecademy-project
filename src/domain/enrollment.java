@@ -2,18 +2,18 @@ package domain;
 
 import java.time.LocalDate;
 
-public class enrollment {
+public class Enrollment {
     private Student student;
     private Course course;
     private LocalDate dateOfEnrollment;
 
-    public enrollment(Student student, Course course, LocalDate date) {
+    public Enrollment(Student student, Course course, LocalDate date) {
         this.student = student;
         this.course = course;
         this.dateOfEnrollment = date;
     }
 
-    public enrollment(Student student, Course course) {
+    public Enrollment(Student student, Course course) {
         this(student, course, LocalDate.now());
     }
 
