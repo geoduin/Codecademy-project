@@ -65,7 +65,8 @@ public class StudentLogic {
         return this.emails.contains(checkedMail);
     }
 
-    // This method receives the email string and sends it to the student repository
+    // This method receives the email string from the combobox and sends it to the
+    // student repository
     // It will get the student back and sends it to the Student GUI
     public Student getStudentByEmail(String email) {
         return this.studentRepo.searchForForStudent(email);
@@ -171,10 +172,7 @@ public class StudentLogic {
         }
     }
 
-    // Checks if all the addres conditions are met
-    // Addres fields are not empty
-    // Housenumber is a decimal
-    // Postal code has the right format
+    // READY TO BE REMOVED
     public boolean addresIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);
@@ -184,20 +182,25 @@ public class StudentLogic {
 
     // Checks if the postalcode has the right format.
     public boolean postalCodeHasTheRightFormat(String postalCode) {
-        Integer wordValue = Integer.valueOf(postalCode.trim().substring(0, 4));
-        Integer twoLetterLength = postalCode.trim().substring(4).trim().length();
-        if ((wordValue > 999 && wordValue <= 9999) && twoLetterLength == 2
-                && postalCode.trim().substring(4).trim().toUpperCase().charAt(0) >= 'A'
-                && postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <= 'Z') {
-            return true;
+        try {
+            String post = formatPostalCode(postalCode);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return false;
         }
-        return false;
+        return true;
     }
 
     // Checks if the birthdate is earlier than now
     public boolean dateIsEarlierThanNow(String day, String month, String year) {
-        LocalDate inputDate = formatDate(year, month, day);
-        return inputDate.isBefore(LocalDate.now());
+        LocalDate inputDate = null;
+        try {
+            inputDate = formatDate(year, month, day);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return false;
+        }
+        return inputDate.isBefore(LocalDate.now()) || inputDate.isEqual(LocalDate.now());
     }
 
     // Checks if the date is valid, it accounts for leap years
@@ -221,6 +224,7 @@ public class StudentLogic {
     // AreNumbers() DateIsEarlierThan() validateDate() and fieldIsNotEmpty
     // If all those methods return true, the current method will return a true
     // value.
+    // READY TO BE REMOVED
     public boolean dateOfBirthIsValid(String day, String month, String year) {
         boolean valuesAreNumbers = areNumbers(day) && areNumbers(month) && areNumbers(year);
         boolean dateIsNotNow = dateIsEarlierThanNow(day, month, year);
@@ -228,6 +232,7 @@ public class StudentLogic {
                 Integer.parseInt(year));
         boolean dateIsFilled = fieldIsNotEmpty(day) && fieldIsNotEmpty(month) && fieldIsNotEmpty(year);
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
+
     }
 
     // Relay between GUI and Repo to receive the progression a Student has within

@@ -2,53 +2,13 @@ package logic;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import database.StudentRepository;
+import domain.Gender;
 
 public class InputValidations {
-    /*
-     * @desc Validates is a given date in the form of day, month and year is valid.
-     * 
-     * 
-     * @subcontract 31 days in month {
-     * 
-     * @requires (month == 1 || month == 3 || month == 5 || month == 7 ||
-     * month == 8 || month == 10 || month == 12) && 1 <= day <= 31;
-     * 
-     * @ensures \result = true;
-     * }
-     * 
-     * @subcontract 30 days in month {
-     * 
-     * @requires (month == 4 || month == 6 || month == 9 || month == 11) &&
-     * 1 <= day <= 30;
-     * 
-     * @ensures \result = true;
-     * }
-     * 
-     * 
-     * @subcontract 29 days in month {
-     * 
-     * @requires month == 2 && 1 <= day <= 29 &&
-     * (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-     * 
-     * @ensures \result = true;
-     * }
-     * 
-     * @subcontract 28 days in month {
-     * 
-     * @requires month == 2 && 1 <= day <= 28 &&
-     * (year % 4 != 0 || (year % 100 == 0 && year % 400 != 0));
-     * 
-     * @ensures \result = true;
-     * }
-     * 
-     * @subcontract all other cases {
-     * 
-     * @requires no other accepting precondition;
-     * 
-     * @ensures \result = false;
-     * }
-     * 
-     */
 
     public static boolean validateDate(int day, int month, int year) {
         try {
@@ -59,115 +19,13 @@ public class InputValidations {
         return true;
     }
 
-    /*
-     * @desc Validates if mailAddress is valid. It should be in the form of:
-     * <at least 1 character>@<at least 1 character>.<at least 1 character>
-     * 
-     * @subcontract no mailbox part {
-     * 
-     * @requires !mailAddress.contains("@") ||
-     * mailAddress.split("@")[0].length < 1;
-     * 
-     * @ensures \result = false;
-     * }
-     * 
-     * @subcontract subdomain-tld delimiter {
-     * 
-     * @requires !mailAddress.contains("@") ||
-     * mailAddress.split("@")[1].split(".").length > 2;
-     * 
-     * @ensures \result = false;
-     * }
-     * 
-     * @subcontract no subdomain part {
-     * 
-     * @requires !mailAddress.contains("@") ||
-     * mailAddress.split("@")[1].split(".")[0].length < 1;
-     * 
-     * @ensures \result = false;
-     * }
-     *
-     * @subcontract no tld part {
-     * 
-     * @requires !mailAddress.contains("@") ||
-     * mailAddress.split("@")[1].split(".")[1].length < 1;
-     * 
-     * @ensures \result = false;
-     * }
-     *
-     * @subcontract valid email {
-     * 
-     * @requires no other precondition
-     * 
-     * @ensures \result = true;
-     * }
-     * 
-     */
     public static boolean validateMailAddress(String mailAddress) {
         return mailAddress.toLowerCase().matches("^[a-z0-9._%+-]+@[a-z0-9]+\\.[^\\.]+");
     }
 
-    /*
-     * @subcontract value within valid range {
-     * 
-     * @requires 0 <= percentage <= 100;
-     * 
-     * @ensures \result = true; }
-     * 
-     * @subcontract value out of range low {
-     * 
-     * @requires percentage < 0;
-     * 
-     * @ensures \result = false;}
-     * 
-     * @subcontract value out of range high {
-     * 
-     * @requires percentage > 100;
-     * 
-     * @signals \result = false; }
-     */
-
     public static boolean isValidPercentage(int percentage) {
         return (percentage >= 0 && percentage <= 100);
     }
-
-    /*
-     * @desc Formats the input postal code to a uniform output in the form
-     * nnnn<space>MM, where nnnn is numeric and > 999 and MM are 2 capital
-     * letters.
-     * Spaces before and after the input string are trimmed.
-     * 
-     * @subcontract null postalCode {
-     * 
-     * @requires postalCode == null;
-     * 
-     * @signals (NullPointerException) postalCode == null;
-     * }
-     * 
-     * @subcontract valid postalCode {
-     * 
-     * @requires Integer.valueOf(postalCode.trim().substring(0, 4)) > 999 &&
-     * Integer.valueOf(postalCode.trim().substring(0, 4)) <= 9999 &&
-     * postalCode.trim().substring(4).trim().length == 2 &&
-     * 'A' <=
-     * postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
-     * 'Z' &&
-     * 'A' <=
-     * postalCode.trim().substring(4).trim().toUpperCase().charAt(0) <=
-     * 'Z';
-     * 
-     * @ensures \result = postalCode.trim().substring(0, 4) + " " +
-     * postalCode.trim().substring(4).trim().toUpperCase()
-     * }
-     * 
-     * @subcontract invalid postalCode {
-     * 
-     * @requires no other valid precondition;
-     * 
-     * @signals (IllegalArgumentException);
-     * }
-     * 
-     */
 
     public static String formatPostalCode(/* non_null */ String postalCode) {
         // Throws exception if postal code is null
@@ -193,5 +51,90 @@ public class InputValidations {
         // throws IllegalArgumentException if the String does not match the basic Dutch
         // postal code format.
         throw new IllegalArgumentException();
+    }
+
+    public static boolean fieldIsNotEmpty(String textFromField) {
+        return !(textFromField.isBlank());
+    }
+
+    public static boolean areNumbers(String numberValue) {
+        return (numberValue.matches("\\d+"));
+    }
+
+    public static Gender convertToGender(String Value) {
+        if (Value.equals("O")) {
+            return Gender.O;
+        } else if (Value.equals("F")) {
+            return Gender.F;
+        } else {
+            return Gender.M;
+        }
+    }
+
+    public static boolean dateIsEarlierThanNow(String day, String month, String year) {
+        LocalDate inputDate = null;
+        try {
+            inputDate = formatDate(year, month, day);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return false;
+        }
+        return inputDate.isBefore(LocalDate.now()) || inputDate.isEqual(LocalDate.now());
+    }
+
+    public static boolean postalCodeHasTheRightFormat(String postalCode) {
+        try {
+            String post = formatPostalCode(postalCode);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static LocalDate formatDate(String year, String month, String day) {
+        if (!(year.matches("//d") || !month.matches("//d") || !day.matches("//d"))) {
+            throw new NumberFormatException();
+        }
+        if (Integer.parseInt(day) < 10) {
+            day = "0" + day;
+        }
+        if (Integer.parseInt(month) < 10) {
+            month = "0" + month;
+        }
+        if (Integer.parseInt(year) < 1000) {
+            year = "0" + year;
+        }
+        return LocalDate.parse(year + "-" + month + "-" + day);
+    }
+
+    // Method to check if email contains email
+    // TWIJFEL GEVAL, Want deze methode roept emails vanuit de database op, moet
+    // hierin blijven of moet het in studentLogic blijven?
+    // Op dit moment is er dummy gegevens in de emailExistence klasse om deze
+    // methode te kunnen testen
+    public static boolean emailExist(String checkedMail) {
+        StudentRepository repo = new StudentRepository();
+        List<String> emails = new ArrayList<>();
+        for (String email : repo.retrieveNameByEmail().values()) {
+            emails.add(email);
+        }
+        return emails.contains(checkedMail);
+    }
+
+    public static boolean addresIsValid(String street, String houseNr, String postalCode) {
+        boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
+        boolean houseNumberIsNumber = areNumbers(houseNr);
+        boolean postalCodeIsRight = postalCodeHasTheRightFormat(postalCode);
+        return (addressIsFilled && houseNumberIsNumber && postalCodeIsRight);
+    }
+
+    public static boolean dateOfBirthIsValid(/* Not null */String day, /* Not null */String month,
+            /* Not null */String year) {
+        boolean valuesAreNumbers = areNumbers(day) && areNumbers(month) && areNumbers(year);
+        boolean dateIsNotNow = dateIsEarlierThanNow(day, month, year);
+        boolean dateIsCorrect = validateDate(Integer.parseInt(day), Integer.parseInt(month),
+                Integer.parseInt(year));
+        boolean dateIsFilled = fieldIsNotEmpty(day) && fieldIsNotEmpty(month) && fieldIsNotEmpty(year);
+        return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
     }
 }
