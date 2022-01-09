@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 import domain.Course;
 import domain.Difficulty;
@@ -28,7 +28,7 @@ public class StatisticsRepository{
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT 100 * (1.0 * COUNT(Certificate.CertificateID)) / (1.0 * COUNT(Enrollment.ID)) AS Percentage FROM Enrollment LEFT JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.Email IN (SELECT Email FROM Student WHERE Gender = ?)");
             preparedStatement.setString(1, gender.name());
             ResultSet result = preparedStatement.executeQuery();
-            preparedStatement.close();
+            
 
             while(result.next()) {
                 percentageAcquiredCertificates = result.getInt("Percentage");
@@ -37,6 +37,7 @@ public class StatisticsRepository{
             e.printStackTrace();
             return -1;
         }
+
         return percentageAcquiredCertificates;
     }
     
@@ -53,7 +54,7 @@ public class StatisticsRepository{
                 int percentage = result.getInt("AverageProgression");
                 percentages.put(key, percentage);
             }
-            statement.close();
+           
             return percentages;
 
         } catch (SQLException e) {
@@ -105,9 +106,9 @@ public class StatisticsRepository{
 
         return top3Webcasts;
     }
-
+    //TODO: fix method
     //Retrieves recommended courses for a selected course
-    public List<Course> retrieveRecommendedCourses(String courseName) {
+    public ArrayList<Course> retrieveRecommendedCourses(String courseName) {
         ArrayList<Course> retrievedCourses = new ArrayList<>();
         String query = "SELECT * FROM CourseRecommendation WHERE CourseName = ?";
         try (PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(query)) {
@@ -123,7 +124,7 @@ public class StatisticsRepository{
         }
         return retrievedCourses;
     }
-
+    //TODO: change method to return an instance of certificate, not just a CertificateID
     //Retrieves the number of certificates that a student has achieved, see SQL documentation for explanation of the query
     public ArrayList<Integer> retrieveStudentCertificates(String studentEmail) { 
         ArrayList<Integer> certificates = new ArrayList<>();
@@ -131,7 +132,6 @@ public class StatisticsRepository{
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT CertificateID FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
-            statement.close();
             while(result.next()) { 
                 certificates.add(result.getInt("CertificateID"));
             }
@@ -141,7 +141,7 @@ public class StatisticsRepository{
             return null;
         }
     }
-
+    //TODO: change return value to 2d array in order to ensure the list is returned sorted
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
     public HashMap<Course, Integer> retrieveTop3CoursesByNumberOfCertificates() { 
         HashMap<Course, Integer> topCourses = new HashMap<>();
