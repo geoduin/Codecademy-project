@@ -15,7 +15,6 @@ public class EnrollRepository extends Repository<Enrollment> {
 
     @Override
     public ArrayList retrieve() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -49,13 +48,14 @@ public class EnrollRepository extends Repository<Enrollment> {
                     }
                 }
             } catch (Exception e) {
-                // TODO: handle exception
                 e.printStackTrace();
             }
         }
 
     }
 
+    // Based on Student key and Webcast key or module as argument, set a new
+    // progress record
     public void insertProgress(String StudentEmail, int contentId) {
         Connection connect = this.connection.getConnection();
         try (PreparedStatement state = connect
@@ -64,7 +64,6 @@ public class EnrollRepository extends Repository<Enrollment> {
             state.setInt(2, contentId);
             state.executeUpdate();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
     }
@@ -104,17 +103,15 @@ public class EnrollRepository extends Repository<Enrollment> {
         return count;
     }
 
-    // Updates the enrollment
+    // Updates the enrollment Currently not being used
     @Override
     public void update(Enrollment domainObject) {
-        // TODO Auto-generated method stub
 
     }
 
-    // Delete method not being used.
+    // Different delete in use.
     @Override
     public void delete(Enrollment domainObject) {
-        // TODO Auto-generated method stub
 
     }
 
