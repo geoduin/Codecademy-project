@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import database.EnrollRepository;
 import database.StudentRepository;
 import database.WebcastRepository;
 import domain.Gender;
@@ -13,36 +14,35 @@ import domain.Student;
 
 public class StudentLogic {
     private StudentRepository studentRepo;
+    private EnrollRepository enrollRepo;
     private List<String> emails;
 
     public StudentLogic() {
         this.studentRepo = new StudentRepository();
+        this.enrollRepo = new EnrollRepository();
         this.emails = new ArrayList<>();
     }
 
     // Creates a new student and sends it to the studentrepository
-    public void newStudent(String name, String email, Gender gender, String day, String month, String year,
-            String street, String houseNumber, String postalCode, String country, String city) {
-        LocalDate date = InputValidations.formatDate(year, month, day);
-        int houseNr = Integer.parseInt(houseNumber);
-        String formattedPostalCode = InputValidations.formatPostalCode(postalCode);
-        Student createdStudent = new Student(name, gender, email, date, street, houseNr, formattedPostalCode, country,
+    public void newStudent(String name, String email, LocalDate date, Gender gender,
+            String street, int houseNumber, String postalCode, String country, String city) {
+
+        Student createdStudent = new Student(name, gender, email, date, street, houseNumber, postalCode, country,
                 city);
         this.studentRepo.insert(createdStudent);
     }
 
     // Receives the attributes from the StudentGUI
-    public void updateStudent(Student student, String name, String year,
-            String month, String day, Gender gender, String street, String city, String country, String houseNr,
+    public void updateStudent(Student student, String name, LocalDate newDate, Gender gender, String street,
+            String city, String country, int houseNr,
             String postalCode) {
         student.setStudentName(name);
-        LocalDate newDate = InputValidations.formatDate(year, month, day);
         student.setDateOfBirth(newDate);
         student.setGender(gender);
         student.setstreet(street);
         student.setCountry(country);
         student.setCity(city);
-        student.setHouseNumber(Integer.parseInt(houseNr));
+        student.setHouseNumber(houseNr);
         student.setPostalCode(postalCode);
         this.studentRepo.update(student);
     }
@@ -55,9 +55,7 @@ public class StudentLogic {
 
     // This method checks if the email exist and gives a boolean value
     public boolean emailExist(String checkedMail) {
-        for (String email : this.studentRepo.retrieveNameByEmail().values()) {
-            this.emails.add(email);
-        }
+        this.studentRepo.retrieveNameByEmail().values().stream().forEach(email -> this.emails.add(email));
         return this.emails.contains(checkedMail);
     }
 
@@ -109,7 +107,7 @@ public class StudentLogic {
 
     // Make Student start having progress in a Webcast
     public void studentStartsWatching(String webcastName, Student student) {
-        this.studentRepo.newProgressRecord(new WebcastRepository().retrieveByTitle(webcastName).getID(),
-                student.getEmail());
+        this.enrollRepo.insertProgress(student.getEmail(),
+                new WebcastRepository().retrieveByTitle(webcastName).getID());
     }
 }

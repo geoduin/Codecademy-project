@@ -1,5 +1,6 @@
 package gui;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -379,7 +380,7 @@ class StudentManagementView extends View {
             linkButton.setVisible(false);
             confirmMSG.setVisible(false);
 
-            ArrayList<String> namesOfWebcasts = logic.getWebcastsNotYetLinkedWithStudent(student);
+            List<String> namesOfWebcasts = logic.getWebcastsNotYetLinkedWithStudent(student);
             String dynamicDefaultValue = namesOfWebcasts.size() + " webcast(s) available";
             dropdownOfLinkableWebcasts.setValue(dynamicDefaultValue);
             namesOfWebcasts.forEach(name -> dropdownOfLinkableWebcasts.getItems().add(name));
@@ -537,7 +538,7 @@ class StudentManagementView extends View {
                     postalCode.getText());
             // Checks if input fields are not empty
             boolean nameIsFilled = InputValidations.fieldIsNotEmpty(nameField.getText());
-            boolean emailIsValid = logic.validateMailAddress(emailField.getText());
+            boolean emailIsValid = InputValidations.validateMailAddress(emailField.getText());
             boolean cityIsValid = InputValidations.fieldIsNotEmpty(cityField.getText());
             boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
             // if the date is not valid, than it will show a warning
@@ -556,11 +557,18 @@ class StudentManagementView extends View {
             // NOTE: When tested, I changed my database in order put housenumber and street
             // separately
             if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addresValid) {
-                this.logic.newStudent(nameField.getText(), emailField.getText(),
-                        genderBox.getValue(),
-                        dayField.getText(), monthField.getText(), yearField.getText(),
-                        street.getText(), houseNr.getText(), postalCode.getText(),
-                        countryField.getText(), cityField.getText());
+                String name = nameField.getText();
+                String email = emailField.getText();
+                Gender gender = genderBox.getValue();
+                LocalDate dateOfBirth = InputValidations.formatDate(yearField.getText(), monthField.getText(),
+                        dayField.getText());
+                String streetName = street.getText();
+                int hNumber = Integer.parseInt(houseNr.getText());
+                String postCode = InputValidations.formatPostalCode(postalCode.getText());
+                String countryName = countryField.getText();
+                String cityName = cityField.getText();
+                this.logic.newStudent(name, email, dateOfBirth, gender, streetName, hNumber, postCode, countryName,
+                        cityName);
                 // When successfully inserted, it will go to the succesfullprocesView
                 successfullyProcessView();
             } else {
@@ -642,11 +650,17 @@ class StudentManagementView extends View {
             boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
             if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
-                System.out.println("Successful");
-                this.logic.updateStudent(studentToEdit, nameField.getText(),
-                        yearField.getText(), monthField.getText(), dayField.getText(), genderBox.getValue(),
-                        streetField.getText(), cityField.getText(), countryField.getText(),
-                        houseNumber.getText(), postalCodeField.getText());
+                String name = nameField.getText();
+                Gender gender = genderBox.getValue();
+                LocalDate dateOfBirth = InputValidations.formatDate(yearField.getText(), monthField.getText(),
+                        dayField.getText());
+                String streetName = streetField.getText();
+                int hNumber = Integer.parseInt(houseNumber.getText());
+                String postCode = InputValidations.formatPostalCode(postalCodeField.getText());
+                String countryName = countryField.getText();
+                String cityName = cityField.getText();
+                this.logic.updateStudent(studentToEdit, name, dateOfBirth, gender, streetName, cityName, countryName,
+                        hNumber, postCode);
 
                 successfullyProcessView();
             } else {

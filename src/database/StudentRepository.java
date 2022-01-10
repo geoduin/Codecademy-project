@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import domain.Gender;
@@ -260,7 +261,7 @@ public class StudentRepository extends Repository<Student> {
 
     // With the Student key, retrieve all webcasts that exists, but are not in
     // linked with the student in the progress table
-    public ArrayList<String> getWebcastTitlesForStudentThatHaveNoProgressRelation(String studentEmail) {
+    public List<String> getWebcastTitlesForStudentThatHaveNoProgressRelation(String studentEmail) {
         ArrayList<String> webcastNames = new ArrayList<>();
 
         String sql = "SELECT * FROM ContentItem co JOIN Webcast w ON w.ContentID = co.ContentID WHERE w.ContentID NOT IN (SELECT ContentID FROM Progress WHERE StudentEmail = ?)";
@@ -276,21 +277,5 @@ public class StudentRepository extends Repository<Student> {
             e.printStackTrace();
         }
         return webcastNames;
-    }
-
-    // Based on Student key and Webcast key as argument, set a new progress record
-    public void newProgressRecord(int webcastContentID, String studentEmail) {
-        String sql = "INSERT INTO Progress VALUES (?, ?, 0)";
-
-        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
-
-            statement.setString(1, studentEmail);
-            statement.setInt(2, webcastContentID);
-
-            statement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
