@@ -212,8 +212,6 @@ class StudentManagementView extends View {
         slider.setMax(100);
         final ProgressBar pb = new ProgressBar(0);
         final ProgressIndicator pi = new ProgressIndicator(0);
-        Group progressVisualization = new Group();
-        progressVisualization.getChildren().addAll(slider, pb, pi);
         Button updateProgressButton = new Button("Update progress");
         Label updateProgressLabel = new Label("");
         updateProgressLabel.setTextFill(Color.GREEN);
@@ -221,8 +219,7 @@ class StudentManagementView extends View {
 
         // Making the progression updatable by the user, by the slider
         slider.valueProperty().addListener(
-                (ObservableValue<? extends Number> ov, Number oldValue,
-                        Number newValue) -> {
+                (ov, oldValue, newValue) -> {
                     updateProgressLabel.setText("");
                     pb.setProgress(newValue.doubleValue() / 100);
                     pi.setProgress(newValue.doubleValue() / 100);
@@ -304,13 +301,11 @@ class StudentManagementView extends View {
         }
 
         // Progress visualization using a slide and indicators
-        final Slider sliderWebcast = new Slider();
+        Slider sliderWebcast = new Slider();
         sliderWebcast.setMin(0);
         sliderWebcast.setMax(100);
-        final ProgressBar pbWebcast = new ProgressBar(0);
-        final ProgressIndicator piWebcast = new ProgressIndicator(0);
-        Group progressVisualizationWebcast = new Group();
-        progressVisualizationWebcast.getChildren().addAll(slider, pb, pi);
+        ProgressBar pbWebcast = new ProgressBar(0);
+        ProgressIndicator piWebcast = new ProgressIndicator(0);
         Button updateWebcastProgressButton = new Button("Update progress");
         updateWebcastProgressButton.setVisible(false);
         Label updateWebcastProgressLabel = new Label("");
@@ -318,8 +313,7 @@ class StudentManagementView extends View {
 
         // Making the progression updatable by the user, by the slider
         sliderWebcast.valueProperty().addListener(
-                (ObservableValue<? extends Number> ov, Number oldValue,
-                        Number newValue) -> {
+                (ov, oldValue, newValue) -> {
                     updateWebcastProgressLabel.setText("");
                     pbWebcast.setProgress(newValue.doubleValue() / 100);
                     piWebcast.setProgress(newValue.doubleValue() / 100);
@@ -383,6 +377,8 @@ class StudentManagementView extends View {
             dropdownOfLinkableWebcasts.setValue(dynamicDefaultValue);
             namesOfWebcasts.forEach(name -> dropdownOfLinkableWebcasts.getItems().add(name));
 
+            // If a webcast is selected from the dropdown, a link button will appear were a
+            // user can triger the functionality of linking a webcast with a student.
             dropdownOfLinkableWebcasts.setOnMouseClicked(webcastSelected -> {
                 String dropDownValue = dropdownOfLinkableWebcasts.getValue();
                 if (dropDownValue.isEmpty() || dropDownValue.equals("-")) {
