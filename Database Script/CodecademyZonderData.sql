@@ -1,14 +1,7 @@
 USE [master]
 GO
-/****** Object:  Database [Codecademy]    Script Date: 1/9/2022 9:00:50 AM ******/
+/****** Object:  Database [Codecademy]    Script Date: 9-1-2022 20:06:31 ******/
 CREATE DATABASE [Codecademy]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'Codecademy', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLDEV2019\MSSQL\DATA\Codecademy.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'Codecademy_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLDEV2019\MSSQL\DATA\Codecademy_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
-GO
 ALTER DATABASE [Codecademy] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
@@ -82,7 +75,7 @@ ALTER DATABASE [Codecademy] SET QUERY_STORE = OFF
 GO
 USE [Codecademy]
 GO
-/****** Object:  Table [dbo].[Address]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Address]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -100,7 +93,7 @@ CREATE TABLE [dbo].[Address](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Certificate]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Certificate]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +109,7 @@ CREATE TABLE [dbo].[Certificate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -130,7 +123,7 @@ CREATE TABLE [dbo].[Contact](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ContentItem]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[ContentItem]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,7 +140,7 @@ CREATE TABLE [dbo].[ContentItem](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +156,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -178,7 +171,7 @@ CREATE TABLE [dbo].[CourseRecommendation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Enrollment]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Enrollment]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,10 +184,16 @@ CREATE TABLE [dbo].[Enrollment](
  CONSTRAINT [PK_Enrollment] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [AK_EmailPlusCoursePlusDate] UNIQUE NONCLUSTERED 
+(
+	[Email] ASC,
+	[CourseName] ASC,
+	[Enrolldate] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -211,7 +210,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Organization]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Organization]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +223,7 @@ CREATE TABLE [dbo].[Organization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Progress]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Progress]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -240,7 +239,7 @@ CREATE TABLE [dbo].[Progress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Speaker]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Speaker]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +253,7 @@ CREATE TABLE [dbo].[Speaker](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +270,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Webcast]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Table [dbo].[Webcast]    Script Date: 9-1-2022 20:06:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -294,13 +293,13 @@ CREATE TABLE [dbo].[Webcast](
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CourseRecommendation]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Index [IX_CourseRecommendation]    Script Date: 9-1-2022 20:06:31 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecommendation]
 (
 	[CourseName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Enrollment]    Script Date: 1/9/2022 9:00:51 AM ******/
+/****** Object:  Index [IX_Enrollment]    Script Date: 9-1-2022 20:06:31 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 (
 	[ID] ASC

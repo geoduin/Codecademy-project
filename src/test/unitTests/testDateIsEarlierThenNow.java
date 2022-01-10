@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,18 +8,18 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testDateIsEarlierThenNow {
+public class TestDateIsEarlierThenNow {
 
     /**
-     * @desc checks if inputdate is earlier or equal to today
+     * @desc checks if input date is earlier or equal to today
      * @beforehand day, month and year will be first formatted through the
      *             formatDate method
-     * @subcontract checks if the day tommorow gives false
+     * @subcontract checks if the day tomorrow gives false
      * @requires LocalDate.now().plusDays(1)
      * @ensures \result = false
      * 
-     * @subcontract checks if day earlier then today or is today will pass
-     * @requires LocalDate.now() or LocalDate.now().minusDays(1)
+     * @subcontract checks if day earlier then today
+     * @requires LocalDate.now().minusDays(1)
      * @ensures \result = true
      */
     @Test
@@ -47,7 +47,7 @@ public class testDateIsEarlierThenNow {
         // Act
         boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
         // Assert
-        assertEquals(true, result);
+        assertEquals(false, result);
     }
 
     @Test

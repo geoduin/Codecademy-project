@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testIfDateOfBirthIsValid {
+public class TestIfDateOfBirthIsValid {
     /**
      * @desc checks if everything with date of birth is correct
      * 

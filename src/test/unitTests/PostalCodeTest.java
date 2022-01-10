@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

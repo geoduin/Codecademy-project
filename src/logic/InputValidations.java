@@ -53,6 +53,8 @@ public class InputValidations {
         throw new IllegalArgumentException();
     }
 
+    // This method checks if the text is not blank. If the text is not blank, than
+    // it will give a true value, if the text is blank then it will give false back
     public static boolean fieldIsNotEmpty(String textFromField) {
         return !(textFromField.isBlank());
     }
@@ -61,25 +63,14 @@ public class InputValidations {
         return (numberValue.matches("\\d+"));
     }
 
-    public static Gender convertToGender(String Value) {
-        if (Value.equals("O")) {
-            return Gender.O;
-        } else if (Value.equals("F")) {
-            return Gender.F;
-        } else {
-            return Gender.M;
-        }
-    }
-
     public static boolean dateIsEarlierThanNow(String day, String month, String year) {
         LocalDate inputDate = null;
         try {
             inputDate = formatDate(year, month, day);
         } catch (Exception e) {
-            // TODO: handle exception
             return false;
         }
-        return inputDate.isBefore(LocalDate.now()) || inputDate.isEqual(LocalDate.now());
+        return inputDate.isBefore(LocalDate.now());
     }
 
     public static boolean postalCodeHasTheRightFormat(String postalCode) {
@@ -107,21 +98,7 @@ public class InputValidations {
         return LocalDate.parse(year + "-" + month + "-" + day);
     }
 
-    // Method to check if email contains email
-    // TWIJFEL GEVAL, Want deze methode roept emails vanuit de database op, moet
-    // hierin blijven of moet het in studentLogic blijven?
-    // Op dit moment is er dummy gegevens in de emailExistence klasse om deze
-    // methode te kunnen testen
-    public static boolean emailExist(String checkedMail) {
-        StudentRepository repo = new StudentRepository();
-        List<String> emails = new ArrayList<>();
-        for (String email : repo.retrieveNameByEmail().values()) {
-            emails.add(email);
-        }
-        return emails.contains(checkedMail);
-    }
-
-    public static boolean addresIsValid(String street, String houseNr, String postalCode) {
+    public static boolean addressIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);
         boolean postalCodeIsRight = postalCodeHasTheRightFormat(postalCode);

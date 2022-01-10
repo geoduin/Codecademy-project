@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testAdressAllConditions {
+public class TestAdressAllConditions {
 
     /**
      * @desc checks if value met all the criteria for an address
@@ -32,7 +32,7 @@ public class testAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000AB";
         // Act
-        boolean result = InputValidations.addresIsValid(street, houseNr, postalCode);
+        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(true, result);
     }
@@ -44,7 +44,7 @@ public class testAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000AB";
         // Act
-        boolean result = InputValidations.addresIsValid(street, houseNr, postalCode);
+        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }
@@ -56,7 +56,7 @@ public class testAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000";
         // Act
-        boolean result = InputValidations.addresIsValid(street, houseNr, postalCode);
+        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }
@@ -68,7 +68,7 @@ public class testAdressAllConditions {
         String houseNr = "er";
         String postalCode = "3000";
         // Act
-        boolean result = InputValidations.addresIsValid(street, houseNr, postalCode);
+        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }

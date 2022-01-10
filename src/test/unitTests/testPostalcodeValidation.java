@@ -1,4 +1,4 @@
-package test.unitTests;
+package Test.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidations;
 
-public class testPostalcodeValidation {
+public class TestPostalcodeValidation {
     /**
      * @desc checks if postalcode input is valid
      * 
