@@ -30,6 +30,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
 import logic.EnrollLogic;
+import logic.InputValidations;
 
 class StudentManagementView extends View {
     private StudentLogic logic;
@@ -526,14 +527,19 @@ class StudentManagementView extends View {
             // It calls the method datOfBirthIsValid in order if the date of birth is valid
             // It checks if the date is not further than now
             // It also checks if the date of birth textFields are filled.
-            boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidations.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addresValid = logic.addresIsValid(street.getText(), houseNr.getText(), postalCode.getText());
+
+            // Method addressIsValid combines multiple methods (FieldIsnotEmpty() for
+            // houseNr, Street and postal fields), Postalcode has the correct format
+            // And checks if the houseNr is an digit
+            boolean addresValid = InputValidations.addressIsValid(street.getText(), houseNr.getText(),
+                    postalCode.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
+            boolean nameIsFilled = InputValidations.fieldIsNotEmpty(nameField.getText());
             boolean emailIsValid = logic.validateMailAddress(emailField.getText());
-            boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = logic.fieldIsNotEmpty(countryField.getText());
+            boolean cityIsValid = InputValidations.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
             // if the date is not valid, than it will show a warning
             if (!(dateValid)) {
                 warningDateOfBirth.setText("Date of birth is invalid");
@@ -626,14 +632,14 @@ class StudentManagementView extends View {
         updateButton.setOnMouseClicked(clicked -> {
             // Validate input fields date of birth and address
             // It also checks if the date of birth or address fields are blank
-            boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidations.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addressValid = logic.addresIsValid(streetField.getText(), houseNumber.getText(),
+            boolean addressValid = InputValidations.addressIsValid(streetField.getText(), houseNumber.getText(),
                     postalCodeField.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
-            boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = logic.fieldIsNotEmpty(countryField.getText());
+            boolean nameIsFilled = InputValidations.fieldIsNotEmpty(nameField.getText());
+            boolean cityIsValid = InputValidations.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
             if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
                 System.out.println("Successful");
@@ -675,6 +681,7 @@ class StudentManagementView extends View {
             }
             Student student = this.logic.getStudentByEmail(studentEmail);
             this.enrollLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+            successfullyProcessView();
         });
 
         activate(view, "Enroll student");
