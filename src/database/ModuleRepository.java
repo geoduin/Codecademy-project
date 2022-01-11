@@ -7,11 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import domain.Course;
 import domain.Module;
 import domain.Status;
 

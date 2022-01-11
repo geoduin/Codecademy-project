@@ -104,4 +104,8 @@ public class ModuleLogic {
 
         return false;
     }
+
+    public ArrayList<Module> retrieveAllModules() { 
+        return this.moduleRepo.retrieve();
+    }
 }
