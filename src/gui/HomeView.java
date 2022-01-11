@@ -27,7 +27,7 @@ class HomeView extends View {
         Button statisticsBtn = new Button("Statistics");
         statisticsBtn
                 .setOnMouseClicked(clicked -> {
-                    view.add(new Label("Not available yet!"), 2, 2);
+                    new StatisticsViews(this.gui).createView();
                 });
         manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
 

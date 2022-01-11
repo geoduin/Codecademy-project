@@ -87,8 +87,8 @@ public class Course {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return String.format("Name: %s, Topic: %s, Discription: %s, Difficulty: %s, Nr of certificates: %s", this.name, this.topic, this.description, this.difficulty, String.valueOf(this.nrOfCertificates));
+
+        return String.format("Name: %s, Topic: %s, Description: %s, Difficulty: %s, Nr of certificates: %s", this.name, this.topic, this.description, this.difficulty, String.valueOf(this.nrOfCertificates));
         
     }
 }
