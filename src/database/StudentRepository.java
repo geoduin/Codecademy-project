@@ -278,4 +278,19 @@ public class StudentRepository extends Repository<Student> {
         }
         return webcastNames;
     }
+
+
+    public List<String> retrieveAllEmails() { 
+        try {
+            ResultSet result = this.connection.getConnection().createStatement().executeQuery("SELECT Email FROM Student");
+            ArrayList<String> studentEmails = new ArrayList<>();
+            while(result.next()) { 
+                studentEmails.add(result.getString("Email"));
+            }
+            return studentEmails;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

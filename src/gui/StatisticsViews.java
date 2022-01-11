@@ -3,22 +3,29 @@ package gui;
 
 import java.util.List;
 import domain.Gender;
+import domain.Student;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import logic.CourseLogic;
 import logic.StatisticsLogic;
+import logic.StudentLogic;
 
 public class StatisticsViews extends View{
 
     private StatisticsLogic logic;
     private CourseLogic courseLogic;
+    // private StudentLogic studentLogic;
 
     public StatisticsViews(GUI baseUI) { 
         super(baseUI);
         this.logic = new StatisticsLogic();
         this.courseLogic = new CourseLogic();
+        // this.studentLogic = new StudentLogic();
     }
 
 
@@ -26,7 +33,7 @@ public class StatisticsViews extends View{
     protected void createView() {
 
         GridPane view = generateGrid();
-        //First Column
+        //First column
         //Gender statistics
         Label genderStatistics = new Label("Gender Statistics");
         ComboBox<Gender> genderComboBox = new ComboBox<>();
@@ -35,7 +42,7 @@ public class StatisticsViews extends View{
         genderComboBox.getItems().add(Gender.O);
         Text genderStatisticsValue = new Text();
 
-        //Second Column
+        //Second column
         Label averageProgressLabel = new Label("Average Progress");
         ComboBox<String> courseComboBox = new ComboBox<>();
         //adding values to moduleComboBox.
@@ -45,6 +52,21 @@ public class StatisticsViews extends View{
         }
         //Text item that'll contain the averages per module.
         Text averageProgressText = new Text();
+
+
+        //Third column
+        // Label progressStudentInCourseLabel = new Label();
+        // ComboBox<String> studentComboBox = new ComboBox<>();
+        HBox studentSearch = new HBox();
+        TextField searchBar = new TextField("Student Email");
+        Button searchButton = new Button("Search");
+        studentSearch.getChildren().add(searchBar);
+        studentSearch.getChildren().add(searchButton);
+        view.add(studentSearch, 2, 1);
+
+
+
+
 
         
 

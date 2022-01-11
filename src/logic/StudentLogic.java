@@ -110,4 +110,11 @@ public class StudentLogic {
         this.enrollRepo.insertProgress(student.getEmail(),
                 new WebcastRepository().retrieveByTitle(webcastName).getID());
     }
+
+    public List<String> retrieveAllEmails() { 
+        return this.studentRepo.retrieveAllEmails();
+    }
+
+
+
 }
