@@ -10,6 +10,7 @@ import database.ModuleRepository;
 import database.StatisticsRepository;
 import domain.Certificate;
 import domain.Gender;
+import domain.Webcast;
 
 public class StatisticsLogic {
 
@@ -68,7 +69,14 @@ public class StatisticsLogic {
     }
 
 
-    
+    public String top3WebcastFormatted() { 
+        ArrayList<Webcast> topWebcasts = this.repo.retrieveTop3MostWatchedWebcasts();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < topWebcasts.size(); i++) { 
+            stringBuilder.append("Title: " + topWebcasts.get(i).getTitle() + ", Views: " + topWebcasts.get(i).getView() + "\n");
+        }
+        return stringBuilder.toString();
+    }
 
     
 

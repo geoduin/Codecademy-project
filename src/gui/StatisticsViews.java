@@ -89,8 +89,9 @@ public class StatisticsViews extends View{
         //First column of second row
 
 
-        Label top3WebcastLabel = new Label("Top 3 webcasts by views");
-        
+        Label topWebcastLabel = new Label("Top 3 webcasts by views");
+        Text topWebcastText = new Text(this.logic.top3WebcastFormatted());
+
 
 
         
@@ -113,7 +114,8 @@ public class StatisticsViews extends View{
 
 
         //Layout of row 2
- 
+        view.add(topWebcastLabel, 0, 4);
+        view.add(topWebcastText, 0, 5);
 
 
 
