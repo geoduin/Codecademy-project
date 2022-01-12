@@ -8,6 +8,7 @@ import javax.swing.border.StrokeBorder;
 
 import database.ModuleRepository;
 import database.StatisticsRepository;
+import domain.Certificate;
 import domain.Gender;
 
 public class StatisticsLogic {
@@ -52,6 +53,22 @@ public class StatisticsLogic {
         }
         return stringBuilder.toString();
     }
+
+    public String certificateFormatter(ArrayList<Certificate> certificates) { 
+        
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < certificates.size(); i++) { 
+            builder.append(certificates.get(i).toString() + "\n");
+        }
+        return builder.toString();
+    }
+
+    public ArrayList<Certificate> retrieveCertificates (String studentEmail) { 
+        return repo.retrieveStudentCertificates(studentEmail);
+    }
+
+
+    
 
     
 

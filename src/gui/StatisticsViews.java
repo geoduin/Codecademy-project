@@ -33,7 +33,7 @@ public class StatisticsViews extends View{
     protected void createView() {
 
         GridPane view = generateGrid();
-        //First column
+        //First column of first row
         //Gender statistics
         Label genderStatistics = new Label("Gender Statistics");
         ComboBox<Gender> genderComboBox = new ComboBox<>();
@@ -42,7 +42,7 @@ public class StatisticsViews extends View{
         genderComboBox.getItems().add(Gender.O);
         Text genderStatisticsValue = new Text();
 
-        //Second column
+        //Second column of first row
         Label averageProgressLabel = new Label("Average Progress");
         ComboBox<String> courseComboBox = new ComboBox<>();
 
@@ -52,7 +52,7 @@ public class StatisticsViews extends View{
 
 
 
-        //Third column
+        //Third column of first row
         Label progressStudentInCourseLabel = new Label("Progress per module for student in course");
         ComboBox<String> courseComboBoxForStudentCourseProgress = new ComboBox<>();
 
@@ -74,14 +74,29 @@ public class StatisticsViews extends View{
         }
 
 
+        //Fourth column of first row
+        Label studentCertificatesLabel = new Label("Student certificates");
+        ComboBox<String> allStudentsBox = new ComboBox<>();
+        List<String> allStudents = this.studentLogic.retrieveAllEmails();
+        //adding students to ComboBox.
+        for(int i = 0; i < allStudents.size(); i++) { 
+            allStudentsBox.getItems().add(allStudents.get(i));
+        }
+        Text allCertificatesText = new Text();
 
 
+
+        //First column of second row
+
+
+        Label top3WebcastLabel = new Label("Top 3 webcasts by views");
+        
 
 
         
 
 
-        //View layout
+        //Layout of row 1
         view.add(genderStatistics, 0, 0);
         view.add(genderComboBox, 0, 1);
         view.add(genderStatisticsValue, 0, 2);
@@ -92,6 +107,12 @@ public class StatisticsViews extends View{
         view.add(courseComboBoxForStudentCourseProgress, 2, 1);
         //Added studentCombobox at 2,2 when a course is selected.
         view.add(studentProgressText, 2, 3);
+        view.add(studentCertificatesLabel, 3, 0);
+        view.add(allStudentsBox, 3, 1);
+        view.add(allCertificatesText, 3, 2);
+
+
+        //Layout of row 2
  
 
 
@@ -118,7 +139,9 @@ public class StatisticsViews extends View{
             studentProgressText.setText(this.logic.progressOfStudentFormatter(studentComboBox.getValue(), courseComboBoxForStudentCourseProgress.getValue()));
         });
 
-       
+        allStudentsBox.setOnAction(pickedStudent -> {
+            allCertificatesText.setText(this.logic.certificateFormatter(this.logic.retrieveCertificates(allStudentsBox.getValue())));
+        });
 
 
 
