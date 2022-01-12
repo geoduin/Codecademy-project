@@ -294,8 +294,10 @@ class WebcastManageView extends View {
                 result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
+                
+                if(this.logic.isValidURL(urlTextField.getText())) {
 
-                // Converts duration to int
+                     // Converts duration to int
                 int duration = Integer.parseInt(durationTextField.getText());
                 // adds webcast to database
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
@@ -308,6 +310,13 @@ class WebcastManageView extends View {
                     result.setText("Save failed");
                 }
                 return;
+
+
+                } else{
+                   result.setText(urlTextField.getText() + " is not a valid URL");
+                }
+
+               
             }
 
         });
