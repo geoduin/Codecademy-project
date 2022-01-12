@@ -40,9 +40,7 @@ public class CertificateSubmissionView extends View {
             if (enrollmentDropdown.getValue() == null) {
                 return;
             }
-
             addCertificateView(enrollmentDropdown.getValue());
-
         });
 
         // Finalization and activation of view
@@ -51,7 +49,6 @@ public class CertificateSubmissionView extends View {
         view.add(createCertificateBtn, 0, 2);
 
         activate(view, "Select enrollment eligible for certificate creation");
-
     }
 
     public void addCertificateView(Enrollment enrollment) {
