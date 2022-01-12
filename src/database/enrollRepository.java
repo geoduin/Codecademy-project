@@ -13,6 +13,10 @@ import domain.Enrollment;
 
 public class EnrollRepository extends Repository<Enrollment> {
 
+    public EnrollRepository() { 
+        super();
+    }
+
     @Override
     public ArrayList retrieve() {
         return null;
@@ -126,9 +130,9 @@ public class EnrollRepository extends Repository<Enrollment> {
     }
 
     public List<String> retrieveEmailsFromCourse(String courseName) {
-        String sql = "SELECT StudentEmail FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName = ?";
+        String sql = "SELECT DISTINCT StudentEmail FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName = ?";
         List<String> emailList = new ArrayList<>();
-        // If there are any students, the resultset will add the emails to the email
+        // If there are any students, the ResultSet will add the emails to the email
         // list
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
             statement.setString(1, courseName);

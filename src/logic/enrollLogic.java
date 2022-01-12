@@ -27,4 +27,8 @@ public class EnrollLogic {
         this.enrollmentRepo.insert(new Enrollment(chosenStudent, chosenCourse));
     }
 
+    public List<String> retrieveEmailsFromCourse(String courseName) { 
+        return this.enrollmentRepo.retrieveEmailsFromCourse(courseName);
+    }
+
 }

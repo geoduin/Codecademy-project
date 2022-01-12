@@ -3,15 +3,12 @@ package gui;
 
 import java.util.List;
 import domain.Gender;
-import domain.Student;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import logic.CourseLogic;
+import logic.EnrollLogic;
 import logic.StatisticsLogic;
 import logic.StudentLogic;
 
@@ -19,13 +16,16 @@ public class StatisticsViews extends View{
 
     private StatisticsLogic logic;
     private CourseLogic courseLogic;
-    // private StudentLogic studentLogic;
+    private EnrollLogic enrollLogic;
+    private StudentLogic studentLogic;
 
     public StatisticsViews(GUI baseUI) { 
         super(baseUI);
         this.logic = new StatisticsLogic();
         this.courseLogic = new CourseLogic();
-        // this.studentLogic = new StudentLogic();
+        this.enrollLogic = new EnrollLogic();
+        this.studentLogic = new StudentLogic();
+
     }
 
 
@@ -45,24 +45,34 @@ public class StatisticsViews extends View{
         //Second column
         Label averageProgressLabel = new Label("Average Progress");
         ComboBox<String> courseComboBox = new ComboBox<>();
-        //adding values to moduleComboBox.
-        List<String> courses = this.courseLogic.retrieveCourseNames();
-        for(int i = 0; i < courses.size(); i++) { 
-            courseComboBox.getItems().add(courses.get(i));
-        }
+
         //Text item that'll contain the averages per module.
         Text averageProgressText = new Text();
 
 
+
+
         //Third column
-        // Label progressStudentInCourseLabel = new Label();
-        // ComboBox<String> studentComboBox = new ComboBox<>();
-        HBox studentSearch = new HBox();
-        TextField searchBar = new TextField("Student Email");
-        Button searchButton = new Button("Search");
-        studentSearch.getChildren().add(searchBar);
-        studentSearch.getChildren().add(searchButton);
-        view.add(studentSearch, 2, 1);
+        Label progressStudentInCourseLabel = new Label("Progress per module for student in course");
+        ComboBox<String> courseComboBoxForStudentCourseProgress = new ComboBox<>();
+
+        ComboBox<String> studentComboBox = new ComboBox<>();
+        final String defaultStudentComboBoxValue = "Select a student";
+        studentComboBox.setValue(defaultStudentComboBoxValue);
+        Text studentProgressText = new Text();
+
+
+
+
+        //adding values to both courseComboboxes
+        List<String> courses = this.courseLogic.retrieveCourseNames();
+        //Adding courses to ComboBox.
+        for(int i = 0; i < courses.size(); i++) { 
+            courseComboBox.getItems().add(courses.get(i));
+            courseComboBoxForStudentCourseProgress.getItems().add(courses.get(i));
+
+        }
+
 
 
 
@@ -78,6 +88,11 @@ public class StatisticsViews extends View{
         view.add(averageProgressLabel, 1, 0);
         view.add(courseComboBox, 1, 1);
         view.add(averageProgressText, 1, 2);
+        view.add(progressStudentInCourseLabel, 2, 0);
+        view.add(courseComboBoxForStudentCourseProgress, 2, 1);
+        //Added studentCombobox at 2,2 when a course is selected.
+        view.add(studentProgressText, 2, 3);
+ 
 
 
 
@@ -86,9 +101,26 @@ public class StatisticsViews extends View{
             genderStatisticsValue.setText(this.logic.genderStatisticsFormatter(genderComboBox.getValue()));
         });
 
-        courseComboBox.setOnAction(pickedModule -> {
+        courseComboBox.setOnAction(pickedCourse -> {
             averageProgressText.setText(this.logic.courseProgressStatisticFormatter(courseComboBox.getValue()));
         });
+
+        courseComboBoxForStudentCourseProgress.setOnAction(pickedCourse -> {
+           List<String> studentEmails = this.enrollLogic.retrieveEmailsFromCourse(courseComboBoxForStudentCourseProgress.getValue());
+           for(int i = 0; i < studentEmails.size(); i++) { 
+               studentComboBox.getItems().add(studentEmails.get(i));
+               
+           }
+           view.add(studentComboBox, 2, 2);
+        });
+
+        studentComboBox.setOnAction(pickedStudent -> {
+            studentProgressText.setText(this.logic.progressOfStudentFormatter(studentComboBox.getValue(), courseComboBoxForStudentCourseProgress.getValue()));
+        });
+
+       
+
+
 
 
 
@@ -98,5 +130,13 @@ public class StatisticsViews extends View{
         
         
     }
+
+
+    //Possible features to add: 
+
+    //SearchBar for student
+    // HBox studentSearch = new HBox();
+    // TextField searchBar = new TextField("Student Email");
+    // Button searchButton = new Button("Search");
     
 }

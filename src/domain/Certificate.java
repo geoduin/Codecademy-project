@@ -54,6 +54,6 @@ public class Certificate {
 
     @Override
     public String toString() {
-        return "CertificateID: " + this.certificateID + ", Studentname: " + this.studentName + ", Name of Issuer: " + this.nameOfIssuer + ", Grade: " + this.grade;
+        return "CertificateID: " + this.certificateID + ", Student name: " + this.studentName + ", Name of Issuer: " + this.nameOfIssuer + ", Grade: " + this.grade + "\n";
     }
 }

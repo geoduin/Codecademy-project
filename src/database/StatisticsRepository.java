@@ -67,7 +67,8 @@ public class StatisticsRepository{
 
     
 
-    //Retrieves progression per module for a selected course
+    //Retrieves  a students progression per module for a selected course
+    //The hashmap is in the format of <ID,>
     public HashMap<Integer, Integer> retrieveProgressionPerModule(String studentEmail, String courseName) {
         HashMap<Integer, Integer> percentagesPerModule = new HashMap<>();
         try {
