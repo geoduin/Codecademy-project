@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestDateOfBirth {
+public class DateOfBirthTest {
     /**
      * @desc checks if everything with date of birth is correct
      * @subcontract day, month and year values meet the requirements

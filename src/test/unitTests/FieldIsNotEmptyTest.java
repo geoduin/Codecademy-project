@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.*;
 
-public class TestFieldIsNotEmpty {
+public class FieldIsNotEmptyTest {
 
     /**
      * @desc this methods checks if inputfield is empty

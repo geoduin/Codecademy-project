@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestAdressIsValid {
+public class AdressIsValidTest {
 
     /**
      * @desc An method that combines other methods and checks if all these methods

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestPostalCodeValidate {
+public class PostalCodeValidateTest {
     /**
      * @desc checks if postalcode input is valid
      */

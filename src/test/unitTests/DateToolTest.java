@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestDateTool {
+public class DateToolTest {
     /**
      * @desc Validates is a given date in the form of day, month and year is valid.
      * 

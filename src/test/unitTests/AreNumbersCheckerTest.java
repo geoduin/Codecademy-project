@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestAreNumbersChecker {
+public class AreNumbersCheckerTest {
     /**
      * @desc checks if input values are decimals
      */

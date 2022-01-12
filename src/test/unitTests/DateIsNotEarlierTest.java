@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestDateIsNotEarlier {
+public class DateIsNotEarlierTest {
 
     /**
      * @desc checks if input date is earlier or equal to today

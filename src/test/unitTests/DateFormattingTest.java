@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestDateFormatting {
+public class DateFormattingTest {
     /**
      * @desc formats the input values to a valid localDate
      * 
