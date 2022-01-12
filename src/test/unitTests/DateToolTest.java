@@ -246,9 +246,8 @@ public class DateToolTest {
      * 
      * @ensures \result = true;
      * }
-     * 
-     * @Test
      */
+    @Test
     public void testDateToolIfDayIsALeapYearIn2000() {
         // Arrange
         int day = 29;
