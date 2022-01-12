@@ -2,6 +2,8 @@ package logic;
 
 import java.util.List;
 
+import javax.xml.stream.events.EndElement;
+
 import database.EnrollmentRepository;
 import domain.Course;
 import domain.Student;
@@ -23,12 +25,17 @@ public class EnrollmentLogic {
     }
 
     public void enrollStudentToCourse(Student chosenStudent, String courseName) {
-        Course chosenCourse = this.courseLogic.retrieveCourse(courseName);
-        this.enrollmentRepo.insert(new Enrollment(chosenStudent, chosenCourse));
+        this.enrollmentRepo.insert(new Enrollment(chosenStudent.getEmail(), courseName));
     }
 
     public List<String> retrieveEmailsFromCourse(String courseName) {
         return this.enrollmentRepo.retrieveEmailsFromCourse(courseName);
     }
 
+    // Relay between GUI and Repo to receive all enrollments that are eligible for a
+    // certificate. How and why needs an above average amount of explanation, so
+    // please refer to the report of PAP4 Codecademy project group
+    public List<Enrollment> getEnrollmentsEligibleForCertificate() {
+        return this.enrollmentRepo.retrieveCertificateEligibleEnrollments();
+    }
 }
