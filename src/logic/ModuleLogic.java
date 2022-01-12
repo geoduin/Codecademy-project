@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import database.EnrollRepository;
+import database.EnrollmentRepository;
 import database.ModuleRepository;
 import domain.Module;
 import domain.Course;
@@ -16,12 +16,12 @@ public class ModuleLogic {
 
     private List<Module> modules;
     private ModuleRepository moduleRepo;
-    private EnrollRepository enrollmentRepo;
+    private EnrollmentRepository enrollmentRepo;
 
     public ModuleLogic() {
         this.modules = new ArrayList<>();
         this.moduleRepo = new ModuleRepository();
-        this.enrollmentRepo = new EnrollRepository();
+        this.enrollmentRepo = new EnrollmentRepository();
     }
 
     // Retrieve formatted strings representing each existing modules, coupled with
@@ -105,7 +105,7 @@ public class ModuleLogic {
         return false;
     }
 
-    public ArrayList<Module> retrieveAllModules() { 
+    public ArrayList<Module> retrieveAllModules() {
         return this.moduleRepo.retrieve();
     }
 }

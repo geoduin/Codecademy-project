@@ -2,7 +2,7 @@ package logic;
 
 import java.util.List;
 
-import database.EnrollRepository;
+import database.EnrollmentRepository;
 import domain.Course;
 import domain.Student;
 import domain.Enrollment;
@@ -10,12 +10,12 @@ import domain.Enrollment;
 public class EnrollmentLogic {
     private CourseLogic courseLogic;
     private StudentLogic studentLogic;
-    private EnrollRepository enrollmentRepo;
+    private EnrollmentRepository enrollmentRepo;
 
     public EnrollmentLogic() {
         this.courseLogic = new CourseLogic();
         this.studentLogic = new StudentLogic();
-        this.enrollmentRepo = new EnrollRepository();
+        this.enrollmentRepo = new EnrollmentRepository();
     }
 
     public List<String> getCourseNames() {

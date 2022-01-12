@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import database.EnrollRepository;
+import database.EnrollmentRepository;
 import database.StudentRepository;
 import database.WebcastRepository;
 import domain.Gender;
@@ -14,12 +14,12 @@ import domain.Student;
 
 public class StudentLogic {
     private StudentRepository studentRepo;
-    private EnrollRepository enrollRepo;
+    private EnrollmentRepository enrollRepo;
     private List<String> emails;
 
     public StudentLogic() {
         this.studentRepo = new StudentRepository();
-        this.enrollRepo = new EnrollRepository();
+        this.enrollRepo = new EnrollmentRepository();
         this.emails = new ArrayList<>();
     }
 
@@ -111,10 +111,8 @@ public class StudentLogic {
                 new WebcastRepository().retrieveByTitle(webcastName).getID());
     }
 
-    public List<String> retrieveAllEmails() { 
+    public List<String> retrieveAllEmails() {
         return this.studentRepo.retrieveAllEmails();
     }
-
-
 
 }

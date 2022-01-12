@@ -1,7 +1,7 @@
 package logic;
-import database.EnrollRepository;
-import database.StatisticsRepository;
 
+import database.EnrollmentRepository;
+import database.StatisticsRepository;
 
 public class Test {
 
@@ -9,7 +9,7 @@ public class Test {
         StatisticsLogic logic = new StatisticsLogic();
         StatisticsRepository repo = new StatisticsRepository();
         System.out.println(logic.top3CoursesFormatted());
-       
+
     }
-    
+
 }

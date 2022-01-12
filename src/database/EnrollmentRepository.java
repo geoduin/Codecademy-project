@@ -11,9 +11,9 @@ import javax.naming.spi.DirStateFactory.Result;
 
 import domain.Enrollment;
 
-public class EnrollRepository extends Repository<Enrollment> {
+public class EnrollmentRepository extends Repository<Enrollment> {
 
-    public EnrollRepository() {
+    public EnrollmentRepository() {
         super();
     }
 
