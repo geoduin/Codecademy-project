@@ -164,11 +164,10 @@ class WebcastManageView extends View {
         Label urlLabel = new Label("URL");
         TextField urlField = new TextField(webcastToEdit.getUrl());
         Label statusLabel = new Label("Status");
-        ComboBox<String> statusComboBox = new ComboBox<>();
-        statusComboBox.setValue(webcastToEdit.getStatus().toString());
-        statusComboBox.getItems().add("ACTIVE");
-        statusComboBox.getItems().add("CONCEPT");
-        statusComboBox.getItems().add("ARCHIVED");
+        ComboBox<Status> statusComboBox = new ComboBox<>();
+        statusComboBox.setValue(webcastToEdit.getStatus());
+        statusComboBox.getItems().addAll(Status.ACTIVE, Status.ARCHIVED, Status.CONCEPT);
+        
         Label result = new Label("");
 
         Label views = new Label("View count");
@@ -203,11 +202,11 @@ class WebcastManageView extends View {
 
                 this.logic.editURL(originalURL, urlField.getText());
                 this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
-                        Status.valueOf(statusComboBox.getValue()));
+                        statusComboBox.getValue());
                 this.logic.editViewCount(urlField.getText(), Integer.parseInt(viewField.getText()));
-                // Checks if the update is succesful
+                // Checks if the update is successful
                 if (this.logic.updateSuccessful(titleField.getText(), descriptionArea.getText(), urlField.getText(),
-                        statusComboBox.getValue())) {
+                        statusComboBox.getValue().toString())) {
                     result.setText("Update successful");
                 } else {
                     result.setText("Update failed");
@@ -248,9 +247,9 @@ class WebcastManageView extends View {
         TextField urlTextField = new TextField();
 
         Label statusLabel = new Label("Status");
-        ComboBox<String> statusComboBox = new ComboBox<>();
-        statusComboBox.setValue(defaultStatusValue);
-        statusComboBox.getItems().addAll("ACTIVE", "CONCEPT", "ARCHIVED");
+        ComboBox<Status> statusComboBox = new ComboBox<>();
+        
+        statusComboBox.getItems().addAll(Status.ACTIVE, Status.ARCHIVED, Status.CONCEPT);
         Label viewCount = new Label("Views");
         TextField viewsField = new TextField();
         Label result = new Label();
@@ -295,12 +294,14 @@ class WebcastManageView extends View {
                 result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
+                
+                if(this.logic.isValidURL(urlTextField.getText())) {
 
-                // Converts duration to int
+                     // Converts duration to int
                 int duration = Integer.parseInt(durationTextField.getText());
                 // adds webcast to database
                 this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
-                        organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue(),
+                        organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue().toString(),
                         descriptionArea.getText(), viewsField.getText());
                 // tells user wether the webcast was successfully saved
                 if (this.logic.saveSuccessful(titleTextField.getText())) {
@@ -309,6 +310,13 @@ class WebcastManageView extends View {
                     result.setText("Save failed");
                 }
                 return;
+
+
+                } else{
+                   result.setText(urlTextField.getText() + " is not a valid URL");
+                }
+
+               
             }
 
         });
