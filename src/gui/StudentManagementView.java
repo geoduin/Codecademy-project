@@ -636,6 +636,8 @@ class StudentManagementView extends View {
             // It also checks if the date of birth or address fields are blank
             boolean dateValid = InputValidation.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
+            // Assigns true to addressValid value if all the conditions regarding address
+            // are met
             boolean addressValid = InputValidation.addressIsValid(streetField.getText(), houseNumber.getText(),
                     postalCodeField.getText());
             // Checks if input fields are not empty
@@ -644,6 +646,7 @@ class StudentManagementView extends View {
             boolean countryIsFilled = InputValidation.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
             if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
+                // Converts input to String, LocalDate or Gender
                 String name = nameField.getText();
                 Gender gender = genderBox.getValue();
                 LocalDate dateOfBirth = InputValidation.formatDate(yearField.getText(), monthField.getText(),
@@ -653,6 +656,7 @@ class StudentManagementView extends View {
                 String postCode = InputValidation.formatPostalCode(postalCodeField.getText());
                 String countryName = countryField.getText();
                 String cityName = cityField.getText();
+                // Passes attributes to the logic class
                 this.logic.updateStudent(studentToEdit, name, dateOfBirth, gender, streetName, cityName, countryName,
                         hNumber, postCode);
 
