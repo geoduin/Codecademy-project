@@ -85,14 +85,23 @@ public class StatisticsViews extends View{
         Text topWebcastText = new Text(this.logic.top3WebcastFormatted());
 
 
-        //Second column of Second row
+        //Second column of second row
         Label topCourseLabel = new Label("Top 3 courses by number of certificates");
         Text topCoursesText = new Text(this.logic.top3CoursesFormatted());
 
 
-        //Third column of Second row
+        //Third column of second row
 
-        Label reccomendedCoursesLabel = new Label("Reccomended Course");
+        Label recommendedCoursesLabel = new Label("Reccomended Course");
+        ComboBox<String> courseBoxForRecommendedCourses = new ComboBox<>();
+        Text recommendedCoursesText = new Text();
+
+        //Fourth column of second row
+
+        Label numberOfReceivedCertificatesLabel = new Label("Number of received certificates");
+        ComboBox<String> courseBoxForNumberOfCertificates = new ComboBox<>();
+        Text numberOfCertificatesText = new Text();
+
 
 
         
@@ -107,7 +116,7 @@ public class StatisticsViews extends View{
         view.add(averageProgressText, 1, 2);
         view.add(progressStudentInCourseLabel, 2, 0);
         view.add(courseComboBoxForStudentCourseProgress, 2, 1);
-        //Added studentCombobox at 2,2 when a course is selected.
+        //Added studentComboBox at 2,2 when a course is selected.
         view.add(studentProgressText, 2, 3);
         view.add(studentCertificatesLabel, 3, 0);
         view.add(allStudentsBox, 3, 1);
@@ -119,8 +128,12 @@ public class StatisticsViews extends View{
         view.add(topWebcastText, 0, 5);
         view.add(topCourseLabel, 1, 4);
         view.add(topCoursesText, 1, 5);
-        view.add(courseComboBox, 2, 4);
-
+        view.add(recommendedCoursesLabel, 2, 4);
+        view.add(courseBoxForRecommendedCourses, 2, 5);
+        view.add(recommendedCoursesText, 2, 6);
+        view.add(numberOfReceivedCertificatesLabel, 3, 4);
+        view.add(courseBoxForNumberOfCertificates, 3, 5);
+        view.add(numberOfCertificatesText, 3, 6);
 
 
         //Event handlers
@@ -149,6 +162,14 @@ public class StatisticsViews extends View{
             allCertificatesText.setText(this.logic.certificateFormatter(this.logic.retrieveCertificates(allStudentsBox.getValue())));
         });
 
+        courseBoxForRecommendedCourses.setOnAction(pickedCourse -> {
+            recommendedCoursesText.setText(this.logic.recommendedCourseFormatter(courseBoxForRecommendedCourses.getValue()));
+        });
+
+        courseBoxForNumberOfCertificates.setOnAction(pickedCourse -> {
+            numberOfCertificatesText.setText(this.logic.numberOfCertificatesFormatter(courseBoxForNumberOfCertificates.getValue()));
+        });
+
 
         //adding values to all courseComboboxes
         List<String> courses = this.courseLogic.retrieveCourseNames();
@@ -156,6 +177,8 @@ public class StatisticsViews extends View{
         for(int i = 0; i < courses.size(); i++) { 
             courseComboBox.getItems().add(courses.get(i));
             courseComboBoxForStudentCourseProgress.getItems().add(courses.get(i));
+            courseBoxForRecommendedCourses.getItems().add(courses.get(i));
+            courseBoxForNumberOfCertificates.getItems().add(courses.get(i));
 
         }
 

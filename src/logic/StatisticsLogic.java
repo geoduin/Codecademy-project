@@ -90,6 +90,19 @@ public class StatisticsLogic {
         return stringBuilder.toString();
     }
 
+    public String recommendedCourseFormatter(String course) { 
+        ArrayList<Course> courses = this.repo.retrieveRecommendedCourses(course);
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < courses.size(); i++) { 
+            stringBuilder.append(courses.get(i).toString() + "\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public String numberOfCertificatesFormatter(String course) { 
+        return "Number of certificates: " + this.repo.retrieveNumberOFCertificates(course);
+    }
+
     
 
 
