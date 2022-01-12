@@ -2,6 +2,8 @@ package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +14,12 @@ import javax.naming.spi.DirStateFactory.Result;
 import domain.Enrollment;
 
 public class EnrollmentRepository extends Repository<Enrollment> {
+
+    public static void main(String[] args) {
+        EnrollmentRepository test = new EnrollmentRepository();
+
+        test.retrieveCertificateEligibleEnrollments();
+    }
 
     public EnrollmentRepository() {
         super();
@@ -28,8 +36,8 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         Connection connect = this.connection.getConnection();
         try (PreparedStatement statement = connect.prepareStatement("INSERT INTO Enrollment VALUES(?,?,?)")) {
             statement.setObject(1, enrollment.getDateOfEnrollment());
-            statement.setString(2, enrollment.getStudent().getEmail());
-            statement.setString(3, enrollment.getCourse().getName());
+            statement.setString(2, enrollment.getStudentEmail());
+            statement.setString(3, enrollment.getCourseName());
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Enrollment cannot be inserted");
@@ -47,8 +55,8 @@ public class EnrollmentRepository extends Repository<Enrollment> {
 
                     // if there is no student with this contentID in the progress table, it will
                     // create one
-                    if (hasStudentProgress(enrollment.getStudent().getEmail(), id) == 0) {
-                        insertProgress(enrollment.getStudent().getEmail(), id);
+                    if (hasStudentProgress(enrollment.getStudentEmail(), id) == 0) {
+                        insertProgress(enrollment.getStudentEmail(), id);
                     }
                 }
             } catch (Exception e) {
@@ -77,7 +85,7 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         Connection connect = this.connection.getConnection();
         List<Integer> contentIds = new ArrayList<>();
         try (PreparedStatement stat = connect.prepareStatement("SELECT ContentID FROM Module WHERE CourseName = ?")) {
-            stat.setString(1, enrollment.getCourse().getName());
+            stat.setString(1, enrollment.getCourseName());
             ResultSet results = stat.executeQuery();
             while (results.next()) {
                 contentIds.add(results.getInt("ContentID"));
@@ -130,7 +138,7 @@ public class EnrollmentRepository extends Repository<Enrollment> {
     }
 
     public List<String> retrieveEmailsFromCourse(String courseName) {
-        String sql = "SELECT DISTINCT StudentEmail FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName = ?";
+        String sql = "SELECT DISTINCT p.StudentEmail FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE m.CourseName = ?";
         List<String> emailList = new ArrayList<>();
         // If there are any students, the ResultSet will add the emails to the email
         // list
@@ -159,4 +167,28 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
     }
 
+    /*
+     * Method to retrieve and instantiate the most recent enrollments
+     * were the course is completed by the student (all related Modules have 100%
+     * progression), but has not yet received a certificate for it yet
+     */
+    public List<Enrollment> retrieveCertificateEligibleEnrollments() {
+        List<Enrollment> enrollments = new ArrayList<>();
+
+        /*** Query is toegelicht in verslag i.v.m. complexiteit! ***/
+        String sql = "SELECT DISTINCT e.ID, e.Email, e.CourseName, e.Enrolldate FROM Enrollment e LEFT JOIN Certificate c ON c.EnrollmentID = e.ID WHERE c.EnrollmentID IS NULL AND EXISTS (SELECT DISTINCT e2.Email, e2.CourseName FROM Enrollment e2 WHERE e2.Email = e.Email AND e2.CourseName = e.CourseName GROUP BY e2.Email, e2.CourseName HAVING MAX(e2.Enrolldate) = e.Enrolldate) AND EXISTS (SELECT DISTINCT p.StudentEmail, m.CourseName FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE e.Email = p.StudentEmail AND e.CourseName = m.CourseName GROUP BY p.StudentEmail, m.CourseName HAVING (SUM (p.Percentage) / COUNT(p.Percentage)) = 100)";
+
+        try (Statement statement = this.connection.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                enrollments.add(new Enrollment(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+                        LocalDate.parse(resultSet.getString(4))));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return enrollments;
+    }
 }
