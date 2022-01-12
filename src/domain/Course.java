@@ -88,7 +88,7 @@ public class Course {
     @Override
     public String toString() {
 
-        return String.format("Name: %s, Topic: %s, Description: %s, Difficulty: %s, Nr of certificates: %s", this.name, this.topic, this.description, this.difficulty, String.valueOf(this.nrOfCertificates));
+        return "Name: " +  this.name + ", Nr. Of Certificates: " + this.nrOfCertificates;
         
     }
 }

@@ -1,6 +1,7 @@
 package logic;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import javax.swing.border.StrokeBorder;
 import database.ModuleRepository;
 import database.StatisticsRepository;
 import domain.Certificate;
+import domain.Course;
 import domain.Gender;
 import domain.Webcast;
 
@@ -70,11 +72,21 @@ public class StatisticsLogic {
 
 
     public String top3WebcastFormatted() { 
-        ArrayList<Webcast> topWebcasts = this.repo.retrieveTop3MostWatchedWebcasts();
+        List<Webcast> topWebcasts = this.repo.retrieveTop3MostWatchedWebcasts();
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < topWebcasts.size(); i++) { 
             stringBuilder.append("Title: " + topWebcasts.get(i).getTitle() + ", Views: " + topWebcasts.get(i).getView() + "\n");
         }
+        return stringBuilder.toString();
+    }
+
+    public String top3CoursesFormatted() { 
+        List<Course> topCourses = this.repo.retrieveTop3CoursesByNumberOfCertificates();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < topCourses.size(); i++) { 
+            stringBuilder.append(topCourses.get(i).toString() + "\n");
+        }
+
         return stringBuilder.toString();
     }
 

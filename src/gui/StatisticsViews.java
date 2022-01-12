@@ -64,14 +64,6 @@ public class StatisticsViews extends View{
 
 
 
-        //adding values to both courseComboboxes
-        List<String> courses = this.courseLogic.retrieveCourseNames();
-        //Adding courses to ComboBox.
-        for(int i = 0; i < courses.size(); i++) { 
-            courseComboBox.getItems().add(courses.get(i));
-            courseComboBoxForStudentCourseProgress.getItems().add(courses.get(i));
-
-        }
 
 
         //Fourth column of first row
@@ -92,6 +84,15 @@ public class StatisticsViews extends View{
         Label topWebcastLabel = new Label("Top 3 webcasts by views");
         Text topWebcastText = new Text(this.logic.top3WebcastFormatted());
 
+
+        //Second column of Second row
+        Label topCourseLabel = new Label("Top 3 courses by number of certificates");
+        Text topCoursesText = new Text(this.logic.top3CoursesFormatted());
+
+
+        //Third column of Second row
+
+        Label reccomendedCoursesLabel = new Label("Reccomended Course");
 
 
         
@@ -116,6 +117,9 @@ public class StatisticsViews extends View{
         //Layout of row 2
         view.add(topWebcastLabel, 0, 4);
         view.add(topWebcastText, 0, 5);
+        view.add(topCourseLabel, 1, 4);
+        view.add(topCoursesText, 1, 5);
+        view.add(courseComboBox, 2, 4);
 
 
 
@@ -146,6 +150,14 @@ public class StatisticsViews extends View{
         });
 
 
+        //adding values to all courseComboboxes
+        List<String> courses = this.courseLogic.retrieveCourseNames();
+        //Adding courses to ComboBox.
+        for(int i = 0; i < courses.size(); i++) { 
+            courseComboBox.getItems().add(courses.get(i));
+            courseComboBoxForStudentCourseProgress.getItems().add(courses.get(i));
+
+        }
 
 
 
