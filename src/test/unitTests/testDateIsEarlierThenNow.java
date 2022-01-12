@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class TestDateIsEarlierThenNow {
 
@@ -31,7 +31,7 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }
@@ -45,7 +45,7 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }
@@ -59,7 +59,7 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(true, result);
     }
@@ -72,7 +72,7 @@ public class TestDateIsEarlierThenNow {
         String month = "2";
         String year = "1800";
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }

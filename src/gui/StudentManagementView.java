@@ -28,17 +28,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
-import logic.EnrollLogic;
-import logic.InputValidations;
+import logic.EnrollmentLogic;
+import logic.InputValidation;
 
 class StudentManagementView extends View {
     private StudentLogic logic;
-    private EnrollLogic enrollLogic;
+    private EnrollmentLogic enrollmentLogic;
 
     StudentManagementView(GUI gui) {
         super(gui);
         this.logic = new StudentLogic();
-        this.enrollLogic = new EnrollLogic();
+        this.enrollmentLogic = new EnrollmentLogic();
     }
 
     @Override
@@ -522,19 +522,19 @@ class StudentManagementView extends View {
             // It calls the method datOfBirthIsValid in order if the date of birth is valid
             // It checks if the date is not further than now
             // It also checks if the date of birth textFields are filled.
-            boolean dateValid = InputValidations.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidation.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
 
             // Method addressIsValid combines multiple methods (FieldIsnotEmpty() for
             // houseNr, Street and postal fields), Postalcode has the correct format
             // And checks if the houseNr is an digit
-            boolean addresValid = InputValidations.addressIsValid(street.getText(), houseNr.getText(),
+            boolean addresValid = InputValidation.addressIsValid(street.getText(), houseNr.getText(),
                     postalCode.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = InputValidations.fieldIsNotEmpty(nameField.getText());
-            boolean emailIsValid = InputValidations.validateMailAddress(emailField.getText());
-            boolean cityIsValid = InputValidations.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
+            boolean nameIsFilled = InputValidation.fieldIsNotEmpty(nameField.getText());
+            boolean emailIsValid = InputValidation.validateMailAddress(emailField.getText());
+            boolean cityIsValid = InputValidation.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidation.fieldIsNotEmpty(countryField.getText());
             // if the date is not valid, than it will show a warning
             if (!(dateValid)) {
                 warningDateOfBirth.setText("Date of birth is invalid");
@@ -554,11 +554,11 @@ class StudentManagementView extends View {
                 String name = nameField.getText();
                 String email = emailField.getText();
                 Gender gender = genderBox.getValue();
-                LocalDate dateOfBirth = InputValidations.formatDate(yearField.getText(), monthField.getText(),
+                LocalDate dateOfBirth = InputValidation.formatDate(yearField.getText(), monthField.getText(),
                         dayField.getText());
                 String streetName = street.getText();
                 int hNumber = Integer.parseInt(houseNr.getText());
-                String postCode = InputValidations.formatPostalCode(postalCode.getText());
+                String postCode = InputValidation.formatPostalCode(postalCode.getText());
                 String countryName = countryField.getText();
                 String cityName = cityField.getText();
                 this.logic.newStudent(name, email, dateOfBirth, gender, streetName, hNumber, postCode, countryName,
@@ -634,23 +634,23 @@ class StudentManagementView extends View {
         updateButton.setOnMouseClicked(clicked -> {
             // Validate input fields date of birth and address
             // It also checks if the date of birth or address fields are blank
-            boolean dateValid = InputValidations.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidation.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addressValid = InputValidations.addressIsValid(streetField.getText(), houseNumber.getText(),
+            boolean addressValid = InputValidation.addressIsValid(streetField.getText(), houseNumber.getText(),
                     postalCodeField.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = InputValidations.fieldIsNotEmpty(nameField.getText());
-            boolean cityIsValid = InputValidations.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = InputValidations.fieldIsNotEmpty(countryField.getText());
+            boolean nameIsFilled = InputValidation.fieldIsNotEmpty(nameField.getText());
+            boolean cityIsValid = InputValidation.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidation.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
             if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
                 String name = nameField.getText();
                 Gender gender = genderBox.getValue();
-                LocalDate dateOfBirth = InputValidations.formatDate(yearField.getText(), monthField.getText(),
+                LocalDate dateOfBirth = InputValidation.formatDate(yearField.getText(), monthField.getText(),
                         dayField.getText());
                 String streetName = streetField.getText();
                 int hNumber = Integer.parseInt(houseNumber.getText());
-                String postCode = InputValidations.formatPostalCode(postalCodeField.getText());
+                String postCode = InputValidation.formatPostalCode(postalCodeField.getText());
                 String countryName = countryField.getText();
                 String cityName = cityField.getText();
                 this.logic.updateStudent(studentToEdit, name, dateOfBirth, gender, streetName, cityName, countryName,
@@ -673,7 +673,7 @@ class StudentManagementView extends View {
         ComboBox<String> boxes = new ComboBox<>();
         final String defaultValue = "Select course";
         boxes.setValue(defaultValue);
-        List<String> courseList = this.enrollLogic.getCourseNames();
+        List<String> courseList = this.enrollmentLogic.getCourseNames();
         boxes.getItems().addAll(courseList);
 
         Button submitEnrollmentButton = new Button("Enroll student");
@@ -688,7 +688,7 @@ class StudentManagementView extends View {
                 return;
             }
             Student student = this.logic.getStudentByEmail(studentEmail);
-            this.enrollLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+            this.enrollmentLogic.enrollStudentToCourse(student, boxes.getValue().toString());
             successfullyProcessView();
         });
 

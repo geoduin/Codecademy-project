@@ -13,7 +13,7 @@ import domain.Enrollment;
 
 public class EnrollRepository extends Repository<Enrollment> {
 
-    public EnrollRepository() { 
+    public EnrollRepository() {
         super();
     }
 

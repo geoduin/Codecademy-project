@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class TestPostalcodeValidation {
     /**
@@ -34,7 +34,7 @@ public class TestPostalcodeValidation {
         String code = "3000NM";
 
         // Act
-        boolean result = InputValidations.postalCodeHasTheRightFormat(code);
+        boolean result = InputValidation.postalCodeHasTheRightFormat(code);
         // Asserts
         assertEquals(true, result);
     }
@@ -45,7 +45,7 @@ public class TestPostalcodeValidation {
         String code = "3000";
 
         // Act
-        boolean result = InputValidations.postalCodeHasTheRightFormat(code);
+        boolean result = InputValidation.postalCodeHasTheRightFormat(code);
         // Asserts
         assertEquals(false, result);
     }
@@ -56,7 +56,7 @@ public class TestPostalcodeValidation {
         String code = "300NN";
 
         // Act
-        boolean result = InputValidations.postalCodeHasTheRightFormat(code);
+        boolean result = InputValidation.postalCodeHasTheRightFormat(code);
         // Asserts
         assertEquals(false, result);
     }
@@ -67,7 +67,7 @@ public class TestPostalcodeValidation {
         String code = "NN";
 
         // Act
-        boolean result = InputValidations.postalCodeHasTheRightFormat(code);
+        boolean result = InputValidation.postalCodeHasTheRightFormat(code);
         // Asserts
         assertEquals(false, result);
     }

@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import logic.InputValidations;
+import logic.InputValidation;
 import logic.ModuleLogic;
 
 import java.util.HashMap;
@@ -124,7 +124,7 @@ class ModuleManagementView extends View {
 
         // Checking (live) if the user doesn't put anything in other than an int
         versionField.textProperty().addListener((change, oldValue, newValue) -> {
-            if (!InputValidations.areNumbers(newValue) && !InputValidations.fieldIsNotEmpty(newValue)) {
+            if (!InputValidation.areNumbers(newValue) && !InputValidation.fieldIsNotEmpty(newValue)) {
                 versionInputError.setText(positiveNumberErrorMSG);
             } else {
                 versionInputError.setText("");
@@ -204,7 +204,7 @@ class ModuleManagementView extends View {
             }
 
             // Checks if email format is correct
-            if (!(InputValidations.validateMailAddress(contactEmailField.getText()))) {
+            if (!(InputValidation.validateMailAddress(contactEmailField.getText()))) {
                 view.add(emailWarning, 2, 7);
             }
 
@@ -218,7 +218,7 @@ class ModuleManagementView extends View {
 
             // Checking if version- and orderfield have an integer-type input
             String versionInput = versionField.getText();
-            if (!InputValidations.areNumbers(versionInput) || !InputValidations.fieldIsNotEmpty(versionInput)) {
+            if (!InputValidation.areNumbers(versionInput) || !InputValidation.fieldIsNotEmpty(versionInput)) {
                 versionInputError.setText(positiveNumberErrorMSG);
                 return;
             } else {
@@ -226,7 +226,7 @@ class ModuleManagementView extends View {
             }
 
             String orderNumberInput = orderNumberField.getText();
-            if (!InputValidations.areNumbers(versionInput) || !InputValidations.fieldIsNotEmpty(orderNumberInput)) {
+            if (!InputValidation.areNumbers(versionInput) || !InputValidation.fieldIsNotEmpty(orderNumberInput)) {
                 orderNumberInputError.setText(positiveNumberErrorMSG);
                 return;
 
@@ -285,7 +285,7 @@ class ModuleManagementView extends View {
 
         // Checking (live) if the user doesn't put anything in other than an int
         orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
-            if (!InputValidations.areNumbers(newValue) && !InputValidations.fieldIsNotEmpty(newValue)) {
+            if (!InputValidation.areNumbers(newValue) && !InputValidation.fieldIsNotEmpty(newValue)) {
                 orderNumberInputError.setText("Has to be a (positive) rounded number");
             } else {
                 orderNumberInputError.setText("");

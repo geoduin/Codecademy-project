@@ -65,7 +65,7 @@ public class TestDateFormat {
         String month = "10";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-10-01"), result);
     }
@@ -77,7 +77,7 @@ public class TestDateFormat {
         String month = "10";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-10-10"), result);
     }
@@ -89,7 +89,7 @@ public class TestDateFormat {
         String month = "10";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-10-01"), result);
     }
@@ -101,7 +101,7 @@ public class TestDateFormat {
         String month = "9";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-09-10"), result);
     }
@@ -113,7 +113,7 @@ public class TestDateFormat {
         String month = "1";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-01-01"), result);
     }
@@ -125,7 +125,7 @@ public class TestDateFormat {
         String month = "12";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-12-12"), result);
     }
@@ -137,7 +137,7 @@ public class TestDateFormat {
         String month = "10";
         String year = "999";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("0999-10-01"), result);
     }
@@ -149,7 +149,7 @@ public class TestDateFormat {
         String month = "10";
         String year = "2000";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         assertEquals(LocalDate.parse("2000-10-01"), result);
     }
@@ -161,7 +161,7 @@ public class TestDateFormat {
         String month = "smiley";
         String year = "year";
         // Act
-        LocalDate result = InputValidations.formatDate(year, month, day);
+        LocalDate result = InputValidation.formatDate(year, month, day);
         // Assert
         // NumberFormatException
     }

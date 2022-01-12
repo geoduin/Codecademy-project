@@ -25,7 +25,7 @@ public class TestFieldIsEmpty {
         // Arrange
         String testTxt = " w";
         // Act
-        boolean isNotEmpty = InputValidations.fieldIsNotEmpty(testTxt);
+        boolean isNotEmpty = InputValidation.fieldIsNotEmpty(testTxt);
         // Assert
         assertEquals(true, isNotEmpty);
     }
@@ -35,7 +35,7 @@ public class TestFieldIsEmpty {
         // Arrange
         String testTxt = "";
         // Act
-        boolean isEmpty = InputValidations.fieldIsNotEmpty(testTxt);
+        boolean isEmpty = InputValidation.fieldIsNotEmpty(testTxt);
         // Assert
         assertEquals(false, isEmpty);
     }
@@ -45,7 +45,7 @@ public class TestFieldIsEmpty {
         // Arrange
         String testTxt = "                              ";
         // Act
-        boolean isEmpty = InputValidations.fieldIsNotEmpty(testTxt);
+        boolean isEmpty = InputValidation.fieldIsNotEmpty(testTxt);
         // Assert
         assertEquals(false, isEmpty);
     }

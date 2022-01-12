@@ -7,12 +7,12 @@ import domain.Course;
 import domain.Student;
 import domain.Enrollment;
 
-public class EnrollLogic {
+public class EnrollmentLogic {
     private CourseLogic courseLogic;
     private StudentLogic studentLogic;
     private EnrollRepository enrollmentRepo;
 
-    public EnrollLogic() {
+    public EnrollmentLogic() {
         this.courseLogic = new CourseLogic();
         this.studentLogic = new StudentLogic();
         this.enrollmentRepo = new EnrollRepository();
@@ -27,7 +27,7 @@ public class EnrollLogic {
         this.enrollmentRepo.insert(new Enrollment(chosenStudent, chosenCourse));
     }
 
-    public List<String> retrieveEmailsFromCourse(String courseName) { 
+    public List<String> retrieveEmailsFromCourse(String courseName) {
         return this.enrollmentRepo.retrieveEmailsFromCourse(courseName);
     }
 

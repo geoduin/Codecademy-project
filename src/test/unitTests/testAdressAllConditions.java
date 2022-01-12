@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class TestAdressAllConditions {
 
@@ -32,7 +32,7 @@ public class TestAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000AB";
         // Act
-        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
+        boolean result = InputValidation.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(true, result);
     }
@@ -44,7 +44,7 @@ public class TestAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000AB";
         // Act
-        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
+        boolean result = InputValidation.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }
@@ -56,7 +56,7 @@ public class TestAdressAllConditions {
         String houseNr = "28";
         String postalCode = "3000";
         // Act
-        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
+        boolean result = InputValidation.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }
@@ -68,7 +68,7 @@ public class TestAdressAllConditions {
         String houseNr = "er";
         String postalCode = "3000";
         // Act
-        boolean result = InputValidations.addressIsValid(street, houseNr, postalCode);
+        boolean result = InputValidation.addressIsValid(street, houseNr, postalCode);
         // Assert
         assertEquals(false, result);
     }

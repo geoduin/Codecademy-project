@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class TestIfDateOfBirthIsValid {
     /**
@@ -34,7 +34,7 @@ public class TestIfDateOfBirthIsValid {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateOfBirthIsValid(day, month, year);
+        boolean result = InputValidation.dateOfBirthIsValid(day, month, year);
         // Assert
         assertEquals(true, result);
     }
@@ -47,7 +47,7 @@ public class TestIfDateOfBirthIsValid {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateOfBirthIsValid(day, month, year);
+        boolean result = InputValidation.dateOfBirthIsValid(day, month, year);
         // Assert
         assertEquals(false, result);
     }
@@ -60,7 +60,7 @@ public class TestIfDateOfBirthIsValid {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }
@@ -73,7 +73,7 @@ public class TestIfDateOfBirthIsValid {
         String month = "2";
         String year = "1800";
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }

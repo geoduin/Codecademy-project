@@ -8,7 +8,7 @@ import java.util.List;
 import database.StudentRepository;
 import domain.Gender;
 
-public class InputValidations {
+public class InputValidation {
 
     public static boolean validateDate(int day, int month, int year) {
         try {

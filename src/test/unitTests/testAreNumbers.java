@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class TestAreNumbers {
     /**
@@ -28,7 +28,8 @@ public class TestAreNumbers {
         // Arrange
         String number = "0";
         // Act
-        boolean result = InputValidations.areNumbers(number);
+        boolean result = InputValidation
+                .areNumbers(number);
         // Assert
         assertEquals(true, result);
     }
@@ -38,7 +39,8 @@ public class TestAreNumbers {
         // Arrange
         String number = "e";
         // Act
-        boolean result = InputValidations.areNumbers(number);
+        boolean result = InputValidation
+                .areNumbers(number);
         // Assert
         assertEquals(false, result);
     }
@@ -48,7 +50,8 @@ public class TestAreNumbers {
         // Arrange
         String number = "-1";
         // Act
-        boolean result = InputValidations.areNumbers(number);
+        boolean result = InputValidation
+                .areNumbers(number);
         // Assert
         assertEquals(false, result);
     }
