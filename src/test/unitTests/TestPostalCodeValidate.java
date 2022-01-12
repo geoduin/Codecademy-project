@@ -1,4 +1,4 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,28 +6,22 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestPostalcodeValidation {
+public class TestPostalCodeValidate {
     /**
      * @desc checks if postalcode input is valid
-     * 
-     * @subcontract postalcode has correct format
-     * @beforehand postalcode input is going through the formatPostalCode method to
-     *             check if the postal is correct and will give a postalcode format
-     *             back
-     * @requires formatPostalcode has returned correct format
-     * @beforehand postalcode input is going through the formatPostalCode method to
-     *             check if the postal is correct and will give a postalcode format
-     *             back
-     * @ensures \result = true
-     * 
-     * @subcontract postalcode input was not correct
-     * @beforehand postalcode input is going through the formatPostalCode method to
-     *             check if the postal is correct and will give a postalcode format
-     *             back
-     * @requires input did not validate to the formatPostalcode
-     * @ensures \result = false
      */
 
+    /*
+     * @subcontract postalcode has correct format
+     * 
+     * @beforehand postalcode input is going through the formatPostalCode method to
+     * check if the postal is correct and will give a postalcode format
+     * back
+     * 
+     * @requires formatPostalcode has returned correct format
+     * 
+     * @ensures \result = true
+     */
     @Test
     public void testPostalCodeFormatCorrect() {
         // Arrange
@@ -39,6 +33,17 @@ public class TestPostalcodeValidation {
         assertEquals(true, result);
     }
 
+    /*
+     * @subcontract postalcode input was not correct
+     * 
+     * @beforehand postalcode input is going through the formatPostalCode method to
+     * check if the postal is correct and will give a postalcode format
+     * back
+     * 
+     * @requires input did not validate to the formatPostalcode
+     * 
+     * @ensures \result = false
+     */
     @Test
     public void testPostalCodeFormatNoLetters() {
         // Arrange
@@ -50,6 +55,17 @@ public class TestPostalcodeValidation {
         assertEquals(false, result);
     }
 
+    /*
+     * @subcontract postalcode input was not correct
+     * 
+     * @beforehand postalcode input is going through the formatPostalCode method to
+     * check if the postal is correct and will give a postalcode format
+     * back
+     * 
+     * @requires input did not validate to the formatPostalcode
+     * 
+     * @ensures \result = false
+     */
     @Test
     public void testPostalCodeFormatInsufficientDigits() {
         // Arrange
@@ -61,6 +77,17 @@ public class TestPostalcodeValidation {
         assertEquals(false, result);
     }
 
+    /*
+     * @subcontract postalcode input was not correct
+     * 
+     * @beforehand postalcode input is going through the formatPostalCode method to
+     * check if the postal is correct and will give a postalcode format
+     * back
+     * 
+     * @requires input did not validate to the formatPostalcode
+     * 
+     * @ensures \result = false
+     */
     @Test
     public void testPostalCodeFormatNoDigits() {
         // Arrange

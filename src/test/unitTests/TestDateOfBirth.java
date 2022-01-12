@@ -1,4 +1,4 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,24 +8,16 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestIfDateOfBirthIsValid {
+public class TestDateOfBirth {
     /**
      * @desc checks if everything with date of birth is correct
-     * 
      * @subcontract day, month and year values meet the requirements
      * @requires day, month and year fields are filled && day, month and year are
      *           digits && day, month and year are valid dates && day, month and
      *           year are equal or earlier then today
-     * @ensures \result = true
      * 
-     * @subcontract checks if one of the requirements are not met
-     * @requires day, month and year fields are not filled || day, month and year
-     *           not
-     *           digits || day, month and year are not valid dates || day, month and
-     *           year later then today
      * @ensures \result = true
      */
-
     @Test
     public void testDateOfBirthIsValid() {
         // Arrange
@@ -39,6 +31,14 @@ public class TestIfDateOfBirthIsValid {
         assertEquals(true, result);
     }
 
+    /**
+     * @subcontract checks if one of the requirements are not met
+     * @requires day, month and year fields are not filled || day, month and year
+     *           not
+     *           digits || day, month and year are not valid dates || day, month and
+     *           year later then today
+     * @ensures \result = false
+     */
     @Test
     public void testDateOfBirthIsValidIfdateIsLater() {
         // Arrange
@@ -52,6 +52,14 @@ public class TestIfDateOfBirthIsValid {
         assertEquals(false, result);
     }
 
+    /**
+     * @subcontract checks if one of the requirements are not met
+     * @requires day, month and year fields are not filled || day, month and year
+     *           not
+     *           digits || day, month and year are not valid dates || day, month and
+     *           year later then today
+     * @ensures \result = false
+     */
     @Test
     public void testDateOfBirthIsValidIfdayIsNotFilledIn() {
         // Arrange
@@ -65,8 +73,16 @@ public class TestIfDateOfBirthIsValid {
         assertEquals(false, result);
     }
 
+    /**
+     * @subcontract checks if one of the requirements are not met
+     * @requires day, month and year fields are not filled || day, month and year
+     *           not
+     *           digits || day, month and year are not valid dates || day, month and
+     *           year later then today
+     * @ensures \result = false
+     */
     @Test
-    public void testDateOfBirthIsValidIfDateIsNotValie() {
+    public void testDateOfBirthIsValidIfDateIsNotValid() {
         // Arrange
         LocalDate date = LocalDate.now().plusDays(1);
         String day = "29";

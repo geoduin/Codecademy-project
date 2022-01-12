@@ -1,4 +1,4 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,19 +6,16 @@ import org.junit.Test;
 
 import logic.*;
 
-public class TestFieldIsEmpty {
+public class TestFieldIsNotEmpty {
 
     /**
      * @desc this methods checks if inputfield is empty
-     * 
+     */
+    /**
      * @subcontract input field is not empty{
      * @requires at least one character present except exclusively white space
      * @ensures \result = true
      *          }
-     * 
-     * @subcontract input field is empty
-     * @requires no characters or only whitespace
-     * @ensures \ result = false
      */
     @Test
     public void testFieldIsNotEmptyIfAnyCharactersArePresent() {
@@ -30,6 +27,13 @@ public class TestFieldIsEmpty {
         assertEquals(true, isNotEmpty);
     }
 
+    /*
+     * @subcontract input field is empty
+     * 
+     * @requires no characters or only whitespace
+     * 
+     * @ensures \ result = false
+     */
     @Test
     public void testFieldIsNotEmptyIfNoCharactersArePresent() {
         // Arrange
@@ -40,6 +44,13 @@ public class TestFieldIsEmpty {
         assertEquals(false, isEmpty);
     }
 
+    /*
+     * @subcontract input field is empty
+     * 
+     * @requires no characters or only whitespace
+     * 
+     * @ensures \ result = false
+     */
     @Test
     public void testFieldIsNotEmptyIfOnlyWhiteSpaceArePresent() {
         // Arrange

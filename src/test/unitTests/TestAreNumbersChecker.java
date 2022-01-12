@@ -1,4 +1,4 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,23 +6,18 @@ import org.junit.Test;
 
 import logic.InputValidation;
 
-public class TestAreNumbers {
+public class TestAreNumbersChecker {
     /**
      * @desc checks if input values are decimals
-     * 
-     * @subcontract value is negative{
-     * @requires value < 0
-     * @ensures result = false}
-     * 
-     * @subcontract value is not an decimal{
-     * @requires value != [0-9]
-     * @ensures \result = false}
-     * 
-     * @subcontract value is a decimal{
-     * @requires value >= 0
-     * @ensures \result = true}
      */
 
+    /*
+     * @subcontract value is a decimal{
+     * 
+     * @requires value >= 0
+     * 
+     * @ensures \result = true}
+     */
     @Test
     public void testAreNumbersAreDecimals() {
         // Arrange
@@ -34,6 +29,13 @@ public class TestAreNumbers {
         assertEquals(true, result);
     }
 
+    /*
+     * @subcontract value is not an decimal{
+     * 
+     * @requires value != [0-9]
+     * 
+     * @ensures \result = false}
+     */
     @Test
     public void testAreNumbersAreNotDecimals() {
         // Arrange
@@ -45,6 +47,13 @@ public class TestAreNumbers {
         assertEquals(false, result);
     }
 
+    /*
+     * @subcontract value is negative{
+     * 
+     * @requires value < 0
+     * 
+     * @ensures result = false}
+     */
     @Test
     public void testAreNumbersAreDecimalsNumbersAreNegative() {
         // Arrange
