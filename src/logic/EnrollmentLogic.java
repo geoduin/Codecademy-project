@@ -32,6 +32,12 @@ public class EnrollmentLogic {
         return this.enrollmentRepo.retrieveEmailsFromCourse(courseName);
     }
 
+    // Retrieve a list of enrollments for a given student, identified by his mail
+    // address
+    public List<Enrollment> getsEnrollmentsOfStudent(String studentEmail) {
+        return this.enrollmentRepo.retrieveEnrollmentsOfStudent(studentEmail);
+    }
+
     // Relay between GUI and Repo to receive all enrollments that are eligible for a
     // certificate. How and why needs an above average amount of explanation, so
     // please refer to the report of PAP4 Codecademy project group

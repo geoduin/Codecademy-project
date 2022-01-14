@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import domain.Student;
+import domain.Enrollment;
 import domain.Gender;
 import domain.Module;
 import javafx.beans.value.ObservableValue;
@@ -63,7 +64,9 @@ class StudentManagementView extends View {
         Button editStudentButton = new Button("Edit student");
         Button deleteStudentButton = new Button("Delete student");
         Button contentProgressButton = new Button("View and update module/webcast progress");
-        Button enrollmentToCourseBtn = new Button("Enroll student in Course");
+        Button enrollToCourseButton = new Button("Enroll student in Course");
+        Button deleteEnrollmentButton = new Button("Delete enrollment(s)");
+
         // Second column
         Label createStudentLabel = new Label("Create student:");
         // The plus sign will lead you to the create new student view.
@@ -75,7 +78,8 @@ class StudentManagementView extends View {
         view.add(editStudentButton, 0, 2);
         view.add(deleteStudentButton, 0, 3);
         view.add(contentProgressButton, 0, 4);
-        view.add(enrollmentToCourseBtn, 0, 5);
+        view.add(enrollToCourseButton, 0, 5);
+        view.add(deleteEnrollmentButton, 0, 5);
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
@@ -120,17 +124,70 @@ class StudentManagementView extends View {
 
         });
 
-        enrollmentToCourseBtn.setOnMouseClicked(clicked -> {
+        enrollToCourseButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label("No student selected!"), 0, 6);
                 return;
             }
             String studentEmail = studentMap.get(studentList.getValue());
             enrollStudentView(studentEmail);
         });
 
+        // With the selected Student from the dropdown, go into a view were a dropdown
+        // of removable enrollments is given
+        deleteEnrollmentButton.setOnMouseClicked(clicked -> {
+
+        });
+
         // See abstract class "View"
         activate(view, "Student management");
+        if (studentList.getValue().equals(defaultStudentValue)) {
+            view.add(new Label("No student selected!"), 0, 6);
+            return;
+        }
+        String studentEmail = studentMap.get(studentList.getValue());
+        deleteEnrollmentView(studentEmail);
+    }
+
+    // View containing a dropdown of removable enrollments, which the user can
+    // select from to remove an enrollment. Certificates are automatically removed
+    private void deleteEnrollmentView(String studentEmail) {
+        // Initial layout setup
+        GridPane view = generateFormGrid();
+
+        // UI components
+        Label dropdownLabel = new Label("Delete enrollments (any certificates are automatically deleted");
+        ComboBox<Enrollment> enrollmentsDropdown = new ComboBox<>();
+        Button deleteBtn = new Button("Delete");
+        Label errorLabel = new Label("No enrollment selected!");
+        errorLabel.setVisible(false);
+
+        // Setting up the dropdown
+        int count = 0;
+        for (Enrollment enrollment : this.enrollmentLogic.getsEnrollmentsOfStudent(studentEmail)) {
+            enrollmentsDropdown.getItems().add(enrollment);
+            count++;
+        }
+        enrollmentsDropdown.setPromptText(count + " enrollment(s)");
+
+        deleteBtn.setOnMouseClicked(clicked -> {
+            if (enrollmentsDropdown.getValue() == null) {
+                errorLabel.setVisible(true);
+                return;
+            }
+
+            errorLabel.setVisible(false);
+        });
+
+        // TODO: delete logica verder implementeren
+
+        // Layout finalization and activation
+        view.add(dropdownLabel, 0, 0);
+        view.add(enrollmentsDropdown, 0, 1);
+        view.add(deleteBtn, 0, 2);
+        view.add(errorLabel, 0, 3);
+
+        activate(view, "Delete enrollments of student: " + studentEmail);
 
     }
 

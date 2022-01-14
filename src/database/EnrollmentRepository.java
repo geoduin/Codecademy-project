@@ -167,6 +167,30 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
     }
 
+    // Retrieve all enrollments, in instantiated form, for the student given as
+    // argument
+    public List<Enrollment> retrieveEnrollmentsOfStudent(String studentEmail) {
+        List<Enrollment> enrollments = new ArrayList<>();
+
+        String sql = "SELECT * FROM Enrollment WHERE Email = ?";
+
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setString(1, studentEmail);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                enrollments.add(new Enrollment(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+                        LocalDate.parse(resultSet.getString(4))));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return enrollments;
+    }
+
     /*
      * Method to retrieve and instantiate the most recent enrollments
      * were the course is completed by the student (all related Modules have 100%
@@ -191,4 +215,5 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
         return enrollments;
     }
+
 }
