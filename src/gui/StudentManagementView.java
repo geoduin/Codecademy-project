@@ -44,11 +44,11 @@ class StudentManagementView extends View {
 
     @Override
     protected void createView() {
-
         GridPane view = generateGrid();
 
         // Setting up the dropwon which contains Student identifiers
         Label editStudentLabel = new Label("Select student:");
+        final String noValueSelectedMSG = "No student selected!";
         ComboBox<String> studentList = new ComboBox<>();
         final String defaultStudentValue = "Select student";
         studentList.setValue(defaultStudentValue);
@@ -79,7 +79,7 @@ class StudentManagementView extends View {
         view.add(deleteStudentButton, 0, 3);
         view.add(contentProgressButton, 0, 4);
         view.add(enrollToCourseButton, 0, 5);
-        view.add(deleteEnrollmentButton, 0, 5);
+        view.add(deleteEnrollmentButton, 0, 6);
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
@@ -90,7 +90,7 @@ class StudentManagementView extends View {
             // This value is the email.
             // Sends it to the logic class and picks the student from the database
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
             Student pickedStudent = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
@@ -101,7 +101,7 @@ class StudentManagementView extends View {
         // button while a Student is selected
         deleteStudentButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
 
@@ -115,7 +115,7 @@ class StudentManagementView extends View {
         // Student is selected
         contentProgressButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
 
@@ -126,7 +126,7 @@ class StudentManagementView extends View {
 
         enrollToCourseButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("No student selected!"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
             String studentEmail = studentMap.get(studentList.getValue());
@@ -136,27 +136,26 @@ class StudentManagementView extends View {
         // With the selected Student from the dropdown, go into a view were a dropdown
         // of removable enrollments is given
         deleteEnrollmentButton.setOnMouseClicked(clicked -> {
-
+            if (studentList.getValue().equals(defaultStudentValue)) {
+                view.add(new Label(noValueSelectedMSG), 0, 7);
+                return;
+            }
+            String studentEmail = studentMap.get(studentList.getValue());
+            deleteEnrollmentView(studentEmail);
         });
 
         // See abstract class "View"
         activate(view, "Student management");
-        if (studentList.getValue().equals(defaultStudentValue)) {
-            view.add(new Label("No student selected!"), 0, 6);
-            return;
-        }
-        String studentEmail = studentMap.get(studentList.getValue());
-        deleteEnrollmentView(studentEmail);
     }
 
     // View containing a dropdown of removable enrollments, which the user can
     // select from to remove an enrollment. Certificates are automatically removed
     private void deleteEnrollmentView(String studentEmail) {
         // Initial layout setup
-        GridPane view = generateFormGrid();
+        GridPane view = generateGrid();
 
         // UI components
-        Label dropdownLabel = new Label("Delete enrollments (any certificates are automatically deleted");
+        Label dropdownLabel = new Label("Delete enrollments (any certificates are automatically deleted)");
         ComboBox<Enrollment> enrollmentsDropdown = new ComboBox<>();
         Button deleteBtn = new Button("Delete");
         Label errorLabel = new Label("No enrollment selected!");
@@ -176,6 +175,7 @@ class StudentManagementView extends View {
                 return;
             }
 
+            view.add(new Label("Binnenkort mogelijk!"), 0, 4);
             errorLabel.setVisible(false);
         });
 

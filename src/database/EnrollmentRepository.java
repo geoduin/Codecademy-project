@@ -180,8 +180,8 @@ public class EnrollmentRepository extends Repository<Enrollment> {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                enrollments.add(new Enrollment(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                        LocalDate.parse(resultSet.getString(4))));
+                enrollments.add(new Enrollment(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4),
+                        LocalDate.parse(resultSet.getString(2))));
             }
 
         } catch (Exception e) {
