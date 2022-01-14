@@ -153,7 +153,7 @@ public class WebcastRepository extends Repository<Webcast> {
     // not usefull for webcast
     @Override
     public ArrayList<Webcast> retrieve() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -243,5 +243,22 @@ public class WebcastRepository extends Repository<Webcast> {
             return null;
         }
         return title;
+    }
+
+
+    //retrieves the ID of the Webcast from the URL alternate key and returns it. 
+    public int retrieveIDbyURL(String url) { 
+        int id = -1;
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?")) {
+            statement.setString(1, url);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) { 
+                id = result.getInt("ContentID");
+            }
+            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return id;
+        }
     }
 }
