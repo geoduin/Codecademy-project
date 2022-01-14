@@ -39,6 +39,7 @@ class CourseManagementView extends View {
         // UI components
         Label createLabel = new Label("Create a course");
         Button addCourseBtn = new Button("+");
+        addCourseBtn.setId("addButton");
         addCourseBtn.setOnMouseClicked(clicked -> addCourseView());
 
         // Dropdown showing existing courses
@@ -54,9 +55,13 @@ class CourseManagementView extends View {
 
         // Options for user with existing course
         Button editBtn = new Button("Edit");
-        Button manageModulesBtn = new Button("Manage modules within courses");
-        Button addRecommendedCourseBtn = new Button("Add recommended course");
-        Button deleteBtn = new Button("Delete the course");
+        editBtn.setId("editButton");
+        Button manageModulesBtn = new Button("Course modules");
+        manageModulesBtn.setId("manageOtherBtn");
+        Button addRecommendedCourseBtn = new Button("Recommend course");
+        addRecommendedCourseBtn.setId("secondAddBtn");
+        Button deleteBtn = new Button("Delete course");
+        deleteBtn.setId("deleteButton");
         /** Button logic */
         // Delete course
         final String errorMSG = "No Course selected!";
@@ -121,6 +126,7 @@ class CourseManagementView extends View {
 
         // Welcoming the user
         Label welcomeLabel = new Label("Add recommended course to course: " + courseName);
+        welcomeLabel.setId("title");
         welcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeLabel, HPos.LEFT);
@@ -172,6 +178,7 @@ class CourseManagementView extends View {
 
         // form label
         Label welcomeToFormLabel = new Label("Manage modules of course: " + courseName);
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -249,6 +256,7 @@ class CourseManagementView extends View {
 
         // form label
         Label welcomeToFormLabel = new Label("Create a course");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -303,7 +311,6 @@ class CourseManagementView extends View {
 
         // Create course button
         Button createButton = new Button("Create course");
-        createButton.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         view.add(createButton, 1, 6);
 
         // Error to show when not all fields have an input
@@ -361,6 +368,7 @@ class CourseManagementView extends View {
 
         // form label
         Label welcomeToFormLabel = new Label("Editing: '" + courseName + "'");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -391,7 +399,6 @@ class CourseManagementView extends View {
 
         // And finally the submit button
         Button editBtn = new Button("Edit course");
-        editBtn.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         view.add(editBtn, 0, 4);
 
         Text nullOrAlreadyExistsErrorField = new Text("");
@@ -418,6 +425,7 @@ class CourseManagementView extends View {
     private void courseSuccessfullyEditedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully Edited!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button editAnotherCourseBtn = new Button("Edit other");
 
@@ -436,6 +444,7 @@ class CourseManagementView extends View {
 
         GridPane view = generateGrid();
         Label label = new Label("Successfully created!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button createOtherCourseBtn = new Button("Create more");
 
@@ -455,6 +464,7 @@ class CourseManagementView extends View {
     private void genericAftermathView() {
         GridPane view = generateGrid();
         Label label = new Label("Done!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button goBackBtn = new Button("Go back");
 
@@ -473,6 +483,7 @@ class CourseManagementView extends View {
     private void successfullyDeletedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully deleted!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button backBtn = new Button("Go back");
 

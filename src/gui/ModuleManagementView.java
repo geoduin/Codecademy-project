@@ -38,13 +38,16 @@ class ModuleManagementView extends View {
         // UI components
         Label createLabel = new Label("Create a module");
         Button addModuleBtn = new Button("+");
+        addModuleBtn.setId("addButton");
         addModuleBtn.setOnMouseClicked(clicked -> addModuleView());
 
         // Dropdown showing existing modules
         Label selectLabel = new Label("Select an existing module");
         ComboBox<String> dropdown = new ComboBox<>();
         Button editBtn = new Button("Edit");
+        editBtn.setId("editButton");
         Button deleteBtn = new Button("Delete");
+        deleteBtn.setId("deleteButton");
         // porting the modules to the dropdown
         final String defaultDropdownValue = "-no module selected-";
         dropdown.setValue(defaultDropdownValue);
@@ -97,6 +100,7 @@ class ModuleManagementView extends View {
 
         // form label
         Label welcomeToFormLabel = new Label("Create a module");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -158,6 +162,7 @@ class ModuleManagementView extends View {
         // Status input
         Label statusLabel = new Label("Module status:");
         ComboBox<String> dropdown = new ComboBox<>();
+        dropdown.setId("selectBox");
         Text noStatusSelectedError = new Text("");
         noStatusSelectedError.setFill(Color.FIREBRICK);
         final String defaultDropDownString = "-please select a value-";
@@ -184,7 +189,6 @@ class ModuleManagementView extends View {
 
         // Create module button
         Button createButton = new Button("Create module");
-        createButton.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         view.add(createButton, 1, 8);
 
         // Error to show when not all fields have an input
@@ -269,6 +273,7 @@ class ModuleManagementView extends View {
 
         // form label
         Label welcomeToFormLabel = new Label("Editing: '" + moduleToEdit.getTitle() + "'");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeToFormLabel, HPos.LEFT);
@@ -353,6 +358,7 @@ class ModuleManagementView extends View {
     private void moduleSuccessfullyEditedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully Edited!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button editAnotherModuleBtn = new Button("Edit other");
 
@@ -370,6 +376,7 @@ class ModuleManagementView extends View {
     private void moduleSuccessfullyCreatedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully created!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button createAnotherModuleBtn = new Button("Create other");
 
@@ -388,6 +395,7 @@ class ModuleManagementView extends View {
     private void successfullyDeletedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully deleted!");
+        label.setId("title");
         Button homeBtn = new Button("Go home");
         Button backBtn = new Button("Go back");
 

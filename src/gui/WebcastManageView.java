@@ -40,13 +40,16 @@ class WebcastManageView extends View {
 
         // Will take you to edit view with values already
         Button editView = new Button("Edit");
+        editView.setId("editButton");
         // Will delete selected webcast
         Button deleteView = new Button("Delete");
+        deleteView.setId("deleteButton");
 
         // second column
         // Will take you to add view
         Label addWebcast = new Label("Add webcast");
         Button addView = new Button("+");
+        addView.setId("addButton");
 
         // Third column
         Label titleLabel = new Label("Title");
@@ -167,7 +170,7 @@ class WebcastManageView extends View {
         ComboBox<Status> statusComboBox = new ComboBox<>();
         statusComboBox.setValue(webcastToEdit.getStatus());
         statusComboBox.getItems().addAll(Status.ACTIVE, Status.ARCHIVED, Status.CONCEPT);
-        
+
         Label result = new Label("");
 
         Label views = new Label("View count");
@@ -248,7 +251,8 @@ class WebcastManageView extends View {
 
         Label statusLabel = new Label("Status");
         ComboBox<Status> statusComboBox = new ComboBox<>();
-        
+        statusComboBox.setId("selectBox");
+
         statusComboBox.getItems().addAll(Status.ACTIVE, Status.ARCHIVED, Status.CONCEPT);
         Label viewCount = new Label("Views");
         TextField viewsField = new TextField();
@@ -294,29 +298,28 @@ class WebcastManageView extends View {
                 result.setText("This webcast title already exists: " + titleTextField.getText());
                 return;
             } else {
-                
-                if(this.logic.isValidURL(urlTextField.getText())) {
 
-                     // Converts duration to int
-                int duration = Integer.parseInt(durationTextField.getText());
-                // adds webcast to database
-                this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
-                        organizationField.getText(), duration, urlTextField.getText(), statusComboBox.getValue().toString(),
-                        descriptionArea.getText(), viewsField.getText());
-                // tells user wether the webcast was successfully saved
-                if (this.logic.saveSuccessful(titleTextField.getText())) {
-                    result.setText("Save successful");
+                if (this.logic.isValidURL(urlTextField.getText())) {
+
+                    // Converts duration to int
+                    int duration = Integer.parseInt(durationTextField.getText());
+                    // adds webcast to database
+                    this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
+                            organizationField.getText(), duration, urlTextField.getText(),
+                            statusComboBox.getValue().toString(),
+                            descriptionArea.getText(), viewsField.getText());
+                    // tells user wether the webcast was successfully saved
+                    if (this.logic.saveSuccessful(titleTextField.getText())) {
+                        result.setText("Save successful");
+                    } else {
+                        result.setText("Save failed");
+                    }
+                    return;
+
                 } else {
-                    result.setText("Save failed");
-                }
-                return;
-
-
-                } else{
-                   result.setText(urlTextField.getText() + " is not a valid URL");
+                    result.setText(urlTextField.getText() + " is not a valid URL");
                 }
 
-               
             }
 
         });

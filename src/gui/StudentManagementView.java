@@ -61,25 +61,32 @@ class StudentManagementView extends View {
         studentList.getItems().addAll(list);
 
         // Buttons for possible actions on a selected student from the dropdown
-        Button editStudentButton = new Button("Edit student");
-        Button deleteStudentButton = new Button("Delete student");
-        Button contentProgressButton = new Button("View and update module/webcast progress");
-        Button enrollToCourseButton = new Button("Enroll student in Course");
-        Button deleteEnrollmentButton = new Button("Delete enrollment(s)");
+        Button editStudentButton = new Button("Edit");
+        editStudentButton.setId("editButton");
+        Button deleteStudentButton = new Button("Delete");
+        deleteStudentButton.setId("deleteButton");
+        Button contentProgressButton = new Button("Update progress");
+        contentProgressButton.setId("editButton");
+        Button enrollToCourseButton = new Button("Enroll to Course");
+        enrollToCourseButton.setId("secondAddBtn");
+        Button deleteEnrollmentButton = new Button("Delete enrollment");
+        deleteEnrollmentButton.setId("deleteButton");
 
         // Second column
         Label createStudentLabel = new Label("Create student:");
         // The plus sign will lead you to the create new student view.
         Button createStudentButton = new Button("+");
+        createStudentButton.setId("addButton");
         createStudentButton.setOnMouseClicked(clicked -> addStudentView());
         // Layout of the manage view
         view.add(editStudentLabel, 0, 0);
         view.add(studentList, 0, 1);
         view.add(editStudentButton, 0, 2);
-        view.add(deleteStudentButton, 0, 3);
-        view.add(contentProgressButton, 0, 4);
-        view.add(enrollToCourseButton, 0, 5);
+        view.add(contentProgressButton, 0, 3);
+        view.add(enrollToCourseButton, 0, 4);
+        view.add(deleteStudentButton, 0, 5);
         view.add(deleteEnrollmentButton, 0, 6);
+
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
@@ -158,6 +165,7 @@ class StudentManagementView extends View {
         Label dropdownLabel = new Label("Delete enrollments (any certificates are automatically deleted)");
         ComboBox<Enrollment> enrollmentsDropdown = new ComboBox<>();
         Button deleteBtn = new Button("Delete");
+        deleteBtn.setId("deleteButton");
         Label errorLabel = new Label("No enrollment selected!");
         errorLabel.setVisible(false);
 
@@ -216,6 +224,7 @@ class StudentManagementView extends View {
 
         // View title for use
         Label welcomeLabel = new Label("View and update progress of : " + student.getStudentName());
+        welcomeLabel.setId("title");
         welcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeLabel, HPos.LEFT);
@@ -411,6 +420,7 @@ class StudentManagementView extends View {
         // Functionality to link another webcast to the student
         Label linkWebcastLabel = new Label("Add webcast");
         Button selectWebcastButton = new Button("Select webcast");
+        selectWebcastButton.setId("EditBtn");
         ComboBox<String> dropdownOfLinkableWebcasts = new ComboBox<>();
         dropdownOfLinkableWebcasts.setVisible(false);
 
@@ -494,6 +504,7 @@ class StudentManagementView extends View {
     private void addStudentView() {
         GridPane view = generateFormGrid();
         Label title = new Label("Create new student");
+        title.setId("title");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         // Labels
         Label nameLabel = new Label("Name");
@@ -513,6 +524,7 @@ class StudentManagementView extends View {
 
         // Combobox holding genders
         ComboBox<Gender> genderBox = new ComboBox<>();
+        genderBox.setId("selectBox");
         final Gender defaultChoice = Gender.O;
         genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         genderBox.setValue(defaultChoice);
@@ -634,10 +646,12 @@ class StudentManagementView extends View {
         GridPane view = generateFormGrid();
         // In case we want to edit his email
         Label welcomeToFormLabel = new Label("Editing: '" + studentToEdit.getStudentName() + "'");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 1, 0, 2, 1);
         // Gender combobox
         ComboBox<Gender> genderBox = new ComboBox<>();
+        genderBox.setId("selectBox");
         genderBox.setValue(studentToEdit.getGender());
         genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         TextField nameField = new TextField(studentToEdit.getStudentName());
@@ -732,13 +746,13 @@ class StudentManagementView extends View {
         Label warning = new Label("");
 
         ComboBox<String> boxes = new ComboBox<>();
+        boxes.setId("selectBox");
         final String defaultValue = "Select course";
         boxes.setValue(defaultValue);
         List<String> courseList = this.enrollmentLogic.getCourseNames();
         boxes.getItems().addAll(courseList);
 
         Button submitEnrollmentButton = new Button("Enroll student");
-
         view.add(title, 0, 0);
         view.add(boxes, 0, 1);
         view.add(submitEnrollmentButton, 0, 2);

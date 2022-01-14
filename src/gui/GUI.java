@@ -29,8 +29,10 @@ public class GUI extends Application {
 
         // menu
         Button homeBtn = new Button("Home");
+        homeBtn.setId("HomeBtn");
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this).createView());
         Button exitBtn = new Button("Exit");
+        exitBtn.setId("exitBtn");
         exitBtn.setOnMouseClicked(clicked -> System.exit(1));
         HBox menu = new HBox();
         menu.setPadding(new Insets(0, 0, 150, 0));
