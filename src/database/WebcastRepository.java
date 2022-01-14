@@ -211,7 +211,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    private int getIDFromURL(String url) {
+    public int getIDFromURL(String url) {
         try {
             Connection connection = this.connection.getConnection();
             PreparedStatement getID = connection.prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?");
@@ -227,7 +227,7 @@ public class WebcastRepository extends Repository<Webcast> {
             return -1;
         }
     }
-
+    //retrieves the ID of the Webcast from the URL alternate key and returns it. 
     public String getTitleFromContentID(int contentID) {
         String title = "";
         String query = "SELECT Title FROM ContentItem WHERE ContentID = " + contentID + "";
@@ -246,19 +246,4 @@ public class WebcastRepository extends Repository<Webcast> {
     }
 
 
-    //retrieves the ID of the Webcast from the URL alternate key and returns it. 
-    public int retrieveIDbyURL(String url) { 
-        int id = -1;
-        try (PreparedStatement statement = this.connection.getConnection().prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?")) {
-            statement.setString(1, url);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) { 
-                id = result.getInt("ContentID");
-            }
-            return id;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return id;
-        }
-    }
 }

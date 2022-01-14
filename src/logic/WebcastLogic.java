@@ -30,10 +30,27 @@ public class WebcastLogic {
         this.repo.delete(webcast);
     }
 
-    public void editWebcast(String url, String title, String description, Status status) {
-        // creating helper webcast to use WebcastRepository method
-        Webcast webcast = new Webcast(title, null, null, -1, url, status, null, description, -1, 0);
-        this.repo.update(webcast);
+    // edits the webcast and returns a String and returns a boolean which the GUI
+    // uses to show the user wether the update was successful.
+    public boolean editWebcast(String initialURL, String newURL, String title, String description, Status status) {
+
+        // Checking if the URL is invalid or already exists.
+
+        if (!isValidURL(newURL)) {
+            return false;
+        } else if (urlAlreadyExists(newURL)) {
+            return false;
+        } else {
+            Webcast webcast = new Webcast(title, null, null, -1, initialURL, status, null, description, -1, 0);
+            this.repo.update(webcast);
+            this.repo.updateURL(initialURL, newURL);
+            if (updateSuccessful(title, description, newURL, status.toString())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 
     public void editURL(String initialURL, String newURL) {
@@ -52,7 +69,19 @@ public class WebcastLogic {
     // Ensures that the webcast title is unique as described in the assignment
     // description. See report as to why this is done in Java and not SQL.
     public boolean titleAlreadyExists(String title) {
-        return retrieveWebcastNames().contains(title);
+        if (retrieveByTitle(title) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    // Checks if the URL already exists, the repo method will return -1 if no ID is
+    // found.
+    private boolean urlAlreadyExists(String url) {
+        if (this.repo.getIDFromURL(url) == -1) {
+            return false;
+        }
+        return true;
     }
 
     // returns true if the webcast was saved to the database.
@@ -77,9 +106,10 @@ public class WebcastLogic {
         return false;
     }
 
-    //Checks if the given string is a valid URL format. 
-    //Regex retrieved from https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
-    public boolean isValidURL(String url) { 
+    // Checks if the given string is a valid URL format.
+    // Regex retrieved from
+    // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
+    public boolean isValidURL(String url) {
         return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     }
 
