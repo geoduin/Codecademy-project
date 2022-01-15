@@ -43,15 +43,16 @@ public class StatisticsRepository{
     }
     
     //retrieves the ContentID of each module and the average progressions of all students for that module. 
-    //Hashmap is in the format <ID, Percentage>
-    public List<int[][]> retrieveAverageProgressionPerModule(String courseName) {
-        List<int[][]> coursesAndPercentages = new ArrayList<>();
+    //An ArrayList is used instead of a 2d int array because you cannot get the size of the ResultSet without a 2nd query which increases complexity and possibility of failure unnecessarily. 
+    //The int array is in the format [ContentID, Percentage]
+    public List<int[]> retrieveAverageProgressionPerModule(String courseName) {
+        List<int[]> coursesAndPercentages = new ArrayList<>();
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, AVG(Percentage) AS AverageProgression FROM Progress WHERE ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?) GROUP BY ContentID");
             statement.setString(1, courseName);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                int[][] courseAndPercentage = {{result.getInt("ContentID")},{result.getInt("AverageProgression")}};            
+                int[] courseAndPercentage = {result.getInt("ContentID"), result.getInt("AverageProgression")};          
                 coursesAndPercentages.add(courseAndPercentage);
             }
            
@@ -67,9 +68,9 @@ public class StatisticsRepository{
     
 
     //Retrieves  a students progression per module for a selected course
-    //The integer array is in the format of [ContentID][Percentage]
-    public List<int[][]> retrieveProgressionPerModule(String studentEmail, String courseName) {
-        List<int[][]> progressOfModules = new ArrayList<>();
+    //The integer array is in the format of [ContentID, Percentage]
+    public List<int[]> retrieveProgressionPerModule(String studentEmail, String courseName) {
+        List<int[]> progressOfModules = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?)");
             preparedStatement.setString(1, studentEmail);
@@ -78,7 +79,7 @@ public class StatisticsRepository{
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                int[][] idPercentage = {{result.getInt("ContentID")}, {result.getInt("Percentage")}};
+                int[] idPercentage = {result.getInt("ContentID"), result.getInt("Percentage")};
                 progressOfModules.add(idPercentage);
             }
             preparedStatement.close();
