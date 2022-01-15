@@ -43,7 +43,7 @@ public class StatisticsViews extends View {
         AvgProgress.setId("statBtn");
         Button progressModule = new Button("Progress per module");
         progressModule.setId("statBtn");
-        Button amountCert = new Button("Amount of certificates");
+        Button amountCert = new Button("Amount of certificates\nper student");
         amountCert.setId("statBtn");
         Button genderStat = new Button("Gender statistics");
         genderStat.setId("statBtn");
@@ -51,7 +51,7 @@ public class StatisticsViews extends View {
         top3CourseWithCert.setId("statBtn");
         Button recommendedCourse = new Button("Recommended\ncourses");
         recommendedCourse.setId("statBtn");
-        Button receivedCerts = new Button("Received certificates");
+        Button receivedCerts = new Button("Received certificates\nper course");
         receivedCerts.setId("statBtn");
 
         genderStat.setOnMouseClicked(click -> genderStatistics());
@@ -62,7 +62,7 @@ public class StatisticsViews extends View {
         top3Webcast.setOnMouseClicked(click -> top3WebcastView());
         top3CourseWithCert.setOnMouseClicked(click -> top3CoursesWithCert());
         recommendedCourse.setOnMouseClicked(click -> recommendedCourses());
-        receivedCerts.setOnMouseClicked(click -> nrReceivedCertifocates());
+        receivedCerts.setOnMouseClicked(click -> nrReceivedCertificates());
 
         view.setTop(label);
         grid.add(top3Webcast, 0, 1);
@@ -87,17 +87,24 @@ public class StatisticsViews extends View {
     // Button searchButton = new Button("Search");
 
     private void top3WebcastView() {
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+
         // First column of second row
         GridPane view = generateFormGrid();
         Label topWebcastLabel = new Label("Top 3 webcasts by views");
         Text topWebcastText = new Text(this.logic.top3WebcastFormatted());
 
+        view.add(returnBtn, 5, 0);
         view.add(topWebcastLabel, 1, 1);
         view.add(topWebcastText, 1, 2);
         activate(view, "Top 3 most watched webcasts");
     }
 
     private void averageProgress() {
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+
         GridPane view = generateGrid();
         // Second column of first row
         Label averageProgressLabel = new Label("Average Progress");
@@ -116,7 +123,7 @@ public class StatisticsViews extends View {
             courseComboBox.getItems().add(courses.get(i));
 
         }
-
+        view.add(returnBtn, 5, 0);
         view.add(averageProgressLabel, 1, 0);
         view.add(courseComboBox, 1, 1);
         view.add(averageProgressText, 1, 3);
@@ -135,6 +142,9 @@ public class StatisticsViews extends View {
         studentComboBox.setValue(defaultStudentComboBoxValue);
         Text studentProgressText = new Text();
 
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(progressStudentInCourseLabel, 0, 1);
         view.add(courseComboBoxForStudentCourseProgress, 0, 2);
         view.add(studentProgressText, 1, 3);
@@ -182,7 +192,9 @@ public class StatisticsViews extends View {
             allCertificatesText.setText(
                     this.logic.certificateFormatter(this.logic.retrieveCertificates(allStudentsBox.getValue())));
         });
-
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(studentCertificatesLabel, 1, 1);
         view.add(allStudentsBox, 1, 2);
         view.add(allCertificatesText, 1, 3);
@@ -202,7 +214,9 @@ public class StatisticsViews extends View {
         genderComboBox.setOnAction(pickedGender -> {
             genderStatisticsValue.setText(this.logic.genderStatisticsFormatter(genderComboBox.getValue()));
         });
-
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(genderStatistics, 1, 1);
         view.add(genderComboBox, 1, 2);
         view.add(genderStatisticsValue, 1, 4);
@@ -217,7 +231,9 @@ public class StatisticsViews extends View {
         Text topCoursesText = new Text(this.logic.top3CoursesFormatted());
 
         // First column of second row
-
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(topCourseLabel, 1, 1);
         view.add(topCoursesText, 1, 2);
 
@@ -236,7 +252,9 @@ public class StatisticsViews extends View {
             recommendedCoursesText
                     .setText(this.logic.recommendedCourseFormatter(courseBoxForRecommendedCourses.getValue()));
         });
-
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(recommendedCoursesLabel, 1, 1);
         view.add(courseBoxForRecommendedCourses, 1, 2);
 
@@ -252,7 +270,7 @@ public class StatisticsViews extends View {
         activate(view, "Recommended courses");
     }
 
-    private void nrReceivedCertifocates() {
+    private void nrReceivedCertificates() {
         GridPane view = generateGrid();
 
         // Fourth column of second row
@@ -265,7 +283,9 @@ public class StatisticsViews extends View {
             numberOfCertificatesText
                     .setText(this.logic.numberOfCertificatesFormatter(courseBoxForNumberOfCertificates.getValue()));
         });
-
+        Button returnBtn = new Button("Back");
+        returnBtn.setOnMouseClicked(click -> createView());
+        view.add(returnBtn, 5, 0);
         view.add(numberOfReceivedCertificatesLabel, 1, 1);
         view.add(courseBoxForNumberOfCertificates, 1, 2);
         view.add(numberOfCertificatesText, 1, 4);
