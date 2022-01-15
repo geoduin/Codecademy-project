@@ -1,4 +1,4 @@
-package test.unitTests;
+package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +36,6 @@ public class PostalCodeTest {
      * 
      */
 
-
     @Test
     public void formatPostalCodeAcceptsValidPostalCodesTest1() {
         assertEquals("1000 AB", InputValidation.formatPostalCode("1000ab"));
@@ -54,8 +53,6 @@ public class PostalCodeTest {
         assertEquals("9999 ZZ", InputValidation.formatPostalCode(" 9999Zz "));
 
     }
-
-
 
     /**
      * @subcontract invalid postalCode {
