@@ -26,11 +26,13 @@ public class StatisticsLogic {
 
     //Retrieves gender statistics as a formatted string
     public String genderStatisticsFormatter(Gender gender) { 
-
         int percentage = this.repo.retrievePercentageAcquiredCertificates(gender);
-        String formattedString = percentage + "%" + " of " + gender + " students who enrolled for a course obtained a certificate.";
+        if(percentage == -1) { 
+            return "No " + gender.toString().toLowerCase() + " student has enrolled for a course.";
+            
+        }
+        String formattedString = percentage + "%" + " of " + gender.toString().toLowerCase() + " students who enrolled for a course obtained a certificate.";
         return formattedString;
-    
     }
     //returns formatted string showing the average progress per module for a given course.
     public String courseProgressStatisticFormatter(String courseName) { 
