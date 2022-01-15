@@ -126,7 +126,7 @@ public class Module extends ContentItem {
 
     @Override
     public String toString() {
-        return this.positionWithinCourse + ", title: " + this.title + " (version " + this.version + ")";
+        return "Title: " + this.title + ", position within course: " + this.positionWithinCourse + ", (version " + this.version + ")";
     }
 
 }
