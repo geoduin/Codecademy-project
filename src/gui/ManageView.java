@@ -29,7 +29,7 @@ class ManageView extends View {
         Button webcastManageBtn = new Button("Webcast");
         webcastManageBtn.setOnMouseClicked(clicked -> new WebcastManageView(this.gui).createView());
         Button certificateBtn = new Button("Create certificate");
-        certificateBtn.setOnMouseClicked(clicked -> new CertificateSubmissionView(this.gui).createView());
+        certificateBtn.setOnMouseClicked(clicked -> new CertificateManagementView(this.gui).createView());
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
         view.add(moduleManageBtn, 0, 1);

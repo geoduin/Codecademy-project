@@ -51,7 +51,7 @@ public class CertificateManagementView extends View {
         view.add(enrollmentDropdown, 0, 1);
         view.add(createCertificateBtn, 0, 2);
 
-        activate(view, "Select enrollment eligible for certificate creation");
+        this.gui.goToNext(view, "Select enrollment eligible for certificate creation");
     }
 
     public void addCertificateView(Enrollment enrollment) {
@@ -96,7 +96,7 @@ public class CertificateManagementView extends View {
             certificateSuccessfullyAdded();
         });
 
-        activate(view, "Create Certificate for " + enrollment.getStudentEmail());
+        this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }
 
     public void certificateSuccessfullyAdded() {
@@ -113,6 +113,6 @@ public class CertificateManagementView extends View {
         // Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
 
-        activate(view, "Successfully added!");
+        this.gui.goToNext(view, "Successfully added!");
     }
 }
