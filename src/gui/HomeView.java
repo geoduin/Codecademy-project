@@ -41,7 +41,7 @@ class HomeView extends View {
 
         view.setPadding(new Insets(40, 0, 0, 0));
 
-        activate(view,
+        this.gui.goToNext(view,
                 "Jascha van der Ark (2182194), Jef Koldenhof (2187834), Mohammed Bogatyrev (2182116), Xin Wang (2154458)");
 
     }
