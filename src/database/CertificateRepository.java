@@ -67,7 +67,6 @@ public class CertificateRepository extends Repository<Certificate>{
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
         return certificates;
     }
