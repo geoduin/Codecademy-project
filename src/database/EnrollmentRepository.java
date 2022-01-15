@@ -121,10 +121,48 @@ public class EnrollmentRepository extends Repository<Enrollment> {
 
     }
 
-    // Different delete in use.
+    // Delete an enrollment record based of an enrollment instance. Any certificate
+    // children are cascade deleted. If the student does not have an other
+    // enrollment to the same course, then all progress will be deleted too
     @Override
-    public void delete(Enrollment domainObject) {
+    public void delete(Enrollment enrollment) {
+        int enrollmentID = enrollment.getId();
+        String studentEmail = enrollment.getStudentEmail();
+        String courseName = enrollment.getCourseName();
 
+        // Firstly, deleting the enrollment record
+        try (Statement statement = this.connection.getConnection().createStatement()) {
+            statement.executeUpdate("DELETE FROM Enrollment WHERE ID = " + enrollmentID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Next, checking if there are any other enrollments to the same course, if not,
+        // then delete all module progress related to the course for which its
+        // enrollment to was just deleted
+        String sql = "SELECT * FROM Enrollment WHERE Email = ? AND CourseName = ?";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setString(1, studentEmail);
+            statement.setString(2, courseName);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            // Remove all module progress if there are no other enrollments to the related
+            // course
+
+            if (!resultSet.next()) {
+                sql = "DELETE FROM Progress WHERE ContentID IN (SELECT ContentID FROM Module WHERE CourseName = ?)";
+                try (PreparedStatement statement2 = this.connection.getConnection().prepareStatement(sql)) {
+                    statement2.setString(1, courseName);
+                    System.out.println(statement2.executeUpdate());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteProgressWithoutCourse() {
@@ -215,5 +253,4 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
         return enrollments;
     }
-
 }

@@ -19,16 +19,16 @@ class ManageView extends View {
         GridPane view = generateGrid();
 
         // Buttons including the action events
-        Button courseManageBtn = new Button("Course\n ");
+        Button courseManageBtn = new Button("Course");
         courseManageBtn
                 .setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
-        Button moduleManageBtn = new Button("Module\n ");
+        Button moduleManageBtn = new Button("Module");
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        Button studentManageBtn = new Button("Student\n ");
+        Button studentManageBtn = new Button("Student");
         studentManageBtn.setOnMouseClicked(clicked -> new StudentManagementView(this.gui).createView());
-        Button webcastManageBtn = new Button("Webcast\n ");
+        Button webcastManageBtn = new Button("Webcast");
         webcastManageBtn.setOnMouseClicked(clicked -> new WebcastManageView(this.gui).createView());
-        Button certificateBtn = new Button("Create\ncertificate");
+        Button certificateBtn = new Button("Create certificate");
         certificateBtn.setOnMouseClicked(clicked -> new CertificateSubmissionView(this.gui).createView());
         // Futher layout setup
         view.add(courseManageBtn, 0, 0);
