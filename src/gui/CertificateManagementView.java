@@ -63,9 +63,9 @@ public class CertificateManagementView extends View {
         Label nameLabel = new Label("Name");
         Label gradeLabel = new Label("Grade");
         TextField nameTextField = new TextField();
-        TextField incorrectNameTextField = new TextField();
+        Label incorrectNameTextField = new Label();
         TextField gradeTextField = new TextField();
-        TextField incorrectGradeTextField = new TextField();
+        Label incorrectGradeTextField = new Label();
         Button submitButton = new Button("Submit");
 
         // Further layout setup
@@ -82,13 +82,13 @@ public class CertificateManagementView extends View {
             String employeeName = nameTextField.getText();
             int grade = Integer.valueOf(gradeTextField.getText());
 
-            if (!InputValidation.areLetters(employeeName) || nameTextField.getText().isBlank()) {
+            if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
                 incorrectNameTextField.setText("Please enter a valid name");
                 return;
             } 
 
             if (!InputValidation.isValidGrade(grade) || gradeTextField.getText().isBlank()) {
-                incorrectGradeTextField.setText("Please enter a number between 0-10");
+                incorrectGradeTextField.setText("Please enter a number between 1-10");
                 return;
             }
 

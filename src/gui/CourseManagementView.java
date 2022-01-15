@@ -215,7 +215,7 @@ class CourseManagementView extends View {
         linkedModulesDropdown.setValue("-");
 
         // Delete linked module button and action
-        Button deleteLinkedModuleBtn = new Button("Unlink with course");
+        Button deleteLinkedModuleBtn = new Button("Unlink");
         deleteLinkedModuleBtn.setOnMouseClicked(clicked -> {
             if (linkedModulesDropdown.getValue().equals("-")) {
                 noModuleSelectedError.setText("No module selected!");

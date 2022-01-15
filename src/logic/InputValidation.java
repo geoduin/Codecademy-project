@@ -61,7 +61,7 @@ public class InputValidation {
         throw new IllegalArgumentException();
     }
 
-    // This method checks if the text is not blank. If the text is not blank, than
+    // This method checks if the text is not blank. If the text is not blank, then
     // it will give a true value, if the text is blank then it will give false back
     public static boolean fieldIsNotEmpty(String textFromField) {
         return !(textFromField.isBlank());
@@ -69,10 +69,6 @@ public class InputValidation {
 
     public static boolean areNumbers(String numberValue) {
         return (numberValue.matches("\\d+"));
-    }
-
-    public static boolean areLetters(String string) {
-        return (string.matches("\\w+\\.?"));
     }
 
     // First it checks if inputdate is valid. If not, false. Otherwise it will then
@@ -139,6 +135,6 @@ public class InputValidation {
     }
     
     public static boolean isValidGrade(int grade) {
-        return (grade >= 0 && grade <= 10);
+        return (grade >= 1 && grade <= 10);
     }   
 }
