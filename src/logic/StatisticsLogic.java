@@ -34,25 +34,25 @@ public class StatisticsLogic {
     }
     //returns formatted string showing the average progress per module for a given course.
     public String courseProgressStatisticFormatter(String courseName) { 
-        List<int[][]> courseAndPercentage = this.repo.retrieveAverageProgressionPerModule(courseName);
+        List<int[]> courseAndPercentage = this.repo.retrieveAverageProgressionPerModule(courseName);
         return moduleFormatter(courseAndPercentage);
 
         
     }
     //returns formatted string showing the progress of a student per module for a given course.
     public String progressOfStudentFormatter(String studentEmail, String courseName) { 
-        List<int[][]> courseNames =  this.repo.retrieveProgressionPerModule(studentEmail, courseName);
+        List<int[]> courseNames =  this.repo.retrieveProgressionPerModule(studentEmail, courseName);
         return moduleFormatter(courseNames);
     }
 
 
     //Takes a List of the type int[id][percentage] and returns a formatted string of the module 
-    private String moduleFormatter(List<int[][]> idPercentage) { 
+    private String moduleFormatter(List<int[]> idPercentage) { 
         
         StringBuilder stringBuilder = new StringBuilder();
 
             for(int i = 0; i < idPercentage.size(); i++) { 
-                stringBuilder.append(moduleRepo.retrieveModuleByID(idPercentage.get(i)[0][0]) + ", progress: " + idPercentage.get(i)[1][0] + "%\n");
+                stringBuilder.append(moduleRepo.retrieveModuleByID(idPercentage.get(i)[0]) + ", progress: " + idPercentage.get(i)[1] + "%\n");
             }
         
         return stringBuilder.toString();
