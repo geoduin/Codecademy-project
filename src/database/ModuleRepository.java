@@ -183,13 +183,13 @@ public class ModuleRepository extends Repository<Module> {
     // (instance of Module) and used to delete the matching record from the database
     @Override
     public void delete(Module module) {
-        try {
+        String sql = "SELECT m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE Title = ? AND Version = ?";
+
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
             // Module identifiers
             String title = module.getTitle();
             int version = module.getVersion();
 
-            String sql = "SELECT m.ContentID FROM Module m JOIN ContentItem c ON c.ContentID = m.ContentID WHERE Title = ? AND Version = ?";
-            PreparedStatement statement = this.connection.getConnection().prepareStatement(sql);
             statement.setString(1, title);
             statement.setInt(2, version);
 
@@ -207,22 +207,25 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    // An alternative delete method, this time via the ContentID
-    public void delete(int id) {
-        try {
-            Statement statement = this.connection.getConnection().createStatement();
-            statement.executeUpdate("DELETE FROM ContentItem WHERE ContentID = " + id);
+    // An alternative delete method, this time via the ContentID. Sends true or
+    // false so that the user will be informed if the module is linked to a course,
+    public boolean delete(int id) {
+        try (Statement statement = this.connection.getConnection().createStatement()) {
+            statement.executeUpdate(
+                    "DELETE FROM ContentItem WHERE ContentID IN (Select ContentID FROM Module WHERE ContentID = " + id
+                            + " AND CourseName IS NULL)");
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     // Instantiate all existing Modules, based on the involved tables: ContentItem,
     // Module and Contact
     @Override
     public ArrayList<Module> retrieve() {
-        try {
-            Statement statement = this.connection.getConnection().createStatement();
+        try (Statement statement = this.connection.getConnection().createStatement()) {
             ResultSet result = statement.executeQuery(
                     "SELECT *, m.ContentID FROM Module m JOIN ContentItem ON m.ContentID = ContentItem.ContentID JOIN Contact ON m.ContactEmail = Contact.Email");
             ArrayList<Module> modules = new ArrayList<>();
