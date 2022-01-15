@@ -71,10 +71,6 @@ public class InputValidation {
         return (numberValue.matches("\\d+"));
     }
 
-    public static boolean areLetters(String string) {
-        return (string.matches("\\w+\\.?"));
-    }
-
     // First it checks if inputdate is valid. If not, false. Otherwise it will then
     // check if date is before today and will give true if succeed.
     public static boolean dateIsEarlierThanNow(String day, String month, String year) {
@@ -139,6 +135,6 @@ public class InputValidation {
     }
     
     public static boolean isValidGrade(int grade) {
-        return (grade >= 0 && grade <= 10);
+        return (grade >= 1 && grade <= 10);
     }   
 }
