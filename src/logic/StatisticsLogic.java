@@ -1,5 +1,7 @@
 package logic;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,26 +34,27 @@ public class StatisticsLogic {
     }
     //returns formatted string showing the average progress per module for a given course.
     public String courseProgressStatisticFormatter(String courseName) { 
-        HashMap<Integer, Integer> courseNames =  this.repo.retrieveAverageProgressionPerModule(courseName);
-        return moduleFormatter(courseNames);
+        List<int[][]> courseAndPercentage = this.repo.retrieveAverageProgressionPerModule(courseName);
+        return moduleFormatter(courseAndPercentage);
 
         
     }
     //returns formatted string showing the progress of a student per module for a given course.
     public String progressOfStudentFormatter(String studentEmail, String courseName) { 
-        HashMap<Integer, Integer> courseNames =  this.repo.retrieveProgressionPerModule(studentEmail, courseName);
+        List<int[][]> courseNames =  this.repo.retrieveProgressionPerModule(studentEmail, courseName);
         return moduleFormatter(courseNames);
     }
 
 
-    //takes a hashmap of the format <ID, Percentage> and returns a formatted string containing the Module toString() and the progress percentage. 
-    private String moduleFormatter(Map<Integer, Integer> map) { 
-        Set<Integer> keySet = map.keySet();
+    //Takes a List of the type int[id][percentage] and returns a formatted string of the module 
+    private String moduleFormatter(List<int[][]> idPercentage) { 
+        
         StringBuilder stringBuilder = new StringBuilder();
-        //Integer.valueOf(keySet.toArray()[i].toString() is used to avoid having to sort the list again (as this is already done in SQL), since the keySet is always an integer in this method, it shouldn't lead to problems.
-        for(int i = 0; i < keySet.size(); i++) { 
-            stringBuilder.append("Module: " +this.moduleRepo.retrieveModuleByID(Integer.valueOf(keySet.toArray()[i].toString())) + ", Progress: " + map.get(keySet.toArray()[i]) + "%\n");
-        }
+
+            for(int i = 0; i < idPercentage.size(); i++) { 
+                stringBuilder.append("Position in course: " + moduleRepo.retrieveModuleByID(idPercentage.get(i)[0][0]) + ", progress: " + idPercentage.get(i)[1][0] + "%\n");
+            }
+        
         return stringBuilder.toString();
     }
 
