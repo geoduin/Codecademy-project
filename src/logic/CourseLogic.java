@@ -35,8 +35,8 @@ public class CourseLogic {
         new ModuleRepository().assignModuleToCourse(name, idOfFirstModuleWithinCourse);
     }
 
-    public void deleteCourse(String courseName) {
-        this.repository.delete(courseName);
+    public boolean deleteCourse(String courseName) {
+        return this.repository.delete(courseName);
     }
 
     public void editCourse(String topic, String description, Difficulty difficulty, Course course) {
