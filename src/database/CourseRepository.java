@@ -111,29 +111,34 @@ public class CourseRepository extends Repository<Course> {
 
     }
 
-    // Perform the same type of delete action, but now using the name of the course
-    // the method receives on call as argument
-    public void delete(String courseName) {
-        try {
-            // In the CourseRecommendation table, delete all records where the given
-            // CourseName argument is involved
-            String sql2 = "DELETE FROM CourseRecommendation WHERE CourseName = ? OR RecommendedCourse = ?";
-            PreparedStatement statement2 = connection.getConnection().prepareStatement(sql2);
+    /*
+     * Delete a course based on its name the method receives as argument. Return
+     * true if succesfull. If a course can't be finally deleted due to existing
+     * enrollments, a false will be returned so that the user can be informed via
+     * the GUI
+     */
+    public boolean delete(String courseName) {
+        // In the CourseRecommendation table, delete all records where the given
+        // CourseName argument is involved
+        String deleteStatement1 = "DELETE FROM CourseRecommendation WHERE CourseName = ? OR RecommendedCourse = ?";
+        try (PreparedStatement firstDeleteExecution = connection.getConnection().prepareStatement(deleteStatement1)) {
 
-            statement2.setString(1, courseName);
-            statement2.setString(2, courseName);
-            statement2.executeUpdate();
-
-            // Now delete the actual Course record
-            String sql = "DELETE FROM Course WHERE CourseName = ?";
-            PreparedStatement statement = connection.getConnection().prepareStatement(sql);
-
-            statement.setString(1, courseName);
-            statement.executeUpdate();
-
+            firstDeleteExecution.setString(1, courseName);
+            firstDeleteExecution.setString(2, courseName);
+            firstDeleteExecution.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // Now delete the actual Course record
+        String deleteStatement2 = "DELETE FROM Course WHERE CourseName = ?";
+        try (PreparedStatement secondDeleteExecution = connection.getConnection().prepareStatement(deleteStatement2)) {
+            secondDeleteExecution.setString(1, courseName);
+            secondDeleteExecution.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

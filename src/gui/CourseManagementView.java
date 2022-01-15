@@ -63,21 +63,33 @@ class CourseManagementView extends View {
         Button deleteBtn = new Button("Delete course");
         deleteBtn.setId("deleteButton");
         /** Button logic */
+        // Setting up error messages
+        Label noCourseSelectedErrorLabel = new Label("No Course selected!");
+        noCourseSelectedErrorLabel.setVisible(false);
+        Label courseCantBeDeletedErrorLabel = new Label(
+                "A course can't be deleted if there are existing enrollments to it.");
+        courseCantBeDeletedErrorLabel.setVisible(false);
         // Delete course
-        final String errorMSG = "No Course selected!";
         deleteBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
+                courseCantBeDeletedErrorLabel.setVisible(false);
             } else {
-                this.logic.deleteCourse(dropdown.getValue());
-                successfullyDeletedView();
+                noCourseSelectedErrorLabel.setVisible(false);
+
+                if (this.logic.deleteCourse(dropdown.getValue())) {
+                    successfullyDeletedView();
+                } else {
+                    courseCantBeDeletedErrorLabel.setVisible(true);
+                }
             }
         });
         // Edit course
         editBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 // getting the to-be-edited module
                 String courseToDelete = dropdown.getValue();
                 editCourseView(courseToDelete);
@@ -86,8 +98,9 @@ class CourseManagementView extends View {
         // Manage modules
         manageModulesBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 String courseName = dropdown.getValue();
                 manageModulesWithinCourseView(courseName);
             }
@@ -95,8 +108,9 @@ class CourseManagementView extends View {
         // Recommended course
         addRecommendedCourseBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 String courseName = dropdown.getValue();
                 addRecommendedCourseView(courseName);
             }
@@ -111,6 +125,8 @@ class CourseManagementView extends View {
         view.add(manageModulesBtn, 0, 3);
         view.add(addRecommendedCourseBtn, 0, 4);
         view.add(deleteBtn, 0, 5);
+        view.add(noCourseSelectedErrorLabel, 0, 6);
+        view.add(courseCantBeDeletedErrorLabel, 0, 7);
 
         this.gui.goToNext(view, "Course management");
     }
