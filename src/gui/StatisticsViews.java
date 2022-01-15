@@ -2,9 +2,11 @@ package gui;
 
 import java.util.List;
 import domain.Gender;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import logic.CourseLogic;
@@ -30,19 +32,27 @@ public class StatisticsViews extends View {
 
     @Override
     protected void createView() {
-
-        GridPane view = generateGrid();
+        BorderPane view = new BorderPane();
+        GridPane grid = generateGrid();
 
         Label label = new Label("Statistics");
         label.setId("title");
         Button top3Webcast = new Button("Top 3 webcast");
+        top3Webcast.setId("statBtn");
         Button AvgProgress = new Button("Average progress");
+        AvgProgress.setId("statBtn");
         Button progressModule = new Button("Progress per module");
+        progressModule.setId("statBtn");
         Button amountCert = new Button("Amount of certificates");
+        amountCert.setId("statBtn");
         Button genderStat = new Button("Gender statistics");
-        Button top3CourseWithCert = new Button("Top 3 courses with courses");
-        Button recommendedCourse = new Button("Recommended courses");
+        genderStat.setId("statBtn");
+        Button top3CourseWithCert = new Button("Top 3 courses\nwith courses");
+        top3CourseWithCert.setId("statBtn");
+        Button recommendedCourse = new Button("Recommended\ncourses");
+        recommendedCourse.setId("statBtn");
         Button receivedCerts = new Button("Received certificates");
+        receivedCerts.setId("statBtn");
 
         genderStat.setOnMouseClicked(click -> genderStatistics());
         AvgProgress.setOnMouseClicked(click -> averageProgress());
@@ -54,16 +64,17 @@ public class StatisticsViews extends View {
         recommendedCourse.setOnMouseClicked(click -> recommendedCourses());
         receivedCerts.setOnMouseClicked(click -> nrReceivedCertifocates());
 
-        view.add(label, 1, 0);
-        view.add(top3Webcast, 0, 1);
-        view.add(AvgProgress, 1, 1);
-        view.add(progressModule, 2, 1);
-        view.add(amountCert, 3, 1);
-        view.add(genderStat, 0, 2);
-        view.add(top3CourseWithCert, 1, 2);
-        view.add(recommendedCourse, 2, 2);
-        view.add(receivedCerts, 3, 2);
-
+        view.setTop(label);
+        grid.add(top3Webcast, 0, 1);
+        grid.add(AvgProgress, 1, 1);
+        grid.add(progressModule, 2, 1);
+        grid.add(amountCert, 3, 1);
+        grid.add(genderStat, 0, 2);
+        grid.add(top3CourseWithCert, 1, 2);
+        grid.add(recommendedCourse, 2, 2);
+        grid.add(receivedCerts, 3, 2);
+        view.setCenter(grid);
+        view.setAlignment(label, Pos.CENTER);
         activate(view, "Statistics");
 
     }

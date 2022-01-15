@@ -33,7 +33,7 @@
 .button{
     -fx-background-color: rgb(84, 19, 136);
     -fx-text-fill: #ffffff;
-    -fx-pref-width: 140px;
+    -fx-pref-width: 150px;
 }
 
 .button:hover{
@@ -214,4 +214,16 @@
 }
 #selectBox .arrow{
     -fx-background-color: rgb(255, 255, 255);
+}
+
+#statBtn{
+    -fx-background-color: rgb(84, 19, 136);
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 60;
+}
+
+#statBtn:hover{
+    -fx-background-color: rgb(140, 95, 177);
+    -fx-text-fill: #ffffff;
 }
