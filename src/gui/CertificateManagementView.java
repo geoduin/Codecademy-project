@@ -100,7 +100,7 @@ public class CertificateManagementView extends View {
     }
 
     public void certificateSuccessfullyAdded() {
-        GridPane view = generateFormGrid();
+        GridPane view = generateGrid();
 
         Label label = new Label("Successfully added certificate!");
         Button homeBtn = new Button("Home");
