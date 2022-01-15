@@ -5,9 +5,9 @@ public class Certificate {
     private String studentName;
     private String nameOfIssuer;
     private int grade;
-    
-    
-    public Certificate(String studentName, String nameOfIssuer, int grade) {
+
+    public Certificate(int id, String studentName, String nameOfIssuer, int grade) {
+        this.certificateID = id;
         this.studentName = studentName;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
@@ -21,26 +21,21 @@ public class Certificate {
         return studentName;
     }
 
-
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
-
 
     public String getNameOfIssuer() {
         return nameOfIssuer;
     }
 
-
     public void setNameOfIssuer(String nameOfIssuer) {
         this.nameOfIssuer = nameOfIssuer;
     }
 
-
     public int getGrade() {
         return grade;
     }
-
 
     public void setGrade(int grade) {
         this.grade = grade;
@@ -48,6 +43,7 @@ public class Certificate {
 
     @Override
     public String toString() {
-        return "CertificateID: " + this.certificateID + ", Student name: " + this.studentName + ", Name of Issuer: " + this.nameOfIssuer + ", Grade: " + this.grade;
+        return "CertificateID: " + this.certificateID + ", Student name: " + this.studentName + ", Name of Issuer: "
+                + this.nameOfIssuer + ", Grade: " + this.grade;
     }
 }
