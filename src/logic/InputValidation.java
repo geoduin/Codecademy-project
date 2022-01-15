@@ -131,7 +131,7 @@ public class InputValidation {
     // Regex retrieved from
     // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
     public static boolean isValidURL(String url) {
-        return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+        return url.matches("^(https|http)://([a-z]|[A-Z])+.([a-z]|[A-Z])+.([a-z]|[A-Z])+");
     }
 
     public static boolean isValidGrade(int grade) {
