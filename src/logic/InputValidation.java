@@ -61,7 +61,7 @@ public class InputValidation {
         throw new IllegalArgumentException();
     }
 
-    // This method checks if the text is not blank. If the text is not blank, than
+    // This method checks if the text is not blank. If the text is not blank, then
     // it will give a true value, if the text is blank then it will give false back
     public static boolean fieldIsNotEmpty(String textFromField) {
         return !(textFromField.isBlank());

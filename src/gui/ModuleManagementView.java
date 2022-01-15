@@ -19,7 +19,7 @@ import java.util.HashMap;
 import domain.Module;
 import domain.Status;
 
-//Class responsible for all the views that are related to the management of modules
+//Class responsible for all the views that are related to the management of modules (add, edit, delete modules)
 class ModuleManagementView extends View {
     private ModuleLogic logic;
 
@@ -41,7 +41,8 @@ class ModuleManagementView extends View {
         addModuleBtn.setId("addButton");
         addModuleBtn.setOnMouseClicked(clicked -> addModuleView());
 
-        // Dropdown showing existing modules
+        // Dropdown and labels showing existing modules en giving action options to the
+        // user
         Label selectLabel = new Label("Select an existing module");
         Label noModuleSelectedLabel = new Label("No module selected!");
         noModuleSelectedLabel.setVisible(false);
@@ -56,17 +57,17 @@ class ModuleManagementView extends View {
         deleteFailedLabel.setVisible(false);
 
         // porting the modules to the dropdown
-        final String defaultDropdownValue = "-no module selected-";
-        dropdown.setValue(defaultDropdownValue);
-        dropdown.getItems().add(defaultDropdownValue);
+        int count = 0;
         HashMap<String, Integer> moduleNameVersionAndIDPairs = this.logic.getModuleNamesVersionsAndIDs();
         for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
             dropdown.getItems().add(moduleNameAndVersion);
+            count++;
         }
+        dropdown.setPromptText(count + " module(s) available");
 
         // Edit button action, retrieving the selected module to edit
         editBtn.setOnMouseClicked(clicked -> {
-            if (dropdown.getValue().equals(defaultDropdownValue)) {
+            if (dropdown.getValue() == null) {
                 noModuleSelectedLabel.setVisible(true);
             } else {
                 noModuleSelectedLabel.setVisible(false);
@@ -80,7 +81,7 @@ class ModuleManagementView extends View {
 
         // Delete button action, retrieving the selected module to delete
         deleteBtn.setOnMouseClicked(clicked -> {
-            if (dropdown.getValue().equals(defaultDropdownValue)) {
+            if (dropdown.getValue() == null) {
                 noModuleSelectedLabel.setVisible(true);
             } else {
                 noModuleSelectedLabel.setVisible(false);
@@ -94,7 +95,7 @@ class ModuleManagementView extends View {
             }
         });
 
-        // futher layout setup
+        // futher layout setup and activation
         view.add(createLabel, 1, 0);
         view.add(addModuleBtn, 1, 1);
         view.add(selectLabel, 0, 0);
@@ -135,7 +136,7 @@ class ModuleManagementView extends View {
         Label versionLabel = new Label("Version:");
         TextField versionField = new TextField();
         Text versionInputError = new Text("");
-        final String positiveNumberErrorMSG = "has to be a (positive) rounded number!";
+        final String positiveNumberErrorMSG = "has to be a (positive) whole number!";
         versionInputError.setFill(Color.FIREBRICK);
         view.add(versionLabel, 0, 2);
         view.add(versionField, 1, 2);
@@ -143,7 +144,7 @@ class ModuleManagementView extends View {
 
         // Checking (live) if the user doesn't put anything in other than an int
         versionField.textProperty().addListener((change, oldValue, newValue) -> {
-            if (!InputValidation.areNumbers(newValue) && !InputValidation.fieldIsNotEmpty(newValue)) {
+            if (!InputValidation.areNumbers(newValue) && InputValidation.fieldIsNotEmpty(newValue)) {
                 versionInputError.setText(positiveNumberErrorMSG);
             } else {
                 versionInputError.setText("");
@@ -151,7 +152,7 @@ class ModuleManagementView extends View {
         });
 
         // Order number input
-        Label orderNumberLabel = new Label("Order it will get within a course:");
+        Label orderNumberLabel = new Label("Position in course:");
         TextField orderNumberField = new TextField();
         Text orderNumberInputError = new Text("");
         orderNumberInputError.setFill(Color.FIREBRICK);
@@ -161,7 +162,7 @@ class ModuleManagementView extends View {
 
         // Checking (live) if the user doesn't put anything in other than an int
         orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
-            if (!newValue.matches("\\d+") && !(newValue.equals(""))) {
+            if (!InputValidation.areNumbers(newValue) && InputValidation.fieldIsNotEmpty(newValue)) {
                 orderNumberInputError.setText(positiveNumberErrorMSG);
             } else {
                 orderNumberInputError.setText("");
@@ -174,33 +175,34 @@ class ModuleManagementView extends View {
         view.add(descriptionLabel, 0, 4);
         view.add(descriptionField, 1, 4);
 
-        // Status input
+        // Status input, via a dropdown
         Label statusLabel = new Label("Module status:");
-        ComboBox<String> dropdown = new ComboBox<>();
+        ComboBox<Status> dropdown = new ComboBox<>();
+        dropdown.setPromptText("Select status");
         dropdown.setId("selectBox");
-        Text noStatusSelectedError = new Text("");
+        Text noStatusSelectedError = new Text("No value selected!");
+        noStatusSelectedError.setVisible(false);
         noStatusSelectedError.setFill(Color.FIREBRICK);
-        final String defaultDropDownString = "-please select a value-";
-        dropdown.setValue(defaultDropDownString);
-        dropdown.getItems().add(defaultDropDownString);
-        dropdown.getItems().add("ACTIVE");
-        dropdown.getItems().add("CONCEPT");
-        dropdown.getItems().add("ARCHIVED");
+        dropdown.getItems().add(Status.ACTIVE);
+        dropdown.getItems().add(Status.CONCEPT);
+        dropdown.getItems().add(Status.ARCHIVED);
         view.add(statusLabel, 0, 5);
         view.add(dropdown, 1, 5);
         view.add(noStatusSelectedError, 2, 5);
 
         // Contact input
-        Label contactLabel = new Label("Name of contactperson:");
+        Label contactLabel = new Label("Name of contact:");
         TextField contactField = new TextField();
-        Text emailWarning = new Text("");
         view.add(contactLabel, 0, 6);
         view.add(contactField, 1, 6);
 
-        Label contactEmailLabel = new Label("Email of contactperson:");
+        Label contactEmailLabel = new Label("Email of contact:");
         TextField contactEmailField = new TextField();
+        Label invalidEmailErrorLabel = new Label("Invalid email format!");
+        invalidEmailErrorLabel.setVisible(false);
         view.add(contactEmailLabel, 0, 7);
         view.add(contactEmailField, 1, 7);
+        view.add(invalidEmailErrorLabel, 2, 7);
 
         // Create module button
         Button createButton = new Button("Create module");
@@ -224,15 +226,20 @@ class ModuleManagementView extends View {
 
             // Checks if email format is correct
             if (!(InputValidation.validateMailAddress(contactEmailField.getText()))) {
-                view.add(emailWarning, 2, 7);
-            }
-
-            // checking if dropdown has no selected value
-            if (dropdown.getValue().equals(defaultDropDownString)) {
-                noStatusSelectedError.setText("No value selected!");
+                invalidEmailErrorLabel.setVisible(true);
                 return;
             } else {
-                noStatusSelectedError.setText("");
+                invalidEmailErrorLabel.setVisible(false);
+
+            }
+
+            // Checking if no status is selected from the dropdown
+            if (dropdown.getValue() == null) {
+                noStatusSelectedError.setVisible(true);
+                return;
+            } else {
+                noStatusSelectedError.setVisible(false);
+
             }
 
             // Checking if version- and orderfield have an integer-type input
@@ -262,24 +269,13 @@ class ModuleManagementView extends View {
                 return;
             }
 
-            // getting the correct enumerator
-            // todo CONTROLEREN OF DIT EFFICIËNTER KAN!
-            Status status;
-            if (dropdown.getValue().equals("ACTIVE")) {
-                status = domain.Status.ACTIVE;
-            } else if (dropdown.getValue().equals("ARCHIVED")) {
-                status = domain.Status.ARCHIVED;
-            } else {
-                status = domain.Status.CONCEPT;
-            }
-
             // Creating the module
-            this.logic.newModule(status, title, version,
+            this.logic.newModule(dropdown.getValue(), title, version,
                     Integer.valueOf(orderNumberField.getText()), descriptionField.getText(),
                     contactField.getText(), contactEmailField.getText(), 0);
             moduleSuccessfullyCreatedView();
         });
-        this.gui.goToNext(view, "Create module");
+        this.gui.goToNext(view, "Create a module");
     }
 
     // Creating a view for the user to edit a module
@@ -297,7 +293,8 @@ class ModuleManagementView extends View {
         // Order number input
         Label orderNumberLabel = new Label("Order it has within a course:");
         TextField orderNumberField = new TextField("" + moduleToEdit.getPositionWithinCourse());
-        Text orderNumberInputError = new Text("");
+        Text orderNumberInputError = new Text("Has to be a (positive) whole number");
+        orderNumberInputError.setVisible(false);
         orderNumberInputError.setFill(Color.FIREBRICK);
         view.add(orderNumberLabel, 0, 1);
         view.add(orderNumberField, 1, 1);
@@ -305,26 +302,26 @@ class ModuleManagementView extends View {
 
         // Checking (live) if the user doesn't put anything in other than an int
         orderNumberField.textProperty().addListener((change, oldValue, newValue) -> {
-            if (!InputValidation.areNumbers(newValue) && !InputValidation.fieldIsNotEmpty(newValue)) {
-                orderNumberInputError.setText("Has to be a (positive) rounded number");
+            if (!InputValidation.areNumbers(newValue) && InputValidation.fieldIsNotEmpty(newValue)) {
+                orderNumberInputError.setVisible(true);
             } else {
-                orderNumberInputError.setText("");
+                orderNumberInputError.setVisible(false);
             }
         });
 
         // Contactperson name input
-        Label contactLabel = new Label("Name of contactperson:");
+        Label contactLabel = new Label("Name of contact:");
         TextField contactField = new TextField(moduleToEdit.getContactName());
         view.add(contactLabel, 0, 2);
         view.add(contactField, 1, 2);
 
         // Contactperson email input
-        Label contactEmailLabel = new Label("Email of contactperson:");
+        Label contactEmailLabel = new Label("Email of contact:");
         TextField contactEmailField = new TextField(moduleToEdit.getEmailAddress());
         view.add(contactEmailLabel, 0, 3);
         view.add(contactEmailField, 1, 3);
 
-        // Status
+        // Status value
         Label statusLabel = new Label("Module status:");
         ComboBox<Status> dropdown = new ComboBox<>();
         dropdown.setValue(moduleToEdit.getStatus());
@@ -345,7 +342,8 @@ class ModuleManagementView extends View {
         view.add(editBtn, 0, 6);
         // Edit button
 
-        Text nullOrAlreadyExistsErrorField = new Text("");
+        Text nullOrAlreadyExistsErrorField = new Text("One or more fields are not filled!");
+        nullOrAlreadyExistsErrorField.setVisible(false);
         nullOrAlreadyExistsErrorField.setFill(Color.FIREBRICK);
         view.add(nullOrAlreadyExistsErrorField, 1, 9);
 
@@ -353,12 +351,16 @@ class ModuleManagementView extends View {
 
             if (hasNoInput(descriptionField) || hasNoInput(contactField)
                     || hasNoInput(contactEmailField)) {
-                nullOrAlreadyExistsErrorField.setText("One or more fields are not filled!");
+                nullOrAlreadyExistsErrorField.setVisible(true);
                 return;
+
             } else {
-                nullOrAlreadyExistsErrorField.setText("");
+                nullOrAlreadyExistsErrorField.setVisible(false);
+
             }
 
+            // Finally, editing the module by retrieving the state of all input fields when
+            // the user pressed the edit button
             this.logic.editModule(contactEmailField.getText(), contactField.getText(), descriptionField.getText(),
                     dropdown.getValue(), Integer.parseInt(orderNumberField.getText()), moduleToEdit);
 
@@ -405,8 +407,8 @@ class ModuleManagementView extends View {
         this.gui.goToNext(view, "Successfully created!");
     }
 
-    // When a module is deleted, this method creates a view to give the user a
-    // general menu
+    // When a module is deleted, this method creates a view to give the user the
+    // option to directly go back to module management again
     private void successfullyDeletedView() {
         GridPane view = generateGrid();
         Label label = new Label("Successfully deleted!");
