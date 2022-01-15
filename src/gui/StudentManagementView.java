@@ -152,7 +152,7 @@ class StudentManagementView extends View {
         });
 
         // See abstract class "View"
-        activate(view, "Student management");
+        this.gui.goToNext(view, "Student management");
     }
 
     // View containing a dropdown of removable enrollments, which the user can
@@ -204,7 +204,7 @@ class StudentManagementView extends View {
         view.add(errorLabel, 0, 3);
         view.add(removedSuccessfullyLabel, 0, 4);
 
-        activate(view, "Delete enrollments of student: " + studentEmail);
+        this.gui.goToNext(view, "Delete enrollments of student: " + studentEmail);
 
     }
 
@@ -506,7 +506,7 @@ class StudentManagementView extends View {
         view.add(piWebcast, 1, 11);
         view.add(updateWebcastProgressButton, 2, 10);
         view.add(updateWebcastProgressLabel, 2, 12);
-        activate(view, "Content progress of Student: " + student.getStudentName());
+        this.gui.goToNext(view, "Content progress of Student: " + student.getStudentName());
 
     }
 
@@ -647,7 +647,7 @@ class StudentManagementView extends View {
                 lastWarningText.setText("one of the input values are invalid");
             }
         });
-        activate(view, "Add student");
+        this.gui.goToNext(view, "Add student");
 
     }
 
@@ -745,7 +745,7 @@ class StudentManagementView extends View {
                 lastWarningText.setText("one of the input values are invalid");
             }
         });
-        activate(view, "Edit student information");
+        this.gui.goToNext(view, "Edit student information");
     }
 
     private void enrollStudentView(String studentEmail) {
@@ -776,7 +776,7 @@ class StudentManagementView extends View {
             successfullyProcessView();
         });
 
-        activate(view, "Enroll student");
+        this.gui.goToNext(view, "Enroll student");
     }
 
     private void successfullyProcessView() {
@@ -791,7 +791,7 @@ class StudentManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         resumeBtn.setOnMouseClicked(clicked -> new StudentManagementView(this.gui).createView());
-        activate(view, "Successful process");
+        this.gui.goToNext(view, "Successful process");
     }
 
 }

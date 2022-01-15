@@ -39,7 +39,7 @@ class ManageView extends View {
         view.setPadding(new Insets(40, 0, 0, 0));
         view.setHgap(40);
 
-        activate(view, "Manage");
+        this.gui.goToNext(view, "Manage");
     }
 
 }

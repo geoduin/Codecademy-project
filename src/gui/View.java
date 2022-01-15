@@ -66,11 +66,4 @@ abstract class View {
     // every view needs to create a parent type that can sit in the center of the
     // base layout
     protected abstract void createView();
-
-    // method to add any type of view to the center of the main base layout (GUI)
-    // and give the window a custom title
-    protected void activate(Parent view, String windowTitle) {
-        this.gui.goToNext(view, windowTitle);
-    }
-
 }

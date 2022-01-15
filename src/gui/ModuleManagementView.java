@@ -89,7 +89,7 @@ class ModuleManagementView extends View {
         view.add(editBtn, 0, 2);
         view.add(deleteBtn, 0, 3);
 
-        activate(view, "Module management");
+        this.gui.goToNext(view, "Module management");
 
     }
 
@@ -264,7 +264,7 @@ class ModuleManagementView extends View {
                     contactField.getText(), contactEmailField.getText(), 0);
             moduleSuccessfullyCreatedView();
         });
-        activate(view, "Create module");
+        this.gui.goToNext(view, "Create module");
     }
 
     // Creating a view for the user to edit a module
@@ -350,7 +350,7 @@ class ModuleManagementView extends View {
             moduleSuccessfullyEditedView();
 
         }));
-        activate(view, "Edit module");
+        this.gui.goToNext(view, "Edit module");
     }
 
     // When a module is edited, this method creates a view to give the user a
@@ -368,7 +368,7 @@ class ModuleManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         editAnotherModuleBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        activate(view, "Successfully edited!");
+        this.gui.goToNext(view, "Successfully edited!");
     }
 
     // If a module can be created, a user has an easy option to directly add
@@ -387,7 +387,7 @@ class ModuleManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         createAnotherModuleBtn
                 .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).addModuleView());
-        activate(view, "Successfully created!");
+        this.gui.goToNext(view, "Successfully created!");
     }
 
     // When a module is deleted, this method creates a view to give the user a
@@ -405,6 +405,6 @@ class ModuleManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        activate(view, "Successfully deleted");
+        this.gui.goToNext(view, "Successfully deleted");
     }
 }

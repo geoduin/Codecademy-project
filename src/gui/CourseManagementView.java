@@ -112,7 +112,7 @@ class CourseManagementView extends View {
         view.add(addRecommendedCourseBtn, 0, 4);
         view.add(deleteBtn, 0, 5);
 
-        activate(view, "Course management");
+        this.gui.goToNext(view, "Course management");
     }
 
     /*
@@ -167,7 +167,7 @@ class CourseManagementView extends View {
         view.add(setRecommendedBtn, 0, 3);
         view.add(noCourseSelectedError, 0, 4);
 
-        activate(view, "Add course recommendation for Course: " + courseName);
+        this.gui.goToNext(view, "Add course recommendation for Course: " + courseName);
 
     }
 
@@ -245,7 +245,7 @@ class CourseManagementView extends View {
         view.add(addModuleButton, 0, 7);
         view.add(noModuleSelectedError2, 0, 8);
 
-        activate(view, "Manage modules within course");
+        this.gui.goToNext(view, "Manage modules within course");
 
     }
 
@@ -357,7 +357,7 @@ class CourseManagementView extends View {
             courseSuccessfullyCreatedView();
 
         });
-        activate(view, "Create course");
+        this.gui.goToNext(view, "Create course");
 
     }
 
@@ -417,7 +417,7 @@ class CourseManagementView extends View {
             courseSuccessfullyEditedView();
 
         }));
-        activate(view, "Edit module");
+        this.gui.goToNext(view, "Edit module");
     }
 
     // When a course is edited, this method creates a view to give the user a
@@ -435,7 +435,7 @@ class CourseManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         editAnotherCourseBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
-        activate(view, "Successfully edited!");
+        this.gui.goToNext(view, "Successfully edited!");
     }
 
     // When a course is created, this method creates a view to give the user a
@@ -455,7 +455,7 @@ class CourseManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         createOtherCourseBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).addCourseView());
 
-        activate(view, "Successfully created!");
+        this.gui.goToNext(view, "Successfully created!");
 
     }
 
@@ -475,7 +475,7 @@ class CourseManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         goBackBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
 
-        activate(view, "Aftermath");
+        this.gui.goToNext(view, "Aftermath");
     }
 
     // When a course is deleted, this method creates a view to give the user a
@@ -493,6 +493,6 @@ class CourseManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
-        activate(view, "Successfully deleted");
+        this.gui.goToNext(view, "Successfully deleted");
     }
 }
