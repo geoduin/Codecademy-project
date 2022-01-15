@@ -227,3 +227,8 @@
     -fx-background-color: rgb(140, 95, 177);
     -fx-text-fill: #ffffff;
 }
+
+#borderText{
+    -fx-border-color: rgb(10, 10, 10);
+    -fx-border-width: 1;
+}
