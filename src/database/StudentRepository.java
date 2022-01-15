@@ -142,15 +142,16 @@ public class StudentRepository extends Repository<Student> {
     }
 
     // Retrieves name and email and put it in a Hashmap
-    public Map<String, String> retrieveNameByEmail() {
-        Map<String, String> nameList = new HashMap<>();
+    public List<String[]> retrieveNameByEmail() {
+        List<String[]> nameList = new ArrayList<>();
         String retrieveQuery = "SELECT Name, Email FROM Student";
         try (PreparedStatement retrieveStatement = this.connection.getConnection().prepareStatement(retrieveQuery)) {
-            int i = 1;
+            
             ResultSet rS = retrieveStatement.executeQuery();
             while (rS.next()) {
-                nameList.put("(" + Integer.toString(i) + ") " + rS.getString("Name"), rS.getString("Email"));
-                i++;
+                String[] nameAndEmail = {rS.getString("Name"), rS.getString("Email")};
+                nameList.add(nameAndEmail);
+                
             }
 
             return nameList;
