@@ -11,7 +11,7 @@ Studentnamen- en nummers zijn enkel in de titel (window-title) van het eerste sc
 
 
 
-Handleiding, onderbouwingen en reflecties zitten in het verslag "Oplevering: Codecademy project (PAP4)", welke is bijgeleverd met het ingeleverde bestand op BrightSpace.
+Handleiding, onderbouwingen en reflecties zitten in het verslag "Oplevering: Codecademy project (PAP4)", welke bijgevoegd is in het ingeleverde bestand op BrightSpace.
 
 
 
