@@ -15,6 +15,7 @@ import logic.InputValidation;
 import logic.ModuleLogic;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import domain.Module;
 import domain.Status;
@@ -58,7 +59,7 @@ class ModuleManagementView extends View {
 
         // porting the modules to the dropdown
         int count = 0;
-        HashMap<String, Integer> moduleNameVersionAndIDPairs = this.logic.getModuleNamesVersionsAndIDs();
+        Map<String, Integer> moduleNameVersionAndIDPairs = this.logic.getModuleNamesVersionsAndIDs();
         for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
             dropdown.getItems().add(moduleNameAndVersion);
             count++;
