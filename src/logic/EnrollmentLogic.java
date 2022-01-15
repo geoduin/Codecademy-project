@@ -11,12 +11,10 @@ import domain.Enrollment;
 
 public class EnrollmentLogic {
     private CourseLogic courseLogic;
-    private StudentLogic studentLogic;
     private EnrollmentRepository enrollmentRepo;
 
     public EnrollmentLogic() {
         this.courseLogic = new CourseLogic();
-        this.studentLogic = new StudentLogic();
         this.enrollmentRepo = new EnrollmentRepository();
     }
 
