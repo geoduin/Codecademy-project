@@ -22,7 +22,7 @@ public class StatisticsRepository{
         this.dbConnection = new DBConnection();
     }
 
-    //Retrieves percentage of acquired certificates compared to all enrollments by gender
+    //Retrieves percentage of acquired certificates compared to all enrollments by gender, see report for a detailed description of how the query works.
     public int retrievePercentageAcquiredCertificates(Gender gender) {
         int percentageAcquiredCertificates = 0;
         try {
@@ -44,19 +44,18 @@ public class StatisticsRepository{
     
     //retrieves the ContentID of each module and the average progressions of all students for that module. 
     //Hashmap is in the format <ID, Percentage>
-    public HashMap<Integer, Integer> retrieveAverageProgressionPerModule(String courseName) {
-        HashMap<Integer, Integer> percentages = new HashMap<>();
+    public List<int[][]> retrieveAverageProgressionPerModule(String courseName) {
+        List<int[][]> coursesAndPercentages = new ArrayList<>();
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, AVG(Percentage) AS AverageProgression FROM Progress WHERE ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?) GROUP BY ContentID");
             statement.setString(1, courseName);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                int key = result.getInt("ContentID");
-                int percentage = result.getInt("AverageProgression");
-                percentages.put(key, percentage);
+                int[][] courseAndPercentage = {{result.getInt("ContentID")},{result.getInt("AverageProgression")}};            
+                coursesAndPercentages.add(courseAndPercentage);
             }
            
-            return percentages;
+            return coursesAndPercentages;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,9 +67,9 @@ public class StatisticsRepository{
     
 
     //Retrieves  a students progression per module for a selected course
-    //The hashmap is in the format of <ID, Percentage>
-    public HashMap<Integer, Integer> retrieveProgressionPerModule(String studentEmail, String courseName) {
-        HashMap<Integer, Integer> percentagesPerModule = new HashMap<>();
+    //The integer array is in the format of [ContentID][Percentage]
+    public List<int[][]> retrieveProgressionPerModule(String studentEmail, String courseName) {
+        List<int[][]> progressOfModules = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?)");
             preparedStatement.setString(1, studentEmail);
@@ -79,12 +78,11 @@ public class StatisticsRepository{
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                int contentID = result.getInt("ContentID");
-                int percentage = result.getInt("Percentage");
-                percentagesPerModule.put(contentID, percentage);
+                int[][] idPercentage = {{result.getInt("ContentID")}, {result.getInt("Percentage")}};
+                progressOfModules.add(idPercentage);
             }
             preparedStatement.close();
-            return percentagesPerModule;
+            return progressOfModules;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

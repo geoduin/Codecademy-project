@@ -43,11 +43,18 @@ class ModuleManagementView extends View {
 
         // Dropdown showing existing modules
         Label selectLabel = new Label("Select an existing module");
+        Label noModuleSelectedLabel = new Label("No module selected!");
+        noModuleSelectedLabel.setVisible(false);
+
         ComboBox<String> dropdown = new ComboBox<>();
+
         Button editBtn = new Button("Edit");
         editBtn.setId("editButton");
         Button deleteBtn = new Button("Delete");
         deleteBtn.setId("deleteButton");
+        Label deleteFailedLabel = new Label("Linked with a course, unlink first before deletion.");
+        deleteFailedLabel.setVisible(false);
+
         // porting the modules to the dropdown
         final String defaultDropdownValue = "-no module selected-";
         dropdown.setValue(defaultDropdownValue);
@@ -60,8 +67,10 @@ class ModuleManagementView extends View {
         // Edit button action, retrieving the selected module to edit
         editBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label("No module selected!"), 0, 4);
+                noModuleSelectedLabel.setVisible(true);
             } else {
+                noModuleSelectedLabel.setVisible(false);
+
                 // getting the to-be-edited module
                 Module moduleToEdit = this.logic
                         .retrieveModuleByID((moduleNameVersionAndIDPairs.get(dropdown.getValue())));
@@ -72,11 +81,15 @@ class ModuleManagementView extends View {
         // Delete button action, retrieving the selected module to delete
         deleteBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label("No module selected!"), 0, 4);
+                noModuleSelectedLabel.setVisible(true);
             } else {
+                noModuleSelectedLabel.setVisible(false);
+
                 // called method deletes module + sends a true if succesfull
                 if (this.logic.deleteModule(moduleNameVersionAndIDPairs.get(dropdown.getValue()))) {
                     successfullyDeletedView();
+                } else {
+                    deleteFailedLabel.setVisible(true);
                 }
             }
         });
@@ -88,8 +101,10 @@ class ModuleManagementView extends View {
         view.add(dropdown, 0, 1);
         view.add(editBtn, 0, 2);
         view.add(deleteBtn, 0, 3);
+        view.add(noModuleSelectedLabel, 0, 4);
+        view.add(deleteFailedLabel, 0, 5);
 
-        activate(view, "Module management");
+        this.gui.goToNext(view, "Module management");
 
     }
 
@@ -264,7 +279,7 @@ class ModuleManagementView extends View {
                     contactField.getText(), contactEmailField.getText(), 0);
             moduleSuccessfullyCreatedView();
         });
-        activate(view, "Create module");
+        this.gui.goToNext(view, "Create module");
     }
 
     // Creating a view for the user to edit a module
@@ -350,7 +365,7 @@ class ModuleManagementView extends View {
             moduleSuccessfullyEditedView();
 
         }));
-        activate(view, "Edit module");
+        this.gui.goToNext(view, "Edit module");
     }
 
     // When a module is edited, this method creates a view to give the user a
@@ -368,7 +383,7 @@ class ModuleManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         editAnotherModuleBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        activate(view, "Successfully edited!");
+        this.gui.goToNext(view, "Successfully edited!");
     }
 
     // If a module can be created, a user has an easy option to directly add
@@ -387,7 +402,7 @@ class ModuleManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         createAnotherModuleBtn
                 .setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).addModuleView());
-        activate(view, "Successfully created!");
+        this.gui.goToNext(view, "Successfully created!");
     }
 
     // When a module is deleted, this method creates a view to give the user a
@@ -405,6 +420,6 @@ class ModuleManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
-        activate(view, "Successfully deleted");
+        this.gui.goToNext(view, "Successfully deleted");
     }
 }

@@ -20,6 +20,8 @@ public class InputValidation {
             return true;
         } else if ((month == 2) && (day >= 1 && day <= 29) && (year % 4 == 0 && year % 100 != 0)) {
             return true;
+        } else if ((month == 2) && (day >= 1 && day <= 28)) {
+            return true;
         } else {
             return false;
         }
@@ -73,20 +75,24 @@ public class InputValidation {
         return (string.matches("\\w+\\.?"));
     }
 
+    // First it checks if inputdate is valid. If not, false. Otherwise it will then
+    // check if date is before today and will give true if succeed.
     public static boolean dateIsEarlierThanNow(String day, String month, String year) {
         LocalDate inputDate = null;
         try {
             inputDate = formatDate(year, month, day);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return inputDate.isBefore(LocalDate.now());
     }
 
+    // Method tries to make a postalcode. If it succeeds, it will give true.
+    // Otherwise it will give an exception and will give false.
     public static boolean postalCodeHasTheRightFormat(String postalCode) {
         try {
             String post = formatPostalCode(postalCode);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return false;
         }
         return true;
@@ -125,7 +131,7 @@ public class InputValidation {
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
     }
 
-        // Checks if the given string is a valid URL format.
+    // Checks if the given string is a valid URL format.
     // Regex retrieved from
     // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
     public boolean isValidURL(String url) {

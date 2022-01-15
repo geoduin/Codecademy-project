@@ -3,13 +3,9 @@ package logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import database.EnrollmentRepository;
 import database.ModuleRepository;
 import domain.Module;
-import domain.Course;
 import domain.*;
 
 public class ModuleLogic {
@@ -72,11 +68,10 @@ public class ModuleLogic {
 
     }
 
-    // Delete a module, if exists. Returns true if succesfull and aks repo to delete
+    // Delete a module, if exists. Returns true if successful and aks repo to delete
     // from DB
     public boolean deleteModule(int id) {
-        this.moduleRepo.delete(id);
-        return true;
+        return this.moduleRepo.delete(id);
     }
 
     // Method to edit the editable fields in a module. Gets instantly saved in the

@@ -63,21 +63,33 @@ class CourseManagementView extends View {
         Button deleteBtn = new Button("Delete course");
         deleteBtn.setId("deleteButton");
         /** Button logic */
+        // Setting up error messages
+        Label noCourseSelectedErrorLabel = new Label("No Course selected!");
+        noCourseSelectedErrorLabel.setVisible(false);
+        Label courseCantBeDeletedErrorLabel = new Label(
+                "A course can't be deleted if there are existing enrollments to it.");
+        courseCantBeDeletedErrorLabel.setVisible(false);
         // Delete course
-        final String errorMSG = "No Course selected!";
         deleteBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
+                courseCantBeDeletedErrorLabel.setVisible(false);
             } else {
-                this.logic.deleteCourse(dropdown.getValue());
-                successfullyDeletedView();
+                noCourseSelectedErrorLabel.setVisible(false);
+
+                if (this.logic.deleteCourse(dropdown.getValue())) {
+                    successfullyDeletedView();
+                } else {
+                    courseCantBeDeletedErrorLabel.setVisible(true);
+                }
             }
         });
         // Edit course
         editBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 // getting the to-be-edited module
                 String courseToDelete = dropdown.getValue();
                 editCourseView(courseToDelete);
@@ -86,8 +98,9 @@ class CourseManagementView extends View {
         // Manage modules
         manageModulesBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 String courseName = dropdown.getValue();
                 manageModulesWithinCourseView(courseName);
             }
@@ -95,8 +108,9 @@ class CourseManagementView extends View {
         // Recommended course
         addRecommendedCourseBtn.setOnMouseClicked(clicked -> {
             if (dropdown.getValue().equals(defaultDropdownValue)) {
-                view.add(new Label(errorMSG), 0, 6);
+                noCourseSelectedErrorLabel.setVisible(true);
             } else {
+                noCourseSelectedErrorLabel.setVisible(false);
                 String courseName = dropdown.getValue();
                 addRecommendedCourseView(courseName);
             }
@@ -111,8 +125,10 @@ class CourseManagementView extends View {
         view.add(manageModulesBtn, 0, 3);
         view.add(addRecommendedCourseBtn, 0, 4);
         view.add(deleteBtn, 0, 5);
+        view.add(noCourseSelectedErrorLabel, 0, 6);
+        view.add(courseCantBeDeletedErrorLabel, 0, 7);
 
-        activate(view, "Course management");
+        this.gui.goToNext(view, "Course management");
     }
 
     /*
@@ -167,7 +183,7 @@ class CourseManagementView extends View {
         view.add(setRecommendedBtn, 0, 3);
         view.add(noCourseSelectedError, 0, 4);
 
-        activate(view, "Add course recommendation for Course: " + courseName);
+        this.gui.goToNext(view, "Add course recommendation for Course: " + courseName);
 
     }
 
@@ -245,7 +261,7 @@ class CourseManagementView extends View {
         view.add(addModuleButton, 0, 7);
         view.add(noModuleSelectedError2, 0, 8);
 
-        activate(view, "Manage modules within course");
+        this.gui.goToNext(view, "Manage modules within course");
 
     }
 
@@ -357,7 +373,7 @@ class CourseManagementView extends View {
             courseSuccessfullyCreatedView();
 
         });
-        activate(view, "Create course");
+        this.gui.goToNext(view, "Create course");
 
     }
 
@@ -417,7 +433,7 @@ class CourseManagementView extends View {
             courseSuccessfullyEditedView();
 
         }));
-        activate(view, "Edit module");
+        this.gui.goToNext(view, "Edit module");
     }
 
     // When a course is edited, this method creates a view to give the user a
@@ -435,7 +451,7 @@ class CourseManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         editAnotherCourseBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
-        activate(view, "Successfully edited!");
+        this.gui.goToNext(view, "Successfully edited!");
     }
 
     // When a course is created, this method creates a view to give the user a
@@ -455,7 +471,7 @@ class CourseManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         createOtherCourseBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).addCourseView());
 
-        activate(view, "Successfully created!");
+        this.gui.goToNext(view, "Successfully created!");
 
     }
 
@@ -475,7 +491,7 @@ class CourseManagementView extends View {
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         goBackBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
 
-        activate(view, "Aftermath");
+        this.gui.goToNext(view, "Aftermath");
     }
 
     // When a course is deleted, this method creates a view to give the user a
@@ -493,6 +509,6 @@ class CourseManagementView extends View {
 
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
         backBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
-        activate(view, "Successfully deleted");
+        this.gui.goToNext(view, "Successfully deleted");
     }
 }

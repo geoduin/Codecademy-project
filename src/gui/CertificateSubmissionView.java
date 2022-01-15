@@ -48,14 +48,14 @@ public class CertificateSubmissionView extends View {
         view.add(enrollmentDropdown, 0, 1);
         view.add(createCertificateBtn, 0, 2);
 
-        activate(view, "Select enrollment eligible for certificate creation");
+        this.gui.goToNext(view, "Select enrollment eligible for certificate creation");
     }
 
     public void addCertificateView(Enrollment enrollment) {
         // Layout positioning elements
         GridPane view = generateGrid();
         VBox vbox = new VBox(4);
-        vbox.setSpacing(2.0); 
+        vbox.setSpacing(2.0);
 
         // UI components
         Label nameLabel = new Label("Name");
@@ -68,7 +68,7 @@ public class CertificateSubmissionView extends View {
         vbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
         view.add(vbox, 0, 0);
 
-        activate(view, "Create Certificate for " + enrollment.getStudentEmail());
+        this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }
 
     public void certificateSuccessfullyAdded() {
@@ -85,6 +85,6 @@ public class CertificateSubmissionView extends View {
         // Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
 
-        activate(view, "Successfully added!");
+        this.gui.goToNext(view, "Successfully added!");
     }
 }
