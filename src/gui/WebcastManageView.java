@@ -15,7 +15,6 @@ import logic.WebcastLogic;
 class WebcastManageView extends View {
     private WebcastLogic logic;
 
-
     WebcastManageView(GUI baseUI) {
         super(baseUI);
         this.logic = new WebcastLogic();
@@ -127,7 +126,6 @@ class WebcastManageView extends View {
                 result.setText("Deletion successful");
                 webcastComboBox.getItems().remove(webcastComboBox.getValue());
                 webcastComboBox.setValue(defaultWebcastValue);
-            
 
                 return;
             }
@@ -151,7 +149,7 @@ class WebcastManageView extends View {
             addWebcastView();
         });
 
-        activate(view, "Webcast management view");
+        this.gui.goToNext(view, "Webcast management view");
 
     }
 
@@ -178,8 +176,6 @@ class WebcastManageView extends View {
 
         Label result = new Label("");
 
-
-
         // column 2
         Button editButton = new Button("Save edit");
 
@@ -203,15 +199,16 @@ class WebcastManageView extends View {
                 result.setText("All fields must be filled in");
             }
             if (noFieldEmpty) {
-                // edditing the webcast, editWebcast returns, the editWebcast method returns a string saying wether the update was successful and giving details about the fail if it wasn't.
-                result.setText(this.logic.editWebcast(originalURL, urlField.getText(), originalTitle, titleField.getText(), descriptionArea.getText(), statusComboBox.getValue()));
-                
+                // edditing the webcast, editWebcast returns, the editWebcast method returns a
+                // string saying wether the update was successful and giving details about the
+                // fail if it wasn't.
+                result.setText(this.logic.editWebcast(originalURL, urlField.getText(), originalTitle,
+                        titleField.getText(), descriptionArea.getText(), statusComboBox.getValue()));
 
-                
             }
         });
 
-        activate(view, "Edit webcast");
+        this.gui.goToNext(view, "Edit webcast");
 
     }
 
@@ -271,7 +268,7 @@ class WebcastManageView extends View {
         view.add(saveButton, 1, 9);
         view.add(result, 2, 9);
 
-        activate(view, "Add Webcast");
+        this.gui.goToNext(view, "Add Webcast");
 
         // Event handler
 
@@ -284,8 +281,11 @@ class WebcastManageView extends View {
                 result.setText("All fields must be filled");
                 return;
 
-            } else { 
-                result.setText(this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(), organizationField.getText(), Integer.valueOf(durationTextField.getText()), urlTextField.getText(), statusComboBox.getValue(), descriptionArea.getText(), Integer.valueOf(viewsField.getText())));
+            } else {
+                result.setText(this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
+                        organizationField.getText(), Integer.valueOf(durationTextField.getText()),
+                        urlTextField.getText(), statusComboBox.getValue(), descriptionArea.getText(),
+                        Integer.valueOf(viewsField.getText())));
             }
 
         });

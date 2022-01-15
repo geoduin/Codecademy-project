@@ -75,7 +75,7 @@ public class StatisticsViews extends View {
         grid.add(receivedCerts, 3, 2);
         view.setCenter(grid);
         view.setAlignment(label, Pos.CENTER);
-        activate(view, "Statistics");
+        this.gui.goToNext(view, "Statistics");
 
     }
 
@@ -98,7 +98,7 @@ public class StatisticsViews extends View {
         view.add(returnBtn, 5, 0);
         view.add(topWebcastLabel, 1, 1);
         view.add(topWebcastText, 1, 2);
-        activate(view, "Top 3 most watched webcasts");
+        this.gui.goToNext(view, "Top 3 most watched webcasts");
     }
 
     private void averageProgress() {
@@ -128,7 +128,7 @@ public class StatisticsViews extends View {
         view.add(courseComboBox, 1, 1);
         view.add(averageProgressText, 1, 3);
 
-        activate(view, "Average progress");
+        this.gui.goToNext(view, "Average progress");
     }
 
     private void progressPerModule() {
@@ -173,7 +173,7 @@ public class StatisticsViews extends View {
 
         }
 
-        activate(view, "Progress per module");
+        this.gui.goToNext(view, "Progress per module");
     }
 
     private void Amountcertificates() {
@@ -198,7 +198,7 @@ public class StatisticsViews extends View {
         view.add(studentCertificatesLabel, 1, 1);
         view.add(allStudentsBox, 1, 2);
         view.add(allCertificatesText, 1, 3);
-        activate(view, "Student certificates");
+        this.gui.goToNext(view, "Student certificates");
     }
 
     private void genderStatistics() {
@@ -220,7 +220,7 @@ public class StatisticsViews extends View {
         view.add(genderStatistics, 1, 1);
         view.add(genderComboBox, 1, 2);
         view.add(genderStatisticsValue, 1, 4);
-        activate(view, "Gender statistics");
+        this.gui.goToNext(view, "Gender statistics");
     }
 
     private void top3CoursesWithCert() {
@@ -237,7 +237,7 @@ public class StatisticsViews extends View {
         view.add(topCourseLabel, 1, 1);
         view.add(topCoursesText, 1, 2);
 
-        activate(view, "Top 3 courses by number of certificates");
+        this.gui.goToNext(view, "Top 3 courses by number of certificates");
     }
 
     private void recommendedCourses() {
@@ -267,7 +267,7 @@ public class StatisticsViews extends View {
             courseBoxForRecommendedCourses.getItems().add(courses.get(i));
 
         }
-        activate(view, "Recommended courses");
+        this.gui.goToNext(view, "Recommended courses");
     }
 
     private void nrReceivedCertificates() {
@@ -296,7 +296,7 @@ public class StatisticsViews extends View {
             courseBoxForNumberOfCertificates.getItems().add(courses.get(i));
 
         }
-        activate(view, "Number of received certificates");
+        this.gui.goToNext(view, "Number of received certificates");
     }
 
 }
