@@ -136,7 +136,7 @@ public class StatisticsRepository{
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("Name"), result.getString("EmployeeName"), result.getInt("Grade")));
+                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("EmployeeName"), result.getInt("Grade")));
             }
             return certificates;
         } catch (SQLException e) {

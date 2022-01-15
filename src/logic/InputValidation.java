@@ -133,4 +133,8 @@ public class InputValidation {
     public boolean isValidURL(String url) {
         return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     }
+    
+    public static boolean isValidGrade(int grade) {
+        return (grade >= 1 && grade <= 10);
+    }   
 }

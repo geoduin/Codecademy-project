@@ -6,13 +6,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import logic.EnrollmentLogic;
+import logic.InputValidation;
+import logic.CertificateLogic;
 
-public class CertificateSubmissionView extends View {
+public class CertificateManagementView extends View {
+    private CertificateLogic certificateLogic;
 
-    public CertificateSubmissionView(GUI baseUI) {
+    public CertificateManagementView(GUI baseUI) {
         super(baseUI);
+        this.certificateLogic = new CertificateLogic();
     }
 
     @Override
@@ -54,19 +57,44 @@ public class CertificateSubmissionView extends View {
     public void addCertificateView(Enrollment enrollment) {
         // Layout positioning elements
         GridPane view = generateGrid();
-        VBox vbox = new VBox(4);
-        vbox.setSpacing(2.0);
+        
 
         // UI components
         Label nameLabel = new Label("Name");
         Label gradeLabel = new Label("Grade");
         TextField nameTextField = new TextField();
+        Label incorrectNameTextField = new Label();
         TextField gradeTextField = new TextField();
+        Label incorrectGradeTextField = new Label();
         Button submitButton = new Button("Submit");
 
         // Further layout setup
-        vbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
-        view.add(vbox, 0, 0);
+        view.add(nameLabel, 0, 0);
+        view.add(nameTextField, 0, 1);
+        view.add(incorrectNameTextField, 1, 1);
+        view.add(gradeLabel, 0 , 2);
+        view.add(gradeTextField, 0 , 3);
+        view.add(incorrectGradeTextField, 1, 3);
+        view.add(submitButton, 0, 4);
+
+        // Checking input
+        submitButton.setOnMouseClicked(clicked -> {
+            String employeeName = nameTextField.getText();
+            int grade = Integer.valueOf(gradeTextField.getText());
+
+            if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
+                incorrectNameTextField.setText("Please enter a valid name");
+                return;
+            } 
+
+            if (!InputValidation.isValidGrade(grade) || gradeTextField.getText().isBlank()) {
+                incorrectGradeTextField.setText("Please enter a number between 1-10");
+                return;
+            }
+
+            certificateLogic.newCertificate(enrollment, employeeName, grade);
+            certificateSuccessfullyAdded();
+        });
 
         this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }

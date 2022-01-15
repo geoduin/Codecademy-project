@@ -2,10 +2,7 @@ package logic;
 
 import java.util.List;
 
-import javax.xml.stream.events.EndElement;
-
 import database.EnrollmentRepository;
-import domain.Course;
 import domain.Student;
 import domain.Enrollment;
 

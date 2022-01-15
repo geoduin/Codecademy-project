@@ -38,7 +38,8 @@
         "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JDBC Driver\\enu\\mssql-jdbc-9.4.1.jre11.jar",
         "c:\\Users\\Xin20\\Documents\\InformaticaTools\\SQLServer\\junit\\junit-platform-console-standalone-1.8.2.jar",
         "c:\\Users\\bende\\Documents\\Junit\\Junit5\\junit-platform-console-standalone-1.8.2.jar",
-        "c:\\dev\\junit\\junit-platform-console-standalone-1.7.0-all.jar"
+        "c:\\dev\\junit\\junit-platform-console-standalone-1.7.0-all.jar",
+        "c:\\Users\\N1TROGUE\\AppData\\Local\\Programs\\VisualStudioCodeAddons\\JUnit\\junit-platform-console-standalone-1.8.2.jar"
     ],
     "java.project.sourcePaths": [
         "src"

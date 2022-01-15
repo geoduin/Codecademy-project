@@ -52,7 +52,7 @@ public class StatisticsLogic {
         StringBuilder stringBuilder = new StringBuilder();
 
             for(int i = 0; i < idPercentage.size(); i++) { 
-                stringBuilder.append("Position in course: " + moduleRepo.retrieveModuleByID(idPercentage.get(i)[0][0]) + ", progress: " + idPercentage.get(i)[1][0] + "%\n");
+                stringBuilder.append(moduleRepo.retrieveModuleByID(idPercentage.get(i)[0][0]) + ", progress: " + idPercentage.get(i)[1][0] + "%\n");
             }
         
         return stringBuilder.toString();
