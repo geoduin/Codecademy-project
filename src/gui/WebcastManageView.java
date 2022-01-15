@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import logic.InputValidation;
 import logic.WebcastLogic;
 
 class WebcastManageView extends View {
@@ -197,7 +198,10 @@ class WebcastManageView extends View {
             if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
                 noFieldEmpty = false;
                 result.setText("All fields must be filled in");
+            } else if (InputValidation.isValidURL(urlField.getText())) {
+                result.setText("url format is incorrect");
             }
+
             if (noFieldEmpty) {
                 // edditing the webcast, editWebcast returns, the editWebcast method returns a
                 // string saying wether the update was successful and giving details about the
@@ -281,6 +285,9 @@ class WebcastManageView extends View {
                 result.setText("All fields must be filled");
                 return;
 
+            } else if (!InputValidation.isValidURL(urlTextField.getText())) {
+                result.setText("Incorrect url format");
+                return;
             } else {
                 result.setText(this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), Integer.valueOf(durationTextField.getText()),

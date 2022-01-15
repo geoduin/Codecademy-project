@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import domain.Course;
 import domain.Difficulty;
@@ -206,7 +207,7 @@ class CourseManagementView extends View {
         Text noModuleSelectedError = new Text("");
         noModuleSelectedError.setFill(Color.FIREBRICK);
         // Retrieving formatted module strings and adding them to dropdown
-        HashMap<String, Integer> linkedModulesList = new ModuleLogic().getModulesWithinCourse(courseName);
+        Map<String, Integer> linkedModulesList = new ModuleLogic().getModulesWithinCourse(courseName);
         for (String moduleNameAndVersion : linkedModulesList.keySet()) {
             linkedModulesDropdown.getItems().add(moduleNameAndVersion);
         }
@@ -232,7 +233,7 @@ class CourseManagementView extends View {
         Text noModuleSelectedError2 = new Text("");
         noModuleSelectedError2.setFill(Color.FIREBRICK);
         // Retrieving formatted module strings and adding them to dropdown
-        HashMap<String, Integer> moduleNameVersionAndIDPairs = new ModuleLogic().getAddableModules();
+        Map<String, Integer> moduleNameVersionAndIDPairs = new ModuleLogic().getAddableModules();
         for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
             modulesDropdown.getItems().add(moduleNameAndVersion);
         }
@@ -316,7 +317,7 @@ class CourseManagementView extends View {
         Text noModuleSelectedError = new Text("");
         noModuleSelectedError.setFill(Color.FIREBRICK);
         // Retrieving formatted module strings and adding them to dropdown
-        HashMap<String, Integer> moduleNameVersionAndIDPairs = new ModuleLogic().getAddableModules();
+        Map<String, Integer> moduleNameVersionAndIDPairs = new ModuleLogic().getAddableModules();
         for (String moduleNameAndVersion : moduleNameVersionAndIDPairs.keySet()) {
             modulesDropdown.getItems().add(moduleNameAndVersion);
         }

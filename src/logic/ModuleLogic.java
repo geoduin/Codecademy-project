@@ -3,6 +3,8 @@ package logic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import database.EnrollmentRepository;
 import database.ModuleRepository;
 import domain.Module;
@@ -22,14 +24,14 @@ public class ModuleLogic {
 
     // Retrieve formatted strings representing each existing modules, coupled with
     // their ID via a map
-    public HashMap<String, Integer> getModuleNamesVersionsAndIDs() {
+    public Map<String, Integer> getModuleNamesVersionsAndIDs() {
         // Argument set false, to not make the repo method filter the results.
         return this.moduleRepo.getAllModuleNames(false);
     }
 
     // Addable module means a module that has no relation with a Course yet. Use
     // same format as previous method
-    public HashMap<String, Integer> getAddableModules() {
+    public Map<String, Integer> getAddableModules() {
         // Argument set true, to not make the repo method filter the results to only
         // modules that have no Course assigned.
         return this.moduleRepo.getAllModuleNames(true);
@@ -45,7 +47,7 @@ public class ModuleLogic {
         this.enrollmentRepo.updateProgressWithNewModule(courseName, id);
     }
 
-    public HashMap<String, Integer> getModulesWithinCourse(String courseName) {
+    public Map<String, Integer> getModulesWithinCourse(String courseName) {
         return this.moduleRepo.getAllModuleNames(courseName);
     }
 
