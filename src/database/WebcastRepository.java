@@ -67,7 +67,7 @@ public class WebcastRepository extends Repository<Webcast> {
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
-
+            //!discuss if a webcast should always have 0 views as default.
             // creates webcast in database
             PreparedStatement webcastCreator = connection
                     .prepareStatement(

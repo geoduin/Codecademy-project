@@ -120,4 +120,11 @@ public class InputValidation {
         boolean dateIsFilled = fieldIsNotEmpty(day) && fieldIsNotEmpty(month) && fieldIsNotEmpty(year);
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
     }
+
+        // Checks if the given string is a valid URL format.
+    // Regex retrieved from
+    // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
+    public boolean isValidURL(String url) {
+        return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    }
 }

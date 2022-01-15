@@ -11,7 +11,7 @@ public class Webcast extends ContentItem {
     private String url;
     private String description;
     private int views;
-
+    //! discuss if the webcast should have a contentID
     public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status,
             LocalDate date, String description, int viewCount, int contentID) {
         super(date, status, contentID);

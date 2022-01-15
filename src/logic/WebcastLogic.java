@@ -2,6 +2,8 @@ package logic;
 
 import domain.Webcast;
 import domain.Status;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import database.WebcastRepository;
@@ -9,45 +11,67 @@ import database.WebcastRepository;
 public class WebcastLogic {
 
     private WebcastRepository repo;
+    private InputValidation inputValidation;
 
     public WebcastLogic() {
         this.repo = new WebcastRepository();
+        this.inputValidation = new InputValidation();
     }
 
     public ArrayList<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
+    //!delete contentID if contentItem should not have it.
+    //Creates webcast and returns string which the GUI uses to show the user wether the save was successful.
+    public String createWebcast(String title, String speaker, String organization, int duration, String url,
+            Status status, String description, int views) {
+    //     int viewCount = Integer.parseInt(views);
+    //     Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description,
+    //             viewCount, 0);
+    //     this.repo.insert(webcast);
+    // }
 
-    public void createWebcast(String title, String speaker, String organization, int duration, String url,
-            String status, String description, String views) {
-        int viewCount = Integer.parseInt(views);
-        Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description,
-                viewCount, 0);
-        this.repo.insert(webcast);
+
+    if(titleAlreadyExists(title)) { 
+        return title + " already exists.";
+    }else if(!inputValidation.isValidURL(url)) { 
+        return url + " is not a valid URL.";
+    } else if(urlAlreadyExists(url)) { 
+        return url + " already exists.";
+    }
+    this.repo.insert(new Webcast(title, speaker, organization, duration, url, status, description, views, 0));
+    if(saveSuccessful(title)) { 
+        return "Save successful";
+    }
+    return "Save failed";
+    
     }
 
+    
     public void deleteWebcast(Webcast webcast) {
         this.repo.delete(webcast);
     }
 
-    // edits the webcast and returns a String and returns a boolean which the GUI
+    // edits the webcast and returns a String which the GUI
     // uses to show the user wether the update was successful.
-    public boolean editWebcast(String initialURL, String newURL, String title, String description, Status status) {
+    public String editWebcast(String initialURL, String newURL, String initialTitle, String newTitle, String description, Status status) {
 
         // Checking if the URL is invalid or already exists.
 
-        if (!isValidURL(newURL)) {
-            return false;
-        } else if (urlAlreadyExists(newURL)) {
-            return false;
-        } else {
-            Webcast webcast = new Webcast(title, null, null, -1, initialURL, status, null, description, -1, 0);
+        if (!inputValidation.isValidURL(newURL)) {
+            return newURL + " is not a valid URL.";
+        } else if (!initialURL.equals(newURL) && urlAlreadyExists(newURL)) {
+            return newURL + " already exists.";
+        } else if(!initialTitle.equals(newTitle) && titleAlreadyExists(newTitle)){
+            return newTitle + " already exists.";
+        } else { 
+            Webcast webcast = new Webcast(newTitle, null, null, -1, initialURL, status, null, description, -1, 0);
             this.repo.update(webcast);
             this.repo.updateURL(initialURL, newURL);
-            if (updateSuccessful(title, description, newURL, status.toString())) {
-                return true;
+            if (updateSuccessful(newTitle, description, newURL, status.toString())) {
+                return "Update successful.";
             } else {
-                return false;
+                return "Update failed.";
             }
         }
 
@@ -85,7 +109,7 @@ public class WebcastLogic {
     }
 
     // returns true if the webcast was saved to the database.
-    public boolean saveSuccessful(String title) {
+    private boolean saveSuccessful(String title) {
         Webcast saveTest = this.repo.retrieveByTitle(title);
         if (saveTest == null) {
             return false;
@@ -94,7 +118,7 @@ public class WebcastLogic {
     }
 
     // Takes in all updateable values and checks if the update was successful.
-    public boolean updateSuccessful(String title, String description, String url, String status) {
+    private boolean updateSuccessful(String title, String description, String url, String status) {
         Webcast updateTest = this.repo.retrieveByTitle(title);
         if (updateTest == null) {
             return false;
@@ -106,11 +130,6 @@ public class WebcastLogic {
         return false;
     }
 
-    // Checks if the given string is a valid URL format.
-    // Regex retrieved from
-    // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
-    public boolean isValidURL(String url) {
-        return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-    }
+
 
 }
