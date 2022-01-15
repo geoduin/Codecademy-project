@@ -36,12 +36,26 @@ public class PostalCodeTest {
      * 
      */
 
+
     @Test
-    public void formatPostalCodeAcceptsValidPostalCodesTest() {
+    public void formatPostalCodeAcceptsValidPostalCodesTest1() {
         assertEquals("1000 AB", InputValidation.formatPostalCode("1000ab"));
-        assertEquals("2513 AA", InputValidation.formatPostalCode("2513 aA"));
-        assertEquals("9999 ZZ", InputValidation.formatPostalCode(" 9999Zz "));
+
     }
+
+    @Test
+    public void formatPostalCodeAcceptsValidPostalCodesTest2() {
+        assertEquals("2513 AA", InputValidation.formatPostalCode("2513 aA"));
+
+    }
+
+    @Test
+    public void formatPostalCodeAcceptsValidPostalCodesTest3() {
+        assertEquals("9999 ZZ", InputValidation.formatPostalCode(" 9999Zz "));
+
+    }
+
+
 
     /**
      * @subcontract invalid postalCode {
@@ -57,6 +71,8 @@ public class PostalCodeTest {
         InputValidation.formatPostalCode("999Az");
         InputValidation.formatPostalCode("10000ab");
         InputValidation.formatPostalCode("0123aa");
+        InputValidation.formatPostalCode("0999 a1");
+        InputValidation.formatPostalCode("10000 aaa");
     }
 
 }
