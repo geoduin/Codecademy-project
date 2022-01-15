@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.border.StrokeBorder;
-
 import database.ModuleRepository;
 import database.StatisticsRepository;
 import domain.Certificate;
@@ -17,10 +14,11 @@ import domain.Webcast;
 public class StatisticsLogic {
 
     private StatisticsRepository repo;
-    private ModuleRepository moduleRepo = new ModuleRepository();
+    private ModuleRepository moduleRepo; 
 
     public StatisticsLogic() { 
         this.repo = new StatisticsRepository();
+        this.moduleRepo = new ModuleRepository();
     }
 
 
@@ -99,6 +97,8 @@ public class StatisticsLogic {
         return stringBuilder.toString();
     }
 
+
+    
     public String numberOfCertificatesFormatter(String course) { 
         return "Number of certificates: " + this.repo.retrieveNumberOFCertificates(course);
     }
