@@ -38,6 +38,10 @@ public class EnrollmentLogic {
         return this.enrollmentRepo.retrieveEnrollmentsOfStudent(studentEmail);
     }
 
+    public void deleteEnrollment(Enrollment enrollment) {
+        this.enrollmentRepo.delete(enrollment);
+    }
+
     // Relay between GUI and Repo to receive all enrollments that are eligible for a
     // certificate. How and why needs an above average amount of explanation, so
     // please refer to the report of PAP4 Codecademy project group

@@ -167,6 +167,8 @@ class StudentManagementView extends View {
         Button deleteBtn = new Button("Delete");
         deleteBtn.setId("deleteButton");
         Label errorLabel = new Label("No enrollment selected!");
+        Label removedSuccessfullyLabel = new Label("Successfully removed!");
+        removedSuccessfullyLabel.setVisible(false);
         errorLabel.setVisible(false);
 
         // Setting up the dropdown
@@ -177,23 +179,30 @@ class StudentManagementView extends View {
         }
         enrollmentsDropdown.setPromptText(count + " enrollment(s)");
 
+        // If the user presses the delete button, the selected enrollment will be
+        // removed
         deleteBtn.setOnMouseClicked(clicked -> {
+            removedSuccessfullyLabel.setVisible(false);
+
+            // Discontinue if the user did not select anything else than the prompt text
             if (enrollmentsDropdown.getValue() == null) {
                 errorLabel.setVisible(true);
                 return;
             }
 
-            view.add(new Label("Binnenkort mogelijk!"), 0, 4);
             errorLabel.setVisible(false);
+            Enrollment enrollmentToDelete = enrollmentsDropdown.getValue();
+            this.enrollmentLogic.deleteEnrollment(enrollmentToDelete);
+            enrollmentsDropdown.getItems().remove(enrollmentToDelete);
+            removedSuccessfullyLabel.setVisible(true);
         });
-
-        // TODO: delete logica verder implementeren
 
         // Layout finalization and activation
         view.add(dropdownLabel, 0, 0);
         view.add(enrollmentsDropdown, 0, 1);
         view.add(deleteBtn, 0, 2);
         view.add(errorLabel, 0, 3);
+        view.add(removedSuccessfullyLabel, 0, 4);
 
         activate(view, "Delete enrollments of student: " + studentEmail);
 

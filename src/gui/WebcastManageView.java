@@ -15,9 +15,11 @@ import logic.WebcastLogic;
 class WebcastManageView extends View {
     private WebcastLogic logic;
 
+
     WebcastManageView(GUI baseUI) {
         super(baseUI);
         this.logic = new WebcastLogic();
+
     }
 
     @Override
@@ -125,6 +127,7 @@ class WebcastManageView extends View {
                 result.setText("Deletion successful");
                 webcastComboBox.getItems().remove(webcastComboBox.getValue());
                 webcastComboBox.setValue(defaultWebcastValue);
+            
 
                 return;
             }
@@ -158,6 +161,8 @@ class WebcastManageView extends View {
         // Saving original URL since URL is the being used to identify the webcast in
         // the database, it has to be saved temporarily if you want to edit the URL.
         String originalURL = webcastToEdit.getUrl();
+        String originalTitle = webcastToEdit.getTitle();
+
         // Column 1
         GridPane view = generateFormGrid();
         Label titleLabel = new Label("Title");
@@ -173,8 +178,7 @@ class WebcastManageView extends View {
 
         Label result = new Label("");
 
-        Label views = new Label("View count");
-        TextField viewField = new TextField(Integer.toString(webcastToEdit.getView()));
+
 
         // column 2
         Button editButton = new Button("Save edit");
@@ -189,35 +193,21 @@ class WebcastManageView extends View {
         view.add(statusLabel, 0, 3);
         view.add(statusComboBox, 1, 3);
         view.add(editButton, 1, 5);
-        view.add(views, 0, 4);
-        view.add(viewField, 1, 4);
         view.add(result, 0, 6);
 
         editButton.setOnAction(click -> {
             // checking if all fields are filled
             Boolean noFieldEmpty = true;
-            if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()
-                    || viewField.getText().isBlank()) {
+            if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
                 noFieldEmpty = false;
+                result.setText("All fields must be filled in");
             }
             if (noFieldEmpty) {
-                // edditing the webcast
+                // edditing the webcast, editWebcast returns, the editWebcast method returns a string saying wether the update was successful and giving details about the fail if it wasn't.
+                result.setText(this.logic.editWebcast(originalURL, urlField.getText(), originalTitle, titleField.getText(), descriptionArea.getText(), statusComboBox.getValue()));
+                
 
-                this.logic.editURL(originalURL, urlField.getText());
-                this.logic.editWebcast(urlField.getText(), titleField.getText(), descriptionArea.getText(),
-                        statusComboBox.getValue());
-                this.logic.editViewCount(urlField.getText(), Integer.parseInt(viewField.getText()));
-                // Checks if the update is successful
-                if (this.logic.updateSuccessful(titleField.getText(), descriptionArea.getText(), urlField.getText(),
-                        statusComboBox.getValue().toString())) {
-                    result.setText("Update successful");
-                } else {
-                    result.setText("Update failed");
-                }
-                return;
-            } else {
-                result.setText("All fields must be filled");
-                return;
+                
             }
         });
 
@@ -293,33 +283,9 @@ class WebcastManageView extends View {
                     || statusComboBox.getValue().equals(defaultStatusValue)) {
                 result.setText("All fields must be filled");
                 return;
-                // checks if the webcast already exists
-            } else if (this.logic.titleAlreadyExists(titleTextField.getText())) {
-                result.setText("This webcast title already exists: " + titleTextField.getText());
-                return;
-            } else {
 
-                if (this.logic.isValidURL(urlTextField.getText())) {
-
-                    // Converts duration to int
-                    int duration = Integer.parseInt(durationTextField.getText());
-                    // adds webcast to database
-                    this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
-                            organizationField.getText(), duration, urlTextField.getText(),
-                            statusComboBox.getValue().toString(),
-                            descriptionArea.getText(), viewsField.getText());
-                    // tells user wether the webcast was successfully saved
-                    if (this.logic.saveSuccessful(titleTextField.getText())) {
-                        result.setText("Save successful");
-                    } else {
-                        result.setText("Save failed");
-                    }
-                    return;
-
-                } else {
-                    result.setText(urlTextField.getText() + " is not a valid URL");
-                }
-
+            } else { 
+                result.setText(this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(), organizationField.getText(), Integer.valueOf(durationTextField.getText()), urlTextField.getText(), statusComboBox.getValue(), descriptionArea.getText(), Integer.valueOf(viewsField.getText())));
             }
 
         });
