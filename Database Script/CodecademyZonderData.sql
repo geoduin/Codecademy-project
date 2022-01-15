@@ -309,6 +309,7 @@ ALTER TABLE [dbo].[Progress] ADD  CONSTRAINT [DF_Progress_Percentage]  DEFAULT (
 GO
 ALTER TABLE [dbo].[Certificate]  WITH CHECK ADD  CONSTRAINT [FK_Certificate_Enrollment] FOREIGN KEY([EnrollmentID])
 REFERENCES [dbo].[Enrollment] ([ID])
+ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Certificate] CHECK CONSTRAINT [FK_Certificate_Enrollment]
 GO

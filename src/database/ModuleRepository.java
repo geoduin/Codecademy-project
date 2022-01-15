@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import domain.Course;
 import domain.Module;
 import domain.Status;
 
@@ -392,20 +389,10 @@ public class ModuleRepository extends Repository<Module> {
     public void unassignModuleToCourse(int id) {
         try {
             Statement statement = this.connection.getConnection().createStatement();
-
             statement.executeUpdate("UPDATE Module SET CourseName = NULL WHERE ContentID = " + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteProgressWithoutCourse() {
-        try (PreparedStatement statement = this.connection.getConnection()
-                .prepareStatement("DELETE Progress FROM Progress JOIN Module ON" +
-                        "Module.ContentID = Progress.ContentID" + "WHERE CourseName IS NULL")) {
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

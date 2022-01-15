@@ -1,17 +1,17 @@
 package gui;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import domain.Student;
-import domain.Webcast;
+import domain.Enrollment;
 import domain.Gender;
 import domain.Module;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -29,25 +29,26 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.StudentLogic;
-import logic.EnrollLogic;
+import logic.EnrollmentLogic;
+import logic.InputValidation;
 
 class StudentManagementView extends View {
     private StudentLogic logic;
-    private EnrollLogic enrollLogic;
+    private EnrollmentLogic enrollmentLogic;
 
     StudentManagementView(GUI gui) {
         super(gui);
         this.logic = new StudentLogic();
-        this.enrollLogic = new EnrollLogic();
+        this.enrollmentLogic = new EnrollmentLogic();
     }
 
     @Override
     protected void createView() {
-
         GridPane view = generateGrid();
 
         // Setting up the dropwon which contains Student identifiers
         Label editStudentLabel = new Label("Select student:");
+        final String noValueSelectedMSG = "No student selected!";
         ComboBox<String> studentList = new ComboBox<>();
         final String defaultStudentValue = "Select student";
         studentList.setValue(defaultStudentValue);
@@ -60,22 +61,32 @@ class StudentManagementView extends View {
         studentList.getItems().addAll(list);
 
         // Buttons for possible actions on a selected student from the dropdown
-        Button editStudentButton = new Button("Edit student");
-        Button deleteStudentButton = new Button("Delete student");
-        Button contentProgressButton = new Button("View and update module/webcast progress");
-        Button enrollmentToCourseBtn = new Button("Enroll student in Course");
+        Button editStudentButton = new Button("Edit");
+        editStudentButton.setId("editButton");
+        Button deleteStudentButton = new Button("Delete");
+        deleteStudentButton.setId("deleteButton");
+        Button contentProgressButton = new Button("Update progress");
+        contentProgressButton.setId("editButton");
+        Button enrollToCourseButton = new Button("Enroll to Course");
+        enrollToCourseButton.setId("secondAddBtn");
+        Button deleteEnrollmentButton = new Button("Delete enrollment");
+        deleteEnrollmentButton.setId("deleteButton");
+
         // Second column
         Label createStudentLabel = new Label("Create student:");
         // The plus sign will lead you to the create new student view.
         Button createStudentButton = new Button("+");
+        createStudentButton.setId("addButton");
         createStudentButton.setOnMouseClicked(clicked -> addStudentView());
         // Layout of the manage view
         view.add(editStudentLabel, 0, 0);
         view.add(studentList, 0, 1);
         view.add(editStudentButton, 0, 2);
-        view.add(deleteStudentButton, 0, 3);
-        view.add(contentProgressButton, 0, 4);
-        view.add(enrollmentToCourseBtn, 0, 5);
+        view.add(contentProgressButton, 0, 3);
+        view.add(enrollToCourseButton, 0, 4);
+        view.add(deleteStudentButton, 0, 5);
+        view.add(deleteEnrollmentButton, 0, 6);
+
         view.add(createStudentLabel, 1, 0);
         view.add(createStudentButton, 1, 1);
 
@@ -86,7 +97,7 @@ class StudentManagementView extends View {
             // This value is the email.
             // Sends it to the logic class and picks the student from the database
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
             Student pickedStudent = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
@@ -97,7 +108,7 @@ class StudentManagementView extends View {
         // button while a Student is selected
         deleteStudentButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
 
@@ -111,7 +122,7 @@ class StudentManagementView extends View {
         // Student is selected
         contentProgressButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
 
@@ -120,17 +131,80 @@ class StudentManagementView extends View {
 
         });
 
-        enrollmentToCourseBtn.setOnMouseClicked(clicked -> {
+        enrollToCourseButton.setOnMouseClicked(clicked -> {
             if (studentList.getValue().equals(defaultStudentValue)) {
-                view.add(new Label("Not selected anything"), 0, 6);
+                view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
             String studentEmail = studentMap.get(studentList.getValue());
             enrollStudentView(studentEmail);
         });
 
+        // With the selected Student from the dropdown, go into a view were a dropdown
+        // of removable enrollments is given
+        deleteEnrollmentButton.setOnMouseClicked(clicked -> {
+            if (studentList.getValue().equals(defaultStudentValue)) {
+                view.add(new Label(noValueSelectedMSG), 0, 7);
+                return;
+            }
+            String studentEmail = studentMap.get(studentList.getValue());
+            deleteEnrollmentView(studentEmail);
+        });
+
         // See abstract class "View"
         activate(view, "Student management");
+    }
+
+    // View containing a dropdown of removable enrollments, which the user can
+    // select from to remove an enrollment. Certificates are automatically removed
+    private void deleteEnrollmentView(String studentEmail) {
+        // Initial layout setup
+        GridPane view = generateGrid();
+
+        // UI components
+        Label dropdownLabel = new Label("Delete enrollments (any certificates are automatically deleted)");
+        ComboBox<Enrollment> enrollmentsDropdown = new ComboBox<>();
+        Button deleteBtn = new Button("Delete");
+        deleteBtn.setId("deleteButton");
+        Label errorLabel = new Label("No enrollment selected!");
+        Label removedSuccessfullyLabel = new Label("Successfully removed!");
+        removedSuccessfullyLabel.setVisible(false);
+        errorLabel.setVisible(false);
+
+        // Setting up the dropdown
+        int count = 0;
+        for (Enrollment enrollment : this.enrollmentLogic.getsEnrollmentsOfStudent(studentEmail)) {
+            enrollmentsDropdown.getItems().add(enrollment);
+            count++;
+        }
+        enrollmentsDropdown.setPromptText(count + " enrollment(s)");
+
+        // If the user presses the delete button, the selected enrollment will be
+        // removed
+        deleteBtn.setOnMouseClicked(clicked -> {
+            removedSuccessfullyLabel.setVisible(false);
+
+            // Discontinue if the user did not select anything else than the prompt text
+            if (enrollmentsDropdown.getValue() == null) {
+                errorLabel.setVisible(true);
+                return;
+            }
+
+            errorLabel.setVisible(false);
+            Enrollment enrollmentToDelete = enrollmentsDropdown.getValue();
+            this.enrollmentLogic.deleteEnrollment(enrollmentToDelete);
+            enrollmentsDropdown.getItems().remove(enrollmentToDelete);
+            removedSuccessfullyLabel.setVisible(true);
+        });
+
+        // Layout finalization and activation
+        view.add(dropdownLabel, 0, 0);
+        view.add(enrollmentsDropdown, 0, 1);
+        view.add(deleteBtn, 0, 2);
+        view.add(errorLabel, 0, 3);
+        view.add(removedSuccessfullyLabel, 0, 4);
+
+        activate(view, "Delete enrollments of student: " + studentEmail);
 
     }
 
@@ -159,6 +233,7 @@ class StudentManagementView extends View {
 
         // View title for use
         Label welcomeLabel = new Label("View and update progress of : " + student.getStudentName());
+        welcomeLabel.setId("title");
         welcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeLabel, 0, 0, 2, 1);
         GridPane.setHalignment(welcomeLabel, HPos.LEFT);
@@ -212,8 +287,6 @@ class StudentManagementView extends View {
         slider.setMax(100);
         final ProgressBar pb = new ProgressBar(0);
         final ProgressIndicator pi = new ProgressIndicator(0);
-        Group progressVisualization = new Group();
-        progressVisualization.getChildren().addAll(slider, pb, pi);
         Button updateProgressButton = new Button("Update progress");
         Label updateProgressLabel = new Label("");
         updateProgressLabel.setTextFill(Color.GREEN);
@@ -221,8 +294,7 @@ class StudentManagementView extends View {
 
         // Making the progression updatable by the user, by the slider
         slider.valueProperty().addListener(
-                (ObservableValue<? extends Number> ov, Number oldValue,
-                        Number newValue) -> {
+                (ov, oldValue, newValue) -> {
                     updateProgressLabel.setText("");
                     pb.setProgress(newValue.doubleValue() / 100);
                     pi.setProgress(newValue.doubleValue() / 100);
@@ -304,13 +376,11 @@ class StudentManagementView extends View {
         }
 
         // Progress visualization using a slide and indicators
-        final Slider sliderWebcast = new Slider();
+        Slider sliderWebcast = new Slider();
         sliderWebcast.setMin(0);
         sliderWebcast.setMax(100);
-        final ProgressBar pbWebcast = new ProgressBar(0);
-        final ProgressIndicator piWebcast = new ProgressIndicator(0);
-        Group progressVisualizationWebcast = new Group();
-        progressVisualizationWebcast.getChildren().addAll(slider, pb, pi);
+        ProgressBar pbWebcast = new ProgressBar(0);
+        ProgressIndicator piWebcast = new ProgressIndicator(0);
         Button updateWebcastProgressButton = new Button("Update progress");
         updateWebcastProgressButton.setVisible(false);
         Label updateWebcastProgressLabel = new Label("");
@@ -318,8 +388,7 @@ class StudentManagementView extends View {
 
         // Making the progression updatable by the user, by the slider
         sliderWebcast.valueProperty().addListener(
-                (ObservableValue<? extends Number> ov, Number oldValue,
-                        Number newValue) -> {
+                (ov, oldValue, newValue) -> {
                     updateWebcastProgressLabel.setText("");
                     pbWebcast.setProgress(newValue.doubleValue() / 100);
                     piWebcast.setProgress(newValue.doubleValue() / 100);
@@ -360,6 +429,7 @@ class StudentManagementView extends View {
         // Functionality to link another webcast to the student
         Label linkWebcastLabel = new Label("Add webcast");
         Button selectWebcastButton = new Button("Select webcast");
+        selectWebcastButton.setId("EditBtn");
         ComboBox<String> dropdownOfLinkableWebcasts = new ComboBox<>();
         dropdownOfLinkableWebcasts.setVisible(false);
 
@@ -378,11 +448,13 @@ class StudentManagementView extends View {
             linkButton.setVisible(false);
             confirmMSG.setVisible(false);
 
-            ArrayList<String> namesOfWebcasts = logic.getWebcastsNotYetLinkedWithStudent(student);
+            List<String> namesOfWebcasts = logic.getWebcastsNotYetLinkedWithStudent(student);
             String dynamicDefaultValue = namesOfWebcasts.size() + " webcast(s) available";
             dropdownOfLinkableWebcasts.setValue(dynamicDefaultValue);
             namesOfWebcasts.forEach(name -> dropdownOfLinkableWebcasts.getItems().add(name));
 
+            // If a webcast is selected from the dropdown, a link button will appear were a
+            // user can triger the functionality of linking a webcast with a student.
             dropdownOfLinkableWebcasts.setOnMouseClicked(webcastSelected -> {
                 String dropDownValue = dropdownOfLinkableWebcasts.getValue();
                 if (dropDownValue.isEmpty() || dropDownValue.equals("-")) {
@@ -441,6 +513,7 @@ class StudentManagementView extends View {
     private void addStudentView() {
         GridPane view = generateFormGrid();
         Label title = new Label("Create new student");
+        title.setId("title");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         // Labels
         Label nameLabel = new Label("Name");
@@ -460,6 +533,7 @@ class StudentManagementView extends View {
 
         // Combobox holding genders
         ComboBox<Gender> genderBox = new ComboBox<>();
+        genderBox.setId("selectBox");
         final Gender defaultChoice = Gender.O;
         genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         genderBox.setValue(defaultChoice);
@@ -526,14 +600,19 @@ class StudentManagementView extends View {
             // It calls the method datOfBirthIsValid in order if the date of birth is valid
             // It checks if the date is not further than now
             // It also checks if the date of birth textFields are filled.
-            boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidation.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addresValid = logic.addresIsValid(street.getText(), houseNr.getText(), postalCode.getText());
+
+            // Method addressIsValid combines multiple methods (FieldIsnotEmpty() for
+            // houseNr, Street and postal fields), Postalcode has the correct format
+            // And checks if the houseNr is an digit
+            boolean addresValid = InputValidation.addressIsValid(street.getText(), houseNr.getText(),
+                    postalCode.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
-            boolean emailIsValid = logic.validateMailAddress(emailField.getText());
-            boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = logic.fieldIsNotEmpty(countryField.getText());
+            boolean nameIsFilled = InputValidation.fieldIsNotEmpty(nameField.getText());
+            boolean emailIsValid = InputValidation.validateMailAddress(emailField.getText());
+            boolean cityIsValid = InputValidation.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidation.fieldIsNotEmpty(countryField.getText());
             // if the date is not valid, than it will show a warning
             if (!(dateValid)) {
                 warningDateOfBirth.setText("Date of birth is invalid");
@@ -550,11 +629,18 @@ class StudentManagementView extends View {
             // NOTE: When tested, I changed my database in order put housenumber and street
             // separately
             if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addresValid) {
-                this.logic.newStudent(nameField.getText(), emailField.getText(),
-                        genderBox.getValue(),
-                        dayField.getText(), monthField.getText(), yearField.getText(),
-                        street.getText(), houseNr.getText(), postalCode.getText(),
-                        countryField.getText(), cityField.getText());
+                String name = nameField.getText();
+                String email = emailField.getText();
+                Gender gender = genderBox.getValue();
+                LocalDate dateOfBirth = InputValidation.formatDate(yearField.getText(), monthField.getText(),
+                        dayField.getText());
+                String streetName = street.getText();
+                int hNumber = Integer.parseInt(houseNr.getText());
+                String postCode = InputValidation.formatPostalCode(postalCode.getText());
+                String countryName = countryField.getText();
+                String cityName = cityField.getText();
+                this.logic.newStudent(name, email, dateOfBirth, gender, streetName, hNumber, postCode, countryName,
+                        cityName);
                 // When successfully inserted, it will go to the succesfullprocesView
                 successfullyProcessView();
             } else {
@@ -569,10 +655,12 @@ class StudentManagementView extends View {
         GridPane view = generateFormGrid();
         // In case we want to edit his email
         Label welcomeToFormLabel = new Label("Editing: '" + studentToEdit.getStudentName() + "'");
+        welcomeToFormLabel.setId("title");
         welcomeToFormLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         view.add(welcomeToFormLabel, 1, 0, 2, 1);
         // Gender combobox
         ComboBox<Gender> genderBox = new ComboBox<>();
+        genderBox.setId("selectBox");
         genderBox.setValue(studentToEdit.getGender());
         genderBox.getItems().addAll(Gender.F, Gender.M, Gender.O);
         TextField nameField = new TextField(studentToEdit.getStudentName());
@@ -626,21 +714,31 @@ class StudentManagementView extends View {
         updateButton.setOnMouseClicked(clicked -> {
             // Validate input fields date of birth and address
             // It also checks if the date of birth or address fields are blank
-            boolean dateValid = logic.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
+            boolean dateValid = InputValidation.dateOfBirthIsValid(dayField.getText(), monthField.getText(),
                     yearField.getText());
-            boolean addressValid = logic.addresIsValid(streetField.getText(), houseNumber.getText(),
+            // Assigns true to addressValid value if all the conditions regarding address
+            // are met
+            boolean addressValid = InputValidation.addressIsValid(streetField.getText(), houseNumber.getText(),
                     postalCodeField.getText());
             // Checks if input fields are not empty
-            boolean nameIsFilled = logic.fieldIsNotEmpty(nameField.getText());
-            boolean cityIsValid = logic.fieldIsNotEmpty(cityField.getText());
-            boolean countryIsFilled = logic.fieldIsNotEmpty(countryField.getText());
+            boolean nameIsFilled = InputValidation.fieldIsNotEmpty(nameField.getText());
+            boolean cityIsValid = InputValidation.fieldIsNotEmpty(cityField.getText());
+            boolean countryIsFilled = InputValidation.fieldIsNotEmpty(countryField.getText());
             // Checks if the boolean values are true
             if (nameIsFilled && cityIsValid && countryIsFilled && dateValid && addressValid) {
-                System.out.println("Successful");
-                this.logic.updateStudent(studentToEdit, nameField.getText(),
-                        yearField.getText(), monthField.getText(), dayField.getText(), genderBox.getValue(),
-                        streetField.getText(), cityField.getText(), countryField.getText(),
-                        houseNumber.getText(), postalCodeField.getText());
+                // Converts input to String, LocalDate or Gender
+                String name = nameField.getText();
+                Gender gender = genderBox.getValue();
+                LocalDate dateOfBirth = InputValidation.formatDate(yearField.getText(), monthField.getText(),
+                        dayField.getText());
+                String streetName = streetField.getText();
+                int hNumber = Integer.parseInt(houseNumber.getText());
+                String postCode = InputValidation.formatPostalCode(postalCodeField.getText());
+                String countryName = countryField.getText();
+                String cityName = cityField.getText();
+                // Passes attributes to the logic class
+                this.logic.updateStudent(studentToEdit, name, dateOfBirth, gender, streetName, cityName, countryName,
+                        hNumber, postCode);
 
                 successfullyProcessView();
             } else {
@@ -657,13 +755,13 @@ class StudentManagementView extends View {
         Label warning = new Label("");
 
         ComboBox<String> boxes = new ComboBox<>();
+        boxes.setId("selectBox");
         final String defaultValue = "Select course";
         boxes.setValue(defaultValue);
-        List<String> courseList = this.enrollLogic.getCourseNames();
+        List<String> courseList = this.enrollmentLogic.getCourseNames();
         boxes.getItems().addAll(courseList);
 
         Button submitEnrollmentButton = new Button("Enroll student");
-
         view.add(title, 0, 0);
         view.add(boxes, 0, 1);
         view.add(submitEnrollmentButton, 0, 2);
@@ -674,7 +772,8 @@ class StudentManagementView extends View {
                 return;
             }
             Student student = this.logic.getStudentByEmail(studentEmail);
-            this.enrollLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+            this.enrollmentLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+            successfullyProcessView();
         });
 
         activate(view, "Enroll student");

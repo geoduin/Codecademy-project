@@ -8,15 +8,21 @@ import java.util.List;
 import database.StudentRepository;
 import domain.Gender;
 
-public class InputValidations {
+public class InputValidation {
 
     public static boolean validateDate(int day, int month, int year) {
-        try {
-            LocalDate date = LocalDate.of(year, month, day);
-        } catch (DateTimeException e) {
+        if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+                && (day >= 1 && day <= 31)) {
+            return true;
+        } else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day >= 1 && day <= 30)) {
+            return true;
+        } else if ((month == 2) && (day >= 1 && day <= 29) && year % 4 == 0 && (year % 400 == 0)) {
+            return true;
+        } else if ((month == 2) && (day >= 1 && day <= 29) && (year % 4 == 0 && year % 100 != 0)) {
+            return true;
+        } else {
             return false;
         }
-        return true;
     }
 
     public static boolean validateMailAddress(String mailAddress) {
@@ -53,6 +59,8 @@ public class InputValidations {
         throw new IllegalArgumentException();
     }
 
+    // This method checks if the text is not blank. If the text is not blank, than
+    // it will give a true value, if the text is blank then it will give false back
     public static boolean fieldIsNotEmpty(String textFromField) {
         return !(textFromField.isBlank());
     }
@@ -111,5 +119,12 @@ public class InputValidations {
                 Integer.parseInt(year));
         boolean dateIsFilled = fieldIsNotEmpty(day) && fieldIsNotEmpty(month) && fieldIsNotEmpty(year);
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
+    }
+
+        // Checks if the given string is a valid URL format.
+    // Regex retrieved from
+    // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
+    public boolean isValidURL(String url) {
+        return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     }
 }

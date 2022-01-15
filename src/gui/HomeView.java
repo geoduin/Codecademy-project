@@ -20,14 +20,17 @@ class HomeView extends View {
 
         // Welcoming the user
         Label welcomeLabel = new Label("Welcome.");
+        welcomeLabel.setId("title");
         welcomeLabel.setFont(Font.font("Comic Sans MS", 30));
 
         // Option buttons for the user to go to functionality of the application
         Button manageBtn = new Button("Manage");
+        manageBtn.setId("ManageButton");
         Button statisticsBtn = new Button("Statistics");
+        statisticsBtn.setId("StatBtn");
         statisticsBtn
                 .setOnMouseClicked(clicked -> {
-                    view.add(new Label("Not available yet!"), 2, 2);
+                    new StatisticsViews(this.gui).createView();
                 });
         manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
 

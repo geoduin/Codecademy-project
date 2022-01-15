@@ -1,6 +1,217 @@
 /* CSS to apply uniform styling to the whole GUI*/
 .root{
-    -fx-background-color: linear-gradient(#ffffff, #c2c2c2);
+    -fx-background-color: #F1E9DA;
+    -fx-text-fill: #2E294E;
     -fx-font-family: 'Arial';
     -fx-font-size: 12pt;
+}
+
+.combo-box-base {
+    -fx-background-color: rgb(161, 192, 238);
+}
+
+.combo-box-base:hover {
+    -fx-background-color: rgb(146, 178, 226);
+}
+
+
+.combo-box-base:pressed {
+    -fx-background-color: rgb(81, 163, 240);
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: rgb(7, 95, 146);
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: rgb(92, 82, 230);
+}
+.combo-box .arrow{
+    -fx-background-color: rgb(255, 255, 255);
+}
+
+.button{
+    -fx-background-color: rgb(84, 19, 136);
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 140px;
+}
+
+.button:hover{
+    -fx-background-color: rgb(115, 34, 182);
+    -fx-text-fill: #ffffff;
+}
+.button:pressed{
+    -fx-scale-y: 0.95;
+    -fx-scale-x: 0.95;
+}
+
+#ManageButton{
+    -fx-background-color: rgb(84, 19, 136);
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 160px;
+}
+
+#ManageButton:hover{
+    -fx-background-color: rgb(115, 34, 182);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgb(70, 11, 97);
+    -fx-border-width: 2;
+}
+
+#ManageButton:pressed{
+    -fx-border-color: rgb(70, 11, 97);
+    -fx-border-width: 2;
+}
+
+#StatBtn{
+    -fx-background-color: rgb(217, 3, 104);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgb(92, 167, 96);
+    -fx-pref-width: 140px;
+}
+
+#StatBtn:hover{
+    -fx-background-color: rgb(196, 26, 105);
+    -fx-text-fill: #ffffff;
+}
+
+#StatBtn:pressed{
+    -fx-scale-y: 0.95;
+    -fx-scale-x: 0.95;
+}
+
+#addButton{
+    -fx-background-color: rgb(25, 109, 29);
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 90px;
+}
+
+#addButton:hover{
+    -fx-background-color: rgb(94, 224, 100);
+    -fx-text-fill: #000000;
+}
+
+#addButton:pressed{
+    -fx-scale-y: 0.95;
+    -fx-scale-x: 0.95;
+}
+
+#manageOtherBtn{
+    -fx-pref-width: 180px;
+}
+
+#secondAddBtn{
+    -fx-background-color: #417c69;
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 180px;
+}
+
+#secondAddBtn:hover{
+    -fx-background-color: #76e6c2;
+    -fx-text-fill: #ffffff;
+}
+
+
+#deleteButton{
+    -fx-background-color: rgb(136, 32, 32);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgb(250, 250, 250);
+    -fx-border-width: 1;
+    -fx-pref-width: 180px;
+}
+
+#deleteButton:hover{
+    -fx-background-color: rgb(238, 107, 107);
+    -fx-text-fill: #000000;
+    -fx-border-color: rgb(212, 172, 62);
+    -fx-border-width: 2;
+}
+
+#deleteButton:pressed{
+    -fx-background-color: rgb(255, 205, 205);
+    -fx-text-fill: #000000;
+    -fx-border-color: rgb(85, 70, 30);
+    -fx-border-width: 1;
+    -fx-scale-y: 0.95;
+    -fx-scale-x: 0.95;
+}
+
+#editButton{
+    -fx-background-color: rgb(255, 212, 0);
+    -fx-text-fill: #000000;
+    -fx-border-color: rgb(184, 164, 120);
+    -fx-border-width: 1;
+    -fx-pref-width: 180px;
+}
+
+#editButton:hover{
+    -fx-background-color: rgb(168, 141, 3);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgb(241, 209, 119);
+    -fx-border-width: 2;
+}
+
+#editButton:pressed{
+    -fx-background-color: rgb(168, 141, 3);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgb(184, 158, 88);
+    -fx-border-width: 1;
+    -fx-scale-y: 0.95;
+    -fx-scale-x: 0.95;
+}
+
+#exitBtn{
+    -fx-background-color: rgb(197, 42, 42);
+    -fx-text-fill: #ffffff;
+    -fx-pref-width: 80px;
+}
+#exitBtn:hover{
+    -fx-background-color: rgb(243, 85, 85);
+    -fx-text-fill: #292727;
+}
+
+#HomeBtn{
+    -fx-background-color: rgb(55, 240, 49);
+    -fx-text-fill: #1b043a;
+    -fx-pref-width: 80px;
+}
+
+#HomeBtn:hover{
+    -fx-background-color: rgb(138, 236, 134);
+    -fx-text-fill: #1b043a;
+}
+
+.label{
+    -fx-font-size: 15pt;
+}
+
+#title{
+    -fx-font-size: 30pt;
+}
+
+
+#selectBox {
+    -fx-background-color: #dbe76a;
+    -fx-text-filled: #0f0f0f;
+}
+
+#selectBox:hover {
+    -fx-background-color: rgb(228, 241, 154);
+    -fx-text-filled: #ffffff;
+}
+
+
+#selectBox:pressed {
+    -fx-background-color: rgb(194, 199, 118);
+}
+
+#selectBox .arrow-button {
+    -fx-background-color: rgb(118, 16, 150);
+}
+
+#selectBox .arrow-button:hover {
+    -fx-background-color: rgb(189, 117, 231);
+}
+#selectBox .arrow{
+    -fx-background-color: rgb(255, 255, 255);
 }

@@ -67,7 +67,7 @@ public class WebcastRepository extends Repository<Webcast> {
             while (result.next()) {
                 contentID = result.getInt("ContentID");
             }
-
+            //!discuss if a webcast should always have 0 views as default.
             // creates webcast in database
             PreparedStatement webcastCreator = connection
                     .prepareStatement(
@@ -153,7 +153,7 @@ public class WebcastRepository extends Repository<Webcast> {
     // not usefull for webcast
     @Override
     public ArrayList<Webcast> retrieve() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -211,7 +211,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    private int getIDFromURL(String url) {
+    public int getIDFromURL(String url) {
         try {
             Connection connection = this.connection.getConnection();
             PreparedStatement getID = connection.prepareStatement("SELECT ContentID FROM Webcast WHERE URL = ?");
@@ -227,7 +227,7 @@ public class WebcastRepository extends Repository<Webcast> {
             return -1;
         }
     }
-
+    //retrieves the ID of the Webcast from the URL alternate key and returns it. 
     public String getTitleFromContentID(int contentID) {
         String title = "";
         String query = "SELECT Title FROM ContentItem WHERE ContentID = " + contentID + "";
@@ -244,4 +244,6 @@ public class WebcastRepository extends Repository<Webcast> {
         }
         return title;
     }
+
+
 }

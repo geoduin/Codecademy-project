@@ -1,10 +1,10 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
 public class PostalCodeTest {
     /**
@@ -16,7 +16,7 @@ public class PostalCodeTest {
      */
     @Test(expected = NullPointerException.class)
     public void formatPostalCodeNullPointerTest() {
-        InputValidations.formatPostalCode(null);
+        InputValidation.formatPostalCode(null);
     }
 
     /**
@@ -36,12 +36,26 @@ public class PostalCodeTest {
      * 
      */
 
+
     @Test
-    public void formatPostalCodeAcceptsValidPostalCodesTest() {
-        assertEquals("1000 AB", InputValidations.formatPostalCode("1000ab"));
-        assertEquals("2513 AA", InputValidations.formatPostalCode("2513 aA"));
-        assertEquals("9999 ZZ", InputValidations.formatPostalCode(" 9999Zz "));
+    public void formatPostalCodeAcceptsValidPostalCodesTest1() {
+        assertEquals("1000 AB", InputValidation.formatPostalCode("1000ab"));
+
     }
+
+    @Test
+    public void formatPostalCodeAcceptsValidPostalCodesTest2() {
+        assertEquals("2513 AA", InputValidation.formatPostalCode("2513 aA"));
+
+    }
+
+    @Test
+    public void formatPostalCodeAcceptsValidPostalCodesTest3() {
+        assertEquals("9999 ZZ", InputValidation.formatPostalCode(" 9999Zz "));
+
+    }
+
+
 
     /**
      * @subcontract invalid postalCode {
@@ -52,11 +66,13 @@ public class PostalCodeTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void formatPostalCodeDoesNotAcceptIllegalArguments() {
-        InputValidations.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
-        InputValidations.formatPostalCode("AZ 4500");
-        InputValidations.formatPostalCode("999Az");
-        InputValidations.formatPostalCode("10000ab");
-        InputValidations.formatPostalCode("0123aa");
+        InputValidation.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
+        InputValidation.formatPostalCode("AZ 4500");
+        InputValidation.formatPostalCode("999Az");
+        InputValidation.formatPostalCode("10000ab");
+        InputValidation.formatPostalCode("0123aa");
+        InputValidation.formatPostalCode("0999 a1");
+        InputValidation.formatPostalCode("10000 aaa");
     }
 
 }

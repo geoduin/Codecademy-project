@@ -1,4 +1,4 @@
-package Test.UnitTests;
+package test.unitTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,21 +6,22 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import logic.InputValidations;
+import logic.InputValidation;
 
-public class TestDateIsEarlierThenNow {
+public class DateIsNotEarlierTest {
 
     /**
      * @desc checks if input date is earlier or equal to today
      * @beforehand day, month and year will be first formatted through the
      *             formatDate method
-     * @subcontract checks if the day tomorrow gives false
-     * @requires LocalDate.now().plusDays(1)
-     * @ensures \result = false
      * 
-     * @subcontract checks if day earlier then today
-     * @requires LocalDate.now().minusDays(1)
-     * @ensures \result = true
+     * 
+     *             /*
+     * @subcontract checks if the day tomorrow gives false
+     * 
+     * @requires LocalDate.now().plusDays(1)
+     * 
+     * @ensures \result = false
      */
     @Test
     public void testDateIsEarlierThenNowIfDateIsTommorow() {
@@ -31,11 +32,18 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }
 
+    /*
+     * @subcontract checks if day earlier then today
+     * 
+     * @requires LocalDate.now().minusDays(1)
+     * 
+     * @ensures \result = true
+     */
     @Test
     public void testDateIsEarlierThenNow() {
 
@@ -45,11 +53,18 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(false, result);
     }
 
+    /*
+     * @subcontract checks if day earlier then today
+     * 
+     * @requires LocalDate.now().minusDays(1)
+     * 
+     * @ensures \result = true
+     */
     @Test
     public void testDateIsEarlierThenNowIfDateIsYesterday() {
 
@@ -59,22 +74,9 @@ public class TestDateIsEarlierThenNow {
         String month = Integer.toString(date.getMonthValue());
         String year = Integer.toString(date.getYear());
         // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
+        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
         // Assert
         assertEquals(true, result);
-    }
-
-    @Test
-    public void testDateIsEarlierThenNowIfDateIsNotLeapYear() {
-
-        // Arrange
-        String day = "29";
-        String month = "2";
-        String year = "1800";
-        // Act
-        boolean result = InputValidations.dateIsEarlierThanNow(day, month, year);
-        // Assert
-        assertEquals(false, result);
     }
 
 }
