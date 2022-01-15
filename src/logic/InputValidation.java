@@ -69,6 +69,10 @@ public class InputValidation {
         return (numberValue.matches("\\d+"));
     }
 
+    public static boolean areLetters(String string) {
+        return (string.matches("\\w+\\.?"));
+    }
+
     public static boolean dateIsEarlierThanNow(String day, String month, String year) {
         LocalDate inputDate = null;
         try {
@@ -127,4 +131,8 @@ public class InputValidation {
     public boolean isValidURL(String url) {
         return url.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     }
+    
+    public static boolean isValidGrade(int grade) {
+        return (grade >= 0 && grade <= 10);
+    }   
 }
