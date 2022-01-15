@@ -60,23 +60,19 @@ class WebcastManageView extends View {
 
         Label descriptionLabel = new Label("Description");
         Text descriptionText = new Text();
-        
 
         Label durationInMinutesLabel = new Label("Duration (in minutes)");
         Text durationText = new Text();
-      
 
         Label speakerLabel = new Label("Speaker");
         Text speakerText = new Text();
-        
 
         Label urlLabel = new Label("URL");
         Text urlText = new Text();
-       
 
         Label statusLabel = new Label("Status");
         Text statusText = new Text();
-       
+
         Label views = new Label("Views");
         Text viewStateText = new Text();
 
@@ -196,7 +192,7 @@ class WebcastManageView extends View {
             if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
                 noFieldEmpty = false;
                 result.setText("All fields must be filled in");
-            } else if (InputValidation.isValidURL(urlField.getText())) {
+            } else if (!InputValidation.isValidURL(urlField.getText())) {
                 result.setText("url format is incorrect");
             }
 
