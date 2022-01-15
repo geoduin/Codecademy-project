@@ -54,9 +54,10 @@ class StudentManagementView extends View {
 
         // Retrieves the list of Student names from database in combination with their
         // key (mail address) in a map
-        Map<String, String> studentMap = this.logic.getNameAndEmail();
-        Collection<String> list = studentMap.keySet();
-        studentList.getItems().addAll(list);
+        List<String[]> studentNameAndEmailList = this.logic.getNameAndEmail();
+        for(int i = 0; i < studentNameAndEmailList.size(); i++) { 
+            studentList.getItems().add(studentNameAndEmailList.get(i)[0] + ", " + studentNameAndEmailList.get(i)[1]);
+        }
 
         // Buttons for possible actions on a selected student from the dropdown
         Button editStudentButton = new Button("Edit");
@@ -98,7 +99,7 @@ class StudentManagementView extends View {
                 view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
-            Student pickedStudent = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
+            Student pickedStudent = this.logic.getStudentByEmail(studentList.getValue().split(",")[1].trim());
             editStudentView(pickedStudent);
         });
 
@@ -110,7 +111,7 @@ class StudentManagementView extends View {
                 return;
             }
 
-            String chosenStudentEmail = studentMap.get(studentList.getValue());
+            String chosenStudentEmail = (studentList.getValue().split(",")[1].trim());
             this.logic.deleteStudentByEmail(chosenStudentEmail);
             successfullyProcessView();
         });
@@ -124,7 +125,7 @@ class StudentManagementView extends View {
                 return;
             }
 
-            Student student = this.logic.getStudentByEmail(studentMap.get(studentList.getValue()));
+            Student student = this.logic.getStudentByEmail(studentList.getValue().split(",")[1].trim());
             contentProgressView(student);
 
         });
@@ -134,7 +135,7 @@ class StudentManagementView extends View {
                 view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
-            String studentEmail = studentMap.get(studentList.getValue());
+            String studentEmail = studentList.getValue().split(",")[1].trim();
             enrollStudentView(studentEmail);
         });
 
@@ -145,7 +146,7 @@ class StudentManagementView extends View {
                 view.add(new Label(noValueSelectedMSG), 0, 7);
                 return;
             }
-            String studentEmail = studentMap.get(studentList.getValue());
+            String studentEmail = studentList.getValue().split(",")[1].trim();
             deleteEnrollmentView(studentEmail);
         });
 

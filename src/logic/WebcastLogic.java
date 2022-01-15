@@ -21,7 +21,7 @@ public class WebcastLogic {
     public ArrayList<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
-    //!delete contentID if contentItem should not have it.
+
     //Creates webcast and returns string which the GUI uses to show the user wether the save was successful.
     public String createWebcast(String title, String speaker, String organization, int duration, String url,
             Status status, String description, int views) {
