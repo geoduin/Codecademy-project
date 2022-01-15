@@ -20,6 +20,8 @@ public class InputValidation {
             return true;
         } else if ((month == 2) && (day >= 1 && day <= 29) && (year % 4 == 0 && year % 100 != 0)) {
             return true;
+        } else if ((month == 2) && (day >= 1 && day <= 28)) {
+            return true;
         } else {
             return false;
         }
@@ -121,7 +123,7 @@ public class InputValidation {
         return (valuesAreNumbers && dateIsNotNow && dateIsCorrect && dateIsFilled);
     }
 
-        // Checks if the given string is a valid URL format.
+    // Checks if the given string is a valid URL format.
     // Regex retrieved from
     // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
     public boolean isValidURL(String url) {
