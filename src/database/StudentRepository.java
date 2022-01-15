@@ -23,8 +23,9 @@ public class StudentRepository extends Repository<Student> {
 
         String insertStudent = "INSERT INTO Student VALUES(?,?, ? ,?,?)";
         int addresID = -1;
+        // retrieves addressID
         int i = getAddressID(student);
-        // If it exist, then it will asign the addressID to the student
+        // If it exist, then it will assign the addressID to the student
         if (i != -1) {
             addresID = i;
         } else {
@@ -41,12 +42,13 @@ public class StudentRepository extends Repository<Student> {
             prepStatement.setInt(5, addresID);
             prepStatement.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
+    // Method to insert into address table
     public void createAddress(Student student) {
         final String insertAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
         try (PreparedStatement prepState = this.connection.getConnection().prepareStatement(insertAddress)) {
@@ -56,12 +58,13 @@ public class StudentRepository extends Repository<Student> {
             prepState.setString(4, student.getCountry());
             prepState.setString(5, student.getPostalCode());
             prepState.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public int getAddressID(Student student) {
+        // id is -1 as default value
         int id = -1;
         String searchForAddressID = "SELECT TOP 1 AddressID FROM Address " +
                 "WHERE Street = ? AND HouseNumber = ? AND City = ? AND Country = ?" +
@@ -76,11 +79,13 @@ public class StudentRepository extends Repository<Student> {
             while (set.next()) {
                 id = set.getInt("AddressID");
             }
+            // If id is found, it will return the right addressID
             return id;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            // If not, it will return default id, -1
+            return id;
         }
-        return id;
+
     }
 
     @Override
@@ -102,7 +107,7 @@ public class StudentRepository extends Repository<Student> {
             prepQuery.setString(5, student.getEmail());
             prepQuery.executeUpdate();
             deleteAddressWithoutResident();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -114,11 +119,14 @@ public class StudentRepository extends Repository<Student> {
             studentRemoval.setString(1, student.getEmail());
             studentRemoval.executeUpdate();
             deleteAddressWithoutResident();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // Method to delete address without resident.
+    // It checks if address without resident exist. If present, it will delete
+    // address.
     public void deleteAddressWithoutResident() {
         String deleteAddressQuery = "DELETE FROM Address WHERE NOT EXISTS (SELECT * FROM Student WHERE Student.AddressID = Address.AddressID)";
         try (PreparedStatement deleteAddress = this.connection.getConnection().prepareStatement(deleteAddressQuery)) {
@@ -133,6 +141,7 @@ public class StudentRepository extends Repository<Student> {
         return new ArrayList<>();
     }
 
+    // Retrieves name and email and put it in a Hashmap
     public Map<String, String> retrieveNameByEmail() {
         Map<String, String> nameList = new HashMap<>();
         String retrieveQuery = "SELECT Name, Email FROM Student";
@@ -160,7 +169,7 @@ public class StudentRepository extends Repository<Student> {
             retrieveStudentByEmail.setString(1, email);
             // Executes query
             ResultSet resultSet = retrieveStudentByEmail.executeQuery();
-            // resultset results
+            // Resultset results
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
                 LocalDate dateOfBirth = LocalDate.parse(resultSet.getString("Birthdate"));
@@ -174,7 +183,7 @@ public class StudentRepository extends Repository<Student> {
             }
             // Returns a student
             return student;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return student;
         }
@@ -211,7 +220,7 @@ public class StudentRepository extends Repository<Student> {
         return modulesWithProgressMap;
     }
 
-    // Of an individual ContenItem, update the progress the Student has in it
+    // Of an individual ContentItem, update the progress the Student has in it
     public void updateProgressOfContentItem(int contentID, String studentEmail, int newAmount) {
 
         String sql = "UPDATE Progress SET Percentage = ? WHERE ContentID = ? AND StudentEmail = ?";
@@ -279,12 +288,13 @@ public class StudentRepository extends Repository<Student> {
         return webcastNames;
     }
 
-
-    public List<String> retrieveAllEmails() { 
+    // Retrieves a list of emails
+    public List<String> retrieveAllEmails() {
         try {
-            ResultSet result = this.connection.getConnection().createStatement().executeQuery("SELECT Email FROM Student");
+            ResultSet result = this.connection.getConnection().createStatement()
+                    .executeQuery("SELECT Email FROM Student");
             ArrayList<String> studentEmails = new ArrayList<>();
-            while(result.next()) { 
+            while (result.next()) {
                 studentEmails.add(result.getString("Email"));
             }
             return studentEmails;
