@@ -7,8 +7,7 @@ public class Certificate {
     private int grade;
     
     
-    public Certificate(int certificateID, String studentName, String nameOfIssuer, int grade) {
-        this.certificateID = certificateID;
+    public Certificate(String studentName, String nameOfIssuer, int grade) {
         this.studentName = studentName;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
@@ -16,11 +15,6 @@ public class Certificate {
 
     public int getCertificateID() {
         return certificateID;
-    }
-
-
-    public void setCertificateID(int certificateID) {
-        this.certificateID = certificateID;
     }
 
     public String getStudentName() {

@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class CertificateSubmissionView extends View {
 
@@ -16,7 +16,8 @@ public class CertificateSubmissionView extends View {
     public void createView() {
         // Layout positioning elements
         GridPane view = generateGrid();
-        HBox hbox = new HBox(4);
+        VBox vbox = new VBox(4);
+        vbox.setSpacing(2.0); 
 
         // UI components
         Label nameLabel = new Label("Name");
@@ -26,8 +27,8 @@ public class CertificateSubmissionView extends View {
         Button submitButton = new Button("Submit");
 
         // Further layout setup
-        hbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
-        view.add(hbox, 0, 0);
+        vbox.getChildren().addAll(nameLabel, nameTextField, gradeLabel, gradeTextField, submitButton);
+        view.add(vbox, 0, 0);
 
         activate(view, "Add Certificate");
     }
