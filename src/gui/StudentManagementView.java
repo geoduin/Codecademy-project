@@ -13,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
@@ -543,16 +542,16 @@ class StudentManagementView extends View {
         HBox birthdayBox = new HBox(days, month, year);
         birthdayBox.setSpacing(25);
 
-        // Street, Postalcode and Housenumber make up the address
+        // Street, Postalcode and House number make up the address
         TextField street = new TextField();
         TextField postalCode = new TextField();
         TextField houseNr = new TextField();
 
-        // The three textfields are put in these three Vboxes
+        // The three text fields are put in these three VBoxes
         VBox streetBox = new VBox(new Label("Street"), street);
         VBox houseNumber = new VBox((new Label("House number")), houseNr);
         VBox postalBox = new VBox(new Label("Postalcode"), postalCode);
-        // These VBOXES are put in a HBOX
+        // These VBoxes are put in a hBox
         HBox addressInformation = new HBox(streetBox, houseNumber, postalBox);
         addressInformation.setSpacing(25);
 
@@ -585,8 +584,6 @@ class StudentManagementView extends View {
         view.add(studentCreationButton, 1, 9);
         view.add(lastWarningText, 2, 9);
 
-        // Eventhandler
-
         studentCreationButton.setOnMouseClicked(clicked -> {
             // It calls the method datOfBirthIsValid in order if the date of birth is valid
             // It checks if the date is not further than now
@@ -597,7 +594,7 @@ class StudentManagementView extends View {
             // Method addressIsValid combines multiple methods (FieldIsnotEmpty() for
             // houseNr, Street and postal fields), Postalcode has the correct format
             // And checks if the houseNr is an digit
-            boolean addresValid = InputValidation.addressIsValid(street.getText(), houseNr.getText(),
+            boolean addressValid = InputValidation.addressIsValid(street.getText(), houseNr.getText(),
                     postalCode.getText());
             // Checks if input fields are not empty
             boolean nameIsFilled = InputValidation.fieldIsNotEmpty(nameField.getText());
@@ -617,9 +614,9 @@ class StudentManagementView extends View {
 
             // If every boolean value is true, than it will insert the new student to the
             // logic to create a new student and will be send to the database
-            // NOTE: When tested, I changed my database in order put housenumber and street
+            // NOTE: When tested, I changed my database in order put house number and street
             // separately
-            if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addresValid) {
+            if (nameIsFilled && emailIsValid && cityIsValid && countryIsFilled && dateValid && addressValid) {
                 String name = nameField.getText();
                 String email = emailField.getText();
                 Gender gender = genderBox.getValue();
@@ -675,7 +672,7 @@ class StudentManagementView extends View {
         HBox birthdayBox = new HBox(days, month, year);
         birthdayBox.setSpacing(25);
 
-        // Vertical boxes for address information(street, housenumber, postalcode)
+        // Vertical boxes for address information(street, house number, postalcode)
         VBox street = new VBox((new Label("Street")), streetField);
         VBox house = new VBox((new Label("Housenumber")), houseNumber);
         VBox postal = new VBox((new Label("Postalcode")), postalCodeField);
@@ -763,7 +760,7 @@ class StudentManagementView extends View {
                 return;
             }
             Student student = this.logic.getStudentByEmail(studentEmail);
-            this.enrollmentLogic.enrollStudentToCourse(student, boxes.getValue().toString());
+            this.enrollmentLogic.enrollStudentToCourse(student, boxes.getValue());
             successfullyProcessView();
         });
 
