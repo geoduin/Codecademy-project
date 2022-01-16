@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class InputValidation {
 
+    //TODO Add comment to this method
     public static boolean validateDate(int day, int month, int year) {
         if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
                 && (day >= 1 && day <= 31)) {
@@ -21,10 +22,12 @@ public class InputValidation {
         }
     }
 
+    //TODO Add comment to this method
     public static boolean validateMailAddress(String mailAddress) {
         return mailAddress.toLowerCase().matches("^[a-z0-9._%+-]+@[a-z0-9]+\\.[^\\.]+");
     }
 
+    // Check whether the int given as parameter is between 0 and 100
     public static boolean isValidPercentage(int percentage) {
         return (percentage >= 0 && percentage <= 100);
     }
@@ -61,11 +64,12 @@ public class InputValidation {
         return !(textFromField.isBlank());
     }
 
+    // Checks if the given string is a number
     public static boolean areNumbers(String numberValue) {
         return (numberValue.matches("\\d+"));
     }
 
-    // First it checks if inputdate is valid. If not, false. Otherwise it will then
+    // First it checks if inputDate is valid. If not, false. Otherwise it will then
     // check if date is before today and will give true if succeed.
     public static boolean dateIsEarlierThanNow(String day, String month, String year) {
         LocalDate inputDate = null;
@@ -88,6 +92,7 @@ public class InputValidation {
         return true;
     }
 
+    //TODO Add comment to this method
     public static LocalDate formatDate(String year, String month, String day) {
         if (!(year.matches("//d") || !month.matches("//d") || !day.matches("//d"))) {
             throw new NumberFormatException();
@@ -104,6 +109,7 @@ public class InputValidation {
         return LocalDate.parse(year + "-" + month + "-" + day);
     }
 
+    //TODO Add comment to this method
     public static boolean addressIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);
@@ -111,6 +117,7 @@ public class InputValidation {
         return (addressIsFilled && houseNumberIsNumber && postalCodeIsRight);
     }
 
+    //TODO Add a comment to this method
     public static boolean dateOfBirthIsValid(/* Not null */String day, /* Not null */String month,
             /* Not null */String year) {
         boolean valuesAreNumbers = areNumbers(day) && areNumbers(month) && areNumbers(year);
@@ -128,6 +135,7 @@ public class InputValidation {
         return url.matches("^(https|http)://([a-z]|[A-Z])+\\.([a-z]|[A-Z])+\\.(.)+");
     }
 
+    //Check if the given is is in between 1 and 10
     public static boolean isValidGrade(int grade) {
         return (grade >= 1 && grade <= 10);
     }
