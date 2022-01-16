@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import domain.Course;
 import domain.Difficulty;
 
-//Class responsible for database communication regarding courses. 
+/*
+*Repository that is responsible for the Course domain object. 
+*/
 public class CourseRepository extends Repository<Course> {
 
     // CourseRepository IS a repository and thus extends the abstract repo class
@@ -65,10 +67,12 @@ public class CourseRepository extends Repository<Course> {
         Course returnValue = null;
         try {
             Statement statement = connection.getConnection().createStatement();
-            ResultSet queryResult = statement.executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
+            ResultSet queryResult = statement
+                    .executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
 
             if (queryResult.next()) {
-                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"), queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
+                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"),
+                        queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

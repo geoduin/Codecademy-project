@@ -11,8 +11,12 @@ import java.util.Map;
 import domain.Module;
 import domain.Status;
 
+/*
+*Repository that is responsible for the Module domain object. 
+*/
 public class ModuleRepository extends Repository<Module> {
 
+    // Self explanatory constructor inline with the abstract super class.
     public ModuleRepository() {
         super();
     }

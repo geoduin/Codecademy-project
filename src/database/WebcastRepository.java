@@ -12,6 +12,9 @@ import java.util.List;
 import domain.Status;
 import domain.Webcast;
 
+/*
+*Repository that is responsible for the Webcast domain object. 
+*/
 public class WebcastRepository extends Repository<Webcast> {
 
     // Inserts a webcast into the database
@@ -117,7 +120,8 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    //Changing the URL has to be done separately since it's used as a key in the GUI
+    // Changing the URL has to be done separately since it's used as a key in the
+    // GUI
     public void updateURL(String initialURL, String newURL) {
         Connection connection = this.connection.getConnection();
         try {
@@ -130,8 +134,8 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-
-    //Used to remove instances of ContentID and their corresponding Webcast row from the database.
+    // Used to remove instances of ContentID and their corresponding Webcast row
+    // from the database.
     @Override
     public void delete(Webcast domainObject) {
         Connection connection = this.connection.getConnection();
@@ -186,7 +190,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    //Used to get the values needed to fill comboboxes in the GUI.
+    // Used to get the values needed to fill comboboxes in the GUI.
     public List<String> getAllWebcastNames() {
         ArrayList<String> webcasts = new ArrayList<>();
 
@@ -206,7 +210,9 @@ public class WebcastRepository extends Repository<Webcast> {
         }
 
     }
-    //Needed for some queries as unlike the Webcast instance in Java, the Webcast in the Database does have a ContentID
+
+    // Needed for some queries as unlike the Webcast instance in Java, the Webcast
+    // in the Database does have a ContentID
     public int getIDFromURL(String url) {
         try {
             Connection connection = this.connection.getConnection();
@@ -224,8 +230,7 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    //Used when the title is needed but not known. 
-    
+    // Used when the title is needed but not known.
     public String getTitleFromContentID(int contentID) {
         String title = "";
         String query = "SELECT Title FROM ContentItem WHERE ContentID = " + contentID + "";

@@ -11,17 +11,23 @@ import java.util.List;
 import domain.Enrollment;
 import domain.Webcast;
 
+/*
+*Repository that is responsible for the Enrollment domain object. 
+*/
 public class EnrollmentRepository extends Repository<Enrollment> {
 
+    // Self explanatory constructor inline with the abstract super class.
     public EnrollmentRepository() {
         super();
     }
 
+    // See the abstract method comment for method explanation
     @Override
-    public ArrayList retrieve() {
+    public ArrayList<Enrollment> retrieve() {
         return null;
     }
 
+    // See the abstract method comment for method explanation
     @Override
     public void insert(Enrollment enrollment) {
         boolean makeProgress = true;

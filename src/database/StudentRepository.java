@@ -12,8 +12,12 @@ import domain.Gender;
 import domain.Student;
 import domain.Module;
 
+/*
+*Repository that is responsible for the Student domain object. 
+*/
 public class StudentRepository extends Repository<Student> {
 
+    // See the abstract method comment for method explanation
     @Override
     public void insert(Student student) {
 
@@ -131,6 +135,7 @@ public class StudentRepository extends Repository<Student> {
 
     }
 
+    // See the abstract method comment for method explanation
     @Override
     public void update(Student student) {
         // Get cityId
@@ -166,6 +171,7 @@ public class StudentRepository extends Repository<Student> {
         }
     }
 
+    // See the abstract method comment for method explanation
     @Override
     public void delete(Student student) {
         String deleteQuery = "DELETE FROM Student WHERE Email = ?";

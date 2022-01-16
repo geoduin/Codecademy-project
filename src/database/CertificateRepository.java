@@ -6,7 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import domain.Certificate;
 
-public class CertificateRepository extends Repository<Certificate>{
+/*
+*Repository that is responsible for the Certificate domain object. 
+*/
+public class CertificateRepository extends Repository<Certificate> {
     public CertificateRepository() {
         super();
     }
@@ -16,7 +19,7 @@ public class CertificateRepository extends Repository<Certificate>{
     public void insert(Certificate certificate) {
         String query = "INSERT INTO Certificate VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.getConnection().prepareStatement(query)) {
-            
+
             preparedStatement.setInt(1, certificate.getEnrollmentID());
             preparedStatement.setInt(2, certificate.getGrade());
             preparedStatement.setString(3, certificate.getNameOfIssuer());
@@ -25,7 +28,7 @@ public class CertificateRepository extends Repository<Certificate>{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     // Overwrites/Updates an existing certificate within the database
@@ -33,7 +36,7 @@ public class CertificateRepository extends Repository<Certificate>{
     public void update(Certificate certificate) {
         String query = "UPDATE Certificate SET EnrollmentID = ?, Grade = ?, EmployeeName = ? WHERE CertificateID = ?";
         try (PreparedStatement preparedStatement = connection.getConnection().prepareStatement(query)) {
-            
+
             preparedStatement.setInt(1, certificate.getEnrollmentID());
             preparedStatement.setInt(2, certificate.getGrade());
             preparedStatement.setString(3, certificate.getNameOfIssuer());
@@ -49,8 +52,8 @@ public class CertificateRepository extends Repository<Certificate>{
     @Override
     public void delete(Certificate certificate) {
         String query = "DELETE FROM Certificate WHERE CertificateID = ?";
-        try (PreparedStatement preparedStatement = connection.getConnection().prepareStatement(query) ) {
-            
+        try (PreparedStatement preparedStatement = connection.getConnection().prepareStatement(query)) {
+
             preparedStatement.setInt(1, certificate.getCertificateID());
             preparedStatement.executeUpdate();
 
@@ -64,10 +67,13 @@ public class CertificateRepository extends Repository<Certificate>{
     public ArrayList<Certificate> retrieve() {
         ArrayList<Certificate> certificates = new ArrayList<>();
         try (Statement statement = this.connection.getConnection().createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT Certificate.*, Student.Name, Enrollment.CourseName FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email");
+            ResultSet result = statement.executeQuery(
+                    "SELECT Certificate.*, Student.Name, Enrollment.CourseName FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email");
 
             while (result.next()) {
-                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("CourseName"), result.getString("Name"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade")));
+                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("CourseName"),
+                        result.getString("Name"), result.getInt("EnrollmentID"), result.getString("EmployeeName"),
+                        result.getInt("Grade")));
             }
         } catch (Exception e) {
             e.printStackTrace();
