@@ -69,7 +69,7 @@ public class StatisticsLogic {
         return builder.toString();
     }
 
-    public ArrayList<Certificate> retrieveCertificates (String studentEmail) { 
+    public List<Certificate> retrieveCertificates (String studentEmail) { 
         return repo.retrieveStudentCertificates(studentEmail);
     }
 
@@ -94,7 +94,7 @@ public class StatisticsLogic {
     }
 
     public String recommendedCourseFormatter(String course) { 
-        ArrayList<Course> courses = this.repo.retrieveRecommendedCourses(course);
+        List<Course> courses = this.repo.retrieveRecommendedCourses(course);
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < courses.size(); i++) { 
             stringBuilder.append(courses.get(i).toString() + "\n");

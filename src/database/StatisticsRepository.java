@@ -12,36 +12,39 @@ import domain.Gender;
 import domain.Webcast;
 import domain.Certificate;
 
-//Does not use any of the methods from repository, so it does not extend the abstract class.
+//This repository is a bit unique, while still connects with a database, it does not use any of the methods from Repository, so it does not extend the abstract class.
+//This class handles information requests given by the StatisticsLogic class from the StatisticsViews class. 
+//So that the StatisticsViews can show the required statistics to the user. 
 public class StatisticsRepository{
     DBConnection dbConnection;
+    CourseRepository courseRepo;
 
     public StatisticsRepository() {
         this.dbConnection = new DBConnection();
+        this.courseRepo = new CourseRepository();
     }
 
-    //Retrieves percentage of acquired certificates compared to all enrollments by gender, see report for a detailed description of how the query works.
+    //This method is used to provide a percentage statistic in the StatisticsViews class.
+    
+    
     public int retrievePercentageAcquiredCertificates(Gender gender) {
         int percentageAcquiredCertificates = 0;
         try {
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT 100 * (1.0 * COUNT(Certificate.CertificateID)) / (1.0 * COUNT(Enrollment.ID)) AS Percentage FROM Enrollment LEFT JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.Email IN (SELECT Email FROM Student WHERE Gender = ?)");
             preparedStatement.setString(1, gender.name());
             ResultSet result = preparedStatement.executeQuery();
-            
-
             while(result.next()) {
                 percentageAcquiredCertificates = result.getInt("Percentage");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return -1;
         }
 
         return percentageAcquiredCertificates;
     }
     
-    //retrieves the ContentID of each module and the average progressions of all students for that module. 
-    //An ArrayList is used instead of a 2d int array because you cannot get the size of the ResultSet without a 2nd query which increases complexity and possibility of failure unnecessarily. 
+    //This method is used to retrieve the average progress in each course module for a given course so it can be displayed on the StatisticsViews. 
+    //A List is used instead of a 2d int array because you cannot get the size of the ResultSet without a 2nd query which increases complexity and possibility of failure unnecessarily. 
     //The int array is in the format [ContentID, Percentage]
     public List<int[]> retrieveAverageProgressionPerModule(String courseName) {
         List<int[]> coursesAndPercentages = new ArrayList<>();
@@ -62,14 +65,15 @@ public class StatisticsRepository{
         }
     }
 
-    //Retrieves  a students progression per module for a selected course
-    //The integer array is in the format of [ContentID, Percentage]
+    //This method is used so the app user can check the progress of a given student in a given course
+    //A List of integer arrays is used instead of a 2d array since you can't get the length of the ResultSet without either first putting it in a list or using a 2nd query.
+    //The int[] is in the format of [ContentID, Percentage]
     public List<int[]> retrieveProgressionPerModule(String studentEmail, String courseName) {
         List<int[]> progressOfModules = new ArrayList<>();
         try {
             //The query works by first selecting all ContentID's of the selected course,
             //the query will then select the ContentID from Progress where the student email matches the given email
-            //and where the contentID matches the contentID's returned by the subquery, leaving you only with the progress of the student in a specific course.
+            //and where the contentID matches the contentID's returned by the sub query, leaving you only with the progress of the student in a specific course.
             PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(" SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Module WHERE CourseName = ?)");
             preparedStatement.setString(1, studentEmail);
             preparedStatement.setString(2, courseName);
@@ -88,8 +92,10 @@ public class StatisticsRepository{
         }
     }
 
-    //Retrieves top 3 most watched webcasts
-    public ArrayList<Webcast> retrieveTop3MostWatchedWebcasts() {
+    //This method gets the 3 most watched webcasts and returns them so that this statistic can be shown in the statistics view. 
+    
+
+    public List<Webcast> retrieveTop3MostWatchedWebcasts() {
         ArrayList<Webcast> top3Webcasts = new ArrayList<>();
         WebcastRepository repo = new WebcastRepository();
         try {
@@ -110,8 +116,10 @@ public class StatisticsRepository{
         return top3Webcasts;
     }
     
-    //Retrieves recommended courses for a selected course
-    public ArrayList<Course> retrieveRecommendedCourses(String courseName) {
+    
+    //This method is used so you can check which courses are recommended in the gui. 
+
+    public List<Course> retrieveRecommendedCourses(String courseName) {
         ArrayList<Course> retrievedCourses = new ArrayList<>();
         //The query works by retrieving the records from the CourseRecommendation table where CourseName matches the given course name
         String query = "SELECT * FROM Course WHERE CourseName IN (SELECT RecommendedCourse FROM CourseRecommendation WHERE CourseName = ?)";
@@ -129,8 +137,8 @@ public class StatisticsRepository{
         return retrievedCourses;
     }
 
-    //Retrieves the number of certificates that a student has achieved, see SQL documentation for explanation of the query
-    public ArrayList<Certificate> retrieveStudentCertificates(String studentEmail) { 
+    //Retrieves the number of certificates that a student has achieved.
+    public List<Certificate> retrieveStudentCertificates(String studentEmail) { 
         ArrayList<Certificate> certificates = new ArrayList<>();
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.*, Student.Name, Enrollment.CourseName FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email WHERE Student.Email = ?");
@@ -151,13 +159,15 @@ public class StatisticsRepository{
 
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
+    //The method is used by the StatisticsLogic class to print the most viewed webcasts on the GUI
+    //An instance of courseRepo is used to prevent code duplication.
     public List<Course> retrieveTop3CoursesByNumberOfCertificates() { 
         ArrayList<Course> topCourses = new ArrayList<>();
         try {
             Statement statement = this.dbConnection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT TOP 3 Course.CourseName, Course.Subject, Course.Description, Course.Difficulty, COUNT(Certificate.CertificateID) AS NrOfCertificates FROM Course LEFT JOIN Enrollment ON Course.CourseName = Enrollment.CourseName LEFT JOIN Certificate ON Enrollment.ID = Certificate.CertificateID GROUP BY Course.CourseName, Course.Subject, Course.Description, Course.Difficulty ORDER BY NrOfCertificates DESC");           
+            ResultSet result = statement.executeQuery("SELECT TOP 3 CourseName, COUNT(ID) AS NrOfCertificates FROM Enrollment  JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID GROUP BY CourseName ORDER BY NrOfCertificates DESC");           
             while(result.next()) { 
-                Course course = new Course(result.getString("CourseName"), result.getString("Subject"), result.getString("Description"), Difficulty.valueOf(result.getString("Difficulty")));
+                Course course = this.courseRepo.retrieveCourseByName(result.getString("CourseName"));
                 course.setNrOfCertificates(result.getInt("NrOfCertificates"));
                 topCourses.add(course);
             }
@@ -168,7 +178,7 @@ public class StatisticsRepository{
         }
     }
 
-    //Retrieves the number of certificates for the selected course, if the query is empty, there are no certificates so the method will return 
+    //Retrieves the number of certificates for the selected course. 
     public int retrieveNumberOfStudentsWhoCompletedCourse(String courseName) { 
         try {
             PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(Email) AS NumberOfStudents FROM Student WHERE Email IN (SELECT StudentEmail FROM Progress WHERE ContentID IN (SELECT ContentID FROM Module  WHERE CourseName = ?) GROUP BY StudentEmail HAVING SUM(Percentage)/COUNT(ContentID) = 100)");
