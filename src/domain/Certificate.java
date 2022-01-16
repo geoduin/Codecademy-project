@@ -8,7 +8,6 @@ public class Certificate {
     private int grade;
     private String courseName;
     
-    
     public Certificate(int enrollmentID, String nameOfIssuer, int grade) {
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
@@ -60,7 +59,6 @@ public class Certificate {
         this.grade = grade;
     }
     
-
     public int getCertificateID() {
         return certificateID;
     }
@@ -68,7 +66,6 @@ public class Certificate {
     public void setCertificateID(int certificateID) {
         this.certificateID = certificateID;
     }
-
 
     @Override
     public String toString() {
