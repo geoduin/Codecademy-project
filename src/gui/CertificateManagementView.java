@@ -133,12 +133,14 @@ public class CertificateManagementView extends View {
             if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
-            } 
+            }
+            incorrectNameLabel.setText("");
 
             if (!InputValidation.areNumbers(grade)) {
                 incorrectGradeLabel.setText("Please enter a valid number");
                 return;
             }
+            incorrectGradeLabel.setText("");
 
             int gradeInt = Integer.valueOf(grade);
 
@@ -203,11 +205,13 @@ public class CertificateManagementView extends View {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
             }
+            incorrectNameLabel.setText("");
 
             if (!InputValidation.areNumbers(grade)) {
                 incorrectGradeLabel.setText("Please enter a valid number");
                 return;
             }
+            incorrectGradeLabel.setText("");
 
             int gradeInt = Integer.valueOf(grade);
 
@@ -215,6 +219,7 @@ public class CertificateManagementView extends View {
                 incorrectGradeLabel.setText("Please enter a number between 1-10");
                 return;
             }
+            incorrectGradeLabel.setText("");
 
             certificate.setNameOfIssuer(employeeName);
             certificate.setGrade(gradeInt);
