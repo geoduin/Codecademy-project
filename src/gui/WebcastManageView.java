@@ -162,7 +162,7 @@ class WebcastManageView extends View {
 
     }
 
-    // Adds webcast to database
+    // View to add webcasts to the database
     protected void addWebcastView() {
         GridPane view = generateFormGrid();
         final String defaultStatusValue = "Select value";
