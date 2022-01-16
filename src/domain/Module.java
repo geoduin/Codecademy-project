@@ -11,6 +11,7 @@ public class Module extends ContentItem {
     private String emailAddress;
     private String nameOfRelatedCourse;
 
+    // Base constructor
     public Module(LocalDate date, Status status, String title, int version, int positionWithinCourse,
             String description, String contactName, String emailAddress, String nameOfRelatedCourse,
             int contentID) {
@@ -124,9 +125,11 @@ public class Module extends ContentItem {
         return true;
     }
 
+    // Meaningful toString for GUI related uses
     @Override
     public String toString() {
-        return "Title: " + this.title + ", position within course: " + this.positionWithinCourse + ", (version " + this.version + ")";
+        return "Title: " + this.title + ", position within course: " + this.positionWithinCourse + ", (version "
+                + this.version + ")";
     }
 
 }

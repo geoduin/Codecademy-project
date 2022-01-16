@@ -2,6 +2,10 @@ package domain;
 
 import java.time.LocalDate;
 
+/*
+*The webcast type is responsible for fully representing a webcast entity, so that it can be used in *instantiated form to be created and inserted into the database
+*
+*/
 public class Webcast extends ContentItem {
 
     private String title;
@@ -11,7 +15,8 @@ public class Webcast extends ContentItem {
     private String url;
     private String description;
     private int views;
-   
+
+    // Base constructor
     public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status,
             LocalDate date, String description, int viewCount, int contentID) {
         super(date, status, contentID);
@@ -24,6 +29,8 @@ public class Webcast extends ContentItem {
         this.views = viewCount;
     }
 
+    // Overloaded constructor to automate the date value when a webcast is created.
+    // The date of creation is automatically used.
     public Webcast(String title, String speaker, String organization, int durationInMinutes, String url, Status status,
             String description, int viewCount, int contentID) {
         super(LocalDate.now(), status, contentID);
@@ -36,7 +43,7 @@ public class Webcast extends ContentItem {
         this.views = viewCount;
     }
 
-    // Getters and setters have been automatically generated
+    // Getters and setters bulk
     public String getTitle() {
         return title;
     }
@@ -93,6 +100,7 @@ public class Webcast extends ContentItem {
         this.views = view;
     }
 
+    // Meaningful toString for various GUI related uses
     @Override
     public String toString() {
         return "Tile: " + this.title + " Speaker: " + this.speaker + " Organization: " + this.organization
