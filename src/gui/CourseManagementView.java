@@ -162,7 +162,7 @@ class CourseManagementView extends View {
         }
 
         // Button to set selection as recommended
-        Button setRecommendedBtn = new Button("Add as recommended course");
+        Button setRecommendedBtn = new Button("Recommend it!");
         setRecommendedBtn.setOnMouseClicked(clicked -> {
             if (courseDropdown.getValue().equals("-")) {
                 noCourseSelectedError.setText("No course selected!");
