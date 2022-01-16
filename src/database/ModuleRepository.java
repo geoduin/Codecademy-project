@@ -220,13 +220,27 @@ public class ModuleRepository extends Repository<Module> {
     // An alternative delete method, this time via the ContentID. Sends true or
     // false so that the user will be informed if the module is linked to a course,
     public boolean delete(int id) {
+
+        try (Statement statement = this.connection.getConnection().createStatement()) {
+            ResultSet result = statement.executeQuery(
+                    "SELECT * FROM ContentItem WHERE ContentID IN (Select ContentID FROM Module WHERE ContentID = " + id
+                            + " AND CourseName IS NULL)");
+
+            // Return if the module is linked with a course, so that it won't be deleted.
+            if (!result.next()) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         try (Statement statement = this.connection.getConnection().createStatement()) {
             statement.executeUpdate(
                     "DELETE FROM ContentItem WHERE ContentID IN (Select ContentID FROM Module WHERE ContentID = " + id
                             + " AND CourseName IS NULL)");
 
         } catch (SQLException e) {
-            return false;
+            e.printStackTrace();
         }
         return true;
     }
@@ -339,7 +353,9 @@ public class ModuleRepository extends Repository<Module> {
 
         // Retrieve from the ContentItem and Module table
         try (Statement statement = this.connection.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "+ id);
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "
+                            + id);
 
             while (resultSet.next()) {
                 title = resultSet.getString("Title");
@@ -371,7 +387,8 @@ public class ModuleRepository extends Repository<Module> {
             e.printStackTrace();
         }
 
-        return new Module(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, nameOfRelatedCourse, cID);
+        return new Module(date, status, title, version, positionWithinCourse, description, contactName, emailAddress,
+                nameOfRelatedCourse, cID);
     }
 
     // Linking a module with a course using it's id

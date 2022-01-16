@@ -1,5 +1,8 @@
 package domain;
 
+/*
+*The certificate type holds only the information needed to be able to create, update and delete certificated *from the database. Some attributes are part of foreign types, but they're used in singular form for sake of *efficiency (whole instances of those other types are not functionally needed). These attributes are shown *mainly to give the user some more information about the certificate.
+*/
 public class Certificate {
     private int certificateID;
     private int enrollmentID;
@@ -7,23 +10,23 @@ public class Certificate {
     private String nameOfIssuer;
     private int grade;
     private String courseName;
-    
-    
+
+    // This constructor is used when you create a certificate that doesn't exist in the database
     public Certificate(int enrollmentID, String nameOfIssuer, int grade) {
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
     }
 
+    // This constructor is used when u create a certificate that you retrieved from the database
     public Certificate(int certificateID, String courseName, String studentName, int enrollmentID, String nameOfIssuer, int grade) {
+        this(enrollmentID, nameOfIssuer, grade);
         this.certificateID = certificateID;
         this.courseName = courseName;
         this.studentName = studentName;
-        this.enrollmentID = enrollmentID;
-        this.nameOfIssuer = nameOfIssuer;
-        this.grade = grade;
     }
 
+    // Setters and getters bulk (boilerplate)
     public int getEnrollmentID() {
         return enrollmentID;
     }
@@ -59,7 +62,6 @@ public class Certificate {
     public void setGrade(int grade) {
         this.grade = grade;
     }
-    
 
     public int getCertificateID() {
         return certificateID;
@@ -68,7 +70,6 @@ public class Certificate {
     public void setCertificateID(int certificateID) {
         this.certificateID = certificateID;
     }
-
 
     @Override
     public String toString() {

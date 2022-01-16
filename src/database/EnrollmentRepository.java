@@ -9,14 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Enrollment;
+import domain.Webcast;
 
 public class EnrollmentRepository extends Repository<Enrollment> {
-
-    public static void main(String[] args) {
-        EnrollmentRepository test = new EnrollmentRepository();
-
-        test.retrieveCertificateEligibleEnrollments();
-    }
 
     public EnrollmentRepository() {
         super();
@@ -173,6 +168,18 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
     }
 
+    // Deletes progress records from who the contentId are from webcasts
+    public void deleteProgressWithoutWebcast(Webcast webcast) {
+        String sql = "DELETE FROM Progress WHERE ContentID = ? ";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setInt(1, webcast.getID());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     // Retrieves emails from the database that are linked to the course of which the
     // matches the given parameter
     public List<String> retrieveEmailsFromCourse(String courseName) {
@@ -193,7 +200,8 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         return emailList;
     }
 
-    // TODO Method explanation
+    // If a new module added to the course, it will create new records for student
+    // who are enrolled to that course
     public void updateProgressWithNewModule(String courseName, int contentID) {
         // Retrieves list of emails who are participating to the course
         List<String> emailList = retrieveEmailsFromCourse(courseName);
