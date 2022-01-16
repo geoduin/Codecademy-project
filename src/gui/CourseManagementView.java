@@ -1,10 +1,7 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import domain.Course;
 import domain.Difficulty;
 import javafx.geometry.HPos;

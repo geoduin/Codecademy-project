@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import domain.Gender;
 import domain.Student;
 import domain.Module;
@@ -30,7 +29,9 @@ public class StudentRepository extends Repository<Student> {
             createAddress(student);
             addressID = getAddressID(student);
         }
-        // String insertIntoAddres = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
+
+        // ? What to do with this string
+        // String insertIntoAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
         try (PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(insertStudent)) {
             prepStatement.setString(1, student.getEmail());
             prepStatement.setString(2, student.getStudentName());

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import domain.Module;
 import domain.Status;
 
@@ -118,7 +117,7 @@ public class ModuleRepository extends Repository<Module> {
         }
     }
 
-    // Updates module in database
+    // Updates module in the database with data from the module given as parameter
     @Override
     public void update(Module module) {
         // Collection of needed variables
@@ -340,9 +339,7 @@ public class ModuleRepository extends Repository<Module> {
 
         // Retrieve from the ContentItem and Module table
         try (Statement statement = this.connection.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(
-                    "SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "
-                            + id);
+            ResultSet resultSet = statement.executeQuery("SELECT *, m.ContentID AS cID FROM Module m JOIN ContentItem c ON m.ContentID = c.ContentID WHERE c.ContentID = "+ id);
 
             while (resultSet.next()) {
                 title = resultSet.getString("Title");
@@ -374,11 +371,10 @@ public class ModuleRepository extends Repository<Module> {
             e.printStackTrace();
         }
 
-        return new Module(date, status, title, version, positionWithinCourse, description, contactName,
-                emailAddress, nameOfRelatedCourse, cID);
+        return new Module(date, status, title, version, positionWithinCourse, description, contactName, emailAddress, nameOfRelatedCourse, cID);
     }
 
-    // Linking a module with a course
+    // Linking a module with a course using it's id
     public void assignModuleToCourse(String courseName, int id) {
         String sql = "UPDATE Module SET CourseName = ? WHERE ContentID = ?";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {

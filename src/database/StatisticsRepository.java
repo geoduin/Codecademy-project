@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import domain.Course;
 import domain.Difficulty;
 import domain.Gender;
@@ -186,7 +185,5 @@ public class StatisticsRepository{
             e.printStackTrace();
             return -1;
         }
-        
-        
     }
 }

@@ -11,6 +11,7 @@ public class CertificateRepository extends Repository<Certificate>{
         super();
     }
 
+    // Inserts the certificate given as the parameter into the database
     @Override
     public void insert(Certificate certificate) {
         String query = "INSERT INTO Certificate VALUES (?, ?, ?)";
@@ -27,6 +28,7 @@ public class CertificateRepository extends Repository<Certificate>{
         
     }
 
+    // Overwrites/Updates an existing certificate within the database
     @Override
     public void update(Certificate certificate) {
         String query = "UPDATE Certificate SET EnrollmentID = ?, Grade = ?, EmployeeName = ? WHERE CertificateID = ?";
@@ -43,6 +45,7 @@ public class CertificateRepository extends Repository<Certificate>{
         }
     }
 
+    // Deletes the certificates given as a parameter from the database
     @Override
     public void delete(Certificate certificate) {
         String query = "DELETE FROM Certificate WHERE CertificateID = ?";
@@ -56,6 +59,7 @@ public class CertificateRepository extends Repository<Certificate>{
         }
     }
 
+    // Retrieves all existing certificates from the database
     @Override
     public ArrayList<Certificate> retrieve() {
         ArrayList<Certificate> certificates = new ArrayList<>();

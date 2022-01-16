@@ -64,14 +64,11 @@ public class CourseRepository extends Repository<Course> {
     public Course retrieveCourseByName(String courseName) {
         Course returnValue = null;
         try {
-            Statement statement = connection.getConnection()
-                    .createStatement();
-            ResultSet queryResult = statement
-                    .executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet queryResult = statement.executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
 
             if (queryResult.next()) {
-                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"),
-                        queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
+                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"), queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,7 +109,7 @@ public class CourseRepository extends Repository<Course> {
 
     /*
      * Delete a course based on its name the method receives as argument. Return
-     * true if succesfull. If a course can't be finally deleted due to existing
+     * true if successful. If a course can't be finally deleted due to existing
      * enrollments, a false will be returned so that the user can be informed via
      * the GUI
      */
@@ -164,6 +161,5 @@ public class CourseRepository extends Repository<Course> {
              * recommendation (which is fine).
              */
         }
-
     }
 }
