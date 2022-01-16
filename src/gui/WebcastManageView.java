@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import logic.InputValidation;
 import logic.WebcastLogic;
 
@@ -54,28 +53,6 @@ class WebcastManageView extends View {
         Button addView = new Button("+");
         addView.setId("addButton");
 
-        // Third column
-        Label titleLabel = new Label("Title");
-        Text titleText = new Text();
-
-        Label descriptionLabel = new Label("Description");
-        Text descriptionText = new Text();
-
-        Label durationInMinutesLabel = new Label("Duration (in minutes)");
-        Text durationText = new Text();
-
-        Label speakerLabel = new Label("Speaker");
-        Text speakerText = new Text();
-
-        Label urlLabel = new Label("URL");
-        Text urlText = new Text();
-
-        Label statusLabel = new Label("Status");
-        Text statusText = new Text();
-
-        Label views = new Label("Views");
-        Text viewStateText = new Text();
-
         // Layout management view
         view.add(selectWebcast, 0, 0);
         view.add(webcastComboBox, 0, 1);
@@ -84,20 +61,6 @@ class WebcastManageView extends View {
         view.add(addWebcast, 1, 0);
         view.add(addView, 1, 1);
         view.add(result, 0, 5);
-        view.add(titleLabel, 2, 0);
-        view.add(titleText, 2, 1);
-        view.add(descriptionLabel, 2, 2);
-        view.add(descriptionText, 2, 3);
-        view.add(durationInMinutesLabel, 2, 4);
-        view.add(durationText, 2, 5);
-        view.add(speakerLabel, 2, 6);
-        view.add(speakerText, 2, 7);
-        view.add(urlLabel, 2, 8);
-        view.add(urlText, 2, 9);
-        view.add(statusLabel, 2, 10);
-        view.add(statusText, 2, 11);
-        view.add(views, 2, 12);
-        view.add(viewStateText, 2, 13);
 
         // event handlers
 
@@ -125,18 +88,6 @@ class WebcastManageView extends View {
                 return;
             }
 
-        });
-
-        // retrieves the selected webcast and displays it on the GUI.
-        webcastComboBox.setOnAction(chosenWebcast -> {
-            Webcast webcast = this.logic.retrieveByTitle(webcastComboBox.getValue());
-            titleText.setText(webcast.getTitle());
-            descriptionText.setText(webcast.getDescription());
-            durationText.setText(String.valueOf(webcast.getDurationInMinutes()));
-            speakerText.setText(webcast.getSpeaker());
-            urlText.setText(webcast.getUrl());
-            statusText.setText(webcast.getStatus().toString());
-            viewStateText.setText(Integer.toString(webcast.getView()));
         });
 
         // opens add webcast view
