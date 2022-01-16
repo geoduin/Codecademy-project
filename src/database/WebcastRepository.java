@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 import domain.Status;
 import domain.Webcast;
 
@@ -115,7 +117,7 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    //
+    //Changing the URL has to be done separately since it's used as a key in the GUI
     public void updateURL(String initialURL, String newURL) {
         Connection connection = this.connection.getConnection();
         try {
@@ -128,17 +130,8 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    public void updateViews(String url, int views) {
-        Connection connection = this.connection.getConnection();
-        try (PreparedStatement updateView = connection.prepareStatement("UPDATE Webcast SET Views = ? WHERE URL = ?")) {
-            updateView.setInt(1, views);
-            updateView.setString(2, url);
-            updateView.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
+    //Used to remove instances of ContentID and their corresponding Webcast row from the database.
     @Override
     public void delete(Webcast domainObject) {
         Connection connection = this.connection.getConnection();
@@ -153,7 +146,7 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    // not usefull for webcast
+    // not useful for webcast
     @Override
     public ArrayList<Webcast> retrieve() {
 
@@ -193,8 +186,8 @@ public class WebcastRepository extends Repository<Webcast> {
 
     }
 
-    // returns a hashmap with the webcast URL as key and the webcast title as value.
-    public ArrayList<String> getAllWebcastNames() {
+    //Used to get the values needed to fill comboboxes in the GUI.
+    public List<String> getAllWebcastNames() {
         ArrayList<String> webcasts = new ArrayList<>();
 
         try {
@@ -213,7 +206,7 @@ public class WebcastRepository extends Repository<Webcast> {
         }
 
     }
-
+    //Needed for some queries as unlike the Webcast instance in Java, the Webcast in the Database does have a ContentID
     public int getIDFromURL(String url) {
         try {
             Connection connection = this.connection.getConnection();
@@ -231,7 +224,8 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    // retrieves the ID of the Webcast from the URL alternate key and returns it.
+    //Used when the title is needed but not known. 
+    
     public String getTitleFromContentID(int contentID) {
         String title = "";
         String query = "SELECT Title FROM ContentItem WHERE ContentID = " + contentID + "";
