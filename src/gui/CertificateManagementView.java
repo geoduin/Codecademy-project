@@ -14,14 +14,14 @@ import logic.CertificateLogic;
 public class CertificateManagementView extends View {
     private CertificateLogic certificateLogic;
 
-    public CertificateManagementView(GUI baseUI) {
+    CertificateManagementView(GUI baseUI) {
         super(baseUI);
         this.certificateLogic = new CertificateLogic();
     }
 
     // Method is fully explained in the abstract class this subclass implements.
     @Override
-    public void createView() {
+    protected void createView() {
         // Layout positioning elements
         GridPane view = generateGrid();
 
@@ -88,7 +88,7 @@ public class CertificateManagementView extends View {
     }
 
     // Creates the view you see when successfully deleting a certificate
-    public void certificateSuccessfullyDeleted() {
+    private void certificateSuccessfullyDeleted() {
         // Layout positioning elements
         GridPane view = generateGrid();
 
@@ -111,7 +111,7 @@ public class CertificateManagementView extends View {
 
     // When you try to add a certificate to an enrollment this method provides the
     // view you need to do so
-    public void addCertificateView(Enrollment enrollment) {
+    private void addCertificateView(Enrollment enrollment) {
         // Layout positioning elements
         GridPane view = generateGrid();
 
@@ -166,7 +166,7 @@ public class CertificateManagementView extends View {
 
     // Creates the view you see after successfully adding a certificate to an
     // enrollment
-    public void certificateSuccessfullyAdded() {
+    private void certificateSuccessfullyAdded() {
         GridPane view = generateGrid();
 
         Label successfulAddLabel = new Label("Successfully added certificate!");
@@ -185,7 +185,7 @@ public class CertificateManagementView extends View {
     }
 
     // Creates the view you see when you edit a certificate
-    public void editCertificateView(Certificate certificate) {
+    private void editCertificateView(Certificate certificate) {
         // Layout positioning elements
         GridPane view = generateGrid();
 
@@ -244,7 +244,7 @@ public class CertificateManagementView extends View {
     }
 
     // Creates the view when you successfully update a certificate
-    public void certificateSuccessfullyUpdated() {
+    private void certificateSuccessfullyUpdated() {
         // Layout positioning elements
         GridPane view = generateGrid();
 

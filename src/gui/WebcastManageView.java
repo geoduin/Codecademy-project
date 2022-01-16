@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import logic.InputValidation;
 import logic.WebcastLogic;
 
+//Class responsible for all the views that are related to the management of webcasts (add, edit, delete modules)
 class WebcastManageView extends View {
     private WebcastLogic logic;
 
