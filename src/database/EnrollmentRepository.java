@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Enrollment;
+import domain.Webcast;
 
 public class EnrollmentRepository extends Repository<Enrollment> {
 
@@ -171,6 +172,17 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteProgressWithoutWebcast(Webcast webcast) {
+        String sql = "DELETE FROM Progress WHERE ContentID = ? ";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setInt(1, webcast.getID());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Retrieves emails from the database that are linked to the course of which the
