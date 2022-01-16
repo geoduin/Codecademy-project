@@ -15,6 +15,7 @@ public class Course {
     private List<Course> recommendedCourses;
     private int nrOfCertificates;
 
+    // Self explanatory constructor
     public Course(String name, String topic, String description, Difficulty difficulty) {
         this.name = name;
         this.topic = topic;
@@ -25,11 +26,12 @@ public class Course {
         this.nrOfCertificates = 0;
     }
 
-    public void setNrOfCertificates(int number) { 
+    // Getters and setters bulk
+    public void setNrOfCertificates(int number) {
         this.nrOfCertificates = number;
     }
 
-    public int getNrOfCertificates() { 
+    public int getNrOfCertificates() {
         return this.nrOfCertificates;
     }
 
@@ -85,10 +87,11 @@ public class Course {
         modules.add(module);
     }
 
+    // Meaningful toString for GUI related uses
     @Override
     public String toString() {
 
-        return "Name: " +  this.name + ", Nr. Of Certificates: " + this.nrOfCertificates;
-        
+        return "Name: " + this.name + ", Nr. Of Certificates: " + this.nrOfCertificates;
+
     }
 }

@@ -2,8 +2,8 @@ package domain;
 
 import java.time.LocalDate;
 
+//Class representing the enrollment type. It does not use the actual Course and Student instance for efficiency purposes: only the keys from the database are relevant to support different functionality's
 public class Enrollment {
-    //
     private Integer id;
     private String studentEmail;
     private String courseName;
@@ -16,6 +16,7 @@ public class Enrollment {
         this.dateOfEnrollment = date;
     }
 
+    // Getters and setters bulk
     public Integer getId() {
         return this.id;
     }
@@ -52,6 +53,7 @@ public class Enrollment {
         this(null, studentEmail, courseName, LocalDate.now());
     }
 
+    // Meaningful toString for GUI related uses
     @Override
     public String toString() {
         return "Student: " + this.studentEmail + ", course: " + this.courseName + ", enrollment date: "
