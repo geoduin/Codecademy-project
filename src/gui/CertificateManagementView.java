@@ -14,7 +14,7 @@ import logic.CertificateLogic;
 public class CertificateManagementView extends View {
     private CertificateLogic certificateLogic;
 
-    public CertificateManagementView(GUI baseUI) {
+    CertificateManagementView(GUI baseUI) {
         super(baseUI);
         this.certificateLogic = new CertificateLogic();
     }
