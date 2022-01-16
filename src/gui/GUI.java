@@ -19,6 +19,9 @@ public class GUI extends Application {
     private BorderPane layout;
     protected Stage stage;
 
+    // Initialization of the GUI, stage is initialized once, for other views the
+    // center of the borderpane is set. See 'verlag oplevering' page 9 for
+    // reference
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -54,7 +57,7 @@ public class GUI extends Application {
      * Can receive any pane to act as a new view on screen. Center is only set to
      * the view, so that the menu remains visible at the top on all pages
      */
-    public void goToNext(Parent view, String windowTitle) {
+    void goToNext(Parent view, String windowTitle) {
         this.layout.setCenter(view);
         this.stage.setTitle(windowTitle);
     }
