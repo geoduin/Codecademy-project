@@ -54,7 +54,7 @@ class StudentManagementView extends View {
         // Retrieves the list of Student names from database in combination with their
         // key (mail address) in a map
         List<String[]> studentNameAndEmailList = this.logic.getNameAndEmail();
-        for(int i = 0; i < studentNameAndEmailList.size(); i++) { 
+        for (int i = 0; i < studentNameAndEmailList.size(); i++) {
             studentList.getItems().add(studentNameAndEmailList.get(i)[0] + ", " + studentNameAndEmailList.get(i)[1]);
         }
 
@@ -283,7 +283,6 @@ class StudentManagementView extends View {
         final Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(100);
-        final ProgressBar pb = new ProgressBar(0);
         final ProgressIndicator pi = new ProgressIndicator(0);
         Button updateProgressButton = new Button("Update progress");
         Label updateProgressLabel = new Label("");
@@ -294,7 +293,6 @@ class StudentManagementView extends View {
         slider.valueProperty().addListener(
                 (ov, oldValue, newValue) -> {
                     updateProgressLabel.setText("");
-                    pb.setProgress(newValue.doubleValue() / 100);
                     pi.setProgress(newValue.doubleValue() / 100);
                 });
 
@@ -334,9 +332,7 @@ class StudentManagementView extends View {
         view.add(moduleDropdownLabel, 1, 1);
         view.add(moduleDropdown, 1, 2);
         view.add(slider, 1, 3);
-        view.add(pb, 1, 4);
-        view.add(pi, 1, 5);
-
+        view.add(pi, 1, 4);
         view.add(updateProgressButton, 2, 3);
         view.add(updateProgressLabel, 2, 4);
 
@@ -377,7 +373,6 @@ class StudentManagementView extends View {
         Slider sliderWebcast = new Slider();
         sliderWebcast.setMin(0);
         sliderWebcast.setMax(100);
-        ProgressBar pbWebcast = new ProgressBar(0);
         ProgressIndicator piWebcast = new ProgressIndicator(0);
         Button updateWebcastProgressButton = new Button("Update progress");
         updateWebcastProgressButton.setVisible(false);
@@ -388,7 +383,6 @@ class StudentManagementView extends View {
         sliderWebcast.valueProperty().addListener(
                 (ov, oldValue, newValue) -> {
                     updateWebcastProgressLabel.setText("");
-                    pbWebcast.setProgress(newValue.doubleValue() / 100);
                     piWebcast.setProgress(newValue.doubleValue() / 100);
                 });
 
@@ -500,8 +494,7 @@ class StudentManagementView extends View {
         view.add(webcastDropdownLabel, 1, 7);
         view.add(webcastDropdown, 1, 8);
         view.add(sliderWebcast, 1, 9);
-        view.add(pbWebcast, 1, 10);
-        view.add(piWebcast, 1, 11);
+        view.add(piWebcast, 1, 10);
         view.add(updateWebcastProgressButton, 2, 10);
         view.add(updateWebcastProgressLabel, 2, 12);
         this.gui.goToNext(view, "Content progress of Student: " + student.getStudentName());
