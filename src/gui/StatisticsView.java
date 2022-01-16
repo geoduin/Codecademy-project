@@ -63,7 +63,7 @@ public class StatisticsView extends View {
         top3Webcast.setOnMouseClicked(click -> top3WebcastView());
         top3CourseWithCert.setOnMouseClicked(click -> top3CoursesWithCert());
         recommendedCourse.setOnMouseClicked(click -> recommendedCourses());
-        receivedCerts.setOnMouseClicked(click -> nrReceivedCertificates());
+        receivedCerts.setOnMouseClicked(click -> nrStudentsWhoFinishedCourse());
 
         view.setTop(label);
         grid.add(top3Webcast, 0, 1);
@@ -80,6 +80,8 @@ public class StatisticsView extends View {
 
     }
 
+    //View shows the top 3 webcasts ordered by number of views.
+
     private void top3WebcastView() {
         Button returnBtn = new Button("Back");
         returnBtn.setOnMouseClicked(click -> createView());
@@ -94,7 +96,7 @@ public class StatisticsView extends View {
         view.add(topWebcastText, 1, 2);
         this.gui.goToNext(view, "Top 3 most watched webcasts");
     }
-
+    //This view shows the average progress of a selected course.
     private void averageProgress() {
         Button returnBtn = new Button("Back");
         returnBtn.setOnMouseClicked(click -> createView());
@@ -124,7 +126,7 @@ public class StatisticsView extends View {
 
         this.gui.goToNext(view, "Average progress");
     }
-
+    //This view shows the progress per module of a selected student in a selected course.
     private void progressPerModule() {
         // Third column of first row
         GridPane view = generateGrid();
@@ -170,6 +172,8 @@ public class StatisticsView extends View {
         this.gui.goToNext(view, "Progress per module");
     }
 
+
+    //Shows the number of certificates given out to each student.
     private void Amountcertificates() {
         GridPane view = generateGrid();
         // Fourth column of first row
@@ -195,6 +199,8 @@ public class StatisticsView extends View {
         this.gui.goToNext(view, "Student certificates");
     }
 
+
+    //shows the percentage of enrollments which obtained a certificate for a selected gender. 
     private void genderStatistics() {
         GridPane view = generateGrid();
         // First column of first row
@@ -216,7 +222,7 @@ public class StatisticsView extends View {
         view.add(genderStatisticsValue, 1, 4);
         this.gui.goToNext(view, "Gender statistics");
     }
-
+    //Shows the top 3 courses ordered by the amount of certificates received from them.
     private void top3CoursesWithCert() {
         GridPane view = generateGrid();
 
@@ -233,7 +239,7 @@ public class StatisticsView extends View {
 
         this.gui.goToNext(view, "Top 3 courses by number of certificates");
     }
-
+    //Shows the recommended courses of a selected course. 
     private void recommendedCourses() {
         GridPane view = generateGrid();
         // Third column of second row
@@ -263,8 +269,8 @@ public class StatisticsView extends View {
         }
         this.gui.goToNext(view, "Recommended courses");
     }
-
-    private void nrReceivedCertificates() {
+    //Shows the number of students who obtained 100% progression in all modules of a course, regardless of wether they have already been given a certificate or not.
+    private void nrStudentsWhoFinishedCourse() {
         GridPane view = generateGrid();
 
         // Fourth column of second row

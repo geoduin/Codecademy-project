@@ -6,6 +6,7 @@
     -fx-font-size: 12pt;
 }
 
+/*styles combobox*/
 .combo-box-base {
     -fx-background-color: rgb(161, 192, 238);
 }
@@ -18,7 +19,7 @@
 .combo-box-base:pressed {
     -fx-background-color: rgb(81, 163, 240);
 }
-
+/*styles combobox arrow and box around it*/
 .combo-box .arrow-button {
     -fx-background-color: rgb(7, 95, 146);
 }
@@ -30,6 +31,7 @@
     -fx-background-color: rgb(255, 255, 255);
 }
 
+/* new default styling to buttons */
 .button{
     -fx-background-color: rgb(84, 19, 136);
     -fx-text-fill: #ffffff;
@@ -45,6 +47,7 @@
     -fx-scale-x: 0.95;
 }
 
+/*Specific button styling to buttons with this id*/
 #ManageButton{
     -fx-background-color: rgb(84, 19, 136);
     -fx-text-fill: #ffffff;
@@ -63,6 +66,7 @@
     -fx-border-width: 2;
 }
 
+/*Styling to the statistic button on the front page*/
 #StatBtn{
     -fx-background-color: rgb(217, 3, 104);
     -fx-text-fill: #ffffff;
@@ -79,7 +83,7 @@
     -fx-scale-y: 0.95;
     -fx-scale-x: 0.95;
 }
-
+/*Adds styling to buttons with addButton id*/
 #addButton{
     -fx-background-color: rgb(25, 109, 29);
     -fx-text-fill: #ffffff;
@@ -96,10 +100,13 @@
     -fx-scale-x: 0.95;
 }
 
+/*other styling to manage btn*/
 #manageOtherBtn{
     -fx-pref-width: 180px;
 }
 
+
+/*adds styling to buttons with id secondAddBtn*/
 #secondAddBtn{
     -fx-background-color: #417c69;
     -fx-text-fill: #ffffff;
