@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
@@ -37,16 +38,28 @@ public class PostalCodeTest {
      */
 
     @Test
-    public void formatPostalCodeAcceptsValidPostalCodesTest1() {
-        assertEquals("1000 AB", InputValidation.formatPostalCode("1000ab"));
-
+    public void returnedPostalCodeNumberIsBiggerThan999Test1() {
+        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("1000 AZ").substring(0,4)) > 999);
     }
-
     @Test
-    public void formatPostalCodeAcceptsValidPostalCodesTest2() {
-        assertEquals("2513 AA", InputValidation.formatPostalCode("2513 aA"));
+    public void returnedPostalCodeNumberIsBiggerThan999Test2() {
+        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("2513 AA").substring(0,4)) > 999);
+    }
+    @Test
+    public void returnedPostalCodeNumberIsSmallerOrEqualTo9999Test1() {
+        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("9999 AA").substring(0,4)) <= 9999);
+    }
+    @Test
+    public void returnedPostalCodeNumberIsSmallerOrEqualTo9999Test2() {
+        int postCodeNumbers = Integer.valueOf(InputValidation.formatPostalCode("1234 AB").substring(0,4));
+        assertTrue(postCodeNumbers <= 9999);
 
     }
+    
+
+
+
+
 
     @Test
     public void formatPostalCodeAcceptsValidPostalCodesTest3() {

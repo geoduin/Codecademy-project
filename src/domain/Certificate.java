@@ -6,12 +6,14 @@ public class Certificate {
     private String studentName;
     private String nameOfIssuer;
     private int grade;
+    private String courseName;
     
     
     public Certificate(int enrollmentID, String nameOfIssuer, int grade) {
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
+        this.courseName = "";
     }
 
     public Certificate(int certificateID, int enrollmentID, String nameOfIssuer, int grade) {
@@ -19,6 +21,15 @@ public class Certificate {
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
+        this.courseName = "";
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getCourseName() {
+        return this.courseName;
     }
 
     public int getEnrollmentID() {

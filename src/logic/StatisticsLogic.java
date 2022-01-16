@@ -50,6 +50,7 @@ public class StatisticsLogic {
 
     //Takes a List of the type int[id][percentage] and returns a formatted string of the module 
     private String moduleFormatter(List<int[]> idPercentage) { 
+
         
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -60,11 +61,15 @@ public class StatisticsLogic {
         return stringBuilder.toString();
     }
 
-    public String certificateFormatter(ArrayList<Certificate> certificates) { 
+    public String certificateFormatter(List<Certificate> certificates) { 
+
+        if(certificates.size() == 0) { 
+            return "This student has received no certificates.";
+        }
         
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < certificates.size(); i++) { 
-            builder.append(certificates.get(i).toString() + "\n");
+            builder.append(certificates.get(i).getCourseName() + ", " + certificates.get(i).toString().toLowerCase() + "\n");
         }
         return builder.toString();
     }
