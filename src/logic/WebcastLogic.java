@@ -11,25 +11,26 @@ import database.WebcastRepository;
 
 public class WebcastLogic {
 
+    //This class is responsible for handling information, update, and insert requests in a way that allows to GUI to use them easily.
+
     private WebcastRepository repo;
-    private InputValidation inputValidation;
+
 
     public WebcastLogic() {
         this.repo = new WebcastRepository();
-        this.inputValidation = new InputValidation();
+
     }
 
     public List<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
 
-    // Creates webcast and returns string which the GUI uses to show the user wether
-    // the save was successful.
+    //The returned string is used by the GUI to show the user the status of creating a webcast. 
     public String createWebcast(String title, String speaker, String organization, int duration, String url,
             Status status, String description, int views) {
         if (titleAlreadyExists(title)) {
             return title + " already exists.";
-        } else if (!inputValidation.isValidURL(url)) {
+        } else if (!InputValidation.isValidURL(url)) {
             return url + " is not a valid URL.";
         } else if (urlAlreadyExists(url)) {
             return url + " already exists.";
@@ -42,7 +43,7 @@ public class WebcastLogic {
 
     }
 
-    // Deletes webcastprogress and webcast
+    // Deletes webcast progress and webcast
     public void deleteWebcast(Webcast webcast) {
         deleteWebcastProgress(webcast);
         this.repo.delete(webcast);
@@ -55,7 +56,7 @@ public class WebcastLogic {
 
         // Checking if the URL is invalid or already exists.
 
-        if (!inputValidation.isValidURL(newURL)) {
+        if (!InputValidation.isValidURL(newURL)) {
             return newURL + " is not a valid URL.";
         } else if (!initialURL.equals(newURL) && urlAlreadyExists(newURL)) {
             return newURL + " already exists.";
@@ -85,7 +86,8 @@ public class WebcastLogic {
     }
 
     // Ensures that the webcast title is unique as described in the assignment
-    // description. See report as to why this is done in Java and not SQL.
+    // this is done in Java as ensuring that the title is unique on it's own when it's the title of a webcast,
+    //but only unique in combination with a version when it's the title of a module goes beyond the knowledge of Relational Databases 2 
     public boolean titleAlreadyExists(String title) {
         if (retrieveByTitle(title) == null) {
             return false;
@@ -111,7 +113,7 @@ public class WebcastLogic {
         return true;
     }
 
-    // Takes in all updateable values and checks if the update was successful.
+    // Used to give the user information about wether the update was successful.
     private boolean updateSuccessful(String title, String description, String url, String status) {
         Webcast updateTest = this.repo.retrieveByTitle(title);
         if (updateTest == null) {
