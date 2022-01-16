@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [Codecademy]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Database [Codecademy]    Script Date: 16/01/2022 13:53:17 ******/
 CREATE DATABASE [Codecademy]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [Codecademy] SET QUERY_STORE = OFF
 GO
 USE [Codecademy]
 GO
-/****** Object:  Table [dbo].[Address]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Address]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,8 +91,7 @@ CREATE TABLE [dbo].[Address](
 	[AddressID] [int] IDENTITY(1,1) NOT NULL,
 	[Street] [nvarchar](255) NOT NULL,
 	[HouseNumber] [int] NOT NULL,
-	[City] [nvarchar](255) NOT NULL,
-	[Country] [nvarchar](255) NOT NULL,
+	[CityID] [int] NOT NULL,
 	[PostalCode] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_Address] PRIMARY KEY CLUSTERED 
 (
@@ -100,7 +99,7 @@ CREATE TABLE [dbo].[Address](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Certificate]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Certificate]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +107,7 @@ GO
 CREATE TABLE [dbo].[Certificate](
 	[CertificateID] [int] IDENTITY(1,1) NOT NULL,
 	[EnrollmentID] [int] NOT NULL,
-	[Grade] [decimal](3, 1) NOT NULL,
+	[Grade] [int] NOT NULL,
 	[EmployeeName] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_Certificate] PRIMARY KEY CLUSTERED 
 (
@@ -116,7 +115,22 @@ CREATE TABLE [dbo].[Certificate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[CityCountry]    Script Date: 16/01/2022 13:53:17 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CityCountry](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[City] [nvarchar](225) NOT NULL,
+	[Country] [nvarchar](225) NOT NULL,
+ CONSTRAINT [PK_CityCountry] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Contact]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -130,7 +144,7 @@ CREATE TABLE [dbo].[Contact](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ContentItem]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[ContentItem]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,7 +161,7 @@ CREATE TABLE [dbo].[ContentItem](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +177,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -178,7 +192,7 @@ CREATE TABLE [dbo].[CourseRecommendation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Enrollment]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Enrollment]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +208,7 @@ CREATE TABLE [dbo].[Enrollment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -211,7 +225,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Organization]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Organization]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +238,7 @@ CREATE TABLE [dbo].[Organization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Progress]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Progress]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -240,7 +254,7 @@ CREATE TABLE [dbo].[Progress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Speaker]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Speaker]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +268,7 @@ CREATE TABLE [dbo].[Speaker](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +285,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Webcast]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Table [dbo].[Webcast]    Script Date: 16/01/2022 13:53:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -290,45 +304,51 @@ CREATE TABLE [dbo].[Webcast](
 GO
 SET IDENTITY_INSERT [dbo].[Address] ON 
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (1, N'''s-Gravenhaagse Bos', 10, N'The Hague', N'Netherlands', N'2594 BD')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (1, N'''s-Gravenhaagse Bos', 10, 6, N'2594 BD')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (2, N'Nieuwezijds Voorburgwal', 147, N'Amsterdam', N'Netherlands', N'1012 RJ')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (2, N'Nieuwezijds Voorburgwal', 147, 6, N'1012 RJ')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (3, N'Lovensdijkstraat', 61, N'Breda', N'Netherlands', N'4818 AJ')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (3, N'Lovensdijkstraat', 61, 6, N'4818 AJ')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (4, N'Museumstraat', 1, N'Amsterdam', N'Netherlands', N'1071 XX')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (4, N'Museumstraat', 1, 6, N'1071 XX')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (5, N'Singel', 9, N'Urk', N'Netherlands', N'8321 GT')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (5, N'Singel', 9, 6, N'8321 GT')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (6, N'Domplein', 21, N'Utrecht', N'Netherlands', N'3512 JC')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (6, N'Domplein', 21, 6, N'3512 JC')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (7, N'Provincialeweg', 102, N'Zaanstad', N'Netherlands', N'1506 MD')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (7, N'Provincialeweg', 102, 6, N'1506 MD')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (8, N'Gevers Deynootplein', 30, N'The Hague', N'Netherlands', N'2586 CK')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (8, N'Gevers Deynootplein', 30, 6, N'2586 CK')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [City], [Country], [PostalCode]) VALUES (9, N'Overblaak', 70, N'Rotterdam', N'Netherlands', N'3011 MH')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (9, N'Overblaak', 70, 6, N'3011 MH')
 GO
 SET IDENTITY_INSERT [dbo].[Address] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Certificate] ON 
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (1, 3, CAST(8.0 AS Decimal(3, 1)), N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (1, 3, 8, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (2, 6, CAST(10.0 AS Decimal(3, 1)), N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (2, 6, 10, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (3, 7, CAST(10.0 AS Decimal(3, 1)), N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (3, 7, 10, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (4, 9, CAST(7.0 AS Decimal(3, 1)), N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (4, 9, 7, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (5, 10, CAST(9.0 AS Decimal(3, 1)), N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (5, 10, 9, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (6, 1, CAST(7.0 AS Decimal(3, 1)), N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (6, 1, 7, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (7, 12, CAST(8.0 AS Decimal(3, 1)), N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (7, 12, 8, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (8, 8, CAST(8.0 AS Decimal(3, 1)), N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (8, 8, 8, N'Kees Flodder')
 GO
 SET IDENTITY_INSERT [dbo].[Certificate] OFF
+GO
+SET IDENTITY_INSERT [dbo].[CityCountry] ON 
+GO
+INSERT [dbo].[CityCountry] ([ID], [City], [Country]) VALUES (6, N'Amsterdam', N'Netherlands')
+GO
+SET IDENTITY_INSERT [dbo].[CityCountry] OFF
 GO
 INSERT [dbo].[Contact] ([Email], [Name]) VALUES (N'a.devries@gmail.com', N'Alex de Vries')
 GO
@@ -381,6 +401,8 @@ GO
 INSERT [dbo].[CourseRecommendation] ([CourseName], [RecommendedCourse]) VALUES (N'Object Oriented Programming with Java part 1', N'Object Oriented Programming with Java part 2')
 GO
 SET IDENTITY_INSERT [dbo].[Enrollment] ON 
+GO
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (14, CAST(N'2022-01-16' AS Date), N'e.jansen@hotmail.com', N'Relational Databases SQL')
 GO
 INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (6, CAST(N'2022-01-15' AS Date), N'henk.degraver@mm.com', N'Object Oriented Programming with Java part 1')
 GO
@@ -437,6 +459,22 @@ GO
 INSERT [dbo].[Module] ([ContentID], [CourseName], [Version], [PositionInCourse], [ContactEmail]) VALUES (16, N'Relational Databases SQL', 1, 8, N'k.flodder@yahoo.nl')
 GO
 INSERT [dbo].[Organization] ([Name]) VALUES (N'Codecademy')
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 9, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 10, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 11, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 12, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 13, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 14, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 15, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 16, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 1, 100)
 GO
@@ -507,16 +545,6 @@ GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 15, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 16, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 1, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 2, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 3, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 4, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 5, 0)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 9, 100)
 GO
@@ -596,7 +624,16 @@ INSERT [dbo].[Webcast] ([ContentID], [URL], [Duration], [SpeakerName], [Views]) 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CourseRecommendation]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Index [AK_City_Country]    Script Date: 16/01/2022 13:53:17 ******/
+ALTER TABLE [dbo].[CityCountry] ADD  CONSTRAINT [AK_City_Country] UNIQUE NONCLUSTERED 
+(
+	[City] ASC,
+	[Country] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_CourseRecommendation]    Script Date: 16/01/2022 13:53:17 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecommendation]
 (
 	[CourseName] ASC
@@ -604,7 +641,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecom
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_EmailPlusCoursePlusDate]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Index [AK_EmailPlusCoursePlusDate]    Script Date: 16/01/2022 13:53:17 ******/
 ALTER TABLE [dbo].[Enrollment] ADD  CONSTRAINT [AK_EmailPlusCoursePlusDate] UNIQUE NONCLUSTERED 
 (
 	[Email] ASC,
@@ -612,7 +649,7 @@ ALTER TABLE [dbo].[Enrollment] ADD  CONSTRAINT [AK_EmailPlusCoursePlusDate] UNIQ
 	[Enrolldate] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Enrollment]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Index [IX_Enrollment]    Script Date: 16/01/2022 13:53:17 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 (
 	[ID] ASC
@@ -620,13 +657,18 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_URL]    Script Date: 16/01/2022 00:19:35 ******/
+/****** Object:  Index [AK_URL]    Script Date: 16/01/2022 13:53:17 ******/
 ALTER TABLE [dbo].[Webcast] ADD  CONSTRAINT [AK_URL] UNIQUE NONCLUSTERED 
 (
 	[URL] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Progress] ADD  CONSTRAINT [DF_Progress_Percentage]  DEFAULT ((0)) FOR [Percentage]
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Address_CityCountry] FOREIGN KEY([CityID])
+REFERENCES [dbo].[CityCountry] ([ID])
+GO
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [FK_Address_CityCountry]
 GO
 ALTER TABLE [dbo].[Certificate]  WITH CHECK ADD  CONSTRAINT [FK_Certificate_Enrollment] FOREIGN KEY([EnrollmentID])
 REFERENCES [dbo].[Enrollment] ([ID])
