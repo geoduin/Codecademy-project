@@ -112,7 +112,7 @@ public class WebcastRepository extends Repository<Webcast> {
         }
     }
 
-    // 
+    
     public void updateURL(String initialURL, String newURL) {
         Connection connection = this.connection.getConnection();
         try {
