@@ -4,6 +4,7 @@ import domain.Webcast;
 import domain.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import database.EnrollmentRepository;
 import database.WebcastRepository;
@@ -18,7 +19,7 @@ public class WebcastLogic {
         this.inputValidation = new InputValidation();
     }
 
-    public ArrayList<String> retrieveWebcastNames() {
+    public List<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
 
@@ -41,6 +42,7 @@ public class WebcastLogic {
 
     }
 
+    // Deletes webcastprogress and webcast
     public void deleteWebcast(Webcast webcast) {
         deleteWebcastProgress(webcast);
         this.repo.delete(webcast);
@@ -125,6 +127,7 @@ public class WebcastLogic {
         return false;
     }
 
+    // Deletes progress linked with webcast. Used if webcast is deleted
     public void deleteWebcastProgress(Webcast webcast) {
         new EnrollmentRepository().deleteProgressWithoutWebcast(webcast);
     }
