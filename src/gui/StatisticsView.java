@@ -40,8 +40,8 @@ public class StatisticsView extends View {
         label.setId("title");
         Button top3Webcast = new Button("Top 3 webcast");
         top3Webcast.setId("statBtn");
-        Button AvgProgress = new Button("Average progress");
-        AvgProgress.setId("statBtn");
+        Button avgProgress = new Button("Average progress");
+        avgProgress.setId("statBtn");
         Button progressModule = new Button("Progress per module");
         progressModule.setId("statBtn");
         Button amountCert = new Button("Amount of certificates\nper student");
@@ -56,9 +56,9 @@ public class StatisticsView extends View {
         receivedCerts.setId("statBtn");
 
         genderStat.setOnMouseClicked(click -> genderStatistics());
-        AvgProgress.setOnMouseClicked(click -> averageProgress());
+        avgProgress.setOnMouseClicked(click -> averageProgress());
         progressModule.setOnMouseClicked(click -> progressPerModule());
-        amountCert.setOnMouseClicked(click -> Amountcertificates());
+        amountCert.setOnMouseClicked(click -> amountCertificates());
 
         top3Webcast.setOnMouseClicked(click -> top3WebcastView());
         top3CourseWithCert.setOnMouseClicked(click -> top3CoursesWithCert());
@@ -67,7 +67,7 @@ public class StatisticsView extends View {
 
         view.setTop(label);
         grid.add(top3Webcast, 0, 1);
-        grid.add(AvgProgress, 1, 1);
+        grid.add(avgProgress, 1, 1);
         grid.add(progressModule, 2, 1);
         grid.add(amountCert, 3, 1);
         grid.add(genderStat, 0, 2);
@@ -174,7 +174,7 @@ public class StatisticsView extends View {
 
 
     //Shows the number of certificates given out to each student.
-    private void Amountcertificates() {
+    private void amountCertificates() {
         GridPane view = generateGrid();
         // Fourth column of first row
         Label studentCertificatesLabel = new Label("Student certificates");
@@ -244,7 +244,7 @@ public class StatisticsView extends View {
         GridPane view = generateGrid();
         // Third column of second row
 
-        Label recommendedCoursesLabel = new Label("Reccomended Course");
+        Label recommendedCoursesLabel = new Label("Recommended Course");
         ComboBox<String> courseBoxForRecommendedCourses = new ComboBox<>();
         Text recommendedCoursesText = new Text();
 
