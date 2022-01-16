@@ -658,7 +658,7 @@ class StudentManagementView extends View {
         TextField monthField = new TextField((Integer.toString(studentToEdit.getDateOfBirth().getMonthValue())));
         TextField yearField = new TextField((Integer.toString(studentToEdit.getDateOfBirth().getYear())));
         // Fields filled with address information
-        TextField streetField = new TextField(studentToEdit.getstreet());
+        TextField streetField = new TextField(studentToEdit.getStreet());
         TextField houseNumber = new TextField(Integer.toString(studentToEdit.getHouseNumber()));
         TextField postalCodeField = new TextField(studentToEdit.getPostalCode());
         TextField countryField = new TextField(studentToEdit.getCountry());
@@ -674,7 +674,7 @@ class StudentManagementView extends View {
 
         // Vertical boxes for address information(street, house number, postalcode)
         VBox street = new VBox((new Label("Street")), streetField);
-        VBox house = new VBox((new Label("Housenumber")), houseNumber);
+        VBox house = new VBox((new Label("House number")), houseNumber);
         VBox postal = new VBox((new Label("Postalcode")), postalCodeField);
         // Horizontal box to put all the address information together
         HBox address = new HBox(street, house, postal);

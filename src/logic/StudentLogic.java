@@ -23,7 +23,7 @@ public class StudentLogic {
         this.emails = new ArrayList<>();
     }
 
-    // Creates a new student and sends it to the studentrepository
+    // Creates a new student and sends it to the student repository
     public void newStudent(String name, String email, LocalDate date, Gender gender,
             String street, int houseNumber, String postalCode, String country, String city) {
 
@@ -39,7 +39,7 @@ public class StudentLogic {
         student.setStudentName(name);
         student.setDateOfBirth(newDate);
         student.setGender(gender);
-        student.setstreet(street);
+        student.setStreet(street);
         student.setCountry(country);
         student.setCity(city);
         student.setHouseNumber(houseNr);
