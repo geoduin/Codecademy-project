@@ -2,6 +2,7 @@ package logic;
 
 import java.time.LocalDate;
 
+//This class checks all the input values.
 public class InputValidation {
 
     // Checks if the date is valid.
