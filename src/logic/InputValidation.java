@@ -1,12 +1,6 @@
 package logic;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import database.StudentRepository;
-import domain.Gender;
 
 public class InputValidation {
 

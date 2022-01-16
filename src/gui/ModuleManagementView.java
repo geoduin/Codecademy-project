@@ -13,8 +13,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import logic.InputValidation;
 import logic.ModuleLogic;
-
-import java.util.HashMap;
 import java.util.Map;
 
 import domain.Module;

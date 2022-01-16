@@ -60,6 +60,7 @@ public class CertificateManagementView extends View {
             addCertificateView(enrollmentDropdown.getValue());
         });
 
+        // Allows user to edit certificate that is selected in the CertificateDropdown
         editButton.setOnMouseClicked(clicked -> {
             if (certificateDropdown.getValue() == null) {
                 return;
@@ -67,6 +68,7 @@ public class CertificateManagementView extends View {
             editCertificateView(certificateDropdown.getValue());
         });
 
+        // Allows user to delete certificate that is selected in the CertificateDropdown
         deleteButton.setOnMouseClicked(clicked -> {
             if (certificateDropdown.getValue() == null) {
                 return;

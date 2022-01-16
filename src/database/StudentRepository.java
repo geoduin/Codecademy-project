@@ -1,10 +1,8 @@
 package database;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +11,6 @@ import java.util.Map;
 
 import domain.Gender;
 import domain.Student;
-import domain.Webcast;
 import domain.Module;
 
 public class StudentRepository extends Repository<Student> {
