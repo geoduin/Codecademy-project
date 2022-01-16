@@ -174,6 +174,7 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
     }
 
+    // Deletes progress records from who the contentId are from webcasts
     public void deleteProgressWithoutWebcast(Webcast webcast) {
         String sql = "DELETE FROM Progress WHERE ContentID = ? ";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
@@ -205,7 +206,8 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         return emailList;
     }
 
-    // TODO Method explanation
+    // If a new module added to the course, it will create new records for student
+    // who are enrolled to that course
     public void updateProgressWithNewModule(String courseName, int contentID) {
         // Retrieves list of emails who are participating to the course
         List<String> emailList = retrieveEmailsFromCourse(courseName);
