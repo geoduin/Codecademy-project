@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
@@ -38,34 +37,109 @@ public class PostalCodeTest {
      */
 
     @Test
-    public void returnedPostalCodeNumberIsBiggerThan999Test1() {
-        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("1000 AZ").substring(0,4)) > 999);
+    public void returnedPostalCodeNumberIsBiggerThan999Test() {
+        // Arrange
+        String test = "1234 AB";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        // Assert
+        assertEquals("1234 AB", formattedPostalCode);
     }
-    @Test
-    public void returnedPostalCodeNumberIsBiggerThan999Test2() {
-        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("2513 AA").substring(0,4)) > 999);
-    }
-    @Test
-    public void returnedPostalCodeNumberIsSmallerOrEqualTo9999Test1() {
-        assertTrue(Integer.valueOf(InputValidation.formatPostalCode("9999 AA").substring(0,4)) <= 9999);
-    }
-    @Test
-    public void returnedPostalCodeNumberIsSmallerOrEqualTo9999Test2() {
-        int postCodeNumbers = Integer.valueOf(InputValidation.formatPostalCode("1234 AB").substring(0,4));
-        assertTrue(postCodeNumbers <= 9999);
-
-    }
-    
-
-
-
-
 
     @Test
-    public void formatPostalCodeAcceptsValidPostalCodesTest3() {
-        assertEquals("9999 ZZ", InputValidation.formatPostalCode(" 9999Zz "));
-
+    public void acceptsNumbersBetween999And9999Test1() {
+        // Arrange
+        String test = "1000 ZZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        int number = Integer.valueOf(formattedPostalCode.substring(0, 4).trim());
+        // Assert
+        assertEquals(1000, number);
     }
+
+    @Test
+    public void acceptsNumbersBetween999And9999Test2() {
+        // Arrange
+        String test = "5000 ZZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        int number = Integer.valueOf(formattedPostalCode.substring(0, 4).trim());
+        // Assert
+        assertEquals(5000, number);
+    }
+
+    @Test
+    public void acceptsNumbersBetween999And9999Test3() {
+        // Arrange
+        String test = "9999 ZZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        int number = Integer.valueOf(formattedPostalCode.substring(0, 4).trim());
+        // Assert
+        assertEquals(9999, number);
+    }
+
+    @Test
+    public void letterPartOfPostalCodeIs2LettersLongTest1() {
+        // Arrange
+        String test = "1000 AA";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        int length = formattedPostalCode.substring(4).trim().length();
+        // Assert
+        assertEquals(2, length);
+    }
+
+    @Test
+    public void returnsRightLetterTest1() {
+        // Arrange
+        String test = "1000 aZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        char letter = formattedPostalCode.substring(4).trim().charAt(0);
+        // Assert
+        assertEquals('A', letter);
+    }
+
+    @Test
+    public void returnsRightLetterTest2() {
+        // Arrange
+        String test = "1000 ab";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        char letter = formattedPostalCode.substring(4).trim().charAt(1);
+        // Assert
+        assertEquals('B', letter);
+    }
+
+    @Test
+    public void returnsRightLetterTest3() {
+        // Arrange
+        String test = "1000 ZZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        char letter = formattedPostalCode.substring(4).trim().charAt(0);
+        // Assert
+        assertEquals('Z', letter);
+    }
+
+    @Test
+    public void returnsRightLetterTest4() {
+        // Arrange
+        String test = "1000 aG";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        char letter = formattedPostalCode.substring(4).trim().charAt(1);
+        // Assert
+        assertEquals('G', letter);
+    }
+
+    // InputValidation.formatPostalCode("AZ 4500");
+    //
+    //
+    //
+    //
+    //
 
     /**
      * @subcontract invalid postalCode {
@@ -75,13 +149,37 @@ public class PostalCodeTest {
      * 
      */
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments() {
+    public void formatPostalCodeDoesNotAcceptIllegalArguments1() {
         InputValidation.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments2() {
         InputValidation.formatPostalCode("AZ 4500");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments3() {
         InputValidation.formatPostalCode("999Az");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments4() {
         InputValidation.formatPostalCode("10000ab");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments5() {
         InputValidation.formatPostalCode("0123aa");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments6() {
         InputValidation.formatPostalCode("0999 a1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formatPostalCodeDoesNotAcceptIllegalArguments7() {
         InputValidation.formatPostalCode("10000 aaa");
     }
 
