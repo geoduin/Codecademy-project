@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 public class InputValidation {
 
-    //TODO Add comment to this method
+    // Checks if the date is valid.
+    // It also accounts for leapyears.
     public static boolean validateDate(int day, int month, int year) {
         if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
                 && (day >= 1 && day <= 31)) {
@@ -22,7 +23,8 @@ public class InputValidation {
         }
     }
 
-    //TODO Add comment to this method
+    // Checks if the email has at least the following conditions. <At least 1
+    // character>@<at least 1 character>.<at least 1 character>
     public static boolean validateMailAddress(String mailAddress) {
         return mailAddress.toLowerCase().matches("^[a-z0-9._%+-]+@[a-z0-9]+\\.[^\\.]+");
     }
@@ -32,6 +34,7 @@ public class InputValidation {
         return (percentage >= 0 && percentage <= 100);
     }
 
+    // Formats the postalcode
     public static String formatPostalCode(/* non_null */ String postalCode) {
         // Throws exception if postal code is null
         if (postalCode == null) {
@@ -92,7 +95,8 @@ public class InputValidation {
         return true;
     }
 
-    //TODO Add comment to this method
+    // Formats the date to yyyy-mm-dd. If one of the digits are below ten, it will
+    // put a 0 before the digit and put it in the LocalDateParse
     public static LocalDate formatDate(String year, String month, String day) {
         if (!(year.matches("//d") || !month.matches("//d") || !day.matches("//d"))) {
             throw new NumberFormatException();
@@ -109,7 +113,10 @@ public class InputValidation {
         return LocalDate.parse(year + "-" + month + "-" + day);
     }
 
-    //TODO Add comment to this method
+    // Checks if all the requirements of address is met. All the fields must be
+    // filled, HouseNr are numbers and postalcode has the right postalcode format
+    // If one the booleans value are not met, this method returns false. Otherwise
+    // it will return true.
     public static boolean addressIsValid(String street, String houseNr, String postalCode) {
         boolean addressIsFilled = (fieldIsNotEmpty(street) && fieldIsNotEmpty(postalCode) && fieldIsNotEmpty(houseNr));
         boolean houseNumberIsNumber = areNumbers(houseNr);
@@ -117,7 +124,10 @@ public class InputValidation {
         return (addressIsFilled && houseNumberIsNumber && postalCodeIsRight);
     }
 
-    //TODO Add a comment to this method
+    // Checks if al conditions of date of birth are met. all fields are filled, date
+    // cannot be today, it has a valid date
+    // If one of the conditions are not met, it will return false. Otherwise it will
+    // return true
     public static boolean dateOfBirthIsValid(/* Not null */String day, /* Not null */String month,
             /* Not null */String year) {
         boolean valuesAreNumbers = areNumbers(day) && areNumbers(month) && areNumbers(year);
@@ -135,7 +145,7 @@ public class InputValidation {
         return url.matches("^(https|http)://([a-z]|[A-Z])+\\.([a-z]|[A-Z])+\\.(.)+");
     }
 
-    //Check if the given is is in between 1 and 10
+    // Check if the given is is in between 1 and 10
     public static boolean isValidGrade(int grade) {
         return (grade >= 1 && grade <= 10);
     }

@@ -21,7 +21,7 @@ public class StatisticsView extends View {
     private EnrollmentLogic enrollmentLogic;
     private StudentLogic studentLogic;
 
-    public StatisticsView(GUI baseUI) {
+    StatisticsView(GUI baseUI) {
         super(baseUI);
         this.logic = new StatisticsLogic();
         this.courseLogic = new CourseLogic();
