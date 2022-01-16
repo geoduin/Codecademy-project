@@ -72,7 +72,10 @@ public class StatisticsRepository{
     public List<int[]> retrieveProgressionPerModule(String studentEmail, String courseName) {
         List<int[]> progressOfModules = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement("SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Course JOIN Module ON Course.CourseName = Module.CourseName WHERE Course.CourseName = ?)");
+            //The query works by first selecting all ContentID's of the selected course,
+            //the query will then select the ContentID from Progress where the student email matches the given email
+            //and where the contentID matches the contentID's returned by the subquery, leaving you only with the progress of the student in a specific course.
+            PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(" SELECT ContentID, Percentage FROM Progress WHERE StudentEmail = ? AND ContentID IN (SELECT ContentID FROM Module WHERE CourseName = ?)");
             preparedStatement.setString(1, studentEmail);
             preparedStatement.setString(2, courseName);
             
@@ -95,8 +98,9 @@ public class StatisticsRepository{
         ArrayList<Webcast> top3Webcasts = new ArrayList<>();
         WebcastRepository repo = new WebcastRepository();
         try {
+            //The query works by sorting all webcasts by their descending order of views and then returning their ContentID.
             Statement statement = this.dbConnection.getConnection().createStatement();
-            ResultSet result = statement.executeQuery("SELECT TOP 3 * FROM Webcast ORDER BY Views DESC");
+            ResultSet result = statement.executeQuery("SELECT TOP 3 ContentID FROM Webcast ORDER BY Views DESC");
 
             while (result.next()) {
                 int contentID = result.getInt("ContentID");
@@ -114,6 +118,7 @@ public class StatisticsRepository{
     //Retrieves recommended courses for a selected course
     public ArrayList<Course> retrieveRecommendedCourses(String courseName) {
         ArrayList<Course> retrievedCourses = new ArrayList<>();
+        //The query works by retrieving the records from the CourseRecommendation table where CourseName matches the given course name
         String query = "SELECT * FROM Course WHERE CourseName IN (SELECT RecommendedCourse FROM CourseRecommendation WHERE CourseName = ?)";
         try (PreparedStatement preparedStatement = this.dbConnection.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, courseName);
@@ -133,11 +138,13 @@ public class StatisticsRepository{
     public ArrayList<Certificate> retrieveStudentCertificates(String studentEmail) { 
         ArrayList<Certificate> certificates = new ArrayList<>();
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.CertificateID, Student.Name, Certificate.EmployeeName, Certificate.Grade FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.CertificateID, Student.Name, Certificate.EmployeeName, Certificate.Grade, Certificate.EnrollmentID, Enrollment.CourseName FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("EmployeeName"), result.getInt("Grade")));
+                Certificate certificate = new Certificate(result.getInt("CertificateID"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade"));
+                certificate.setCourseName(result.getString("CourseName"));
+                certificates.add(certificate);
             }
             return certificates;
         } catch (SQLException e) {
@@ -145,6 +152,22 @@ public class StatisticsRepository{
             return null;
         }
     }
+
+    // //Retrieves the courseName from an Enrollment
+    // public String retrieveCourseNameByEnrollmentID(int enrollmentID) { 
+    //     //Selects the CourseName of the record with the given enrollmentID
+    //     try (PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT CourseName FROM Enrollment WHERE ID = ?")) {
+    //         statement.setInt(1, enrollmentID);
+    //         ResultSet result = statement.executeQuery();
+    //         while(result.next()) { 
+    //             return result.getString("CourseName");
+    //         }
+    //         return null;
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
 
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
