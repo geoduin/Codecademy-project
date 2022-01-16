@@ -3,29 +3,28 @@ package logic;
 import domain.Webcast;
 import domain.Status;
 
-
 import java.util.List;
 
 import database.EnrollmentRepository;
 import database.WebcastRepository;
-    //This class is responsible for handling information, update, and insert requests in a way that allows to GUI to use them easily.
+
+//This class is responsible for handling information, update, and insert requests in a way that allows to GUI to use them easily.
 public class WebcastLogic {
 
-
-
     private WebcastRepository repo;
-
 
     public WebcastLogic() {
         this.repo = new WebcastRepository();
 
     }
 
+    // retrieves webcast namess
     public List<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
 
-    //The returned string is used by the GUI to show the user the status of creating a webcast. 
+    // The returned string is used by the GUI to show the user the status of
+    // creating a webcast.
     public String createWebcast(String title, String speaker, String organization, int duration, String url,
             Status status, String description, int views) {
         if (titleAlreadyExists(title)) {
@@ -75,10 +74,10 @@ public class WebcastLogic {
 
     }
 
+    // edits url
     public void editURL(String initialURL, String newURL) {
         this.repo.updateURL(initialURL, newURL);
     }
-
 
     // result set will be empty if the title of a module is given
     public Webcast retrieveByTitle(String title) {
@@ -86,8 +85,10 @@ public class WebcastLogic {
     }
 
     // Ensures that the webcast title is unique as described in the assignment
-    // this is done in Java as ensuring that the title is unique on it's own when it's the title of a webcast,
-    //but only unique in combination with a version when it's the title of a module goes beyond the knowledge of Relational Databases 2 
+    // this is done in Java as ensuring that the title is unique on it's own when
+    // it's the title of a webcast,
+    // but only unique in combination with a version when it's the title of a module
+    // goes beyond the knowledge of Relational Databases 2
     public boolean titleAlreadyExists(String title) {
         if (retrieveByTitle(title) == null) {
             return false;
