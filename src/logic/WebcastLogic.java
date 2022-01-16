@@ -3,7 +3,7 @@ package logic;
 import domain.Webcast;
 import domain.Status;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import database.EnrollmentRepository;
@@ -78,9 +78,6 @@ public class WebcastLogic {
         this.repo.updateURL(initialURL, newURL);
     }
 
-    public void editViewCount(String url, int newViewCount) {
-        this.repo.updateViews(url, newViewCount);
-    }
 
     // result set will be empty if the title of a module is given
     public Webcast retrieveByTitle(String title) {
