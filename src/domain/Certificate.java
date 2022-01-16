@@ -11,14 +11,15 @@ public class Certificate {
     private int grade;
     private String courseName;
 
+    // This constructor is used when you create a certificate that doesn't exist in the database
     public Certificate(int enrollmentID, String nameOfIssuer, int grade) {
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
     }
 
-    public Certificate(int certificateID, String courseName, String studentName, int enrollmentID, String nameOfIssuer,
-            int grade) {
+    // This constructor is used when u create a certificate that you retrieved from the database
+    public Certificate(int certificateID, String courseName, String studentName, int enrollmentID, String nameOfIssuer, int grade) {
         this(enrollmentID, nameOfIssuer, grade);
         this.certificateID = certificateID;
         this.courseName = courseName;
