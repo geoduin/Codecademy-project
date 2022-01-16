@@ -2,6 +2,10 @@ package domain;
 
 import java.time.LocalDate;
 
+/*
+* Module type representing all course database attributes, so that instances of
+* the type can be used for create edit and delete functionality
+*/
 public class Module extends ContentItem {
     private String title;
     private int version;
