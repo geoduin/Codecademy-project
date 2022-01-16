@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [Codecademy]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Database [Codecademy]    Script Date: 16/01/2022 20:18:20 ******/
 CREATE DATABASE [Codecademy]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [Codecademy] SET QUERY_STORE = OFF
 GO
 USE [Codecademy]
 GO
-/****** Object:  Table [dbo].[Address]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Address]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +99,7 @@ CREATE TABLE [dbo].[Address](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Certificate]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Certificate]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[Certificate](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[City]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[City]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -130,7 +130,7 @@ CREATE TABLE [dbo].[City](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -144,7 +144,7 @@ CREATE TABLE [dbo].[Contact](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ContentItem]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[ContentItem]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -161,7 +161,7 @@ CREATE TABLE [dbo].[ContentItem](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -177,7 +177,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[CourseRecommendation]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -192,7 +192,7 @@ CREATE TABLE [dbo].[CourseRecommendation](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Enrollment]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Enrollment]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -208,7 +208,7 @@ CREATE TABLE [dbo].[Enrollment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +225,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Progress]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Progress]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +241,7 @@ CREATE TABLE [dbo].[Progress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Speaker]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Speaker]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +256,7 @@ CREATE TABLE [dbo].[Speaker](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -273,7 +273,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Webcast]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Table [dbo].[Webcast]    Script Date: 16/01/2022 20:18:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -292,49 +292,61 @@ CREATE TABLE [dbo].[Webcast](
 GO
 SET IDENTITY_INSERT [dbo].[Address] ON 
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (1, N'''s-Gravenhaagse Bos', 10, 6, N'2594 BD')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (10, N'''s-Gravenhaagse Bos', 10, 7, N'2594 BD')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (2, N'Nieuwezijds Voorburgwal', 147, 6, N'1012 RJ')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (11, N'Nieuwezijds Voorburgwal', 147, 8, N'1012 RJ')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (3, N'Lovensdijkstraat', 61, 6, N'4818 AJ')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (13, N'Lovensdijkstraat', 61, 9, N'4818 AJ')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (4, N'Museumstraat', 1, 6, N'1071 XX')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (14, N'Museumstraat', 1, 8, N'1071 XX')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (5, N'Singel', 9, 6, N'8321 GT')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (15, N'Singel', 9, 10, N'8321 GT')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (6, N'Domplein', 21, 6, N'3512 JC')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (16, N'Domplein', 21, 11, N'3512 JC')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (7, N'Provincialeweg', 102, 6, N'1506 MD')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (17, N'Overblaak', 70, 12, N'3011 MH')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (8, N'Gevers Deynootplein', 30, 6, N'2586 CK')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (18, N'Provincialeweg', 102, 13, N'1506 MD')
 GO
-INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (9, N'Overblaak', 70, 6, N'3011 MH')
+INSERT [dbo].[Address] ([AddressID], [Street], [HouseNumber], [CityID], [PostalCode]) VALUES (19, N'Prins Hendriklaan', 50, 11, N'3583 EP')
 GO
 SET IDENTITY_INSERT [dbo].[Address] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Certificate] ON 
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (1, 3, 8, N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (9, 17, 8, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (2, 6, 10, N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (10, 19, 10, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (3, 7, 10, N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (11, 18, 10, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (4, 9, 7, N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (12, 20, 10, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (5, 10, 9, N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (14, 23, 7, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (6, 1, 7, N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (15, 24, 8, N'Kees Flodder')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (7, 12, 8, N'Melle Smit')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (16, 25, 7, N'Melle Smit')
 GO
-INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (8, 8, 8, N'Kees Flodder')
+INSERT [dbo].[Certificate] ([CertificateID], [EnrollmentID], [Grade], [EmployeeName]) VALUES (17, 26, 9, N'Kees Flodder')
 GO
 SET IDENTITY_INSERT [dbo].[Certificate] OFF
 GO
 SET IDENTITY_INSERT [dbo].[City] ON 
 GO
-INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (6, N'Amsterdam', N'Netherlands')
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (8, N'Amsterdam', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (9, N'Breda', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (12, N'Rotterdam', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (7, N'The Hague', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (10, N'Urk', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (11, N'Utrecht', N'Netherlands')
+GO
+INSERT [dbo].[City] ([ID], [City], [Country]) VALUES (13, N'Zaandam', N'Netherlands')
 GO
 SET IDENTITY_INSERT [dbo].[City] OFF
 GO
@@ -392,29 +404,27 @@ INSERT [dbo].[CourseRecommendation] ([CourseName], [RecommendedCourse]) VALUES (
 GO
 SET IDENTITY_INSERT [dbo].[Enrollment] ON 
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (14, CAST(N'2022-01-16' AS Date), N'e.jansen@hotmail.com', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (24, CAST(N'2022-01-16' AS Date), N'e.jansen@gmail.com', N'Relational Databases SQL')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (6, CAST(N'2022-01-15' AS Date), N'henk.degraver@mm.com', N'Object Oriented Programming with Java part 1')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (18, CAST(N'2022-01-16' AS Date), N'h.degraver@mm.com', N'Object Oriented Programming with Java part 1')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (7, CAST(N'2022-01-15' AS Date), N'henk.degraver@mm.com', N'Object Oriented Programming with Java part 2')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (19, CAST(N'2022-01-16' AS Date), N'h.degraver@mm.com', N'Object Oriented Programming with Java part 2')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (10, CAST(N'2022-01-15' AS Date), N'j.bos@live.nl', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (20, CAST(N'2022-01-16' AS Date), N'h.degraver@mm.com', N'Relational Databases SQL')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (12, CAST(N'2022-01-15' AS Date), N'j.devries@gmail.com', N'Object Oriented Programming with Java part 1')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (26, CAST(N'2022-01-16' AS Date), N'j.bos@gmail.com', N'Relational Databases SQL')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (13, CAST(N'2022-01-15' AS Date), N'n.dejong@gmail.com', N'Object Oriented Programming with Java part 1')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (23, CAST(N'2022-01-16' AS Date), N'n.dejong@gmail.com', N'Object Oriented Programming with Java part 1')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (9, CAST(N'2022-01-15' AS Date), N'n.dejong@gmail.com', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (16, CAST(N'2021-06-06' AS Date), N'o.denbeste@gmail.com', N'Relational Databases SQL')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (2, CAST(N'2020-06-06' AS Date), N'o.tenbeste@gmail.com', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (17, CAST(N'2021-07-07' AS Date), N'o.denbeste@gmail.com', N'Relational Databases SQL')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (3, CAST(N'2020-07-07' AS Date), N'o.tenbeste@gmail.com', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (25, CAST(N'2022-01-16' AS Date), N'r.vandenberg@gmail.com', N'Object Oriented Programming with Java part 1')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (8, CAST(N'2022-01-15' AS Date), N'r.vandenberg@gmail.com', N'Relational Databases SQL')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (27, CAST(N'2022-01-16' AS Date), N's.vandijk@gmail.com', N'Object Oriented Programming with Java part 1')
 GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (11, CAST(N'2022-01-15' AS Date), N's.vandijk@gmail.com', N'Object Oriented Programming with Java part 1')
-GO
-INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (1, CAST(N'2021-11-21' AS Date), N'wa.vanburen@gmail.com', N'Object Oriented Programming with Java part 1')
+INSERT [dbo].[Enrollment] ([ID], [Enrolldate], [Email], [CourseName]) VALUES (15, CAST(N'2021-11-21' AS Date), N'we.vanburen@gmail.com', N'Object Oriented Programming with Java part 1')
 GO
 SET IDENTITY_INSERT [dbo].[Enrollment] OFF
 GO
@@ -448,145 +458,127 @@ INSERT [dbo].[Module] ([ContentID], [CourseName], [Version], [PositionInCourse],
 GO
 INSERT [dbo].[Module] ([ContentID], [CourseName], [Version], [PositionInCourse], [ContactEmail]) VALUES (16, N'Relational Databases SQL', 1, 8, N'k.flodder@yahoo.nl')
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 9, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 9, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 10, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 10, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 11, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 11, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 12, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 12, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 13, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 13, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 14, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 14, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 15, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 15, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@hotmail.com', 16, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'e.jansen@gmail.com', 16, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 1, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 1, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 2, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 2, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 3, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 3, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 4, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 4, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 5, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 5, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 6, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 6, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 7, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 7, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'henk.degraver@mm.com', 8, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 8, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 9, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 9, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 10, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 10, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 11, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 11, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 12, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 12, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 13, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 13, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 14, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 14, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 15, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 15, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@live.nl', 16, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'h.degraver@mm.com', 16, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 1, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 9, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 2, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 10, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 3, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 11, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 4, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 12, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 5, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 13, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.devries@gmail.com', 6, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 14, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 15, 100)
+GO
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'j.bos@gmail.com', 16, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 1, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 2, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 3, 52)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 3, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 4, 26)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 4, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 5, 0)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 5, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 9, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 9, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 10, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 10, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 11, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 11, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 12, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 12, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 13, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 13, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 14, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 14, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 15, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 15, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'n.dejong@gmail.com', 16, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.denbeste@gmail.com', 16, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 9, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 1, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 10, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 2, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 11, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 3, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 12, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 4, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 13, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 14, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 15, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'o.tenbeste@gmail.com', 16, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 9, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 10, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 11, 100)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 12, 53)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 13, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 14, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 15, 0)
-GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 16, 0)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'r.vandenberg@gmail.com', 5, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 1, 100)
 GO
 INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 2, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 3, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 3, 32)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 4, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 4, 58)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 5, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 5, 0)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N's.vandijk@gmail.com', 6, 70)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 1, 100)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'wa.vanburen@gmail.com', 1, 100)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 2, 50)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'wa.vanburen@gmail.com', 2, 50)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 3, 0)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'wa.vanburen@gmail.com', 3, 0)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 4, 0)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'wa.vanburen@gmail.com', 4, 0)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 5, 0)
 GO
-INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'wa.vanburen@gmail.com', 5, 0)
+INSERT [dbo].[Progress] ([StudentEmail], [ContentID], [Percentage]) VALUES (N'we.vanburen@gmail.com', 6, 100)
 GO
 SET IDENTITY_INSERT [dbo].[Speaker] ON 
 GO
@@ -596,23 +588,23 @@ INSERT [dbo].[Speaker] ([ID], [Name], [OrganizationName]) VALUES (1, N'Melle Smi
 GO
 SET IDENTITY_INSERT [dbo].[Speaker] OFF
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'e.jansen@hotmail.com', N'Emma Jansen', CAST(N'2000-11-25' AS Date), N'F', 5)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'e.jansen@gmail.com', N'Emma Jansen', CAST(N'1999-02-05' AS Date), N'F', 15)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'henk.degraver@mm.com', N'Henk de Graver', CAST(N'1924-02-29' AS Date), N'M', 3)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'h.degraver@mm.com', N'Henk de Graver', CAST(N'1924-02-29' AS Date), N'M', 13)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'j.bos@live.nl', N'Jos Bos', CAST(N'1990-04-20' AS Date), N'O', 8)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'j.bos@gmail.com', N'Jos Bos', CAST(N'1975-12-31' AS Date), N'O', 18)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'j.devries@gmail.com', N'Julia de Vries', CAST(N'1985-04-04' AS Date), N'F', 6)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'j.devries@gmail.com', N'Julia de Vries', CAST(N'1985-01-08' AS Date), N'F', 16)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'n.dejong@gmail.com', N'Noah de Jong', CAST(N'1990-02-01' AS Date), N'M', 4)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'n.dejong@gmail.com', N'Noah de Jong', CAST(N'1990-07-25' AS Date), N'O', 14)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'o.tenbeste@gmail.com', N'Ottelien den Beste', CAST(N'1995-01-01' AS Date), N'F', 2)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'o.denbeste@gmail.com', N'Ottelien den Beste', CAST(N'2000-01-01' AS Date), N'F', 11)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'r.vandenberg@gmail.com', N'Robin van den Berg', CAST(N'1998-08-08' AS Date), N'O', 7)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'r.vandenberg@gmail.com', N'Robin van den Berg', CAST(N'2001-03-05' AS Date), N'O', 17)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N's.vandijk@gmail.com', N'Sam van Dijk', CAST(N'1970-01-01' AS Date), N'O', 9)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N's.vandijk@gmail.com', N'Sam van Dijk', CAST(N'1993-04-09' AS Date), N'O', 19)
 GO
-INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'wa.vanburen@gmail.com', N'W.A. van Buren', CAST(N'1967-04-27' AS Date), N'M', 1)
+INSERT [dbo].[Student] ([Email], [Name], [Birthdate], [Gender], [AddressID]) VALUES (N'we.vanburen@gmail.com', N'W.A. van Buren', CAST(N'1967-04-27' AS Date), N'M', 10)
 GO
 INSERT [dbo].[Webcast] ([ContentID], [URL], [Duration], [Views], [SpeakerID]) VALUES (6, N'https://www.codecademy.com/webcasts/javabasics', 120, 2500, 1)
 GO
@@ -620,7 +612,7 @@ INSERT [dbo].[Webcast] ([ContentID], [URL], [Duration], [Views], [SpeakerID]) VA
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_City_Country]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [AK_City_Country]    Script Date: 16/01/2022 20:18:20 ******/
 ALTER TABLE [dbo].[City] ADD  CONSTRAINT [AK_City_Country] UNIQUE NONCLUSTERED 
 (
 	[City] ASC,
@@ -629,7 +621,7 @@ ALTER TABLE [dbo].[City] ADD  CONSTRAINT [AK_City_Country] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CourseRecommendation]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [IX_CourseRecommendation]    Script Date: 16/01/2022 20:18:20 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecommendation]
 (
 	[CourseName] ASC
@@ -637,7 +629,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_CourseRecommendation] ON [dbo].[CourseRecom
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_EmailPlusCoursePlusDate]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [AK_EmailPlusCoursePlusDate]    Script Date: 16/01/2022 20:18:20 ******/
 ALTER TABLE [dbo].[Enrollment] ADD  CONSTRAINT [AK_EmailPlusCoursePlusDate] UNIQUE NONCLUSTERED 
 (
 	[Email] ASC,
@@ -645,7 +637,7 @@ ALTER TABLE [dbo].[Enrollment] ADD  CONSTRAINT [AK_EmailPlusCoursePlusDate] UNIQ
 	[Enrolldate] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Enrollment]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [IX_Enrollment]    Script Date: 16/01/2022 20:18:20 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 (
 	[ID] ASC
@@ -653,7 +645,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_Enrollment] ON [dbo].[Enrollment]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Speaker__3C2511685EA6E895]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [UQ__Speaker__3C2511680C306AAB]    Script Date: 16/01/2022 20:18:20 ******/
 ALTER TABLE [dbo].[Speaker] ADD UNIQUE NONCLUSTERED 
 (
 	[Name] ASC,
@@ -662,7 +654,7 @@ ALTER TABLE [dbo].[Speaker] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_URL]    Script Date: 16/01/2022 15:18:04 ******/
+/****** Object:  Index [AK_URL]    Script Date: 16/01/2022 20:18:20 ******/
 ALTER TABLE [dbo].[Webcast] ADD  CONSTRAINT [AK_URL] UNIQUE NONCLUSTERED 
 (
 	[URL] ASC
