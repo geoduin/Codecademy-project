@@ -13,12 +13,6 @@ import domain.Webcast;
 
 public class EnrollmentRepository extends Repository<Enrollment> {
 
-    public static void main(String[] args) {
-        EnrollmentRepository test = new EnrollmentRepository();
-
-        test.retrieveCertificateEligibleEnrollments();
-    }
-
     public EnrollmentRepository() {
         super();
     }
