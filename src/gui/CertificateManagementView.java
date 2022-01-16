@@ -11,6 +11,7 @@ import logic.EnrollmentLogic;
 import logic.InputValidation;
 import logic.CertificateLogic;
 
+//This comment is responsive for creating/editing or deleting certificates
 public class CertificateManagementView extends View {
     private CertificateLogic certificateLogic;
 
