@@ -17,20 +17,27 @@ public class StudentRepository extends Repository<Student> {
     @Override
     public void insert(Student student) {
 
-        String insertStudent = "INSERT INTO Student VALUES(?,?, ? ,?,?)";
+        String insertStudent = "INSERT INTO Student VALUES(?,?,?,?,?)";
+        // Retrieves cityID
+        int cityId = getCityId(student);
+        // If city does not exist(cityID =-1), it will create a new city and assigns the
+        // new id to the cityID
+        if (cityId == -1) {
+            cityId = createCity(student);
+        }
+
         int addressID = -1;
         // retrieves addressID
-        int i = getAddressID(student);
+        int i = getAddressID(student, cityId);
         // If it exist, then it will assign the addressID to the student
         if (i != -1) {
             addressID = i;
         } else {
             // Else it will create another address and assign the AddressID
-            createAddress(student);
-            addressID = getAddressID(student);
+            createAddress(student, cityId);
+            // Gets addressId
+            addressID = getAddressID(student, cityId);
         }
-
-        // ? What to do with this string
         // String insertIntoAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
         try (PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(insertStudent)) {
             prepStatement.setString(1, student.getEmail());
@@ -47,56 +54,106 @@ public class StudentRepository extends Repository<Student> {
     }
 
     // Method to insert into address table
-    public void createAddress(Student student) {
-        final String insertAddress = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
+    public void createAddress(Student student, int cityID) {
+
+        final String insertAddress = "INSERT INTO Address(Street, HouseNumber, CityID, PostalCode)VALUES(?, ?, ?, ?)";
         try (PreparedStatement prepState = this.connection.getConnection().prepareStatement(insertAddress)) {
             prepState.setString(1, student.getstreet());
             prepState.setInt(2, student.getHouseNumber());
-            prepState.setString(3, student.getCity());
-            prepState.setString(4, student.getCountry());
-            prepState.setString(5, student.getPostalCode());
+            prepState.setInt(3, cityID);
+            prepState.setString(4, student.getPostalCode());
             prepState.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int getAddressID(Student student) {
+    // Retrieves cityId
+    // If it exist, it will give id back
+    // Not it returns -1
+    public int getCityId(Student student) {
+        int id = -1;
+        String sql = "SELECT TOP 1 ID FROM City WHERE City = ? AND Country = ?";
+        // Prepared statement
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            // input
+            statement.setString(1, student.getCity());
+            statement.setString(2, student.getCountry());
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                id = set.getInt("ID");
+            }
+            return id;
+        } catch (Exception e) {
+            // Return -1;
+            return -1;
+        }
+
+    }
+
+    // Creates new city to the City table
+    public int createCity(Student student) {
+
+        String sql = "INSERT INTO City VALUES(?,?)";
+        try (PreparedStatement statement = this.connection.getConnection().prepareStatement(sql)) {
+            statement.setString(1, student.getCity());
+            statement.setString(2, student.getCountry());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int id = getCityId(student);
+        return id;
+    }
+
+    // Returns addressID if it exists
+    // Otherwise it will give give back -1
+    public int getAddressID(Student student, int cityId) {
         // id is -1 as default value
         int id = -1;
         String searchForAddressID = "SELECT TOP 1 AddressID FROM Address " +
-                "WHERE Street = ? AND HouseNumber = ? AND City = ? AND Country = ?" +
-                " AND PostalCode = ? ORDER BY AddressID ASC";
+                "WHERE Street = ? AND HouseNumber = ? AND CityID = ?" +
+                " AND PostalCode = ?";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(searchForAddressID)) {
             statement.setString(1, student.getstreet());
             statement.setInt(2, student.getHouseNumber());
-            statement.setString(3, student.getCity());
-            statement.setString(4, student.getCountry());
-            statement.setString(5, student.getPostalCode());
+            statement.setInt(3, cityId);
+            statement.setString(4, student.getPostalCode());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 id = set.getInt("AddressID");
             }
-            // If id is found, it will return the right addressID
-            return id;
         } catch (SQLException e) {
             // If not, it will return default id, -1
             return id;
         }
+        // If id is found, it will return the right addressID
+        return id;
 
     }
 
     @Override
     public void update(Student student) {
+        // Get cityId
+
+        int cityID = getCityId(student);
+        if (cityID == -1) {
+            // Creates new city and assigns the ID it to the cityID
+            cityID = createCity(student);
+        }
+
         // Will get the address ID
-        int addressID = getAddressID(student);
+
+        int addressID = getAddressID(student, cityID);
+
+        // Query
         String updateQuery = "UPDATE Student SET Name = ?, Birthdate = ?, Gender = ?, AddressID = ? WHERE Email = ?";
         try (PreparedStatement prepQuery = this.connection.getConnection().prepareStatement(updateQuery)) {
             if (addressID == -1) {
                 // In case the student changes address, the system will create a new address +
                 // id
-                createAddress(student);
-                addressID = getAddressID(student);
+                createAddress(student, cityID);
+                addressID = getAddressID(student, cityID);
             }
             prepQuery.setString(1, student.getStudentName());
             prepQuery.setObject(2, student.getDateOfBirth());
@@ -105,6 +162,7 @@ public class StudentRepository extends Repository<Student> {
             prepQuery.setString(5, student.getEmail());
             prepQuery.executeUpdate();
             deleteAddressWithoutResident();
+            deleteCityWithoutAddress();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -117,6 +175,7 @@ public class StudentRepository extends Repository<Student> {
             studentRemoval.setString(1, student.getEmail());
             studentRemoval.executeUpdate();
             deleteAddressWithoutResident();
+            deleteCityWithoutAddress();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,6 +189,17 @@ public class StudentRepository extends Repository<Student> {
         try (PreparedStatement deleteAddress = this.connection.getConnection().prepareStatement(deleteAddressQuery)) {
             deleteAddress.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // If there are no foreign key relations between city and Address, it will
+    // delete that particular city
+    public void deleteCityWithoutAddress() {
+        String deleteCity = "DELETE FROM City WHERE NOT EXISTS(SELECT * FROM Address WHERE City.ID = Address.CityID)";
+        try (PreparedStatement delete = this.connection.getConnection().prepareStatement(deleteCity)) {
+            delete.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -161,7 +231,7 @@ public class StudentRepository extends Repository<Student> {
 
     public Student searchForForStudent(String email) {
         Student student = null;
-        String studentQuery = "SELECT * FROM Student INNER JOIN Address ON Address.AddressID = Student.AddressID WHERE Email = ?";
+        String studentQuery = "SELECT * FROM Student INNER JOIN Address ON Address.AddressID = Student.AddressID INNER JOIN City ON City.ID = Address.CityID WHERE Email = ?";
         try (PreparedStatement retrieveStudentByEmail = this.connection.getConnection()
                 .prepareStatement(studentQuery)) {
             // Email in question
