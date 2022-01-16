@@ -20,7 +20,7 @@ public class WebcastLogic {
         this.repo = new WebcastRepository();
 
     }
-
+    //Retrieves all webcasts
     public List<String> retrieveWebcastNames() {
         return this.repo.getAllWebcastNames();
     }
@@ -74,7 +74,7 @@ public class WebcastLogic {
         }
 
     }
-
+    //This method is responsible for editing the URL.
     public void editURL(String initialURL, String newURL) {
         this.repo.updateURL(initialURL, newURL);
     }
