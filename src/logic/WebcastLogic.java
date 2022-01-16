@@ -3,9 +3,9 @@ package logic;
 import domain.Webcast;
 import domain.Status;
 
-
 import java.util.ArrayList;
 
+import database.EnrollmentRepository;
 import database.WebcastRepository;
 
 public class WebcastLogic {
@@ -22,32 +22,34 @@ public class WebcastLogic {
         return this.repo.getAllWebcastNames();
     }
 
-    //Creates webcast and returns string which the GUI uses to show the user wether the save was successful.
+    // Creates webcast and returns string which the GUI uses to show the user wether
+    // the save was successful.
     public String createWebcast(String title, String speaker, String organization, int duration, String url,
             Status status, String description, int views) {
-    if(titleAlreadyExists(title)) { 
-        return title + " already exists.";
-    }else if(!inputValidation.isValidURL(url)) { 
-        return url + " is not a valid URL.";
-    } else if(urlAlreadyExists(url)) { 
-        return url + " already exists.";
-    }
-    this.repo.insert(new Webcast(title, speaker, organization, duration, url, status, description, views, 0));
-    if(saveSuccessful(title)) { 
-        return "Save successful";
-    }
-    return "Save failed";
-    
+        if (titleAlreadyExists(title)) {
+            return title + " already exists.";
+        } else if (!inputValidation.isValidURL(url)) {
+            return url + " is not a valid URL.";
+        } else if (urlAlreadyExists(url)) {
+            return url + " already exists.";
+        }
+        this.repo.insert(new Webcast(title, speaker, organization, duration, url, status, description, views, 0));
+        if (saveSuccessful(title)) {
+            return "Save successful";
+        }
+        return "Save failed";
+
     }
 
-    
     public void deleteWebcast(Webcast webcast) {
+        deleteWebcastProgress(webcast);
         this.repo.delete(webcast);
     }
 
     // edits the webcast and returns a String which the GUI
     // uses to show the user wether the update was successful.
-    public String editWebcast(String initialURL, String newURL, String initialTitle, String newTitle, String description, Status status) {
+    public String editWebcast(String initialURL, String newURL, String initialTitle, String newTitle,
+            String description, Status status) {
 
         // Checking if the URL is invalid or already exists.
 
@@ -55,9 +57,9 @@ public class WebcastLogic {
             return newURL + " is not a valid URL.";
         } else if (!initialURL.equals(newURL) && urlAlreadyExists(newURL)) {
             return newURL + " already exists.";
-        } else if(!initialTitle.equals(newTitle) && titleAlreadyExists(newTitle)){
+        } else if (!initialTitle.equals(newTitle) && titleAlreadyExists(newTitle)) {
             return newTitle + " already exists.";
-        } else { 
+        } else {
             Webcast webcast = new Webcast(newTitle, null, null, -1, initialURL, status, null, description, -1, 0);
             this.repo.update(webcast);
             this.repo.updateURL(initialURL, newURL);
@@ -123,6 +125,8 @@ public class WebcastLogic {
         return false;
     }
 
-
+    public void deleteWebcastProgress(Webcast webcast) {
+        new EnrollmentRepository().deleteProgressWithoutWebcast(webcast);
+    }
 
 }

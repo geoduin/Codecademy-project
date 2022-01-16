@@ -36,40 +36,40 @@ public class PostalCodeTest {
      * 
      */
 
+     //as there can be no spaces in a method name, the _ is used as a substitude
+
     @Test
-    public void returnedPostalCodeNumberIsBiggerThan999Test() {
+    public void postalCode1234_ABEnsuresIsValidPostalCode() {
         // Arrange
         String test = "1234 AB";
         // Act
         String formattedPostalCode = InputValidation.formatPostalCode(test);
         // Assert
-        assertEquals("1234 AB", formattedPostalCode);
+        assertEquals(test, formattedPostalCode);
     }
 
     @Test
-    public void acceptsNumbersBetween999And9999Test1() {
+    public void postalCode1000_ZZEnsuresIsValidPostalCode() {
         // Arrange
         String test = "1000 ZZ";
         // Act
         String formattedPostalCode = InputValidation.formatPostalCode(test);
-        int number = Integer.valueOf(formattedPostalCode.substring(0, 4).trim());
         // Assert
-        assertEquals(1000, number);
+        assertEquals(test, formattedPostalCode);
     }
 
     @Test
-    public void acceptsNumbersBetween999And9999Test2() {
+    public void postalCode5000_ZZEnsuresIsValidPostalCode() {
         // Arrange
         String test = "5000 ZZ";
         // Act
         String formattedPostalCode = InputValidation.formatPostalCode(test);
-        int number = Integer.valueOf(formattedPostalCode.substring(0, 4).trim());
         // Assert
-        assertEquals(5000, number);
+        assertEquals(test, formattedPostalCode);
     }
 
     @Test
-    public void acceptsNumbersBetween999And9999Test3() {
+    public void postalCode9999_ZZEnsuresIsValidPostalCode() {
         // Arrange
         String test = "9999 ZZ";
         // Act
@@ -80,7 +80,7 @@ public class PostalCodeTest {
     }
 
     @Test
-    public void letterPartOfPostalCodeIs2LettersLongTest1() {
+    public void postalCode1000_AAEnsuresPostalCodeContainsTwoLetters() {
         // Arrange
         String test = "1000 AA";
         // Act
@@ -90,8 +90,18 @@ public class PostalCodeTest {
         assertEquals(2, length);
     }
 
+    public void postalCode1000_ZZEnsuresPostalCodeContainsTwoLetters() {
+        // Arrange
+        String test = "1000 ZZ";
+        // Act
+        String formattedPostalCode = InputValidation.formatPostalCode(test);
+        int length = formattedPostalCode.substring(4).trim().length();
+        // Assert
+        assertEquals(2, length);
+    }
+
     @Test
-    public void returnsRightLetterTest1() {
+    public void postalCode1000_aZEnsuresLetterIsCapitalized() {
         // Arrange
         String test = "1000 aZ";
         // Act
@@ -102,7 +112,7 @@ public class PostalCodeTest {
     }
 
     @Test
-    public void returnsRightLetterTest2() {
+    public void postalCode1000_abEnsuresLetterIsCapitalized() {
         // Arrange
         String test = "1000 ab";
         // Act
@@ -113,7 +123,7 @@ public class PostalCodeTest {
     }
 
     @Test
-    public void returnsRightLetterTest3() {
+    public void postalCode1000_ZZEnsuresLetterIsCapitalized() {
         // Arrange
         String test = "1000 ZZ";
         // Act
@@ -124,7 +134,7 @@ public class PostalCodeTest {
     }
 
     @Test
-    public void returnsRightLetterTest4() {
+    public void postalCode1000_aGEnsuresLetterIsCapitalized() {
         // Arrange
         String test = "1000 aG";
         // Act
@@ -134,12 +144,6 @@ public class PostalCodeTest {
         assertEquals('G', letter);
     }
 
-    // InputValidation.formatPostalCode("AZ 4500");
-    //
-    //
-    //
-    //
-    //
 
     /**
      * @subcontract invalid postalCode {
@@ -149,38 +153,38 @@ public class PostalCodeTest {
      * 
      */
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments1() {
+    public void givenStringIsgabgoujsabdgiuadbgiuadbjadbgEnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("gabgoujsabdgiuadbgiuadbjadbg");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments2() {
+    public void givenStringIsAZ_4500EnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("AZ 4500");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments3() {
+    public void givenStringIs999AzEnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("999Az");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments4() {
+    public void givenStringIs10000abEnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("10000ab");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments5() {
+    public void givenStringIs0123aaEnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("0123aa");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments6() {
+    public void givenStringIs0999_a1EnsuresIllegalArgumentException() {
         InputValidation.formatPostalCode("0999 a1");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void formatPostalCodeDoesNotAcceptIllegalArguments7() {
-        InputValidation.formatPostalCode("10000 aaa");
+    public void givenStringIs1000_aaaEnsuresIllegalArgumentException() {
+        InputValidation.formatPostalCode("1000 aaa");
     }
 
 }
