@@ -134,12 +134,6 @@ public class PostalCodeTest {
         assertEquals('G', letter);
     }
 
-    // InputValidation.formatPostalCode("AZ 4500");
-    //
-    //
-    //
-    //
-    //
 
     /**
      * @subcontract invalid postalCode {
