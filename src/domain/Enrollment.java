@@ -54,7 +54,7 @@ public class Enrollment {
 
     @Override
     public String toString() {
-        return "Student: " + this.studentEmail + ", course: '" + this.courseName + "', enrollment date: "
+        return "Student: " + this.studentEmail + ", course: " + this.courseName + ", enrollment date: "
                 + this.dateOfEnrollment.toString();
     }
 }
