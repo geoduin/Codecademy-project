@@ -78,7 +78,7 @@ public class StatisticsLogic {
         List<Webcast> topWebcasts = this.repo.retrieveTop3MostWatchedWebcasts();
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < topWebcasts.size(); i++) { 
-            stringBuilder.append("Title: " + topWebcasts.get(i).getTitle() + ", Views: " + topWebcasts.get(i).getView() + "\n");
+            stringBuilder.append("Title: " + topWebcasts.get(i).getTitle() + ", views: " + topWebcasts.get(i).getView() + "\n");
         }
         return stringBuilder.toString();
     }
