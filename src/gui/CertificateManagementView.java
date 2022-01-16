@@ -90,17 +90,18 @@ public class CertificateManagementView extends View {
         GridPane view = generateGrid();
 
         // UI components
-        Label label = new Label("Successfully deleted certificate!");
+        Label successfulDelLabel = new Label("Successfully deleted certificate!");
         Button homeBtn = new Button("Home");
-        Button addAnotherCertificateBtn = new Button("Delete");
+        Button deleteAnotherCertificateBtn = new Button("Delete");
         
         // Further layout setup
-        view.add(label, 1, 0);
+        view.add(successfulDelLabel, 1, 0);
         view.add(homeBtn, 0, 1);
-        view.add(addAnotherCertificateBtn, 2, 1);
+        view.add(deleteAnotherCertificateBtn, 2, 1);
 
         // Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        deleteAnotherCertificateBtn.setOnMouseClicked(clicked -> createView());
 
         this.gui.goToNext(view, "Successfully deleted!");
     }
@@ -161,16 +162,17 @@ public class CertificateManagementView extends View {
     public void certificateSuccessfullyAdded() {
         GridPane view = generateGrid();
 
-        Label label = new Label("Successfully added certificate!");
+        Label successfulAddLabel = new Label("Successfully added certificate!");
         Button homeBtn = new Button("Home");
         Button addAnotherCertificateBtn = new Button("Add");
 
-        view.add(label, 1, 0);
+        view.add(successfulAddLabel, 1, 0);
         view.add(homeBtn, 0, 1);
         view.add(addAnotherCertificateBtn, 2, 1);
 
         // Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        addAnotherCertificateBtn.setOnMouseClicked(clicked -> createView());
 
         this.gui.goToNext(view, "Successfully added!");
     }
@@ -237,17 +239,18 @@ public class CertificateManagementView extends View {
         GridPane view = generateGrid();
 
         // UI components
-        Label label = new Label("Successfully updated certificate!");
+        Label successfulUpdateLabel = new Label("Successfully updated certificate!");
         Button homeBtn = new Button("Home");
-        Button addAnotherCertificateBtn = new Button("Update");
+        Button editAnotherCertificateBtn = new Button("Edit another");
 
         // Further layout setup
-        view.add(label, 1, 0);
+        view.add(successfulUpdateLabel, 1, 0);
         view.add(homeBtn, 0, 1);
-        view.add(addAnotherCertificateBtn, 2, 1);
+        view.add(editAnotherCertificateBtn, 2, 1);
 
         // Behavior of UI components
         homeBtn.setOnMouseClicked(clicked -> new HomeView(this.gui).createView());
+        editAnotherCertificateBtn.setOnMouseClicked(clicked -> createView());
 
         this.gui.goToNext(view, "Successfully updated!");
     }
