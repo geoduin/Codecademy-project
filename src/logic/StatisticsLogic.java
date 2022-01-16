@@ -105,7 +105,7 @@ public class StatisticsLogic {
 
     
     public String numberOfCertificatesFormatter(String course) { 
-        return "Number of certificates: " + this.repo.retrieveNumberOFCertificates(course);
+        return "Number of students who finished this course:  " + this.repo.retrieveNumberOfStudentsWhoCompletedCourse(course);
     }
 
     
