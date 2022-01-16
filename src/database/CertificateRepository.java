@@ -64,10 +64,10 @@ public class CertificateRepository extends Repository<Certificate>{
     public ArrayList<Certificate> retrieve() {
         ArrayList<Certificate> certificates = new ArrayList<>();
         try (Statement statement = this.connection.getConnection().createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT Certificate.*, Student.Name FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email");
+            ResultSet result = statement.executeQuery("SELECT Certificate.*, Student.Name, Enrollment.CourseName FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email");
 
             while (result.next()) {
-                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("Name"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade")));
+                certificates.add(new Certificate(result.getInt("CertificateID"), result.getString("CourseName"), result.getString("Name"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade")));
             }
         } catch (Exception e) {
             e.printStackTrace();

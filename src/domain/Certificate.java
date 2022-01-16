@@ -6,6 +6,7 @@ public class Certificate {
     private String studentName;
     private String nameOfIssuer;
     private int grade;
+    private String courseName;
     
     
     public Certificate(int enrollmentID, String nameOfIssuer, int grade) {
@@ -14,8 +15,9 @@ public class Certificate {
         this.grade = grade;
     }
 
-    public Certificate(int certificateID, String studentName, int enrollmentID, String nameOfIssuer, int grade) {
+    public Certificate(int certificateID, String courseName, String studentName, int enrollmentID, String nameOfIssuer, int grade) {
         this.certificateID = certificateID;
+        this.courseName = courseName;
         this.studentName = studentName;
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
@@ -32,6 +34,14 @@ public class Certificate {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getNameOfIssuer() {
