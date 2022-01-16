@@ -9,6 +9,9 @@ import database.ModuleRepository;
 import domain.Module;
 import domain.*;
 
+/*
+*Class responsible for communication between the GUI and the module repository. It *collects all the functionality that can actually change something the modules.  
+*/
 public class ModuleLogic {
 
     private List<Module> modules;
@@ -36,24 +39,33 @@ public class ModuleLogic {
         return this.moduleRepo.getAllModuleNames(true);
     }
 
+    // Based on the database attribute 'id' of a module, unlink any course that is
+    // linked with it
     public void unlinkModuleWithCourse(int id) {
         this.moduleRepo.unassignModuleToCourse(id);
         this.enrollmentRepo.deleteProgressWithoutCourse();
     }
 
+    // Based on the database attribute 'id' of a module and a coursename, link them
+    // together
     public void linkModuleWithCourse(String courseName, int id) {
         this.moduleRepo.assignModuleToCourse(courseName, id);
         this.enrollmentRepo.updateProgressWithNewModule(courseName, id);
     }
 
+    // Retrieving modules that are linked to the courseName received as argument.
+    // Using a map so that the unique attributes of module (title and version) can
+    // be shown to the user, while also having the ID linked with that string
     public Map<String, Integer> getModulesWithinCourse(String courseName) {
         return this.moduleRepo.getAllModuleNames(courseName);
     }
 
+    // Instantiate a module from the database, finding it by its database ID
     public Module retrieveModuleByID(int id) {
         return this.moduleRepo.retrieveModuleByID(id);
     }
 
+    // Regular getter
     public List<Module> getModules() {
         return modules;
     }
@@ -101,6 +113,7 @@ public class ModuleLogic {
         return false;
     }
 
+    // Instantiate all modules, existing in the database
     public ArrayList<Module> retrieveAllModules() {
         return this.moduleRepo.retrieve();
     }
