@@ -101,7 +101,7 @@ class WebcastManageView extends View {
     }
 
     // String url, String title, String description, Status status
-    protected void editWebcastView(Webcast webcastToEdit) {
+    private void editWebcastView(Webcast webcastToEdit) {
 
         // Saving original URL since URL is the being used to identify the webcast in
         // the database, it has to be saved temporarily if you want to edit the URL.
@@ -163,7 +163,7 @@ class WebcastManageView extends View {
     }
 
     // View to add webcasts to the database
-    protected void addWebcastView() {
+    private void addWebcastView() {
         GridPane view = generateFormGrid();
         final String defaultStatusValue = "Select value";
 

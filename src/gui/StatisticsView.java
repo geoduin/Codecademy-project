@@ -14,14 +14,14 @@ import logic.EnrollmentLogic;
 import logic.StatisticsLogic;
 import logic.StudentLogic;
 
-public class StatisticsViews extends View {
+public class StatisticsView extends View {
 
     private StatisticsLogic logic;
     private CourseLogic courseLogic;
     private EnrollmentLogic enrollmentLogic;
     private StudentLogic studentLogic;
 
-    public StatisticsViews(GUI baseUI) {
+    public StatisticsView(GUI baseUI) {
         super(baseUI);
         this.logic = new StatisticsLogic();
         this.courseLogic = new CourseLogic();
