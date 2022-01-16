@@ -132,7 +132,7 @@ public class CertificateManagementView extends View {
             String employeeName = nameTextField.getText();
             String grade = gradeTextField.getText();
 
-            if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
+            if (nameTextField.getText().isBlank()) {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
             }
@@ -203,7 +203,7 @@ public class CertificateManagementView extends View {
             String employeeName = nameTextField.getText();
             String grade = gradeTextField.getText();
 
-            if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
+            if (nameTextField.getText().isBlank()) {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
             }
