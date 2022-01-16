@@ -49,14 +49,13 @@ public class StudentLogic {
 
     // It receives a hashmap from the student repository and returns this hashmap to
     // the StudentManagement view
-    public Map<String, String> getNameAndEmail() {
+    public List<String[]> getNameAndEmail() {
         return this.studentRepo.retrieveNameByEmail();
     }
 
     // This method checks if the email exist and gives a boolean value
     public boolean emailExist(String checkedMail) {
-        this.studentRepo.retrieveNameByEmail().values().stream().forEach(email -> this.emails.add(email));
-        return this.emails.contains(checkedMail);
+        return this.studentRepo.retrieveAllEmails().contains(checkedMail);
     }
 
     // This method receives the email string from the combobox and sends it to the

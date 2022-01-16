@@ -22,24 +22,24 @@ public class StudentRepository extends Repository<Student> {
     public void insert(Student student) {
 
         String insertStudent = "INSERT INTO Student VALUES(?,?, ? ,?,?)";
-        int addresID = -1;
+        int addressID = -1;
         // retrieves addressID
         int i = getAddressID(student);
         // If it exist, then it will assign the addressID to the student
         if (i != -1) {
-            addresID = i;
+            addressID = i;
         } else {
             // Else it will create another address and assign the AddressID
             createAddress(student);
-            addresID = getAddressID(student);
+            addressID = getAddressID(student);
         }
         // String insertIntoAddres = "INSERT INTO Address VALUES(?, ?, ?, ?, ?)";
         try (PreparedStatement prepStatement = this.connection.getConnection().prepareStatement(insertStudent)) {
             prepStatement.setString(1, student.getEmail());
             prepStatement.setString(2, student.getStudentName());
             prepStatement.setObject(3, student.getDateOfBirth());
-            prepStatement.setString(4, student.getGender().toString());
-            prepStatement.setInt(5, addresID);
+            prepStatement.setString(4, student.getGender().name());
+            prepStatement.setInt(5, addressID);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -102,7 +102,7 @@ public class StudentRepository extends Repository<Student> {
             }
             prepQuery.setString(1, student.getStudentName());
             prepQuery.setObject(2, student.getDateOfBirth());
-            prepQuery.setString(3, student.getGender().toString());
+            prepQuery.setString(3, student.getGender().name());
             prepQuery.setInt(4, addressID);
             prepQuery.setString(5, student.getEmail());
             prepQuery.executeUpdate();
@@ -142,15 +142,16 @@ public class StudentRepository extends Repository<Student> {
     }
 
     // Retrieves name and email and put it in a Hashmap
-    public Map<String, String> retrieveNameByEmail() {
-        Map<String, String> nameList = new HashMap<>();
+    public List<String[]> retrieveNameByEmail() {
+        List<String[]> nameList = new ArrayList<>();
         String retrieveQuery = "SELECT Name, Email FROM Student";
         try (PreparedStatement retrieveStatement = this.connection.getConnection().prepareStatement(retrieveQuery)) {
-            int i = 1;
+
             ResultSet rS = retrieveStatement.executeQuery();
             while (rS.next()) {
-                nameList.put("(" + Integer.toString(i) + ") " + rS.getString("Name"), rS.getString("Email"));
-                i++;
+                String[] nameAndEmail = { rS.getString("Name"), rS.getString("Email") };
+                nameList.add(nameAndEmail);
+
             }
 
             return nameList;

@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import logic.InputValidation;
 import logic.WebcastLogic;
 
 class WebcastManageView extends View {
@@ -54,32 +56,25 @@ class WebcastManageView extends View {
 
         // Third column
         Label titleLabel = new Label("Title");
-        TextField titleTextField = new TextField();
-        titleTextField.setEditable(false);
+        Text titleText = new Text();
 
         Label descriptionLabel = new Label("Description");
-        TextArea descriptionArea = new TextArea();
-        descriptionArea.setEditable(false);
-        descriptionArea.setPrefHeight(50);
+        Text descriptionText = new Text();
 
         Label durationInMinutesLabel = new Label("Duration (in minutes)");
-        TextField durationTextField = new TextField();
-        durationTextField.setEditable(false);
+        Text durationText = new Text();
 
         Label speakerLabel = new Label("Speaker");
-        TextField speakerTextField = new TextField();
-        speakerTextField.setEditable(false);
+        Text speakerText = new Text();
 
         Label urlLabel = new Label("URL");
-        TextField urlTextField = new TextField();
-        urlTextField.setEditable(false);
+        Text urlText = new Text();
 
         Label statusLabel = new Label("Status");
-        TextField statusField = new TextField();
-        statusField.setEditable(false);
+        Text statusText = new Text();
 
         Label views = new Label("Views");
-        TextField viewStateField = new TextField();
+        Text viewStateText = new Text();
 
         // Layout management view
         view.add(selectWebcast, 0, 0);
@@ -90,19 +85,19 @@ class WebcastManageView extends View {
         view.add(addView, 1, 1);
         view.add(result, 0, 5);
         view.add(titleLabel, 2, 0);
-        view.add(titleTextField, 2, 1);
+        view.add(titleText, 2, 1);
         view.add(descriptionLabel, 2, 2);
-        view.add(descriptionArea, 2, 3);
+        view.add(descriptionText, 2, 3);
         view.add(durationInMinutesLabel, 2, 4);
-        view.add(durationTextField, 2, 5);
+        view.add(durationText, 2, 5);
         view.add(speakerLabel, 2, 6);
-        view.add(speakerTextField, 2, 7);
+        view.add(speakerText, 2, 7);
         view.add(urlLabel, 2, 8);
-        view.add(urlTextField, 2, 9);
+        view.add(urlText, 2, 9);
         view.add(statusLabel, 2, 10);
-        view.add(statusField, 2, 11);
+        view.add(statusText, 2, 11);
         view.add(views, 2, 12);
-        view.add(viewStateField, 2, 13);
+        view.add(viewStateText, 2, 13);
 
         // event handlers
 
@@ -135,13 +130,13 @@ class WebcastManageView extends View {
         // retrieves the selected webcast and displays it on the GUI.
         webcastComboBox.setOnAction(chosenWebcast -> {
             Webcast webcast = this.logic.retrieveByTitle(webcastComboBox.getValue());
-            titleTextField.setText(webcast.getTitle());
-            descriptionArea.setText(webcast.getDescription());
-            durationTextField.setText(String.valueOf(webcast.getDurationInMinutes()));
-            speakerTextField.setText(webcast.getSpeaker());
-            urlTextField.setText(webcast.getUrl());
-            statusField.setText(webcast.getStatus().toString());
-            viewStateField.setText(Integer.toString(webcast.getView()));
+            titleText.setText(webcast.getTitle());
+            descriptionText.setText(webcast.getDescription());
+            durationText.setText(String.valueOf(webcast.getDurationInMinutes()));
+            speakerText.setText(webcast.getSpeaker());
+            urlText.setText(webcast.getUrl());
+            statusText.setText(webcast.getStatus().toString());
+            viewStateText.setText(Integer.toString(webcast.getView()));
         });
 
         // opens add webcast view
@@ -197,7 +192,10 @@ class WebcastManageView extends View {
             if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
                 noFieldEmpty = false;
                 result.setText("All fields must be filled in");
+            } else if (!InputValidation.isValidURL(urlField.getText())) {
+                result.setText("url format is incorrect");
             }
+
             if (noFieldEmpty) {
                 // edditing the webcast, editWebcast returns, the editWebcast method returns a
                 // string saying wether the update was successful and giving details about the
@@ -281,6 +279,9 @@ class WebcastManageView extends View {
                 result.setText("All fields must be filled");
                 return;
 
+            } else if (!InputValidation.isValidURL(urlTextField.getText())) {
+                result.setText("Incorrect url format");
+                return;
             } else {
                 result.setText(this.logic.createWebcast(titleTextField.getText(), speakerTextField.getText(),
                         organizationField.getText(), Integer.valueOf(durationTextField.getText()),
