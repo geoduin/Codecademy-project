@@ -102,8 +102,7 @@ public class StudentRepository extends Repository<Student> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int id = getCityId(student);
-        return id;
+        return getCityId(student);
     }
 
     // Returns addressID if it exists
@@ -143,7 +142,6 @@ public class StudentRepository extends Repository<Student> {
         }
 
         // Will get the address ID
-
         int addressID = getAddressID(student, cityID);
 
         // Query
@@ -238,7 +236,7 @@ public class StudentRepository extends Repository<Student> {
             retrieveStudentByEmail.setString(1, email);
             // Executes query
             ResultSet resultSet = retrieveStudentByEmail.executeQuery();
-            // Resultset results
+            // results
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
                 LocalDate dateOfBirth = LocalDate.parse(resultSet.getString("Birthdate"));
