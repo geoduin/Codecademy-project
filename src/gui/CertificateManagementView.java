@@ -19,6 +19,8 @@ public class CertificateManagementView extends View {
         this.certificateLogic = new CertificateLogic();
     }
 
+
+    // Creates the first view you see when you go into certificate management
     @Override
     public void createView() {
         // Layout positioning elements
@@ -85,6 +87,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Manage certificates");
     }
 
+    // Creates the view you see when successfully deleting a certificate
     public void certificateSuccessfullyDeleted() {
         // Layout positioning elements
         GridPane view = generateGrid();
@@ -106,11 +109,12 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Successfully deleted!");
     }
 
+    // When you try to add a certificate to an enrollment this method provides the view you need to do so
     public void addCertificateView(Enrollment enrollment) {
         // Layout positioning elements
         GridPane view = generateGrid();
 
-        
+        // UI Components
         Label nameLabel = new Label("Name");
         Label gradeLabel = new Label("Grade");
         TextField nameTextField = new TextField();
@@ -128,7 +132,7 @@ public class CertificateManagementView extends View {
         view.add(incorrectGradeLabel, 1, 3);
         view.add(submitButton, 0, 4);
 
-        // Checking if input is correct
+        // Checks if input is correct
         submitButton.setOnMouseClicked(clicked -> {
             String employeeName = nameTextField.getText();
             String grade = gradeTextField.getText();
@@ -159,6 +163,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }
 
+    // Creates the view you see after successfully adding a certificate to an enrollment
     public void certificateSuccessfullyAdded() {
         GridPane view = generateGrid();
 
@@ -177,6 +182,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Successfully added!");
     }
 
+    // Creates the view you see when you edit a certificate
     public void editCertificateView(Certificate certificate) {
         // Layout positioning elements
         GridPane view = generateGrid();
@@ -201,6 +207,7 @@ public class CertificateManagementView extends View {
         view.add(incorrectGradeLabel, 2, 2);
         view.add(editButton, 0, 3);
 
+        // UI Component behavior 
         editButton.setOnMouseClicked(clicked -> {
             String employeeName = nameTextField.getText();
             String grade = gradeTextField.getText();
@@ -234,6 +241,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Edit certificate");
     }
 
+    // Creates the view when you successfully update a certificate
     public void certificateSuccessfullyUpdated() {
         // Layout positioning elements
         GridPane view = generateGrid();
