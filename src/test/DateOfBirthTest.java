@@ -72,26 +72,4 @@ public class DateOfBirthTest {
         // Assert
         assertEquals(false, result);
     }
-
-    /**
-     * @subcontract checks if one of the requirements are not met
-     * @requires day, month and year fields are not filled || day, month and year
-     *           not
-     *           digits || day, month and year are not valid dates || day, month and
-     *           year later then today
-     * @ensures \result = false
-     */
-    @Test
-    public void testDateOfBirthIsValidIfDateIsNotValid() {
-        // Arrange
-        LocalDate date = LocalDate.now().plusDays(1);
-        String day = "29";
-        String month = "2";
-        String year = "1800";
-        // Act
-        boolean result = InputValidation.dateIsEarlierThanNow(day, month, year);
-        // Assert
-        assertEquals(false, result);
-    }
-
 }
