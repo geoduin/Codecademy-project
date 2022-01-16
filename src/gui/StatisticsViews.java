@@ -51,7 +51,7 @@ public class StatisticsViews extends View {
         top3CourseWithCert.setId("statBtn");
         Button recommendedCourse = new Button("Recommended\ncourses");
         recommendedCourse.setId("statBtn");
-        Button receivedCerts = new Button("Received certificates\nper course");
+        Button receivedCerts = new Button("Number of students \nwho finished a course");
         receivedCerts.setId("statBtn");
 
         genderStat.setOnMouseClicked(click -> genderStatistics());
@@ -275,28 +275,28 @@ public class StatisticsViews extends View {
 
         // Fourth column of second row
 
-        Label numberOfReceivedCertificatesLabel = new Label("Number of received certificates");
-        ComboBox<String> courseBoxForNumberOfCertificates = new ComboBox<>();
-        Text numberOfCertificatesText = new Text();
+        Label selectCourse = new Label("Select course");
+        ComboBox<String> courseBoxForNumberStudentsWhoFinished = new ComboBox<>();
+        Text numberOfStudents = new Text();
 
-        courseBoxForNumberOfCertificates.setOnAction(pickedCourse -> {
-            numberOfCertificatesText
-                    .setText(this.logic.numberOfCertificatesFormatter(courseBoxForNumberOfCertificates.getValue()));
+        courseBoxForNumberStudentsWhoFinished.setOnAction(pickedCourse -> {
+            numberOfStudents
+                    .setText(this.logic.numberOfCertificatesFormatter(courseBoxForNumberStudentsWhoFinished.getValue()));
         });
         Button returnBtn = new Button("Back");
         returnBtn.setOnMouseClicked(click -> createView());
         view.add(returnBtn, 5, 0);
-        view.add(numberOfReceivedCertificatesLabel, 1, 1);
-        view.add(courseBoxForNumberOfCertificates, 1, 2);
-        view.add(numberOfCertificatesText, 1, 4);
+        view.add(selectCourse, 1, 1);
+        view.add(courseBoxForNumberStudentsWhoFinished, 1, 2);
+        view.add(numberOfStudents, 1, 4);
         // adding values to all courseComboboxes
         List<String> courses = this.courseLogic.retrieveCourseNames();
         // Adding courses to ComboBox.
         for (int i = 0; i < courses.size(); i++) {
-            courseBoxForNumberOfCertificates.getItems().add(courses.get(i));
+            courseBoxForNumberStudentsWhoFinished.getItems().add(courses.get(i));
 
         }
-        this.gui.goToNext(view, "Number of received certificates");
+        this.gui.goToNext(view, "Number of students who finished a course");
     }
 
 }

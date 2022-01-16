@@ -8,9 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import domain.Enrollment;
 
 public class EnrollmentRepository extends Repository<Enrollment> {
@@ -63,15 +60,13 @@ public class EnrollmentRepository extends Repository<Enrollment> {
                 e.printStackTrace();
             }
         }
-
     }
 
     // Based on Student key and Webcast key or module as argument, set a new
     // progress record
     public void insertProgress(String StudentEmail, int contentId) {
         Connection connect = this.connection.getConnection();
-        try (PreparedStatement state = connect
-                .prepareStatement("INSERT INTO Progress (StudentEmail, ContentID) VALUES (?, ?)")) {
+        try (PreparedStatement state = connect.prepareStatement("INSERT INTO Progress (StudentEmail, ContentID) VALUES (?, ?)")) {
             state.setString(1, StudentEmail);
             state.setInt(2, contentId);
             state.executeUpdate();
@@ -165,16 +160,17 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         }
     }
 
+    // Deletes records from the progress table in the database where the contentID is not linked to a module that is linked to a course
     public void deleteProgressWithoutCourse() {
         try (PreparedStatement statement = this.connection.getConnection()
-                .prepareStatement(
-                        "DELETE Progress FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName IS NULL")) {
+                .prepareStatement("DELETE Progress FROM Progress JOIN Module ON Module.ContentID = Progress.ContentID WHERE CourseName IS NULL")) {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // Retrieves emails from the database that are linked to the course of which the matches the given parameter
     public List<String> retrieveEmailsFromCourse(String courseName) {
         String sql = "SELECT DISTINCT p.StudentEmail FROM Progress p JOIN Module m ON m.ContentID = p.ContentID WHERE m.CourseName = ?";
         List<String> emailList = new ArrayList<>();
@@ -193,6 +189,7 @@ public class EnrollmentRepository extends Repository<Enrollment> {
         return emailList;
     }
 
+    //TODO Method explanation
     public void updateProgressWithNewModule(String courseName, int contentID) {
         // Retrieves list of emails who are participating to the course
         List<String> emailList = retrieveEmailsFromCourse(courseName);

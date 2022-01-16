@@ -1,12 +1,6 @@
 package logic;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import database.StudentRepository;
-import domain.Gender;
 
 public class InputValidation {
 
@@ -52,7 +46,7 @@ public class InputValidation {
         // between the numbers of the postal code and the letters of the postal code and
         // to not accept 0 as the first digit.
         if (postalCode.matches("^[1-9][0-9]{3}\\s*[A-Za-z]{2}$")) {
-            // returning the formated postal code
+            // returning the formatted postal code
             return postalCode.substring(0, 4) + " " + postalCode.substring(4).toUpperCase().trim();
 
         }
@@ -131,7 +125,7 @@ public class InputValidation {
     // Regex retrieved from
     // https://learningprogramming.net/java/advanced-java/validate-url-address-with-regular-expression-in-java/
     public static boolean isValidURL(String url) {
-        return url.matches("^(https|http)://([a-z]|[A-Z])+.([a-z]|[A-Z])+.([a-z]|[A-Z])+");
+        return url.matches("^(https|http)://([a-z]|[A-Z])+\\.([a-z]|[A-Z])+\\.(.)+");
     }
 
     public static boolean isValidGrade(int grade) {

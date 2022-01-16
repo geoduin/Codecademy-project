@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
@@ -13,7 +12,7 @@ import domain.Difficulty;
 //Class responsible for database communication regarding courses. 
 public class CourseRepository extends Repository<Course> {
 
-    // CoursRepository IS a repository and thus extends the abstract repo class
+    // CourseRepository IS a repository and thus extends the abstract repo class
     public CourseRepository() {
         super();
     }
@@ -65,14 +64,11 @@ public class CourseRepository extends Repository<Course> {
     public Course retrieveCourseByName(String courseName) {
         Course returnValue = null;
         try {
-            Statement statement = connection.getConnection()
-                    .createStatement();
-            ResultSet queryResult = statement
-                    .executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet queryResult = statement.executeQuery("SELECT * FROM Course WHERE CourseName = '" + courseName + "'");
 
             if (queryResult.next()) {
-                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"),
-                        queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
+                returnValue = new Course(queryResult.getString("CourseName"), queryResult.getString("Subject"), queryResult.getString("Description"), Difficulty.valueOf(queryResult.getString("Difficulty")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +109,7 @@ public class CourseRepository extends Repository<Course> {
 
     /*
      * Delete a course based on its name the method receives as argument. Return
-     * true if succesfull. If a course can't be finally deleted due to existing
+     * true if successful. If a course can't be finally deleted due to existing
      * enrollments, a false will be returned so that the user can be informed via
      * the GUI
      */
@@ -160,11 +156,10 @@ public class CourseRepository extends Repository<Course> {
 
         } catch (SQLException e) {
             /*
-             * If an exception occurs perform no action and futher exception handling,
+             * If an exception occurs perform no action and further exception handling,
              * because the course is already set as
              * recommendation (which is fine).
              */
         }
-
     }
 }
