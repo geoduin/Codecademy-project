@@ -62,9 +62,6 @@ public class StatisticsRepository{
         }
     }
 
-
-    
-
     //Retrieves  a students progression per module for a selected course
     //The integer array is in the format of [ContentID, Percentage]
     public List<int[]> retrieveProgressionPerModule(String studentEmail, String courseName) {
@@ -150,8 +147,6 @@ public class StatisticsRepository{
             return null;
         }
     }
-
-
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
     public List<Course> retrieveTop3CoursesByNumberOfCertificates() { 
