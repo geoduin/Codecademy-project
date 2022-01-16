@@ -31,7 +31,7 @@ class HomeView extends View {
         statisticsBtn.setId("StatBtn");
         statisticsBtn
                 .setOnMouseClicked(clicked -> {
-                    new StatisticsViews(this.gui).createView();
+                    new StatisticsView(this.gui).createView();
                 });
         manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
 

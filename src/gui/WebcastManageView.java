@@ -35,7 +35,7 @@ class WebcastManageView extends View {
         webcastComboBox.setValue(defaultWebcastValue);
         Label result = new Label();
 
-        // retrieves all webcast names and adds them to the combox
+        // retrieves all webcast names and adds them to the ComboBox
         List<String> webcastList = this.logic.retrieveWebcastNames();
         for (int i = 0; i < webcastList.size(); i++) {
             webcastComboBox.getItems().add(webcastList.get(i));
@@ -101,7 +101,7 @@ class WebcastManageView extends View {
     }
 
     // String url, String title, String description, Status status
-    protected void editWebcastView(Webcast webcastToEdit) {
+    private void editWebcastView(Webcast webcastToEdit) {
 
         // Saving original URL since URL is the being used to identify the webcast in
         // the database, it has to be saved temporarily if you want to edit the URL.
@@ -123,10 +123,10 @@ class WebcastManageView extends View {
 
         Label result = new Label("");
 
-        // column 2
+        // Column 2
         Button editButton = new Button("Save edit");
 
-        // layout
+        // Layout
         view.add(titleLabel, 0, 0);
         view.add(titleField, 1, 0);
         view.add(descriptionLabel, 0, 1);
@@ -139,7 +139,7 @@ class WebcastManageView extends View {
         view.add(result, 0, 6);
 
         editButton.setOnAction(click -> {
-            // checking if all fields are filled
+            // Checking if all fields are filled
             Boolean noFieldEmpty = true;
             if (titleField.getText().isBlank() || descriptionArea.getText().isBlank() || urlField.getText().isBlank()) {
                 noFieldEmpty = false;
@@ -149,7 +149,7 @@ class WebcastManageView extends View {
             }
 
             if (noFieldEmpty) {
-                // edditing the webcast, editWebcast returns, the editWebcast method returns a
+                // Editing the webcast, editWebcast returns, the editWebcast method returns a
                 // string saying wether the update was successful and giving details about the
                 // fail if it wasn't.
                 result.setText(this.logic.editWebcast(originalURL, urlField.getText(), originalTitle,
@@ -162,12 +162,12 @@ class WebcastManageView extends View {
 
     }
 
-    // Adds webcast to database
-    protected void addWebcastView() {
+    // View to add webcasts to the database
+    private void addWebcastView() {
         GridPane view = generateFormGrid();
         final String defaultStatusValue = "Select value";
 
-        // column 1
+        // Column 1
         Label titleLabel = new Label("Title");
         TextField titleTextField = new TextField();
 
@@ -195,7 +195,7 @@ class WebcastManageView extends View {
         TextField viewsField = new TextField();
         Label result = new Label();
 
-        // column 2
+        // Column 2
         Button saveButton = new Button("Save");
 
         // Layout
