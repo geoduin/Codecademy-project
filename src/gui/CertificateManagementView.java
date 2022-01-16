@@ -128,19 +128,28 @@ public class CertificateManagementView extends View {
         // Checking if input is correct
         submitButton.setOnMouseClicked(clicked -> {
             String employeeName = nameTextField.getText();
-            int grade = Integer.valueOf(gradeTextField.getText());
+            String grade = gradeTextField.getText();
 
             if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
-            } 
+            }
+            incorrectNameLabel.setText("");
 
-            if (!InputValidation.isValidGrade(grade) || gradeTextField.getText().isBlank()) {
+            if (!InputValidation.areNumbers(grade)) {
+                incorrectGradeLabel.setText("Please enter a valid number");
+                return;
+            }
+            incorrectGradeLabel.setText("");
+
+            int gradeInt = Integer.valueOf(grade);
+
+            if (!InputValidation.isValidGrade(gradeInt) || gradeTextField.getText().isBlank()) {
                 incorrectGradeLabel.setText("Please enter a number between 1-10");
                 return;
             }
 
-            certificateLogic.newCertificate(enrollment, employeeName, grade);
+            certificateLogic.newCertificate(enrollment, employeeName, gradeInt);
             certificateSuccessfullyAdded();
         });
 
@@ -190,20 +199,30 @@ public class CertificateManagementView extends View {
 
         editButton.setOnMouseClicked(clicked -> {
             String employeeName = nameTextField.getText();
-            int grade = Integer.valueOf(gradeTextField.getText());
+            String grade = gradeTextField.getText();
 
             if (!employeeName.chars().allMatch(Character::isLetter) || nameTextField.getText().isBlank()) {
                 incorrectNameLabel.setText("Please enter a valid name");
                 return;
             }
+            incorrectNameLabel.setText("");
 
-            if (!InputValidation.isValidGrade(grade) || gradeTextField.getText().isBlank()) {
+            if (!InputValidation.areNumbers(grade)) {
+                incorrectGradeLabel.setText("Please enter a valid number");
+                return;
+            }
+            incorrectGradeLabel.setText("");
+
+            int gradeInt = Integer.valueOf(grade);
+
+            if (!InputValidation.isValidGrade(gradeInt) || gradeTextField.getText().isBlank()) {
                 incorrectGradeLabel.setText("Please enter a number between 1-10");
                 return;
             }
+            incorrectGradeLabel.setText("");
 
             certificate.setNameOfIssuer(employeeName);
-            certificate.setGrade(grade);
+            certificate.setGrade(gradeInt);
             certificateLogic.updateCertificate(certificate);
             certificateSuccessfullyUpdated();
         });
