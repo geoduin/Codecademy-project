@@ -2,6 +2,10 @@ package domain;
 
 import java.time.LocalDate;
 
+/*
+*Student type representing all the database attributes, so that an instance of the type  can be used to facilitate readable CRUD operations initiated by the user via the GUI 
+*
+*/
 public class Student {
     private String studentName;
     private Gender gender;
@@ -13,6 +17,7 @@ public class Student {
     private String country;
     private String city;
 
+    // Self explanatory constructor
     public Student(String name, Gender gender, String email, LocalDate dateOfBirth, String street, int houseNumber,
             String postalCode,
             String country,
@@ -28,11 +33,12 @@ public class Student {
         this.city = city;
     }
 
+    // Getters and setters bulk
     public String getStudentName() {
         return studentName;
     }
 
-    public String getstreet() {
+    public String getStreet() {
         return street;
     }
 
@@ -64,7 +70,7 @@ public class Student {
         return gender;
     }
 
-    public void setstreet(String street) {
+    public void setStreet(String street) {
         this.street = street;
     }
 
@@ -100,10 +106,10 @@ public class Student {
         this.studentName = studentName;
     }
 
+    // Meaningful toString to be used in GUI views
     @Override
     public String toString() {
-        return this.studentName +  ", Email: " + this.email;
+        return this.studentName + ", Email: " + this.email;
     }
-
 
 }

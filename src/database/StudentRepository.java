@@ -58,7 +58,7 @@ public class StudentRepository extends Repository<Student> {
 
         final String insertAddress = "INSERT INTO Address(Street, HouseNumber, CityID, PostalCode)VALUES(?, ?, ?, ?)";
         try (PreparedStatement prepState = this.connection.getConnection().prepareStatement(insertAddress)) {
-            prepState.setString(1, student.getstreet());
+            prepState.setString(1, student.getStreet());
             prepState.setInt(2, student.getHouseNumber());
             prepState.setInt(3, cityID);
             prepState.setString(4, student.getPostalCode());
@@ -114,7 +114,7 @@ public class StudentRepository extends Repository<Student> {
                 "WHERE Street = ? AND HouseNumber = ? AND CityID = ?" +
                 " AND PostalCode = ?";
         try (PreparedStatement statement = this.connection.getConnection().prepareStatement(searchForAddressID)) {
-            statement.setString(1, student.getstreet());
+            statement.setString(1, student.getStreet());
             statement.setInt(2, student.getHouseNumber());
             statement.setInt(3, cityId);
             statement.setString(4, student.getPostalCode());
