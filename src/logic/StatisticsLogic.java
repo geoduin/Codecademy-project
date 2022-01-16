@@ -1,5 +1,4 @@
 package logic;
-import java.util.ArrayList;
 import java.util.List;
 import database.ModuleRepository;
 import database.StatisticsRepository;
