@@ -15,14 +15,17 @@ public class EnrollmentLogic {
         this.enrollmentRepo = new EnrollmentRepository();
     }
 
+    // Retrieves all course names from the database
     public List<String> getCourseNames() {
         return this.courseLogic.retrieveCourseNames();
     }
 
+    // Enrolls the student provided as parameter into the course that has the same course name as the given parameter
     public void enrollStudentToCourse(Student chosenStudent, String courseName) {
         this.enrollmentRepo.insert(new Enrollment(chosenStudent.getEmail(), courseName));
     }
 
+    // Retrieves emails from course that has the same name as the given parameter
     public List<String> retrieveEmailsFromCourse(String courseName) {
         return this.enrollmentRepo.retrieveEmailsFromCourse(courseName);
     }
@@ -33,6 +36,7 @@ public class EnrollmentLogic {
         return this.enrollmentRepo.retrieveEnrollmentsOfStudent(studentEmail);
     }
 
+    // Deletes enrollment from the database that is provided as a parameter
     public void deleteEnrollment(Enrollment enrollment) {
         this.enrollmentRepo.delete(enrollment);
     }

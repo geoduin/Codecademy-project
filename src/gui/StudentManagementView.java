@@ -28,6 +28,7 @@ import logic.StudentLogic;
 import logic.EnrollmentLogic;
 import logic.InputValidation;
 
+//This class will show the student view. You can add/edit/delete/enroll student. You also can assign student to webcast
 class StudentManagementView extends View {
     private StudentLogic logic;
     private EnrollmentLogic enrollmentLogic;

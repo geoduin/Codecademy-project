@@ -12,7 +12,7 @@ import domain.Gender;
 import domain.Webcast;
 import domain.Certificate;
 
-//This repository is a bit unique, while still connects with a database, it does not use any of the methods from Repository, so it does not extend the abstract class.
+//This repository is a bit unique, while it still connects with the database, it does not use any of the methods from Repository, so it does not extend the abstract class Repository.
 //This class handles information requests given by the StatisticsLogic class from the StatisticsViews class. 
 //So that the StatisticsViews can show the required statistics to the user. 
 public class StatisticsRepository {

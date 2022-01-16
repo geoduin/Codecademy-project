@@ -7,7 +7,10 @@ import domain.Course;
 import domain.Gender;
 import domain.Webcast;
 
+//This class is responsible for handling any information/update/insert requests from the database and makes sure that requests are properly formatted.
+
 public class StatisticsLogic {
+
 
     private StatisticsRepository repo;
     private ModuleRepository moduleRepo; 

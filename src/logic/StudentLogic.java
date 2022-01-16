@@ -12,6 +12,7 @@ import domain.Gender;
 import domain.Module;
 import domain.Student;
 
+//StudentLogic class is responsible for management of students(creating/editing or deleting students, adding and deleting enrollments)
 public class StudentLogic {
     private StudentRepository studentRepo;
     private EnrollmentRepository enrollRepo;
