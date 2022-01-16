@@ -113,7 +113,7 @@ class WebcastManageView extends View {
         });
         // Deletes webcast
         deleteView.setOnAction(clicked -> {
-            if (webcastComboBox.getValue().equals(defaultWebcastValue)) {
+            if (webcastComboBox.getValue().equals(defaultWebcastValue) || webcastComboBox.getValue() == null) {
                 result.setText("Please select a webcast");
                 return;
             } else {
