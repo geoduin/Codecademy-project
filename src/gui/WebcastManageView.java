@@ -22,6 +22,7 @@ class WebcastManageView extends View {
 
     }
 
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
 

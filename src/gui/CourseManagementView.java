@@ -27,8 +27,7 @@ class CourseManagementView extends View {
         this.logic = new CourseLogic();
     }
 
-    // The following method creates the first view that the user sees when going
-    // into course management
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         // Initial layout setup

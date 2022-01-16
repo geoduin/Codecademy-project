@@ -38,6 +38,7 @@ class StudentManagementView extends View {
         this.enrollmentLogic = new EnrollmentLogic();
     }
 
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         GridPane view = generateGrid();

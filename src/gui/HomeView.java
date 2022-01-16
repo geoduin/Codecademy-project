@@ -13,6 +13,7 @@ class HomeView extends View {
         super(baseUI);
     }
 
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         // Initial layout setup

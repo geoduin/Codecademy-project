@@ -27,8 +27,7 @@ class ModuleManagementView extends View {
         this.logic = new ModuleLogic();
     }
 
-    // The following method creates the first view that the user sees when going
-    // into module management.
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         // Initial layout setup

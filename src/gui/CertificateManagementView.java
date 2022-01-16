@@ -19,14 +19,13 @@ public class CertificateManagementView extends View {
         this.certificateLogic = new CertificateLogic();
     }
 
-
-    // Creates the first view you see when you go into certificate management
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     public void createView() {
         // Layout positioning elements
         GridPane view = generateGrid();
 
-        //  UI Components
+        // UI Components
         Label enrollmentsLabel = new Label("Eligible enrollments");
         ComboBox<Enrollment> enrollmentDropdown = new ComboBox<>();
         Button createCertificateButton = new Button("Create");
@@ -35,7 +34,7 @@ public class CertificateManagementView extends View {
         Button editButton = new Button("Edit");
         Button deleteButton = new Button("Delete");
 
-        //  Further layout setup
+        // Further layout setup
         view.add(enrollmentsLabel, 0, 0);
         view.add(enrollmentDropdown, 0, 1);
         view.add(createCertificateButton, 0, 2);
@@ -44,7 +43,7 @@ public class CertificateManagementView extends View {
         view.add(editButton, 0, 5);
         view.add(deleteButton, 0, 6);
 
-        //  Setup of the enrollmentDropdown containing eligible enrollments setup
+        // Setup of the enrollmentDropdown containing eligible enrollments setup
         // Adding enrollment instances to the dropdown
         int count = 0;
         for (Enrollment enrollment : new EnrollmentLogic().getEnrollmentsEligibleForCertificate()) {
@@ -75,14 +74,15 @@ public class CertificateManagementView extends View {
             if (certificateDropdown.getValue() == null) {
                 return;
             }
-            
+
             certificateLogic.deleteCertificate(certificateDropdown.getValue());
             certificateSuccessfullyDeleted();
         });
 
-        //  Adding certificates to certificateDropdown
+        // Adding certificates to certificateDropdown
         certificateDropdown.getItems().addAll(certificateLogic.retrieveAllCertificates());
-        certificateDropdown.setPromptText(certificateLogic.retrieveAllCertificates().size() + " certificate(s) available");
+        certificateDropdown
+                .setPromptText(certificateLogic.retrieveAllCertificates().size() + " certificate(s) available");
 
         this.gui.goToNext(view, "Manage certificates");
     }
@@ -96,7 +96,7 @@ public class CertificateManagementView extends View {
         Label successfulDelLabel = new Label("Successfully deleted certificate!");
         Button homeBtn = new Button("Home");
         Button deleteAnotherCertificateBtn = new Button("Delete");
-        
+
         // Further layout setup
         view.add(successfulDelLabel, 1, 0);
         view.add(homeBtn, 0, 1);
@@ -109,7 +109,8 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Successfully deleted!");
     }
 
-    // When you try to add a certificate to an enrollment this method provides the view you need to do so
+    // When you try to add a certificate to an enrollment this method provides the
+    // view you need to do so
     public void addCertificateView(Enrollment enrollment) {
         // Layout positioning elements
         GridPane view = generateGrid();
@@ -127,8 +128,8 @@ public class CertificateManagementView extends View {
         view.add(nameLabel, 0, 0);
         view.add(nameTextField, 0, 1);
         view.add(incorrectNameLabel, 1, 1);
-        view.add(gradeLabel, 0 , 2);
-        view.add(gradeTextField, 0 , 3);
+        view.add(gradeLabel, 0, 2);
+        view.add(gradeTextField, 0, 3);
         view.add(incorrectGradeLabel, 1, 3);
         view.add(submitButton, 0, 4);
 
@@ -163,7 +164,8 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }
 
-    // Creates the view you see after successfully adding a certificate to an enrollment
+    // Creates the view you see after successfully adding a certificate to an
+    // enrollment
     public void certificateSuccessfullyAdded() {
         GridPane view = generateGrid();
 
@@ -203,11 +205,11 @@ public class CertificateManagementView extends View {
         view.add(nameTextField, 1, 1);
         view.add(incorrectNameLabel, 2, 1);
         view.add(gradeLabel, 0, 2);
-        view.add(gradeTextField, 1 ,2);
+        view.add(gradeTextField, 1, 2);
         view.add(incorrectGradeLabel, 2, 2);
         view.add(editButton, 0, 3);
 
-        // UI Component behavior 
+        // UI Component behavior
         editButton.setOnMouseClicked(clicked -> {
             String employeeName = nameTextField.getText();
             String grade = gradeTextField.getText();
@@ -237,7 +239,7 @@ public class CertificateManagementView extends View {
             certificateLogic.updateCertificate(certificate);
             certificateSuccessfullyUpdated();
         });
-        
+
         this.gui.goToNext(view, "Edit certificate");
     }
 

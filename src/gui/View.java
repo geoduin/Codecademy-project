@@ -62,7 +62,11 @@ abstract class View {
 
     }
 
-    // every view needs to create a parent type that can sit in the center of the
-    // base layout
+    /*
+     * every view needs to create a parent type that can sit in the center of the
+     * base layout. Therefore every view needs to implements this method in such a
+     * manner that a *suitable layout is created and activated (shown on screen)
+     * using the goToNext method of the *associated GUI instance
+     */
     protected abstract void createView();
 }

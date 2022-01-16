@@ -11,8 +11,7 @@ class ManageView extends View {
         super(baseUI);
     }
 
-    // Only one view necessary to show the users the available management options.
-    // Method. Makes a pathway to both.
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         // setting the layout of the view

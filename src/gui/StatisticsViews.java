@@ -30,6 +30,7 @@ public class StatisticsViews extends View {
 
     }
 
+    // Method is fully explained in the abstract class this subclass implements.
     @Override
     protected void createView() {
         BorderPane view = new BorderPane();
