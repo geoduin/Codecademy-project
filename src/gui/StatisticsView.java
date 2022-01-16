@@ -269,7 +269,7 @@ public class StatisticsView extends View {
         }
         this.gui.goToNext(view, "Recommended courses");
     }
-    //
+    //Shows the number of students who obtained 100% progression in all modules of a course, regardless of wether they have already been given a certificate or not.
     private void nrStudentsWhoFinishedCourse() {
         GridPane view = generateGrid();
 
