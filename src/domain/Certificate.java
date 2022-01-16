@@ -16,8 +16,9 @@ public class Certificate {
         this.courseName = "";
     }
 
-    public Certificate(int certificateID, int enrollmentID, String nameOfIssuer, int grade) {
+    public Certificate(int certificateID, String studentName, int enrollmentID, String nameOfIssuer, int grade) {
         this.certificateID = certificateID;
+        this.studentName = studentName;
         this.enrollmentID = enrollmentID;
         this.nameOfIssuer = nameOfIssuer;
         this.grade = grade;
@@ -72,6 +73,6 @@ public class Certificate {
 
     @Override
     public String toString() {
-        return "Name of Issuer: " + this.nameOfIssuer + ", Grade: " + this.grade;
+        return "Student: " + this.studentName + ", Name of Issuer: " + this.nameOfIssuer + ", grade: " + this.grade;
     }
 }
