@@ -8,10 +8,10 @@ import java.util.List;
 
 import database.EnrollmentRepository;
 import database.WebcastRepository;
-
+    //This class is responsible for handling information, update, and insert requests in a way that allows to GUI to use them easily.
 public class WebcastLogic {
 
-    //This class is responsible for handling information, update, and insert requests in a way that allows to GUI to use them easily.
+
 
     private WebcastRepository repo;
 
