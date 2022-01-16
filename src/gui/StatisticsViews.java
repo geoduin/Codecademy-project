@@ -79,13 +79,6 @@ public class StatisticsViews extends View {
 
     }
 
-    // Possible features to add:
-
-    // SearchBar for student
-    // HBox studentSearch = new HBox();
-    // TextField searchBar = new TextField("Student Email");
-    // Button searchButton = new Button("Search");
-
     private void top3WebcastView() {
         Button returnBtn = new Button("Back");
         returnBtn.setOnMouseClicked(click -> createView());
@@ -281,7 +274,8 @@ public class StatisticsViews extends View {
 
         courseBoxForNumberStudentsWhoFinished.setOnAction(pickedCourse -> {
             numberOfStudents
-                    .setText(this.logic.numberOfCertificatesFormatter(courseBoxForNumberStudentsWhoFinished.getValue()));
+                    .setText(
+                            this.logic.numberOfCertificatesFormatter(courseBoxForNumberStudentsWhoFinished.getValue()));
         });
         Button returnBtn = new Button("Back");
         returnBtn.setOnMouseClicked(click -> createView());
