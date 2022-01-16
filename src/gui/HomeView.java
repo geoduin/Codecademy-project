@@ -34,7 +34,7 @@ class HomeView extends View {
                 });
         manageBtn.setOnMouseClicked(clicked -> new ManageView(this.gui).createView());
 
-        // Futher layout setup
+        // Further layout setup
         view.add(welcomeLabel, 1, 0);
         view.add(manageBtn, 0, 1);
         view.add(statisticsBtn, 2, 1);

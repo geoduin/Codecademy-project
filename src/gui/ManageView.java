@@ -20,8 +20,7 @@ class ManageView extends View {
 
         // Buttons including the action events
         Button courseManageBtn = new Button("Course");
-        courseManageBtn
-                .setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
+        courseManageBtn.setOnMouseClicked(clicked -> new CourseManagementView(this.gui).createView());
         Button moduleManageBtn = new Button("Module");
         moduleManageBtn.setOnMouseClicked(clicked -> new ModuleManagementView(this.gui).createView());
         Button studentManageBtn = new Button("Student");
@@ -30,7 +29,7 @@ class ManageView extends View {
         webcastManageBtn.setOnMouseClicked(clicked -> new WebcastManageView(this.gui).createView());
         Button certificateBtn = new Button("Certificate");
         certificateBtn.setOnMouseClicked(clicked -> new CertificateManagementView(this.gui).createView());
-        // Futher layout setup
+        // Further layout setup
         view.add(courseManageBtn, 0, 0);
         view.add(moduleManageBtn, 0, 1);
         view.add(studentManageBtn, 1, 0);

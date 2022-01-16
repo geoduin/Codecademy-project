@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import domain.Course;
 import domain.Difficulty;
@@ -13,7 +12,7 @@ import domain.Difficulty;
 //Class responsible for database communication regarding courses. 
 public class CourseRepository extends Repository<Course> {
 
-    // CoursRepository IS a repository and thus extends the abstract repo class
+    // CourseRepository IS a repository and thus extends the abstract repo class
     public CourseRepository() {
         super();
     }
@@ -160,7 +159,7 @@ public class CourseRepository extends Repository<Course> {
 
         } catch (SQLException e) {
             /*
-             * If an exception occurs perform no action and futher exception handling,
+             * If an exception occurs perform no action and further exception handling,
              * because the course is already set as
              * recommendation (which is fine).
              */

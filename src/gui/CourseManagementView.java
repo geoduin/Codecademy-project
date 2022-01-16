@@ -117,7 +117,7 @@ class CourseManagementView extends View {
             }
         });
 
-        // Futher layout setup
+        // Further layout setup
         view.add(createLabel, 1, 0);
         view.add(addCourseBtn, 1, 1);
         view.add(selectLabel, 0, 0);
