@@ -138,7 +138,7 @@ public class StatisticsRepository{
     public ArrayList<Certificate> retrieveStudentCertificates(String studentEmail) { 
         ArrayList<Certificate> certificates = new ArrayList<>();
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.CertificateID, Student.Name, Certificate.EmployeeName, Certificate.Grade, Certificate.EnrollmentID, Enrollment.CourseName FROM Student JOIN Enrollment ON Student.Email = Enrollment.Email JOIN Certificate ON Certificate.EnrollmentID = Enrollment.ID WHERE Student.Email = ?");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT 100 * (COUNT(Certificate.CertificateID)) / (COUNT(Enrollment.ID)) AS Percentage FROM Enrollment LEFT JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.Email IN (SELECT Email FROM Student WHERE Gender = ?)");
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
@@ -153,21 +153,6 @@ public class StatisticsRepository{
         }
     }
 
-    // //Retrieves the courseName from an Enrollment
-    // public String retrieveCourseNameByEnrollmentID(int enrollmentID) { 
-    //     //Selects the CourseName of the record with the given enrollmentID
-    //     try (PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT CourseName FROM Enrollment WHERE ID = ?")) {
-    //         statement.setInt(1, enrollmentID);
-    //         ResultSet result = statement.executeQuery();
-    //         while(result.next()) { 
-    //             return result.getString("CourseName");
-    //         }
-    //         return null;
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
 
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
@@ -189,13 +174,13 @@ public class StatisticsRepository{
     }
 
     //Retrieves the number of certificates for the selected course, if the query is empty, there are no certificates so the method will return 
-    public int retrieveNumberOFCertificates(String courseName) { 
+    public int retrieveNumberOfStudentsWhoCompletedCourse(String courseName) { 
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(*) AS 'CourseName' FROM Enrollment JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.CourseName = ? GROUP BY Enrollment.CourseName");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT COUNT(Email) AS NumberOfStudents FROM Student WHERE Email IN (SELECT StudentEmail FROM Progress WHERE ContentID IN (SELECT ContentID FROM Module  WHERE CourseName = ?) GROUP BY StudentEmail HAVING SUM(Percentage)/COUNT(ContentID) = 100)");
             statement.setString(1, courseName);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                return result.getInt("CourseName"); 
+                return result.getInt("NumberOfStudents"); 
             }
             return 0;
         } catch (SQLException e) {

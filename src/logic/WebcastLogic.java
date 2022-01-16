@@ -25,13 +25,6 @@ public class WebcastLogic {
     //Creates webcast and returns string which the GUI uses to show the user wether the save was successful.
     public String createWebcast(String title, String speaker, String organization, int duration, String url,
             Status status, String description, int views) {
-    //     int viewCount = Integer.parseInt(views);
-    //     Webcast webcast = new Webcast(title, speaker, organization, duration, url, Status.valueOf(status), description,
-    //             viewCount, 0);
-    //     this.repo.insert(webcast);
-    // }
-
-
     if(titleAlreadyExists(title)) { 
         return title + " already exists.";
     }else if(!inputValidation.isValidURL(url)) { 
