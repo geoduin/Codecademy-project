@@ -111,6 +111,8 @@ public class StudentLogic {
                 new WebcastRepository().retrieveByTitle(webcastName).getID());
     }
 
+
+    //Retrieves all emails
     public List<String> retrieveAllEmails() {
         return this.studentRepo.retrieveAllEmails();
     }

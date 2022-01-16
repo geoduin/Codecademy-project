@@ -5,7 +5,7 @@ import java.util.List;
 import database.EnrollmentRepository;
 import domain.Student;
 import domain.Enrollment;
-
+//This class is responsible for handling information/update/insert requests relating to enrollments.
 public class EnrollmentLogic {
     private CourseLogic courseLogic;
     private EnrollmentRepository enrollmentRepo;
