@@ -166,7 +166,7 @@ class WebcastManageView extends View {
     // View to add webcasts to the database
     private void addWebcastView() {
         GridPane view = generateFormGrid();
-        final String defaultStatusValue = "Select value";
+
 
         // Column 1
         Label titleLabel = new Label("Title");
@@ -227,8 +227,8 @@ class WebcastManageView extends View {
             // Checks if all fields are filled
             if (titleTextField.getText().isBlank() || descriptionArea.getText().isBlank()
                     || durationTextField.getText().isBlank() || speakerTextField.getText().isBlank()
-                    || organizationField.getText().isBlank() || urlTextField.getText().isBlank()
-                    || statusComboBox.getValue().equals(defaultStatusValue)) {
+                    || organizationField.getText().isBlank() || urlTextField.getText().isBlank())
+                     {
                 result.setText("All fields must be filled");
                 return;
 
