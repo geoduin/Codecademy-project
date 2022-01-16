@@ -133,11 +133,11 @@ public class StatisticsRepository{
     public ArrayList<Certificate> retrieveStudentCertificates(String studentEmail) { 
         ArrayList<Certificate> certificates = new ArrayList<>();
         try {
-            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT 100 * (COUNT(Certificate.CertificateID)) / (COUNT(Enrollment.ID)) AS Percentage FROM Enrollment LEFT JOIN Certificate ON Enrollment.ID = Certificate.EnrollmentID WHERE Enrollment.Email IN (SELECT Email FROM Student WHERE Gender = ?)");
+            PreparedStatement statement = this.dbConnection.getConnection().prepareStatement("SELECT Certificate.*, Student.Name, Enrollment.CourseName FROM Certificate JOIN Enrollment ON Certificate.EnrollmentID = Enrollment.ID JOIN Student ON Enrollment.Email = Student.Email WHERE Student.Email = ?");
             statement.setString(1, studentEmail);
             ResultSet result = statement.executeQuery();
             while(result.next()) { 
-                Certificate certificate = new Certificate(result.getInt("CertificateID"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade"));
+                Certificate certificate = new Certificate(result.getInt("CertificateID"), result.getString("CourseName"), result.getString("Name"), result.getInt("EnrollmentID"), result.getString("EmployeeName"), result.getInt("Grade"));
                 certificate.setCourseName(result.getString("CourseName"));
                 certificates.add(certificate);
             }
@@ -147,6 +147,8 @@ public class StatisticsRepository{
             return null;
         }
     }
+
+
 
     //Retrieves the top 3 courses by number of certificates gotten and the number of certificates for that course. 
     public List<Course> retrieveTop3CoursesByNumberOfCertificates() { 
