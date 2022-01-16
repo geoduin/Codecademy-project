@@ -163,7 +163,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Create Certificate for " + enrollment.getStudentEmail());
     }
 
-    // Shows the view you see after successfully adding a certificate to an enrollment
+    // Creates the view you see after successfully adding a certificate to an enrollment
     public void certificateSuccessfullyAdded() {
         GridPane view = generateGrid();
 
@@ -182,7 +182,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Successfully added!");
     }
 
-    // Shows the view you see when you edit a certificate
+    // Creates the view you see when you edit a certificate
     public void editCertificateView(Certificate certificate) {
         // Layout positioning elements
         GridPane view = generateGrid();
@@ -241,7 +241,7 @@ public class CertificateManagementView extends View {
         this.gui.goToNext(view, "Edit certificate");
     }
 
-    // Shows the view when you successfully update a certificate
+    // Creates the view when you successfully update a certificate
     public void certificateSuccessfullyUpdated() {
         // Layout positioning elements
         GridPane view = generateGrid();
