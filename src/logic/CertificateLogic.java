@@ -8,6 +8,8 @@ import domain.Certificate;
 public class CertificateLogic {
     private CertificateRepository certificateRepository;
 
+    //This class is responsible for handling information/insert/update requests relating to certificates.
+
     public CertificateLogic() {
         this.certificateRepository = new CertificateRepository();
     }
